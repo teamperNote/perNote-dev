@@ -11,10 +11,10 @@ export default function NavBar() {
         <Link href="/">
           <a>HOME</a>
         </Link>
-        <Link href="/">
+        <Link href="/pernote">
           <a>PER.NOTE</a>
         </Link>
-        <Link href="/">
+        <Link href="/perfum">
           <a>PERFUME STORY</a>
         </Link>
         <Link href="/">
