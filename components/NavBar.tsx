@@ -14,7 +14,7 @@ export default function NavBar() {
         <Link href="/pernote">
           <a>PER.NOTE</a>
         </Link>
-        <Link href="/perfum">
+        <Link href="/perfumeStory">
           <a>PERFUME STORY</a>
         </Link>
         <Link href="/">
@@ -64,7 +64,7 @@ export default function NavBar() {
           color: black;
         }
         a:hover {
-          color: #b8a8b8;
+          color: #794577;
         }
       `}</style>
     </nav>
