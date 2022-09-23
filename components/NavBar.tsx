@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 import Link from "next/link";
+import { useRouter } from "next/router";
 export default function NavBar() {
+  const router = useRouter();
   return (
     <nav>
       <div className="header">
@@ -9,13 +11,17 @@ export default function NavBar() {
       </div>
       <div className="navigator">
         <Link href="/">
-          <a>HOME</a>
+          <a className={router.pathname === "/" ? "active" : ""}>HOME</a>
         </Link>
         <Link href="/pernote">
-          <a>PER.NOTE</a>
+          <a className={router.pathname === "/pernote" ? "active" : ""}>
+            PER.NOTE
+          </a>
         </Link>
         <Link href="/perfumeStory">
-          <a>PERFUME STORY</a>
+          <a className={router.pathname === "/perfumeStory" ? "active" : ""}>
+            PERFUME STORY
+          </a>
         </Link>
         <Link href="/">
           <a>PERSONAL SCENT</a>
@@ -65,6 +71,9 @@ export default function NavBar() {
         }
         a:hover {
           color: #794577;
+        }
+        .active {
+          color: #793577;
         }
       `}</style>
     </nav>
