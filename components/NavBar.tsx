@@ -35,7 +35,7 @@ export default function NavBar() {
         <Link href="/character">
           <a>성격</a>
         </Link>
-        <Link href="/">
+        <Link href="/characteristics">
           <a>특징</a>
         </Link>
       </div>
