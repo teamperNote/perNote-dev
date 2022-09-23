@@ -26,16 +26,16 @@ export default function NavBar() {
         <Link href="/">
           <a>PERSONAL SCENT</a>
         </Link>
-        <Link href="/">
+        <Link href="/note">
           <a>노트</a>
         </Link>
-        <Link href="/">
+        <Link href="/brand">
           <a>브랜드</a>
         </Link>
-        <Link href="/">
+        <Link href="/character">
           <a>성격</a>
         </Link>
-        <Link href="/">
+        <Link href="/characteristics">
           <a>특징</a>
         </Link>
       </div>
