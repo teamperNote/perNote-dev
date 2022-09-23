@@ -32,7 +32,7 @@ export default function NavBar() {
         <Link href="/brand">
           <a>브랜드</a>
         </Link>
-        <Link href="/">
+        <Link href="/character">
           <a>성격</a>
         </Link>
         <Link href="/">
