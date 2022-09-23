@@ -26,7 +26,7 @@ export default function NavBar() {
         <Link href="/">
           <a>PERSONAL SCENT</a>
         </Link>
-        <Link href="/">
+        <Link href="/note">
           <a>노트</a>
         </Link>
         <Link href="/">
