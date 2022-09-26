@@ -1,12 +1,13 @@
 /* eslint-disable react/no-unknown-property */
 import type { NextPage } from "next";
+import Carousel from "../components/Carousel";
 
 const Pernote: NextPage = () => {
   return (
     <div className="container">
       <div className="title">PER. NOTE STORY</div>
       <div className="subTitle">향수 여정의 시작을 편안하게</div>
-      <img className="slide-image" src="/homeimg1.png" />
+      <Carousel />
       <div className="description">
         향수는 첫인상이죠. 무언의 감각이며 단어가 없는 언어 입니다. <br />
         저희는 향수를 뿌림으로 사랑스러워 질 수도 시크해 질 수도 있습니다.
@@ -45,10 +46,6 @@ const Pernote: NextPage = () => {
           font-size: 1.6rem;
           font-weight: bolder;
           margin: 2rem 0;
-        }
-        .slide-image {
-          width: 62rem;
-          height: 30rem;
         }
         .image {
           width: 54rem;
