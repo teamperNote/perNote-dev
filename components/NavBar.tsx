@@ -23,7 +23,7 @@ export default function NavBar() {
             PERFUME STORY
           </a>
         </Link>
-        <Link href="/">
+        <Link href="/PersonalScent">
           <a>PERSONAL SCENT</a>
         </Link>
         <Link href="/note">
