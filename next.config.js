@@ -2,6 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+
+  async rewrites() {
+    return [
+      {
+        
+      },
+    ];
+  }
 }
 
 module.exports = nextConfig
