@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 import Link from "next/link";
+import { useRouter } from "next/router";
 export default function NavBar() {
+  const router = useRouter();
   return (
     <nav>
       <div className="header">
@@ -9,27 +11,31 @@ export default function NavBar() {
       </div>
       <div className="navigator">
         <Link href="/">
-          <a>HOME</a>
+          <a className={router.pathname === "/" ? "active" : ""}>HOME</a>
         </Link>
-        <Link href="/">
-          <a>PER.NOTE</a>
+        <Link href="/pernote">
+          <a className={router.pathname === "/pernote" ? "active" : ""}>
+            PER.NOTE
+          </a>
         </Link>
-        <Link href="/">
-          <a>PERFUME STORY</a>
+        <Link href="/perfumeStory">
+          <a className={router.pathname === "/perfumeStory" ? "active" : ""}>
+            PERFUME STORY
+          </a>
         </Link>
-        <Link href="/">
+        <Link href="/PersonalScent">
           <a>PERSONAL SCENT</a>
         </Link>
-        <Link href="/">
+        <Link href="/note">
           <a>노트</a>
         </Link>
-        <Link href="/">
+        <Link href="/brand">
           <a>브랜드</a>
         </Link>
-        <Link href="/">
+        <Link href="/character">
           <a>성격</a>
         </Link>
-        <Link href="/">
+        <Link href="/characteristics">
           <a>특징</a>
         </Link>
       </div>
@@ -64,7 +70,10 @@ export default function NavBar() {
           color: black;
         }
         a:hover {
-          color: #b8a8b8;
+          color: #794577;
+        }
+        .active {
+          color: #793577;
         }
       `}</style>
     </nav>
