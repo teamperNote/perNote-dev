@@ -11,7 +11,26 @@ model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String?  @unique
   name      String
-  birthYear Int
+  password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Perfume {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String   @unique
+  brand         String
+  note          String
+  top           String
+  middle        String
+  bottom        String
+  concentration String
+  first         String
+  second        String
+  third         String
+  fourth        String
+  fifth         String
+  sex           String
+
+
 }
