@@ -4,10 +4,7 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-export default async function signup(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export async function signup(req: NextApiRequest, res: NextApiResponse) {
   const { name, email, phoneNumber } = req.body;
 
   const existingUser = await prisma.user.findUnique({
