@@ -1,18 +1,18 @@
-import type { NextPage } from 'next'
-import Card from '../components/Card';
-import Dropdown from '../components/Dropdown';
-import Pagination from '@mui/material/Pagination';
-import Options from '../components/Options';
+import type { NextPage } from "next";
+import Card from "../components/Card";
+import Dropdown from "../components/Dropdown";
+import Pagination from "@mui/material/Pagination";
+import Options from "../components/Options";
 
 const Note: NextPage = () => {
   return (
-    <div className='container'>
-      <div className='feature-container'>
+    <div className="container">
+      <div className="feature-container">
         <Options options={options1} />
         <Options options={options2} />
         <Options options={options3} />
       </div>
-      <div className='dropdown-container'>
+      <div className="dropdown-container">
         <Dropdown />
       </div>
       <div className="card-container">
@@ -28,12 +28,12 @@ const Note: NextPage = () => {
         <Card />
         <Card />
         <Card />
-        <Card />        
+        <Card />
         <Card />
         <Card />
         <Card />
       </div>
-      <div className='pagination-box'>
+      <div className="pagination-box">
         <Pagination count={10} />
       </div>
       <style jsx>{`
@@ -46,13 +46,12 @@ const Note: NextPage = () => {
           flex-direction: column;
           align-items: center;
           margin: 41px 0 36px 0;
-
         }
         .dropdown-container {
           display: flex;
           justify-content: flex-end;
         }
-        .card-container{
+        .card-container {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 20px;
@@ -65,87 +64,87 @@ const Note: NextPage = () => {
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default Note
+export default Note;
 
 const options1 = [
   {
     id: 1,
-    name: "AMBER"
+    name: "AMBER",
   },
   {
     id: 2,
-    name: "AQUATIC"
+    name: "AQUATIC",
   },
   {
     id: 3,
-    name: "AROMATIC"
+    name: "AROMATIC",
   },
   {
     id: 4,
-    name: "CHYPRE"
+    name: "CHYPRE",
   },
   {
     id: 5,
-    name: "CITRUS"
+    name: "CITRUS",
   },
   {
     id: 6,
-    name: "COTTON"
+    name: "COTTON",
   },
 ];
 
 const options2 = [
   {
     id: 1,
-    name: "FLORAL"
+    name: "FLORAL",
   },
   {
     id: 2,
-    name: "FOUGERE"
+    name: "FOUGERE",
   },
   {
     id: 3,
-    name: "FRESH"
+    name: "FRESH",
   },
   {
     id: 4,
-    name: "FRUITY"
+    name: "FRUITY",
   },
   {
     id: 5,
-    name: "GREEN"
+    name: "GREEN",
   },
   {
     id: 6,
-    name: "LEATHER"
+    name: "LEATHER",
   },
   {
     id: 7,
-    name: "LEMONY"
+    name: "LEMONY",
   },
   {
     id: 8,
-    name: "MINERAL"
+    name: "MINERAL",
   },
 ];
 const options3 = [
   {
     id: 1,
-    name: "MUSKY ORIENTAL"
+    name: "MUSKY ORIENTAL",
   },
   {
     id: 2,
-    name: "SPICY"
+    name: "SPICY",
   },
   {
     id: 3,
-    name: "SPOTIFY"
+    name: "SPOTIFY",
   },
   {
     id: 4,
-    name: "WOODY"
+    name: "WOODY",
   },
 ];
