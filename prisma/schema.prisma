@@ -33,8 +33,62 @@ model Perfume {
   first         String
   second        String
   third         String
-  fourth        String
+  fourth        String  
   fifth         String
   sex           String
-  imgUrl        String?  @unique
+  imgUrl        String   
+}
+
+model Sex {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  sex           String  @unique
+  m             Int 
+  mUni          Int  
+  uni           Int
+  fUni          Int
+  f             Int
+}
+
+model Concentration {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  concentration String  @unique
+  daily         Int
+  specialParty  Int
+}
+
+model Algorithm {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  scent         String  @unique
+  spring        Int
+  summer        Int
+  autumn        Int
+  winter        Int
+  red           Int
+  orange        Int
+  yellow        Int
+  green         Int
+  blue          Int
+  pink          Int
+  purple        Int
+  white         Int
+  black         Int
+  brown         Int
+  vivid         Int
+  delicate      Int
+  sensual       Int
+  comfortable   Int
+  calm          Int
+  adventurous   Int
+  masculine     Int
+  pure          Int
+  mature        Int
+  purehearted   Int
+  feminine      Int
+  intense       Int
+  fresh         Int
+  deep          Int
+  rich          Int
+  right         Int
+  clean         Int
+  luxurious     Int
 }
