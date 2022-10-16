@@ -1,3 +1,5 @@
+// 로그인
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
@@ -6,7 +8,10 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 const secretKey = process.env.JWT_SECRET_KEY || "";
 
-export default async function login(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { email } = req.body;
 
   const user = await prisma.user.findUnique({
