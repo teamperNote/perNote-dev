@@ -2,150 +2,155 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import styled from "styled-components";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
   return (
-    <div className="container">
-      <div className="text">
-        We could leave the christmas Lights up till january
-        <br />
-        This is our place we make the rules
-        <br />
-        And there&#8217;s a dazzling haze And mysterious way about you dear
-        <br />
-        Have I known you twenty seconds Or twenty years?
-        <br />
-        Can I go where you go? Can we always be this close Forever and ever?
-        <br />
-        And oh take me out and take me home You&#8217;re my my my my Lover
-      </div>
-      <img className="home-img" src="/homeimg1.png" />
-      <div className="perfume-of-month">
-        <div className="perfume-of-month-title">이달의 향수</div>
-        <div className="perfume-of-month-list">
-          <div className="perfume-of-month-item">
-            <img className="perfume-of-month-img" src="/perfumeOfMonth.png" />
-            <div className="go-perfume-item">바로가기</div>
-          </div>
-          <div className="perfume-of-month-item">
-            <img className="perfume-of-month-img" src="/perfumeOfMonth.png" />
-            <div className="go-perfume-item">바로가기</div>
-          </div>
-          <div className="perfume-of-month-item">
-            <img className="perfume-of-month-img" src="/perfumeOfMonth.png" />
-            <div className="go-perfume-item">바로가기</div>
+    <HomeContainer>
+      <FirstMain>
+        <img src="/perNoteBackImg.png" alt="main first background image" />
+        <div className="description">
+          <div className="description-title">메인화면</div>
+          <div className="description-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
+            <br />
+            gravida sit facilisis cras. In blandit mi id est luctus. Non turpis
+            non
+            <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
           </div>
         </div>
-      </div>
-      <div className="perfume-scent">
-        <img className="home-img2" src="/homeimg1.png"></img>
-        <div className="perfume-scent-text">
-          <div className="text-title">PERFUME SCENT</div>
-          <div className="text-content">
-            We could leave the christmas Lights up till january
+      </FirstMain>
+      <SecondMain>
+        <img src="/perNoteBackImg.png" alt="second main image" />
+        <div className="description">
+          <div className="description-title">per.note 개요</div>
+          <div className="description-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
             <br />
-            This is our place we make the rules
-            <br />
-            And there&#8217;s a dazzling haze And mysterious way about you dear
-            <br />
-            Have I known you twenty seconds Or twenty years?
-            <br />
-            Can I go where you go? Can we always be this close Forever and ever?
-            <br />
-            And oh take me out and take me home You&#8217;re my my my my Lover
+            gravida sit facilisis cras. In blandit mi id est luctus. Non turpis
+            non
+            <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
           </div>
-          <button className="start-button">시작하기</button>
         </div>
-      </div>
-      <style jsx>{`
-        .container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-top: 6px;
-          margin-bottom: 10rem;
-          padding: 4rem 0;
-          background-color: #fafafa;
-        }
-        .text {
-          font-size: 1.2rem;
-          padding-bottom: 6rem;
-        }
-        .home-img {
-          width: 68rem;
-          padding-bottom: 8rem;
-        }
-        .perfume-of-month {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-bottom: 12rem;
-        }
-        .perfume-of-month-title {
-          font-size: 2.4rem;
-          padding-bottom: 4rem;
-        }
-
-        .perfume-of-month-list {
-          display: flex;
-          justify-content: space-between;
-        }
-        .perfume-of-month-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin: 0 7rem;
-        }
-        .go-perfume-item {
-          margin: 1rem 0;
-          padding: 8px 2rem;
-          border-top: 2px solid black;
-          font-size: 1.1rem;
-        }
-        .perfume-of-month-img {
-          width: 18rem;
-          height: 22rem;
-        }
-
-        .perfume-scent {
-          display: flex;
-          justify-content: space-between;
-        }
-        .home-img2 {
-          width: 50%;
-        }
-        .perfume-scent-text {
-          width: 40%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-        }
-        .text-title {
-          border-bottom: 1px solid black;
-          font-size: 2.4rem;
-          padding: 0 1rem 10px;
-          margin-bottom: 1.4rem;
-        }
-        .text-content {
-          font-size: 1.1rem;
-          padding-bottom: 1.4rem;
-        }
-        button {
-          width: 8rem;
-          height: 2.4rem;
-          border: 1px solid black;
-          border-radius: 6px;
-          font-size: 1.2rem;
-          background-color: white;
-        }
-      `}</style>
-    </div>
-    // <div className={styles.container}>
-
-    // </div>
+      </SecondMain>
+      <ThirdMain>
+        <img src="/perNoteBackImg.png" alt="second main image" />
+        <div className="description">
+          <div className="description-title">Personal Scent </div>
+          <div className="description-content">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
+            <br />
+            gravida sit facilisis cras. In blandit mi id est luctus. Non turpis
+            non
+            <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
+          </div>
+          <button>Read More {`>`}</button>
+        </div>
+      </ThirdMain>
+      <div></div>
+    </HomeContainer>
   );
 };
 
 export default Home;
+
+const HomeContainer = styled.div`
+  width: 1920px;
+`;
+const FirstMain = styled.div`
+  img {
+    width: 100%;
+    position: relative;
+  }
+
+  .description {
+    width: 921px;
+    margin-left: 10.875rem;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+
+    .description-title {
+      margin-bottom: 1.875rem;
+      font-weight: 700;
+      font-size: 50px;
+    }
+
+    .description-content {
+      font-weight: 400;
+      font-size: 30px;
+    }
+  }
+`;
+
+const SecondMain = styled.div`
+  margin-top: 12.25rem;
+  margin-bottom: 7.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  img {
+    width: 1668px;
+    height: 392px;
+    margin-bottom: 56px;
+  }
+
+  .description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .description-title {
+      margin-bottom: 1.875rem;
+      font-weight: 700;
+      font-size: 50px;
+    }
+
+    .description-content {
+      font-weight: 400;
+      font-size: 30px;
+    }
+  }
+`;
+
+const ThirdMain = styled.div`
+  padding: 180px 0;
+  padding-left: 174px;
+  background-color: #eaeaea;
+  display: flex;
+
+  img {
+    width: 680px;
+    height: 720px;
+    margin-right: 106px;
+  }
+  .description {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    .description-title {
+      margin-bottom: 1.563rem;
+      font-weight: 700;
+      font-size: 50px;
+    }
+
+    .description-content {
+      margin-bottom: 35px;
+      font-weight: 400;
+      font-size: 30px;
+    }
+
+    button {
+      width: 166px;
+      padding: 12px 23.5px;
+      border: none;
+      border-radius: 100px;
+      background-color: #ffffff;
+      font-weight: 400;
+      font-size: 20px;
+    }
+  }
+`;
