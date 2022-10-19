@@ -1,17 +1,17 @@
-import type { NextPage } from 'next'
-import Card from '../components/Card';
-import Dropdown from '../components/Dropdown';
-import Pagination from '@mui/material/Pagination';
-import Options from '../components/Options';
+import type { NextPage } from "next";
+import Card from "../components/Card";
+import Dropdown from "../components/Dropdown";
+import Pagination from "@mui/material/Pagination";
+import Options from "../components/Options";
 
 const character: NextPage = () => {
   return (
-    <div className='container'>
-      <div className='feature-container'>
+    <div className="container">
+      <div className="feature-container">
         <Options options={options1} />
         <Options options={options2} />
       </div>
-      <div className='dropdown-container'>
+      <div className="dropdown-container">
         <Dropdown />
       </div>
       <div className="card-container">
@@ -27,12 +27,12 @@ const character: NextPage = () => {
         <Card />
         <Card />
         <Card />
-        <Card />        
+        <Card />
         <Card />
         <Card />
         <Card />
       </div>
-      <div className='pagination-box'>
+      <div className="pagination-box">
         <Pagination count={10} />
       </div>
       <style jsx>{`
@@ -45,13 +45,12 @@ const character: NextPage = () => {
           flex-direction: column;
           align-items: center;
           margin: 41px 0 36px 0;
-
         }
         .dropdown-container {
           display: flex;
           justify-content: flex-end;
         }
-        .card-container{
+        .card-container {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: 20px;
@@ -64,61 +63,61 @@ const character: NextPage = () => {
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default character
+export default character;
 
 const options1 = [
   {
     id: 1,
-    name: "관능적인"
+    name: "관능적인",
   },
   {
     id: 2,
-    name: "남성적인"
+    name: "남성적인",
   },
   {
     id: 3,
-    name: "모험적인"
+    name: "모험적인",
   },
   {
     id: 4,
-    name: "생동감있는"
+    name: "생동감있는",
   },
   {
     id: 5,
-    name: "섬세한"
+    name: "섬세한",
   },
   {
     id: 6,
-    name: "성숙한"
+    name: "성숙한",
   },
 ];
 
 const options2 = [
   {
     id: 1,
-    name: "순수한"
+    name: "순수한",
   },
   {
     id: 2,
-    name: "여성적인"
+    name: "여성적인",
   },
   {
     id: 3,
-    name: "차분한"
+    name: "차분한",
   },
   {
     id: 4,
-    name: "청순한"
+    name: "청순한",
   },
   {
     id: 5,
-    name: "편안한"
+    name: "편안한",
   },
   {
     id: 6,
-    name: "활기찬"
+    name: "활기찬",
   },
 ];
