@@ -74,12 +74,12 @@ const FirstMain = styled.div`
 
     .description-title {
       margin-bottom: 1.875rem;
-      font-weight: 700;
+      font-weight: bold;
       font-size: 50px;
     }
 
     .description-content {
-      font-weight: 400;
+      font-weight: normal;
       font-size: 30px;
     }
   }
@@ -105,12 +105,12 @@ const SecondMain = styled.div`
 
     .description-title {
       margin-bottom: 1.875rem;
-      font-weight: 700;
+      font-weight: bold;
       font-size: 50px;
     }
 
     .description-content {
-      font-weight: 400;
+      font-weight: normal;
       font-size: 30px;
     }
   }
@@ -133,13 +133,13 @@ const ThirdMain = styled.div`
     justify-content: flex-end;
     .description-title {
       margin-bottom: 1.563rem;
-      font-weight: 700;
+      font-weight: bold;
       font-size: 50px;
     }
 
     .description-content {
       margin-bottom: 35px;
-      font-weight: 400;
+      font-weight: normal;
       font-size: 30px;
     }
 
@@ -149,7 +149,7 @@ const ThirdMain = styled.div`
       border: none;
       border-radius: 100px;
       background-color: #ffffff;
-      font-weight: 400;
+      font-weight: normal;
       font-size: 20px;
     }
   }
