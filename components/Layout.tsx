@@ -6,7 +6,6 @@ export default function Layout({ children }: any) {
     <>
       <NavBar />
       <div>{children}</div>
-      <Footer />
     </>
   );
 }
