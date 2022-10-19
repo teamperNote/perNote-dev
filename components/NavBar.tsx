@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import styled from "styled-components";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import { BiSearchAlt2 } from "react-icons/bi";
 export default function NavBar() {
   const router = useRouter();
   return (
@@ -13,7 +13,10 @@ export default function NavBar() {
         <div className="Category">Category</div>
       </div>
       <div className="navbar-right">
-        <input type="text" className="search-input" />
+        <div className="search-input">
+          <input type="text" />
+          <BiSearchAlt2 />
+        </div>
         <div className="login">Login</div>
       </div>
     </NavBarContainer>
@@ -51,9 +54,19 @@ const NavBarContainer = styled.div`
       width: 271px;
       height: 36px;
       margin-right: 2.813rem;
-      border: none;
+      padding: 9px;
       border-radius: 1.125rem;
       background-color: #d9d9d9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      input {
+        width: 90%;
+        background-color: #d9d9d9;
+        border: none;
+        outline: none;
+      }
     }
     .login {
       font-weight: 400;
