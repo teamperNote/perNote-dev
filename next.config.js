@@ -3,13 +3,13 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
-  async rewrites() {
-    return [
-      {
+  // async rewrites() {
+  //   return [
+  //     {
         
-      },
-    ];
-  }
+  //     },
+  //   ];
+  // }
 }
 
 module.exports = nextConfig
