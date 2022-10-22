@@ -2,13 +2,19 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { BiSearchAlt2 } from "react-icons/bi";
+import Link from "next/link";
+
 export default function NavBar() {
   const router = useRouter();
   return (
     <NavBarContainer>
-      <div className="pernote-logo">per.note</div>
+      <div className="pernote-logo">
+        <Link href="/">per.note</Link>
+      </div>
       <div className="router">
-        <div className="personal-scent">personal scent</div>
+        <div className="personal-scent">
+          <Link href="/PersonalScent">personal scent</Link>
+        </div>
         <div className="perfume-story">perfume story</div>
         <div className="Category">Category</div>
       </div>

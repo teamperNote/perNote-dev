@@ -134,18 +134,19 @@ const HomeContainer = styled.div`
   width: 1920px;
 `;
 const FirstMain = styled.div`
+  position: relative;
+
   img {
     width: 100%;
-    position: relative;
   }
 
   .description {
     width: 921px;
     margin-left: 10.875rem;
     position: absolute;
-    z-index: 1;
-    bottom: 0;
+    bottom: 6.375rem;
     left: 0;
+    z-index: 1;
 
     .description-title {
       margin-bottom: 1.875rem;
