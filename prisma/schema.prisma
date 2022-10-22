@@ -37,6 +37,7 @@ model Perfume {
   fifth         String
   sex           String
   imgUrl        String   
+  score         Int
 }
 
 model Sex {
