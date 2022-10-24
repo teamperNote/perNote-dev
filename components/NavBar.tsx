@@ -30,7 +30,6 @@ export default function NavBar() {
 }
 
 const NavBarContainer = styled.div`
-  width: 1920px;
   display: flex;
   align-items: center;
   padding: 34px 77px;
