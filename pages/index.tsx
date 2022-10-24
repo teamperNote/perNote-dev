@@ -7,64 +7,67 @@ const Home: NextPage = () => {
   return (
     <HomeContainer>
       <FirstMain>
-        <img src="/perNoteBackImg.png" alt="main first background image" />
-        <div className="description">
-          <div className="description-title">메인화면</div>
-          <div className="description-content">
+        <MainImage
+          src="/perNoteBackImg.png"
+          alt="main first background image"
+        />
+        <MainText>
+          <MainTitle>메인화면</MainTitle>
+          <MainContent>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
             <br />
             gravida sit facilisis cras. In blandit mi id est luctus. Non turpis
             non
             <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
-          </div>
-        </div>
+          </MainContent>
+        </MainText>
       </FirstMain>
       <SecondMain>
-        <img src="/perNoteBackImg.png" alt="second main image" />
-        <div className="description">
-          <div className="description-title">per.note 개요</div>
-          <div className="description-content">
+        <PerNoteImage src="/perNoteBackImg.png" alt="second main image" />
+        <PerNoteIntro>
+          <PerNoteIntroTitle>per.note 개요</PerNoteIntroTitle>
+          <PerNoteIntroContent>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
             <br />
             gravida sit facilisis cras. In blandit mi id est luctus. Non turpis
             non
             <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
-          </div>
-        </div>
+          </PerNoteIntroContent>
+        </PerNoteIntro>
       </SecondMain>
       <ThirdMain>
-        <img src="/perNoteBackImg.png" alt="second main image" />
-        <div className="description">
-          <div className="description-title">Personal Scent </div>
-          <div className="description-content">
+        <PersonalScentImage src="/perNoteBackImg.png" alt="second main image" />
+        <PersonalScentText>
+          <PersonalScentTitle>Personal Scent </PersonalScentTitle>
+          <PersonalScentTContent>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
             <br />
             gravida sit facilisis cras. In blandit mi id est luctus. Non turpis
             non
             <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
-          </div>
-          <button>Read More {`>`}</button>
-        </div>
+          </PersonalScentTContent>
+          <PersonalScentReacMore>Read More {`>`}</PersonalScentReacMore>
+        </PersonalScentText>
       </ThirdMain>
       <FourthMain>
         <FourthFirst>
-          <div className="perfume-list">
-            <div className="perfume-item">
-              <img src="/perNoteBackImg.png" alt="image" />
-              <div>Lorem Ipsum</div>
-            </div>
-            <div className="perfume-item">
-              <img src="/perNoteBackImg.png" alt="image" />
-              <div>Lorem Ipsum</div>
-            </div>
-            <div className="perfume-item">
-              <img src="/perNoteBackImg.png" alt="image" />
-              <div>Lorem Ipsum</div>
-            </div>
-          </div>
-          <div className="perfume-story-text">
-            <div className="perfume-story-text-title">Purfume story</div>
-            <div className="perfume-story-text-content">
+          <PerfumeList>
+            <PerfumeItem>
+              <PerfumeImage src="/perNoteBackImg.png" alt="image" />
+              <PerfumeName>Lorem Ipsum</PerfumeName>
+            </PerfumeItem>
+            <PerfumeItem>
+              <PerfumeImage src="/perNoteBackImg.png" alt="image" />
+              <PerfumeName>Lorem Ipsum</PerfumeName>
+            </PerfumeItem>
+            <PerfumeItem>
+              <PerfumeImage src="/perNoteBackImg.png" alt="image" />
+              <PerfumeName>Lorem Ipsum</PerfumeName>
+            </PerfumeItem>
+          </PerfumeList>
+          <div>
+            <PerfumeStoryIntroTitle>Purfume story</PerfumeStoryIntroTitle>
+            <PerfumeStoryIntroContent>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
               gravida sit facilisis cras. In blandit mi id est luctus. Non
               <br />
@@ -74,32 +77,32 @@ const Home: NextPage = () => {
               Massa gravida sit facilisis cras.
               <br /> In blandit mi id est luctus. Non turpis non risus purus.
               Eget vel commodo ac purus, laoreet sollicitudin.
-            </div>
+            </PerfumeStoryIntroContent>
           </div>
-          <button>
+          <SubscribeButton>
             <span>Subscribe</span>
             <span className="subscribe-icon">
               <BsFillTriangleFill
                 style={{ transform: "rotate(90deg)", color: "#A79D9D" }}
               />
             </span>
-          </button>
+          </SubscribeButton>
         </FourthFirst>
         <FourthSecond>
-          <div className="description">
-            <div className="description-title">노트,성격,특징,브랜드 통합</div>
-            <div className="description-content">
+          <CategoryIntro>
+            <CategoryIntroTitle>노트,성격,특징,브랜드 통합</CategoryIntroTitle>
+            <CategoryIntroContent>
               Lorem ipsum dolor sit amet, consectetur <br />
               adipiscing elit. Massa gravida sit facilisis
               <br /> cras. In blandit mi id est luctus. Non <br />
               turpis non risus purus. Eget vel commodo <br />
               ac purus, laoreet sollicitudin.
-            </div>
-            <button>Read More {`>`}</button>
-          </div>
-          <div className="image-container">
-            <img src="/perNoteBackImg.png" alt="image1" />
-            <img src="/perNoteBackImg.png" alt="image2" />
+            </CategoryIntroContent>
+            <CategoryReadMore>Read More {`>`}</CategoryReadMore>
+          </CategoryIntro>
+          <div>
+            <CategoryImage src="/perNoteBackImg.png" alt="image1" />
+            <CategoryImage src="/perNoteBackImg.png" alt="image2" />
           </div>
         </FourthSecond>
         <FourthThird>
@@ -133,64 +136,59 @@ export default Home;
 const HomeContainer = styled.div`
   width: 1920px;
 `;
+
 const FirstMain = styled.div`
   position: relative;
-
-  img {
-    width: 100%;
-  }
-
-  .description {
-    width: 921px;
-    margin-left: 10.875rem;
-    position: absolute;
-    bottom: 6.375rem;
-    left: 0;
-    z-index: 1;
-
-    .description-title {
-      margin-bottom: 1.875rem;
-      font-weight: bold;
-      font-size: 50px;
-    }
-
-    .description-content {
-      font-weight: normal;
-      font-size: 30px;
-    }
-  }
+`;
+const MainImage = styled.img`
+  width: 100%;
+`;
+const MainText = styled.div`
+  width: 921px;
+  margin-left: 174px;
+  position: absolute;
+  bottom: 102px;
+  left: 0;
+  z-index: 1;
+`;
+const MainTitle = styled.div`
+  margin-bottom: 30px;
+  font-weight: bold;
+  font-size: 50px;
 `;
 
+const MainContent = styled.div`
+  font-weight: normal;
+  font-size: 30px;
+`;
 const SecondMain = styled.div`
-  margin-top: 12.25rem;
-  margin-bottom: 7.5rem;
+  margin-top: 196px;
+  margin-bottom: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
 
-  img {
-    width: 1668px;
-    height: 392px;
-    margin-bottom: 56px;
-    border-radius: 30px;
-  }
+const PerNoteImage = styled.img`
+  width: 1668px;
+  height: 392px;
+  margin-bottom: 56px;
+  border-radius: 30px;
+`;
 
-  .description {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .description-title {
-      margin-bottom: 1.875rem;
-      font-weight: bold;
-      font-size: 50px;
-    }
-
-    .description-content {
-      font-weight: normal;
-      font-size: 30px;
-    }
-  }
+const PerNoteIntro = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const PerNoteIntroTitle = styled.div`
+  margin-bottom: 1.875rem;
+  font-weight: bold;
+  font-size: 50px;
+`;
+const PerNoteIntroContent = styled.div`
+  font-weight: normal;
+  font-size: 30px;
 `;
 
 const ThirdMain = styled.div`
@@ -199,39 +197,39 @@ const ThirdMain = styled.div`
   margin-bottom: 209px;
   background-color: #eaeaea;
   display: flex;
+`;
 
-  img {
-    width: 680px;
-    height: 720px;
-    margin-right: 106px;
-    border-radius: 30px;
-  }
-  .description {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    .description-title {
-      margin-bottom: 1.563rem;
-      font-weight: bold;
-      font-size: 50px;
-    }
+const PersonalScentImage = styled.img`
+  width: 680px;
+  height: 720px;
+  margin-right: 106px;
+  border-radius: 30px;
+`;
 
-    .description-content {
-      margin-bottom: 35px;
-      font-weight: normal;
-      font-size: 30px;
-    }
+const PersonalScentText = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`;
+const PersonalScentTitle = styled.div`
+  margin-bottom: 1.563rem;
+  font-weight: bold;
+  font-size: 50px;
+`;
+const PersonalScentTContent = styled.div`
+  margin-bottom: 35px;
+  font-weight: normal;
+  font-size: 30px;
+`;
 
-    button {
-      width: 166px;
-      padding: 12px 23.5px;
-      border: none;
-      border-radius: 100px;
-      background-color: #ffffff;
-      font-weight: normal;
-      font-size: 20px;
-    }
-  }
+const PersonalScentReacMore = styled.button`
+  width: 166px;
+  padding: 12px 23.5px;
+  border: none;
+  border-radius: 100px;
+  background-color: #ffffff;
+  font-weight: normal;
+  font-size: 20px;
 `;
 
 const FourthMain = styled.div`
@@ -240,104 +238,99 @@ const FourthMain = styled.div`
 
 const FourthFirst = styled.div`
   margin-bottom: 230px;
-  .perfume-list {
-    margin-bottom: 60px;
-    display: flex;
+`;
+const PerfumeList = styled.div`
+  margin-bottom: 60px;
+  display: flex;
+`;
+const PerfumeItem = styled.div`
+  margin-right: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-    .perfume-item {
-      margin-right: 34px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+const PerfumeImage = styled.img`
+  width: 530px;
+  height: 530px;
+  border-radius: 30px;
+  margin-bottom: 30px;
+`;
 
-      img {
-        width: 530px;
-        height: 530px;
-        border-radius: 30px;
-        margin-bottom: 30px;
-      }
+const PerfumeName = styled.div`
+  font-weight: normal;
+  font-size: 30px;
+`;
 
-      div {
-        font-weight: normal;
-        font-size: 30px;
-      }
-    }
-  }
+const PerfumeStoryIntroTitle = styled.div`
+  margin-bottom: 25px;
+  font-weight: bold;
+  font-size: 50px;
+`;
+const PerfumeStoryIntroContent = styled.div`
+  margin-bottom: 35px;
+  font-weight: normal;
+  font-size: 30px;
+`;
 
-  .perfume-story-text {
-    .perfume-story-text-title {
-      margin-bottom: 25px;
-      font-weight: bold;
-      font-size: 50px;
-    }
+const SubscribeButton = styled.button`
+  width: 582px;
+  height: 119px;
 
-    .perfume-story-text-content {
-      margin-bottom: 35px;
-      font-weight: normal;
-      font-size: 30px;
-    }
-  }
+  padding: 0 37px;
+  background-color: #d9d9d9;
 
-  button {
-    width: 582px;
-    height: 119px;
+  border: none;
+  border-radius: 100px;
 
-    padding: 0 37px;
-    background-color: #d9d9d9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    border: none;
-    border-radius: 100px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    span {
-      font-weight: normal;
-      font-size: 40px;
-    }
+  span {
+    font-weight: normal;
+    font-size: 40px;
   }
 `;
 
 const FourthSecond = styled.div`
   display: flex;
   margin-bottom: 338px;
-  .description {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    margin-right: 145px;
+`;
 
-    .description-title {
-      font-weight: bold;
-      font-size: 50px;
-      margin-bottom: 30px;
-    }
+const CategoryIntro = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-right: 145px;
+`;
 
-    .description-content {
-      font-weight: normal;
-      font-size: 30px;
-      margin-bottom: 35px;
-    }
-    button {
-      width: 166px;
-      padding: 12px 23.5px;
-      border: none;
-      border-radius: 100px;
-      background-color: #eaeaea;
-      font-weight: normal;
-      font-size: 20px;
-    }
-  }
+const CategoryIntroTitle = styled.div`
+  font-weight: bold;
+  font-size: 50px;
+  margin-bottom: 30px;
+`;
+const CategoryIntroContent = styled.div`
+  font-weight: normal;
+  font-size: 30px;
+  margin-bottom: 35px;
+`;
 
-  .image-container {
-    img {
-      width: 444px;
-      height: 642px;
-      margin-right: 74px;
-      border-radius: 30px;
-    }
-  }
+const CategoryReadMore = styled.button`
+  width: 166px;
+  padding: 12px 23.5px;
+  border: none;
+  border-radius: 100px;
+  background-color: #eaeaea;
+  font-weight: normal;
+  font-size: 20px;
+`;
+
+const CategoryImage = styled.img`
+  width: 444px;
+  height: 642px;
+  margin-right: 74px;
+  border-radius: 30px;
 `;
 
 const FourthThird = styled.div`
