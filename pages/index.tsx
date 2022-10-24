@@ -5,7 +5,7 @@ import { BsFillTriangleFill } from "react-icons/bs";
 
 const Home: NextPage = () => {
   return (
-    <HomeContainer>
+    <>
       <FirstMain>
         <MainImage
           src="/perNoteBackImg.png"
@@ -127,15 +127,11 @@ const Home: NextPage = () => {
           </div>
         </FourthThird>
       </FourthMain>
-    </HomeContainer>
+    </>
   );
 };
 
 export default Home;
-
-const HomeContainer = styled.div`
-  width: 1920px;
-`;
 
 const FirstMain = styled.div`
   position: relative;
