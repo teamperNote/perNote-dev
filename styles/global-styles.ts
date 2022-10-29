@@ -3,6 +3,7 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
     html,
     body {
+    width: 1920px;
     padding: 0;
     margin: 0;
     font-family: 'NanumSquare', sans-serif;
