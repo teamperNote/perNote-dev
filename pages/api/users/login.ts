@@ -5,8 +5,9 @@ import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const prisma = new PrismaClient();
 const secretKey = process.env.JWT_SECRET_KEY || "";
+
+const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,

@@ -13,6 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // 이메일을 안 받으면 user을 db에서 꺼내올 수가 없음
   const { email } = req.body;
 
   const user = await prisma.user.findUnique({
