@@ -1,6 +1,3 @@
-// 회원가입
-// 이메일 중복확인 필요?
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
@@ -24,7 +21,5 @@ export default async function handler(
       },
     });
     return res.status(200).json(user);
-  } else {
-    // bad request로 날려야하나?
   }
 }
