@@ -34,5 +34,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# 특정 파일
-/pages/api/auth/naver
+/pages/api/auth/kakao
+/pages/api/auth/naver/request.ts
+/pages/api/auth/naver/callback.ts
