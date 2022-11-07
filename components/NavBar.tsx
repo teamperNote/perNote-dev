@@ -23,7 +23,9 @@ export default function NavBar() {
           <input type="text" />
           <BiSearchAlt2 />
         </SearchInput>
-        <Login>Login</Login>
+        <Link href="/signin">
+          <Login>Login</Login>
+        </Link>
       </HeaderRight>
     </NavBarContainer>
   );
@@ -34,6 +36,7 @@ const NavBarContainer = styled.div`
   align-items: center;
   padding: 34px 77px;
   background-color: #ffffff;
+  border-bottom: 1px solid #d9d9d9;
 `;
 
 const PernoteLogo = styled.div`
