@@ -1,17 +1,18 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import * as style from './PersonalScentStyle';
+import * as style from './style';
 
 const PersonalScent = () => {
-  const [pageNumber, setPageNumber] = useState(0);
+  const router = useRouter();
+  const page = router.query.page as string
+  const [pageNumber, setPageNumber] = useState(parseInt(page));
 
   const onNextClick = () => {
     setPageNumber(pageNumber + 1);
   }
-
-  const router = useRouter();
+  
   const onSubmit = () => {
-    router.push('/Recommendation')
+    router.push('/personal-scent')
   }
 
   return (
@@ -86,7 +87,7 @@ const PersonalScent = () => {
             </>
           }
           {pageNumber == 6 &&
-            <>
+            <>  
               <style.SubTitle margin_B='92px'>당신이 원하는 향수는 어떤 느낌인가요?</style.SubTitle>
               <style.TextCardContainer>
                 {want.map((data) => (
