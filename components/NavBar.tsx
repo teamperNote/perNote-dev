@@ -86,7 +86,9 @@ const CategoryContainer = styled.div`
   .show-modal {
     position: absolute;
     left: -44px;
+    /* top: 24px; */
     z-index: 1000;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
   .close-modal {
     display: none;
