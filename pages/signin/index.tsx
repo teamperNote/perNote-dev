@@ -37,9 +37,10 @@ function Signin() {
 export default Signin;
 
 const SignInContainer = styled.div`
-  height: 100vh;
+  height: 100%;
   background-color: #eaeaea;
   padding-top: 86.34px;
+  padding-bottom: 143.56px;
   display: flex;
   flex-direction: column;
   align-items: center;
