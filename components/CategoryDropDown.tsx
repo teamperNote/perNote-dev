@@ -17,14 +17,14 @@ const DropDownContainer = styled.div`
   width: 184px;
   height: 288px;
   background-color: #ffffff;
-  border: 1px solid black;
+  border: 1px solid #eaeaea;
   border-radius: 10px;
-  padding-top: 41px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 
   div {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 30px;
     font-weight: 400;
     font-size: 20px;
   }
