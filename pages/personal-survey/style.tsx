@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IoChevronBackSharp } from "react-icons/io5";
 
 export const PersonalScentContainer = styled.div`
     width: 1920px;
@@ -16,8 +17,16 @@ export const PersonalScentBox = styled.div`
     background: #D9D9D9;
     border-radius: 20px;
     display: flex;
+    position: relative;
     align-items: center;
     flex-direction: column;
+`;
+
+export const BackIcon = styled(IoChevronBackSharp)`
+    position: absolute;
+    top: 90px;
+    left: 100px;
+    font-size: 39px;
 `;
 
 export const PersonalScentTitle = styled.span`

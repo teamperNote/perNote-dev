@@ -1,6 +1,14 @@
-import * as style from './RecommendationStyle';
+import { useEffect, useRef, useState } from 'react';
+import * as style from './style';
 
 const Recommendation = () => {
+  const contentRef = useRef<any>(null);
+  const [isHidden, setIsHidden] = useState(false);
+  useEffect(() => {
+    if (contentRef.current?.clientHeight > 461) {
+      setIsHidden(true);
+    }
+  }, []);
   return (
     <style.RecommendationContainer>
       <style.Title>당신에게 이 향수를 추천합니다</style.Title>
@@ -15,8 +23,8 @@ const Recommendation = () => {
       </style.TagBox>
       <style.PerfumeImage />
       <style.SubTitle margin_B={'60px'}>Lorem Ipsum</style.SubTitle>
-      <style.PerfumeDesc margin_B={'35px'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis morbi nunc vel turpis sit congue. Vitae, vulputate nascetur sed placerat id orci velit sed. Consectetur faucibus magna at id etiam aliquam ultrices. Enim elementum, molestie blandit sagittis. Orci, tincidunt vel ac quis donec placerat viverra donec. In varius neque, ut turpis volutpat quis odio proin egestas. Ultrices dolor elementum bibendum maecenas amet aliquam gravida. Bibendum quis sit enim tempor. Tincidunt quis elit diam vitae lectus nullam proin nibh egestas. Vulputate non morbi tempor arcu. Sit id euismod pretium ante in nulla egestas dui in. Orci ut at metus ultricies. Amet, eget aliquam amet feugiat mi euismod. Egestas ac tortor consectetur maecenas amet proin nec, metus. Mauris, massa tellus lorem ultrices enim. Diam nullam massa odio eleifend viverra eget proin at magna. Ut turpis sed donec pharetra. Risus non posuere a elit. Dui gravida sagittis, vitae enim. </style.PerfumeDesc>
-      <style.ShowMore>Show more &gt;</style.ShowMore>
+      <style.PerfumeDesc ref={contentRef} className={isHidden ? 'hidden' : ''} margin_B={'35px'}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis morbi nunc vel turpis sit congue. Vitae, vulputate nascetur sed placerat id orci velit sed. Consectetur faucibus magna at id etiam aliquam ultrices. Enim elementum, molestie blandit sagittis. Orci, tincidunt vel ac quis donec placerat viverra donec. In varius neque, ut turpis volutpat quis odio proin egestas. Ultrices dolor elementum bibendum maecenas amet aliquam gravida. Bibendum quis sit enim tempor. Tincidunt quis elit diam vitae lectus nullam proin nibh egestas. Vulputate non morbi tempor arcu. Sit id euismod pretium ante in nulla egestas dui in. Orci ut at metus ultricies. Amet, eget aliquam amet feugiat mi euismod. Egestas ac tortor consectetur maecenas amet proin nec, metus. Mauris, massa tellus lorem ultrices enim. Diam nullam massa odio eleifend viverra eget proin at magna. Ut turpis sed donec pharetra. Risus non posuere a elit. Dui gravida sagittis, vitae enim. </style.PerfumeDesc>
+      <style.ShowMore onClick={() => setIsHidden(!isHidden)}>Show more &gt;</style.ShowMore>
       <style.Tip>TIP</style.Tip>
       <style.SubTitle margin_B={'5px'}>이런 상황에서 사용해보세요</style.SubTitle>
       <style.TipText>당신을 더욱 향기로운 사람으로 만들어줄 거예요!</style.TipText>
