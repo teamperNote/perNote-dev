@@ -83,7 +83,12 @@ const Home: NextPage = () => {
             <span>Subscribe</span>
             <span className="subscribe-icon">
               <BsFillTriangleFill
-                style={{ transform: "rotate(90deg)", color: "#A79D9D" }}
+                size={"28px"}
+                style={{
+                  transform: "rotate(90deg)",
+                  color: "#A79D9D",
+                  marginTop: "8px",
+                }}
               />
             </span>
           </SubscribeButton>
@@ -270,8 +275,8 @@ const PerfumeStoryIntroContent = styled.div`
 `;
 
 const SubscribeButton = styled.button`
-  width: 582px;
-  height: 119px;
+  width: 338.33px;
+  height: 69.18px;
 
   padding: 0 37px;
   background-color: #d9d9d9;

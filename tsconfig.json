@@ -16,6 +16,12 @@
     "incremental": true,
     "baseUrl": "./"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "styles/global-styles.ts  "],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "styles/global-styles.ts  ",
+    "pages/api/auth/naver"
+  ],
   "exclude": ["node_modules"]
 }

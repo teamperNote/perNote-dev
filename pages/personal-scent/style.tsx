@@ -64,12 +64,14 @@ export const PerfumeDesc = styled(Span)<{ margin_B: string }>`
     line-height: 45px;
     margin-bottom: ${({margin_B}) => margin_B};
 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 10;
-    -webkit-box-orient: vertical;
-    white-space: pre-wrap;
+    &.hidden {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 10;
+        -webkit-box-orient: vertical;
+        white-space: pre-wrap;
+    }
 `;
 
 export const ShowMore = styled(Span)`

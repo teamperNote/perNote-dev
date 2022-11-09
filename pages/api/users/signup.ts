@@ -1,9 +1,9 @@
-// 회원가입
-// 이메일 중복확인 필요?
-
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { PrismaClient } from "@prisma/client";
+
+const secretKey = process.env.JWT_SECRET_KEY || "";
 
 const prisma = new PrismaClient();
 
@@ -23,8 +23,17 @@ export default async function handler(
         phoneNumber,
       },
     });
-    return res.status(200).json(user);
-  } else {
-    // bad request로 날려야하나?
+    const accessToken = jwt.sign({ userId: user.id }, secretKey, {
+      expiresIn: "1h",
+    });
+    const refreshToken = jwt.sign({ userId: user.id }, secretKey, {
+      expiresIn: "14d",
+    });
+
+    return res.status(200).json({
+      user,
+      accessToken,
+      refreshToken,
+    });
   }
 }
