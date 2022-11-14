@@ -11,15 +11,21 @@ const fetcher = (url: string) => axios
         // personality: "calm", 
         // feature: "fresh", 
         // concentration: "daily",
-        name: "a winter melody",
-        brand: "gucci"
+        // // personalScent Test Section
+
+        // name: "a winter melody",
+        // brand: "gucci"
+        // // naver shopping test section
+
+        category: 'note',
+        selected: ["amber", "woody"]
     }})
     .then(res => res.data);
     // axios.get의 params에 array를 입력하면 property 뒤에 []이 붙는다. ex) sex => sex[]
 
 const Test: NextPage = () => {
     // const {data, error} = useSWR('/api/db/personalScent', fetcher); // personalScent Test Section
-    const {data, error} = useSWR('/api/search/naver', fetcher);
+    const {data, error} = useSWR('/api/db/category', fetcher); // 네이버 쇼핑 API 결과 0개면 결과없음이라고 알려주기. 프론트쪽 UI도 표시해줘야함.
 
     if(error) return <div>An error occured.</div>
     if(!data) return <div>Loading...</div>
