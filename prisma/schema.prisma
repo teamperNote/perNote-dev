@@ -20,6 +20,17 @@ model User {
   updatedAt   DateTime @updatedAt
 }
 
+model Post {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String
+  body        String
+  tags        String
+  likes       Int      @default(0)
+  viewCount   Int      @default(0)
+}
+
 model Perfume {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   name          String?   @unique
