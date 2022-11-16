@@ -5,12 +5,12 @@ import axios from "axios";
 // const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 const fetcher = (url: string) => axios
     .get(url, {params: {
-        // sex: "m", 
-        // season: "spring",
-        // color: "red", 
-        // personality: "calm", 
-        // feature: "fresh", 
-        // concentration: "daily",
+        sex: "m", 
+        season: "spring",
+        color: "red", 
+        personality: "calm", 
+        feature: "fresh", 
+        concentration: "daily",
         // // personalScent Test Section
 
         // name: "a winter melody",
