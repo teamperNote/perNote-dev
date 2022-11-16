@@ -33,21 +33,21 @@ model Post {
 
 model Perfume {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?   @unique
-  brand         String?
-  note          String?
-  top           String?
-  middle        String?
-  bottom        String?
-  concentration String?
-  first         String?
-  second        String?
-  third         String?
-  fourth        String? 
-  fifth         String?
-  sex           String?
-  imgUrl        String?  
-  score         Int?
+  name          String   @unique
+  brand         String
+  note          String
+  top           String
+  middle        String
+  bottom        String
+  concentration String
+  first         String
+  second        String
+  third         String
+  fourth        String
+  fifth         String
+  sex           String
+  imgUrl        String 
+  score         Int      @default(0)
 }
 
 model Sex {

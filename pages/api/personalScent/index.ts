@@ -15,12 +15,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     */
     
     const query = req.query; // 유저가 선택한 쿼리들. ex) 봄, 깊은 등
-    const userSex = query.sex;
-    const userSeason = query.season;
-    const userColor = query.color;
-    const userPersonal = query.personality;
-    const userFeature = query.feature;
-    const userConcen = query.concentration;
+    const userSex = query.sex as string;
+    const userSeason = query.season as string;
+    const userColor = query.color as string;
+    const userPersonal = query.personality as string;
+    const userFeature = query.feature as string;
+    const userConcen = query.concentration as string;
 
     // // 1. sex에 대한 1차 query. 
     // // (다중 선택에 대해 어떻게 접근할꺼?): 하나만 선택했다면 포함되어 있는 데이터 search, 두 개(uni가 포함)를 선택했다면 일단 진우님이랑 얘기해봐.
@@ -97,7 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
     }
 
-    function updateAlgoScore(algo){
+    function updateAlgoScore(algo: any){
         let sum = 0;
         sum += algo[userSeason];
         sum += algo[userColor];
