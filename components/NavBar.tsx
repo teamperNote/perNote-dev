@@ -23,7 +23,7 @@ export default function NavBar() {
       </PernoteLogo>
       <Navigator>
         <NavigatorLink>
-          <Link href="/PersonalScent">personal scent</Link>
+          <Link href="/personal-survey">personal scent</Link>
         </NavigatorLink>
         <NavigatorLink>perfume story</NavigatorLink>
         <CategoryContainer
@@ -55,7 +55,7 @@ export default function NavBar() {
 const NavBarContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 34px 77px;
+  padding: 18px 77px;
   background-color: #ffffff;
   border-bottom: 1px solid #d9d9d9;
 `;
@@ -74,11 +74,13 @@ const NavigatorLink = styled.div`
   margin-right: 3.75rem;
   font-weight: 400;
   font-size: 20px;
+  padding: 16px 0;
 `;
 
 const DropDownLink = styled.div`
   font-weight: 400;
   font-size: 20px;
+  padding: 16px 0;
 `;
 const CategoryContainer = styled.div`
   position: relative;
@@ -87,6 +89,7 @@ const CategoryContainer = styled.div`
     position: absolute;
     left: -44px;
     z-index: 1000;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
   .close-modal {
     display: none;
