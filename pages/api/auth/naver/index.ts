@@ -20,7 +20,6 @@ export default async function handler(
   });
   const userInfo = result.data.response;
 
-  // snsType이 null이면 naver로 가입 / null이 아니면 return 시킴
   let user = await prisma.user.findUnique({
     where: { snsId: userInfo.id },
   });

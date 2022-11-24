@@ -33,6 +33,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-/pages/api/auth/naver/request.ts
-/pages/api/auth/naver/callback.ts
