@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     */
     
     const query = req.query; // 유저가 선택한 쿼리들. ex) 봄, 깊은 등
-    const userSex = query.sex as string;
+    let userSex = query.sex as string;
     const userSeason = query.season as string;
     const userColor = query.color as string;
     const userPersonal = query.personality as string;
@@ -23,15 +23,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const userConcen = query.concentration as string;
 
     // // 1. sex에 대한 1차 query. 
-    // // (다중 선택에 대해 어떻게 접근할꺼?): 하나만 선택했다면 포함되어 있는 데이터 search, 두 개(uni가 포함)를 선택했다면 일단 진우님이랑 얘기해봐.
-    const sexDB = await prisma.sex.findMany({
+    if(userSex === 'mUni') userSex = 'm, uni';
+    else if(userSex === 'fUni') userSex = 'f, uni';
+    
+    const genderDB = await prisma.gender.findMany({
         where: {
-            sex: {
+            gender: {
                 equals: userSex
             }
         }
     });
-    if(!sexDB) {
+    if(!genderDB) {
         return res.status(200).json({
             message: "Error: sexDB invokes"
         });
@@ -66,7 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             
         }
     });
-    if(!sexDB) {
+    if(!genderDB) {
         return res.status(200).json({
             message: "Error: algoDB invokes"
         });
@@ -152,7 +154,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Test Result to test.tsx
     return res.status(200).json({
         perfumes: perfumes,
-        sexDB: sexDB,
+        sexDB: genderDB,
         algoDB: algoDB,
         concenDB: concenDB,
         query: query,

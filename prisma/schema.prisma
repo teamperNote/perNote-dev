@@ -50,9 +50,9 @@ model Perfume {
   score         Int      @default(0)
 }
 
-model Sex {
+model Gender {
   id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  sex           String  @unique
+  gender           String  @unique
   m             Int 
   mUni          Int  
   uni           Int
@@ -99,7 +99,7 @@ model Algorithm {
   fresh         Int
   deep          Int
   rich          Int
-  right         Int
+  light         Int
   clean         Int
   luxurious     Int
 }
