@@ -12,14 +12,22 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { name, email, phoneNumber } = req.body;
+    const { email, name, phoneNumber, password } = req.body.body;
 
-    const password = await bcrypt.hash(req.body.password, 10);
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (existingUser)
+      return res.status(400).json({
+        message: "이미 존재하는 유저입니다",
+      });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
         email,
         name,
-        password,
+        password: hashedPassword,
         phoneNumber,
       },
     });
@@ -29,7 +37,6 @@ export default async function handler(
     const refreshToken = jwt.sign({ userId: user.id }, secretKey, {
       expiresIn: "14d",
     });
-
     return res.status(200).json({
       user,
       accessToken,

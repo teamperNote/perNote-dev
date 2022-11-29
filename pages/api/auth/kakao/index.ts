@@ -1,5 +1,3 @@
-// 네이버 로그인 - accessToken 받는 시점부터 시작
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import axios from "axios";
@@ -15,27 +13,32 @@ export default async function handler(
 ) {
   const { access_token } = req.body;
 
-  const result = await axios.get("https://openapi.naver.com/v1/nid/me", {
-    headers: { Authorization: "Bearer " + access_token },
+  const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+      "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+    },
   });
-  const userInfo = result.data.response;
+  const userInfo = result.data;
+
+  // SNS계정으로 회원가입 한 경우, 추후에 로컬 회원가입 가능성도 고려? 계정 연동?
+  const { profile, email } = userInfo.kakao_account;
 
   let user = await prisma.user.findUnique({
-    where: { snsId: userInfo.id },
+    where: { snsId: userInfo.id.toString() },
   });
   if (!user) {
     user = await prisma.user.create({
       data: {
-        email: userInfo.email,
-        name: userInfo.name,
+        email: "",
+        name: profile.nickname,
         password: "",
-        phoneNumber: userInfo.mobile,
-        snsId: userInfo.id,
-        snsType: "naver",
+        phoneNumber: "",
+        snsType: "kakao",
+        snsId: userInfo.id.toString(),
       },
     });
   }
-
   const accessToken = jwt.sign({ userId: user.snsId }, secretKey, {
     expiresIn: "1h",
   });
