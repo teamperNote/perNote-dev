@@ -4,7 +4,6 @@ import axios from "axios";
 import { PrismaClient } from "@prisma/client";
 
 const secretKey = process.env.JWT_SECRET_KEY || "";
-const APP_ADMIN_KEY = process.env.KAKAO_ADMIN_KEY || "";
 
 const prisma = new PrismaClient();
 
