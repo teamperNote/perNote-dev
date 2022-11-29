@@ -20,7 +20,7 @@ export default async function handler(
   });
   const userInfo = result.data.response;
 
-  let user = await prisma.user.findUnique({
+  let user = await prisma.user.findFirst({
     where: { snsId: userInfo.id },
   });
   if (!user) {

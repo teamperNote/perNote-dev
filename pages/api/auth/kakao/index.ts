@@ -24,7 +24,7 @@ export default async function handler(
   // SNS계정으로 회원가입 한 경우, 추후에 로컬 회원가입 가능성도 고려? 계정 연동?
   const { profile, email } = userInfo.kakao_account;
 
-  let user = await prisma.user.findUnique({
+  let user = await prisma.user.findFirst({
     where: { snsId: userInfo.id.toString() },
   });
   if (!user) {
