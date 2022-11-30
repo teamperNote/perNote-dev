@@ -1,6 +1,7 @@
 import NoteTag from "components/NoteTag";
 import React from "react";
 import styled from "styled-components";
+import { AiTwotoneHeart } from "react-icons/ai";
 const ProductDetailPage = () => {
   return (
     <ProductDetailContainer>
@@ -12,14 +13,16 @@ const ProductDetailPage = () => {
           <SubImageContainer>
             <SubImage></SubImage>
             <SubImage></SubImage>
-            <SubImage></SubImage>
           </SubImageContainer>
         </ImageContainer>
         <InformationContainer>
           <ProductInfo>
             <BrandName>BrandName</BrandName>
             <Name>
-              <KorName>제품명</KorName>
+              <NameIconContainer>
+                <KorName>제품명</KorName>
+                <AiTwotoneHeart size="50px" />
+              </NameIconContainer>
               <EngName>Product name</EngName>
             </Name>
             <Price>
@@ -55,6 +58,7 @@ const ProductDetailPage = () => {
           </PerfumeInfo>
           <PriceInfo>
             <div>최저가비교</div>
+            <PriceTable></PriceTable>
           </PriceInfo>
         </InformationContainer>
       </AboutProduct>
@@ -102,17 +106,18 @@ const ProductDetailPage = () => {
 export default ProductDetailPage;
 
 const ProductDetailContainer = styled.div`
-  margin: 0 97px;
   margin-top: 100px;
 `;
 
 const Path = styled.div`
+  padding-left: 250px;
   margin-bottom: 35px;
   font-weight: 400;
   font-size: 20px;
 `;
 
 const AboutProduct = styled.div`
+  padding-left: 250px;
   display: flex;
   border-bottom: 2px solid #b2b2b2;
   padding-bottom: 60px;
@@ -120,22 +125,22 @@ const AboutProduct = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  margin-right: 100px;
+  margin-right: 140px;
 `;
 
 const MainImage = styled.img`
-  width: 800px;
-  height: 800px;
+  width: 580px;
+  height: 580px;
   background-color: #d9d9d9;
 `;
 
 const SubImageContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
 `;
 const SubImage = styled.img`
   margin-right: 30px;
-  width: 230px;
-  height: 230px;
+  width: 220px;
+  height: 220px;
   background-color: #d9d9d9;
 `;
 
@@ -154,9 +159,14 @@ const BrandName = styled.div`
 
 const Name = styled.div``;
 
+const NameIconContainer = styled.div`
+  overflow: hidden;
+`;
 const KorName = styled.div`
   font-weight: 700;
   font-size: 50px;
+  float: left;
+  margin-right: 30px;
 `;
 const EngName = styled.div`
   font-weight: 400;
@@ -215,6 +225,12 @@ const PriceInfo = styled.div`
   }
 `;
 
+const PriceTable = styled.div`
+  margin-top: 20px;
+  width: 700px;
+  height: 397px;
+  border: 1px solid black;
+`;
 const DescriptionContainer = styled.div``;
 const Description = styled.div`
   margin-bottom: 120px;
