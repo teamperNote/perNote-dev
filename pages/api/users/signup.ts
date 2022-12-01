@@ -12,10 +12,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { email, name, phoneNumber, password } = req.body.body;
+    const { username, email, name, password, phoneNumber, birth, gender } =
+      req.body;
 
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { username },
     });
     if (existingUser)
       return res.status(400).json({
@@ -25,16 +26,18 @@ export default async function handler(
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
+        username,
         email,
         name,
         password: hashedPassword,
         phoneNumber,
+        gender,
       },
     });
-    const accessToken = jwt.sign({ userId: user.id }, secretKey, {
+    const accessToken = jwt.sign({ userId: user.username }, secretKey, {
       expiresIn: "1h",
     });
-    const refreshToken = jwt.sign({ userId: user.id }, secretKey, {
+    const refreshToken = jwt.sign({ userId: user.username }, secretKey, {
       expiresIn: "14d",
     });
     return res.status(200).json({

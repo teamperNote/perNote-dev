@@ -11,10 +11,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { email } = req.body;
+  const { username, password } = req.body;
 
   const user = await prisma.user.findUnique({
-    where: { email },
+    where: { username },
   });
   if (!user) {
     return res.status(200).json({
@@ -22,17 +22,17 @@ export default async function handler(
     });
   }
 
-  const isPassword = await bcrypt.compare(req.body.password, user.password);
+  const isPassword = await bcrypt.compare(password, user.password);
   if (!isPassword) {
     return res.status(400).json({
       message: "Invalid Password",
     });
   }
 
-  const accessToken = jwt.sign({ userId: user.id }, secretKey, {
+  const accessToken = jwt.sign({ userId: user.username }, secretKey, {
     expiresIn: "1h",
   });
-  const refreshToken = jwt.sign({ userId: user.id }, secretKey, {
+  const refreshToken = jwt.sign({ userId: user.username }, secretKey, {
     expiresIn: "14d",
   });
 
