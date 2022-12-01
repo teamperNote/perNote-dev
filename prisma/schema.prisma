@@ -15,7 +15,7 @@ model User {
   name        String
   password    String
   phoneNumber String   @unique
-  birth       DateTime
+  birth       DateTime?
   gender      String
   snsType     String?
   createdAt   DateTime @default(now())

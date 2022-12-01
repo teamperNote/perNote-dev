@@ -21,25 +21,26 @@ export default async function handler(
   const userInfo = result.data.response;
 
   let user = await prisma.user.findFirst({
-    where: { snsId: userInfo.id },
+    where: { username: userInfo.id },
   });
   if (!user) {
     user = await prisma.user.create({
       data: {
+        username: userInfo.id,
         email: userInfo.email,
         name: userInfo.name,
         password: "",
         phoneNumber: userInfo.mobile,
-        snsId: userInfo.id,
+        gender: "",
         snsType: "naver",
       },
     });
   }
 
-  const accessToken = jwt.sign({ userId: user.snsId }, secretKey, {
+  const accessToken = jwt.sign({ userId: user.username }, secretKey, {
     expiresIn: "1h",
   });
-  const refreshToken = jwt.sign({ userId: user.snsId }, secretKey, {
+  const refreshToken = jwt.sign({ userId: user.username }, secretKey, {
     expiresIn: "14d",
   });
 
