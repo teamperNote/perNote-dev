@@ -24,7 +24,7 @@ export default async function handler(
   // SNS계정으로 회원가입 한 경우, 로컬 회원가입 불가
   const { profile, email } = userInfo.kakao_account;
 
-  let user = await prisma.user.findFirst({
+  let user = await prisma.user.findUnique({
     where: { username: userInfo.id.toString() },
   });
   if (!user) {
