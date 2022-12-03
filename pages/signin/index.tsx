@@ -1,5 +1,11 @@
 import styled from "styled-components";
+import Link from "next/link";
+import KaKaoLogin from "./kakao-login";
+import GoogleLogin from "./goole-login";
+import NaverLogin from "./naver-login";
 
+// const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
+// const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
 function Signin() {
   return (
     <SignInContainer>
@@ -24,10 +30,9 @@ function Signin() {
       <SocialLogin>
         <div>소셜로그인</div>
         <SocialLoginList>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <KaKaoLogin />
+          <GoogleLogin />
+          <NaverLogin />
         </SocialLoginList>
       </SocialLogin>
     </SignInContainer>
