@@ -13,7 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const code = req.query.code;
+  const { code } = req.query;
 
   const body = `grant_type=authorization_code&code=${code}&client_id=${client_id}&client_secret=${client_secret}&redirect_url=${redirect_uri}`;
 

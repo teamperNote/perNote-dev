@@ -21,28 +21,29 @@ export default async function handler(
   });
   const userInfo = result.data;
 
-  // SNS계정으로 회원가입 한 경우, 추후에 로컬 회원가입 가능성도 고려? 계정 연동?
+  // SNS계정으로 회원가입 한 경우, 로컬 회원가입 불가
   const { profile, email } = userInfo.kakao_account;
 
-  let user = await prisma.user.findFirst({
-    where: { snsId: userInfo.id.toString() },
+  let user = await prisma.user.findUnique({
+    where: { username: userInfo.id.toString() },
   });
   if (!user) {
     user = await prisma.user.create({
       data: {
+        username: userInfo.id.toString(),
         email: "",
         name: profile.nickname,
         password: "",
         phoneNumber: "",
+        gender: "",
         snsType: "kakao",
-        snsId: userInfo.id.toString(),
       },
     });
   }
-  const accessToken = jwt.sign({ userId: user.snsId }, secretKey, {
+  const accessToken = jwt.sign({ userId: user.username }, secretKey, {
     expiresIn: "1h",
   });
-  const refreshToken = jwt.sign({ userId: user.snsId }, secretKey, {
+  const refreshToken = jwt.sign({ userId: user.username }, secretKey, {
     expiresIn: "14d",
   });
 
