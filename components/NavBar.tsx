@@ -30,7 +30,9 @@ export default function NavBar() {
           onMouseOver={openDropDown}
           onMouseLeave={closeDropDown}
         >
-          <DropDownLink>Category</DropDownLink>
+          <DropDownLink>
+            <Link href="/category/note">Category</Link>
+          </DropDownLink>
           <div className={isOpen ? "show-modal" : "close-modal"}>
             <CategoryDropDown
               openDropDown={openDropDown}
