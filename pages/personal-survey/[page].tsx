@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 // import { IoChevronBackSharp } from "react-icons/io5";
 
-const PersonalSurvey = () => {
+export default function PersonalSurvey() {
   const router = useRouter();
   const { page } = router.query;
 
@@ -16,20 +16,6 @@ const PersonalSurvey = () => {
     feature: "",
   });
 
-  const onNextClick = (value: string) => {
-    router.push(value);
-    // setScentData((prevState) => {
-    //   return {
-    //     ...prevState,
-    //     title: e.target.value
-    //   }
-    // });
-  };
-
-  const onSubmit = () => {
-    router.push("/personal-scent");
-  };
-
   return (
     <PersonalScentContainer>
       <PersonalScentBox>
@@ -41,7 +27,7 @@ const PersonalSurvey = () => {
               <br />
               간단한 질문으로 여러분의 향을 찾아드립니다.
             </PersonalScentText>
-            <StartBtn onClick={() => onNextClick("gender")}>
+            <StartBtn onClick={() => router.push("gender")}>
               <StartSpan>START</StartSpan>
             </StartBtn>
           </>
@@ -58,9 +44,12 @@ const PersonalSurvey = () => {
                 <Card
                   key={data.id}
                   margin_R={"30px"}
-                  onClick={() => onNextClick("concentration")}
+                  onClick={() => {
+                    setScentData({ ...scentData, gender: data.value });
+                    router.push("concentration");
+                  }}
                 >
-                  <CardContent>{data.content}</CardContent>
+                  <CardContent>{data.text}</CardContent>
                 </Card>
               ))}
             </CardContainer>
@@ -71,8 +60,14 @@ const PersonalSurvey = () => {
             <SubTitle>어느 때에 향수를 뿌리고 싶으신가요?</SubTitle>
             <CardContainer>
               {concentration.map((data) => (
-                <Card key={data.id} onClick={() => onNextClick("season")}>
-                  <CardContent>{data.content}</CardContent>
+                <Card
+                  key={data.id}
+                  onClick={() => {
+                    setScentData({ ...scentData, concentration: data.value });
+                    router.push("season");
+                  }}
+                >
+                  <CardContent>{data.text}</CardContent>
                 </Card>
               ))}
             </CardContainer>
@@ -83,8 +78,14 @@ const PersonalSurvey = () => {
             <SubTitle>당신이 좋아하는 계절은 무엇인가요?</SubTitle>
             <CardContainer>
               {season.map((data) => (
-                <Card key={data.id} onClick={() => onNextClick("color")}>
-                  <CardContent>{data.content}</CardContent>
+                <Card
+                  key={data.id}
+                  onClick={() => {
+                    setScentData({ ...scentData, season: data.value });
+                    router.push("color");
+                  }}
+                >
+                  <CardContent>{data.text}</CardContent>
                 </Card>
               ))}
             </CardContainer>
@@ -99,10 +100,13 @@ const PersonalSurvey = () => {
               {color.map((data) => (
                 <ColorCard
                   key={data.id}
-                  onClick={() => onNextClick("personality")}
+                  onClick={() => {
+                    setScentData({ ...scentData, color: data.value });
+                    router.push("personality");
+                  }}
                 >
                   <Color background={data.color} />
-                  <ColorCardContent>{data.content}</ColorCardContent>
+                  <ColorCardContent>{data.text}</ColorCardContent>
                 </ColorCard>
               ))}
             </ColorCardContainer>
@@ -115,8 +119,14 @@ const PersonalSurvey = () => {
             </SubTitle>
             <TextCardContainer>
               {personality.map((data) => (
-                <TextCard key={data.id} onClick={() => onNextClick("feature")}>
-                  <TextCardContent>{data.content}</TextCardContent>
+                <TextCard
+                  key={data.id}
+                  onClick={() => {
+                    setScentData({ ...scentData, personality: data.value });
+                    router.push("feature");
+                  }}
+                >
+                  <TextCardContent>{data.text}</TextCardContent>
                 </TextCard>
               ))}
             </TextCardContainer>
@@ -129,8 +139,17 @@ const PersonalSurvey = () => {
             </SubTitle>
             <TextCardContainer>
               {feature.map((data) => (
-                <TextCard key={data.id} onClick={onSubmit}>
-                  <TextCardContent>{data.content}</TextCardContent>
+                <TextCard
+                  key={data.id}
+                  onClick={() => {
+                    setScentData({ ...scentData, feature: data.value });
+                    router.push({
+                      pathname: "/personal-scent",
+                      query: scentData,
+                    });
+                  }}
+                >
+                  <TextCardContent>{data.text}</TextCardContent>
                 </TextCard>
               ))}
             </TextCardContainer>
@@ -139,131 +158,131 @@ const PersonalSurvey = () => {
       </PersonalScentBox>
     </PersonalScentContainer>
   );
-};
+}
 
 const gender = [
   {
     id: 0,
-    name: "f",
-    content: "매우 여성적인",
+    value: "f",
+    text: "매우 여성적인",
   },
   {
     id: 1,
-    name: "fUni",
-    content: "여성적인",
+    value: "fUni",
+    text: "여성적인",
   },
   {
     id: 2,
-    name: "uni",
-    content: "중성적인",
+    value: "uni",
+    text: "중성적인",
   },
   {
     id: 3,
-    name: "mUni",
-    content: "남성적인",
+    value: "mUni",
+    text: "남성적인",
   },
   {
     id: 4,
-    name: "m",
-    content: "매우 남성적인",
+    value: "m",
+    text: "매우 남성적인",
   },
 ];
 
 const concentration = [
   {
     id: 0,
-    name: "daily",
-    content: "데일리",
+    value: "daily",
+    text: "데일리",
   },
   {
     id: 1,
-    name: "specialParty",
-    content: "특별한 날",
+    value: "specialParty",
+    text: "특별한 날",
   },
 ];
 
 const season = [
   {
     id: 0,
-    name: "spring",
-    content: "봄",
+    value: "spring",
+    text: "봄",
   },
   {
     id: 1,
-    name: "summer",
-    content: "여름",
+    value: "summer",
+    text: "여름",
   },
   {
     id: 2,
-    name: "autumn",
-    content: "가을",
+    value: "autumn",
+    text: "가을",
   },
   {
     id: 3,
-    name: "winter",
-    content: "겨울",
+    value: "winter",
+    text: "겨울",
   },
 ];
 
 const color = [
   {
     id: 0,
-    name: "red",
-    content: "빨간색",
+    value: "red",
+    text: "빨간색",
     color: "#ff0000",
   },
   {
     id: 1,
-    name: "orange",
-    content: "주황색",
+    value: "orange",
+    text: "주황색",
     color: "#ff7f00",
   },
   {
     id: 2,
-    name: "yellow",
-    content: "노란색",
+    value: "yellow",
+    text: "노란색",
     color: "#ffff00",
   },
   {
     id: 3,
-    name: "green",
-    content: "초록색",
+    value: "green",
+    text: "초록색",
     color: "#ff7f00",
   },
   {
     id: 4,
-    name: "blue",
-    content: "파란색",
+    value: "blue",
+    text: "파란색",
     color: "#ff7f00",
   },
   {
     id: 5,
-    name: "pink",
-    content: "분홍색",
+    value: "pink",
+    text: "분홍색",
     color: "#ff7f00",
   },
   {
     id: 6,
-    name: "purple",
-    content: "보라색",
+    value: "purple",
+    text: "보라색",
     color: "#ff7f00",
   },
   {
     id: 7,
-    name: "black",
-    content: "검은색",
+    value: "black",
+    text: "검은색",
     color: "#ff7f00",
   },
   {
     id: 8,
-    name: "white",
-    content: "흰 색",
+    value: "white",
+    text: "흰 색",
     color: "#ff7f00",
   },
   {
     id: 9,
-    name: "brown",
-    content: "갈 색",
+    value: "brown",
+    text: "갈 색",
     color: "#ff7f00",
   },
 ];
@@ -271,96 +290,96 @@ const color = [
 const personality = [
   {
     id: 0,
-    name: "vivid",
-    content: "생동감 있는",
+    value: "vivid",
+    text: "생동감 있는",
   },
   {
     id: 1,
-    name: "delicate",
-    content: "섬세한",
+    value: "delicate",
+    text: "섬세한",
   },
   {
     id: 2,
-    name: "sensual",
-    content: "관능적인",
+    value: "sensual",
+    text: "관능적인",
   },
   {
     id: 3,
-    name: "comfortable",
-    content: "편안한",
+    value: "comfortable",
+    text: "편안한",
   },
   {
     id: 4,
-    name: "calm",
-    content: "차분한",
+    value: "calm",
+    text: "차분한",
   },
   {
     id: 5,
-    name: "adventurous",
-    content: "모험적인",
+    value: "adventurous",
+    text: "모험적인",
   },
   {
     id: 6,
-    name: "masculine",
-    content: "남성스러운",
+    value: "masculine",
+    text: "남성스러운",
   },
   {
     id: 7,
-    name: "feminine",
-    content: "여성스러운",
+    value: "feminine",
+    text: "여성스러운",
   },
   {
     id: 8,
-    name: "pure",
-    content: "순수한",
+    value: "pure",
+    text: "순수한",
   },
   {
     id: 9,
-    name: "mature",
-    content: "성숙한",
+    value: "mature",
+    text: "성숙한",
   },
   {
     id: 10,
-    name: "purehearted",
-    content: "청순한",
+    value: "purehearted",
+    text: "청순한",
   },
 ];
 
 const feature = [
   {
     id: 0,
-    name: "intense",
-    content: "강렬한",
+    value: "intense",
+    text: "강렬한",
   },
   {
     id: 1,
-    name: "fresh",
-    content: "신선한",
+    value: "fresh",
+    text: "신선한",
   },
   {
     id: 2,
-    name: "deep",
-    content: "깊은",
+    value: "deep",
+    text: "깊은",
   },
   {
     id: 3,
-    name: "rich",
-    content: "풍부한",
+    value: "rich",
+    text: "풍부한",
   },
   {
     id: 4,
-    name: "light",
-    content: "경쾌한",
+    value: "light",
+    text: "경쾌한",
   },
   {
     id: 5,
-    name: "clean",
-    content: "깨끗한",
+    value: "clean",
+    text: "깨끗한",
   },
   {
     id: 6,
-    name: "luxurious",
-    content: "고급스러운",
+    value: "luxurious",
+    text: "고급스러운",
   },
 ];
 
@@ -543,5 +562,3 @@ export const TextCard = styled(Card)`
 export const TextCardContent = styled(CardContent)`
   margin-top: 0;
 `;
-
-export default PersonalSurvey;
