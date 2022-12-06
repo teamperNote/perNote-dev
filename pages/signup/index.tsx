@@ -1,45 +1,105 @@
+import axios from "axios";
+import { useState } from "react";
 import styled from "styled-components";
-import Link from "next/link";
-import KaKaoLogin from "./kakao-login";
-import GoogleLogin from "./goole-login";
-import NaverLogin from "./naver-login";
 
-// const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
-// const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
-function Signin() {
+function SignupPage() {
+  const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+
+  const onEmailChange = (e: any) => {
+    setEmail(e.target.value);
+  };
+
+  const onNameChange = (e: any) => {
+    setName(e.target.value);
+  };
+
+  const onPasswordChange = (e: any) => {
+    setPassword(e.target.value);
+  };
+
+  const onPhoneNumberChange = (e: any) => {
+    setPhoneNumber(e.target.value);
+  };
+
+  const onClickLoginButton = async (e: any) => {
+    e.preventDefault();
+    const data = {
+      email,
+      name,
+      password,
+      phoneNumber,
+    };
+    const response = await axios.post("/api/users/signup", {
+      headers: { "Content-Type": "application/json" },
+      body: data,
+    });
+    console.log(response.data);
+  };
   return (
     <SignInContainer>
-      <Pernote>per.note</Pernote>
+      <Pernote>임시 회원가입</Pernote>
       <LoginForm>
         <div>
           <InputContainer>
             <InputLabel htmlFor="email">Email</InputLabel>
-            <Input type="text" placeholder="example@pernote.com" />
+            <Input
+              type="text"
+              placeholder="example@pernote.com"
+              value={email}
+              onChange={onEmailChange}
+            />
+          </InputContainer>
+          <InputContainer>
+            <InputLabel htmlFor="name">Name</InputLabel>
+            <Input
+              type="text"
+              placeholder="SOMIN"
+              value={name}
+              onChange={onNameChange}
+            />
           </InputContainer>
           <InputContainer>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input type="password" placeholder="Enter your password" />
+            <Input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              autoComplete="on"
+              onChange={onPasswordChange}
+            />
+          </InputContainer>
+          <InputContainer>
+            <InputLabel htmlFor="phone">P.H</InputLabel>
+            <Input
+              type="text"
+              placeholder="010-0000-0000"
+              value={phoneNumber}
+              onChange={onPhoneNumberChange}
+            />
           </InputContainer>
           <OptionContainer>
-            <div>Sign up</div>
-            <div>Forget?</div>
+            <div>Sign in</div>
           </OptionContainer>
-          <LoginButton>Log in</LoginButton>
+          <LoginButton onClick={onClickLoginButton}>Log in</LoginButton>
         </div>
       </LoginForm>
       <SocialLogin>
         <div>소셜로그인</div>
         <SocialLoginList>
-          <KaKaoLogin />
-          <GoogleLogin />
-          <NaverLogin />
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </SocialLoginList>
       </SocialLogin>
     </SignInContainer>
   );
 }
 
-export default Signin;
+export default SignupPage;
 
 const SignInContainer = styled.div`
   height: 100%;

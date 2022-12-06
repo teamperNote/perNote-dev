@@ -10,12 +10,14 @@ datasource db {
 
 model User {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  username    String   @unique
   email       String   @unique
   name        String
   password    String
   phoneNumber String   @unique
+  birth       DateTime?
+  gender      String
   snsType     String?
-  snsId       String?  @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

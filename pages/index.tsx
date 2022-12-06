@@ -46,7 +46,7 @@ const Home: NextPage = () => {
             non
             <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
           </PersonalScentTContent>
-          <PersonalScentReacMore>Start {`>`}</PersonalScentReacMore>
+          <PersonalScentReacMore>바로가기 {`>`}</PersonalScentReacMore>
         </PersonalScentText>
       </ThirdMain>
       <FourthMain>
