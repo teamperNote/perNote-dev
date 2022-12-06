@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import type { NextPage } from "next";
 import styled from "styled-components";
-import { BsFillTriangleFill } from "react-icons/bs";
+import { BsBell } from "react-icons/bs";
 
 const Home: NextPage = () => {
   return (
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
             non
             <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
           </PersonalScentTContent>
-          <PersonalScentReacMore>Read More {`>`}</PersonalScentReacMore>
+          <PersonalScentReacMore>바로가기 {`>`}</PersonalScentReacMore>
         </PersonalScentText>
       </ThirdMain>
       <FourthMain>
@@ -80,17 +80,10 @@ const Home: NextPage = () => {
             </PerfumeStoryIntroContent>
           </div>
           <SubscribeButton>
-            <span>Subscribe</span>
             <span className="subscribe-icon">
-              <BsFillTriangleFill
-                size={"28px"}
-                style={{
-                  transform: "rotate(90deg)",
-                  color: "#A79D9D",
-                  marginTop: "8px",
-                }}
-              />
+              <BsBell />
             </span>
+            <span>알림받기</span>
           </SubscribeButton>
         </FourthFirst>
         <FourthSecond>
@@ -275,10 +268,10 @@ const PerfumeStoryIntroContent = styled.div`
 `;
 
 const SubscribeButton = styled.button`
-  width: 338.33px;
+  width: 269.03px;
   height: 69.18px;
 
-  padding: 0 37px;
+  padding: 0 49px;
   background-color: #d9d9d9;
 
   border: none;
@@ -289,8 +282,8 @@ const SubscribeButton = styled.button`
   align-items: center;
 
   span {
-    font-weight: normal;
-    font-size: 40px;
+    font-weight: 400;
+    font-size: 30px;
   }
 `;
 
