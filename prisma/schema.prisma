@@ -47,7 +47,7 @@ model Perfume {
   third         String
   fourth        String
   fifth         String
-  sex           String
+  gender        String
   imgUrl        String 
   score         Int      @default(0)
 }

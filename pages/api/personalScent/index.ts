@@ -68,7 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             
         }
     });
-    if(!genderDB) {
+    if(!algoDB) {
         return res.status(200).json({
             message: "Error: algoDB invokes"
         });
@@ -86,7 +86,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         where: {
             AND:[
                 {
-                    sex: {
+                    gender: {
                         contains: userGender
                     }
                 }
@@ -110,7 +110,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     for(let perfume of perfumes){
         // Scoring 1 - sex
-        if(perfume.sex === userGender) perfume.score++;
+        if(perfume.gender === userGender) perfume.score++;
         
         // Scoring 2 - concentration
         for(let concen of concenDB){
