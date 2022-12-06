@@ -23,14 +23,16 @@ export default function NavBar() {
       </PernoteLogo>
       <Navigator>
         <NavigatorLink>
-          <Link href="/personal-survey">personal scent</Link>
+          <Link href="/personal-survey/start">personal scent</Link>
         </NavigatorLink>
         <NavigatorLink>perfume story</NavigatorLink>
         <CategoryContainer
           onMouseOver={openDropDown}
           onMouseLeave={closeDropDown}
         >
-          <DropDownLink>Category</DropDownLink>
+          <DropDownLink>
+            <Link href="/category/note">Category</Link>
+          </DropDownLink>
           <div className={isOpen ? "show-modal" : "close-modal"}>
             <CategoryDropDown
               openDropDown={openDropDown}
