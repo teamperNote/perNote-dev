@@ -23,7 +23,7 @@ export default function NavBar() {
       </PernoteLogo>
       <Navigator>
         <NavigatorLink>
-          <Link href="/personal-survey/0">personal scent</Link>
+          <Link href="/personal-survey/start">personal scent</Link>
         </NavigatorLink>
         <NavigatorLink>perfume story</NavigatorLink>
         <CategoryContainer
