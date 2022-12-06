@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     */
     
     const query = req.query; // 유저가 선택한 쿼리들. ex) 봄, 깊은 등
-    let userSex = query.sex as string;
+    let userGender = query.gender as string;
     const userSeason = query.season as string;
     const userColor = query.color as string;
     const userPersonal = query.personality as string;
@@ -23,13 +23,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const userConcen = query.concentration as string;
 
     // // 1. sex에 대한 1차 query. 
-    if(userSex === 'mUni') userSex = 'm, uni';
-    else if(userSex === 'fUni') userSex = 'f, uni';
+    if(userGender === 'mUni') userGender = 'm, uni';
+    else if(userGender === 'fUni') userGender = 'f, uni';
     
     const genderDB = await prisma.gender.findMany({
         where: {
             gender: {
-                equals: userSex
+                equals: userGender
             }
         }
     });
@@ -87,7 +87,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             AND:[
                 {
                     sex: {
-                        contains: userSex
+                        contains: userGender
                     }
                 }
             ]
@@ -110,7 +110,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     for(let perfume of perfumes){
         // Scoring 1 - sex
-        if(perfume.sex === userSex) perfume.score++;
+        if(perfume.sex === userGender) perfume.score++;
         
         // Scoring 2 - concentration
         for(let concen of concenDB){
