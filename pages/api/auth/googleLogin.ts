@@ -1,38 +1,38 @@
-// 네이버 로그인 - accessToken 받는 시점부터 시작
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import axios from "axios";
 import { PrismaClient } from "@prisma/client";
 
+const client_id = process.env.GOOGLE_CLIENT_ID || "";
+const client_secret = process.env.GOOGLE_CLIENT_SECRET || "";
+const redirect_uri = process.env.GOOGLE_REDIRECT_URI || "";
 const secretKey = process.env.JWT_SECRET_KEY || "";
 
 const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const { access_token } = req.body;
 
-  const result = await axios.get("https://openapi.naver.com/v1/nid/me", {
-    headers: { Authorization: "Bearer " + access_token },
-  });
-  const userInfo = result.data.response;
+  const { data } = await axios.get(
+    `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`,
+  );
 
   let user = await prisma.user.findUnique({
-    where: { username: userInfo.id },
+    where: { username: data.id },
   });
   if (!user) {
     user = await prisma.user.create({
       data: {
-        username: userInfo.id,
-        email: userInfo.email,
-        name: userInfo.name,
+        username: data.id,
+        email: data.email,
+        name: data.name,
         password: "",
-        phoneNumber: userInfo.mobile,
+        phoneNumber: data.id,
         gender: "",
-        snsType: "naver",
+        snsType: "google",
       },
     });
   }
@@ -44,7 +44,7 @@ export default async function handler(
     expiresIn: "14d",
   });
 
-  return res.status(200).json({
+  res.status(200).json({
     user,
     accessToken,
     refreshToken,

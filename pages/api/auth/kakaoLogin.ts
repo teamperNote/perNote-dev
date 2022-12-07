@@ -3,17 +3,28 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 import { PrismaClient } from "@prisma/client";
 
+const rest_api_key = process.env.KAKAO_REST_API_KEY || "";
+const redirect_uri = process.env.KAKAO_REDIRECT_URI || "";
 const secretKey = process.env.JWT_SECRET_KEY || "";
 
 const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  const { access_token } = req.body;
+  const { code } = req.query;
 
-  const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
+  const token_api_url = `https://kauth.kakao.com/oauth/token?client_id=${rest_api_key}&grant_type=authorization_code&redirect_uri=${redirect_uri}&code=${code}`;
+
+  let result = await axios.post(token_api_url, {
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded",
+    },
+  });
+  const { access_token, refresh_token } = result.data;
+
+  result = await axios.get("https://kapi.kakao.com/v2/user/me", {
     headers: {
       Authorization: `Bearer ${access_token}`,
       "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -22,7 +33,7 @@ export default async function handler(
   const userInfo = result.data;
 
   // SNS계정으로 회원가입 한 경우, 로컬 회원가입 불가
-  const { profile, email } = userInfo.kakao_account;
+  const { profile } = userInfo.kakao_account;
 
   let user = await prisma.user.findUnique({
     where: { username: userInfo.id.toString() },
@@ -34,7 +45,7 @@ export default async function handler(
         email: "",
         name: profile.nickname,
         password: "",
-        phoneNumber: "",
+        phoneNumber: userInfo.id.toString(),
         gender: "",
         snsType: "kakao",
       },
