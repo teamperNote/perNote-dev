@@ -5,7 +5,6 @@ import { PrismaClient } from "@prisma/client";
 
 const rest_api_key = process.env.KAKAO_REST_API_KEY || "";
 const redirect_uri = process.env.KAKAO_REDIRECT_URI || "";
-
 const secretKey = process.env.JWT_SECRET_KEY || "";
 
 const prisma = new PrismaClient();
@@ -14,7 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { code } = req.body;
+  const { code } = req.query;
 
   const token_api_url = `https://kauth.kakao.com/oauth/token?client_id=${rest_api_key}&grant_type=authorization_code&redirect_uri=${redirect_uri}&code=${code}`;
 
@@ -23,7 +22,7 @@ export default async function handler(
       "Content-type": "application/x-www-form-urlencoded",
     },
   });
-  const { access_token } = result.data;
+  const { access_token, refresh_token } = result.data;
 
   result = await axios.get("https://kapi.kakao.com/v2/user/me", {
     headers: {
