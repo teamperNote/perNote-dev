@@ -108,17 +108,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return sum;
     }
 
-    for(let perfume of perfumes){
+    for(const perfume of perfumes){
         // Scoring 1 - sex
         if(perfume.gender === userGender) perfume.score++;
         
         // Scoring 2 - concentration
-        for(let concen of concenDB){
+        for(const concen of concenDB){
             if(perfume.concentration === concen.concentration) perfume.score += concen[userConcen];
         }
 
         // Scoring 3 - algorithm
-        for(let algo of algoDB){
+        for(const algo of algoDB){
             if(perfume.first === algo.scent) {
                 perfume.score += updateAlgoScore(algo);
             } else if(perfume.second == algo.scent){
@@ -136,7 +136,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let top5 = [];
     
-    for(let perfume of perfumes){
+    for(const perfume of perfumes){
         if(top5.length < 5) top5.push(perfume);
         else {
             for(let i=0; i<5; i++){

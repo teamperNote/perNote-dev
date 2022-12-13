@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const xmlData = await axios
         .get(apiURL)
         .then(res => res.data);
-    let options = {compact: true, ignoreComment: true, spaces: 4};
+    const options = {compact: true, ignoreComment: true, spaces: 4};
     const data = xml2js(xmlData, options);
 
     return res.status(200).json(

@@ -9,9 +9,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const category = query.category as string;
     const selected: Array<string> = query["selected[]"] as string[];
 
-    let findManyOrCondition = [];
+    const findManyOrCondition = [];
 
-    for(let tag of selected){
+    for(const tag of selected){
         findManyOrCondition.push({
             [category]: {
                 contains: tag
