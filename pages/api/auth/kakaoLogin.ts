@@ -13,7 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { code } = req.query;
+  const { code } = req.body;
 
   const token_api_url = `https://kauth.kakao.com/oauth/token?client_id=${rest_api_key}&grant_type=authorization_code&redirect_uri=${redirect_uri}&code=${code}`;
 
