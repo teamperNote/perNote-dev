@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-import handler from "../api/auth/kakao/request";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
