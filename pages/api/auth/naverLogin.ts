@@ -1,5 +1,3 @@
-// 네이버 로그인 - accessToken 받는 시점부터 시작
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import axios from "axios";
@@ -17,12 +15,12 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const { code, state } = req.body;
-  console.log(code, state);
+
   const token_api_url = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${client_id}&client_secret=${client_secret}&code=${code}&state=${state}`;
 
   let result = await axios.get(token_api_url);
 
-  const { access_token, refresh_token } = result.data;
+  const { access_token } = result.data;
 
   result = await axios.get("https://openapi.naver.com/v1/nid/me", {
     headers: { Authorization: "Bearer " + access_token },

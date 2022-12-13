@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const rest_api_key = process.env.KAKAO_REST_API_KEY || "";
 const redirect_uri = process.env.KAKAO_REDIRECT_URI || "";
+
 const secretKey = process.env.JWT_SECRET_KEY || "";
 
 const prisma = new PrismaClient();
@@ -22,7 +23,7 @@ export default async function handler(
       "Content-type": "application/x-www-form-urlencoded",
     },
   });
-  const { access_token, refresh_token } = result.data;
+  const { access_token } = result.data;
 
   result = await axios.get("https://kapi.kakao.com/v2/user/me", {
     headers: {
