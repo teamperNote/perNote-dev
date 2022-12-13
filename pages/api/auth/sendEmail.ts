@@ -1,5 +1,4 @@
 // 이메일 인증요청 API
-// 백엔드에서 인증번호 6자리 프론트로 넘겨서 -> 유저가 입력한 인증번호 == 프론트가 받은 인증번호 매칭
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import nodemailer from "nodemailer";
@@ -9,7 +8,7 @@ const NODEMAILER_PW = process.env.NODEMAILER_PW || "";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const { email } = req.body; // 인증메일을 받을 이메일
 
