@@ -14,9 +14,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { access_token } = req.body;
+  const { code, state } = req.body;
 
-  const result = await axios.get("https://openapi.naver.com/v1/nid/me", {
+  const token_api_url = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${client_id}&client_secret=${client_secret}&code=${code}&state=${state}`;
+
+  let result = await axios.get(token_api_url);
+
+  const { access_token } = result.data;
+
+  result = await axios.get("https://openapi.naver.com/v1/nid/me", {
     headers: { Authorization: "Bearer " + access_token },
   });
   const userInfo = result.data.response;
