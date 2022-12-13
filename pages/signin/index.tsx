@@ -1,12 +1,33 @@
 import styled from "styled-components";
-import Link from "next/link";
 import KaKaoLogin from "./kakao-login";
-import GoogleLogin from "./goole-login";
+import GoogleLogin from "./google-login";
 import NaverLogin from "./naver-login";
+import { useState } from "react";
+import axios from "axios";
 
-// const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
-// const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
 function Signin() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const inputEmail = (e: any) => {
+    setEmail(e.target.value);
+  };
+
+  const inputPassword = (e: any) => {
+    setPassword(e.target.value);
+  };
+
+  const submitLogin = async (e: any) => {
+    const data = {
+      email,
+      password,
+    };
+    try {
+      const response = await axios.post("/api/users/login.ts", data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <SignInContainer>
       <Pernote>per.note</Pernote>
@@ -14,17 +35,27 @@ function Signin() {
         <div>
           <InputContainer>
             <InputLabel htmlFor="email">Email</InputLabel>
-            <Input type="text" placeholder="example@pernote.com" />
+            <Input
+              type="text"
+              value={email}
+              placeholder="example@pernote.com"
+              onChange={inputEmail}
+            />
           </InputContainer>
           <InputContainer>
             <InputLabel htmlFor="password">Password</InputLabel>
-            <Input type="password" placeholder="Enter your password" />
+            <Input
+              type="password"
+              value={password}
+              placeholder="Enter your password"
+              onChange={inputPassword}
+            />
           </InputContainer>
           <OptionContainer>
             <div>Sign up</div>
             <div>Forget?</div>
           </OptionContainer>
-          <LoginButton>Log in</LoginButton>
+          <LoginButton onClick={submitLogin}>Log in</LoginButton>
         </div>
       </LoginForm>
       <SocialLogin>
