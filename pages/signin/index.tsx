@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 import KaKaoLogin from "./kakao-login";
-import GoogleLogin from "./goole-login";
+import GoogleLogin from "./google-login";
 import NaverLogin from "./naver-login";
 import { useState } from "react";
 import axios from "axios";

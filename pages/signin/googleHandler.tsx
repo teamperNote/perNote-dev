@@ -4,12 +4,11 @@ import React, { useEffect } from "react";
 function GoogleHandler() {
   useEffect(() => {
     const parsedHash = new URLSearchParams(window.location.hash.substring(1));
-    const access_Token = parsedHash.get("access_token");
-    console.log(access_Token);
+    const access_token = parsedHash.get("access_token");
+
     const response = axios.post("/api/auth/googleLogin", {
-      accessToken: access_Token,
+      access_token: access_token,
     });
-    // const { user, accessToken, refreshToken } = response;
   }, []);
   return <div></div>;
 }

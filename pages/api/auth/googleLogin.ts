@@ -3,9 +3,6 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 import { PrismaClient } from "@prisma/client";
 
-const client_id = process.env.GOOGLE_CLIENT_ID || "";
-const client_secret = process.env.GOOGLE_CLIENT_SECRET || "";
-const redirect_uri = process.env.GOOGLE_REDIRECT_URI || "";
 const secretKey = process.env.JWT_SECRET_KEY || "";
 
 const prisma = new PrismaClient();
