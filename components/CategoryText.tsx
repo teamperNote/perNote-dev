@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
-export default function CategoryText({ data }) {
+export default function CategoryText({ data, isFocus, setIsFocus }) {
+  const onBtnClick = () => {
+    setIsFocus(data.value);
+  };
   return (
     <TextBox
-    // onClick={onBtnClick}
-    // className={isFocus == data.value ? "focus" : "noo"}
+      onClick={onBtnClick}
+      className={isFocus == data.value ? "focus" : "noo"}
     >
-      <TextSpan
-      // className={isFocus == data.value ? "focus" : ""}
-      >
+      <TextSpan className={isFocus == data.value ? "focus" : ""}>
         {data.text}
       </TextSpan>
     </TextBox>

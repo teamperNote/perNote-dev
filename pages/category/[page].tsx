@@ -7,10 +7,7 @@ export default function category() {
   const router = useRouter();
   const { page } = router.query;
 
-  // const [isFocus, setIsFocus] = useState(noteContent[0].value);
-  // const onBtnClick = () => {
-  //   setIsFocus(data.value);
-  // };
+  const [isFocus, setIsFocus] = useState(noteContent[0].value);
 
   const onPageClick = (value: string) => {
     router.push(value);
@@ -32,7 +29,12 @@ export default function category() {
       </CategoryBox>
       <NoteBox>
         {noteContent.map((data) => (
-          <CategoryText key={data.id} data={data} />
+          <CategoryText
+            key={data.id}
+            data={data}
+            isFocus={isFocus}
+            setIsFocus={setIsFocus}
+          />
         ))}
       </NoteBox>
       <div>{page}</div>
