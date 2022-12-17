@@ -30,9 +30,7 @@ export default function NavBar() {
           onMouseOver={openDropDown}
           onMouseLeave={closeDropDown}
         >
-          <DropDownLink>
-            <Link href="/category/note">Category</Link>
-          </DropDownLink>
+          <NavigatorLink>Category</NavigatorLink>
           <div className={isOpen ? "show-modal" : "close-modal"}>
             <CategoryDropDown
               openDropDown={openDropDown}
@@ -42,10 +40,10 @@ export default function NavBar() {
         </CategoryContainer>
       </Navigator>
       <HeaderRight>
-        <SearchInput>
+        {/* <SearchInput>
           <input type="text" />
           <BiSearchAlt2 />
-        </SearchInput>
+        </SearchInput> */}
         <Link href="/signin">
           <Login>Login</Login>
         </Link>
@@ -57,13 +55,14 @@ export default function NavBar() {
 const NavBarContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 18px 77px;
+  padding: 17px 70px;
   background-color: #ffffff;
   border-bottom: 1px solid #d9d9d9;
 `;
 
+// 로고 나중에 바꾸기
 const PernoteLogo = styled.div`
-  margin-right: 160px;
+  margin-right: 153px;
   font-weight: 700;
   font-size: 30px;
 `;
@@ -73,25 +72,22 @@ const Navigator = styled.div`
 `;
 
 const NavigatorLink = styled.div`
-  margin-right: 3.75rem;
+  font-family: "Noto Sans KR";
+  font-style: normal;
   font-weight: 400;
   font-size: 20px;
-  padding: 16px 0;
+  line-height: 29px;
+  margin-right: 3.75rem;
+  padding: 20px 0;
 `;
 
-const DropDownLink = styled.div`
-  font-weight: 400;
-  font-size: 20px;
-  padding: 16px 0;
-`;
 const CategoryContainer = styled.div`
   position: relative;
 
   .show-modal {
     position: absolute;
-    left: -44px;
+    left: -54px;
     z-index: 1000;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
   .close-modal {
     display: none;
@@ -104,28 +100,32 @@ const HeaderRight = styled.div`
   align-items: center;
 `;
 
-const SearchInput = styled.div`
-  width: 271px;
-  height: 36px;
-  margin-right: 2.813rem;
-  padding: 9px;
-  border-radius: 1.125rem;
-  background-color: #d9d9d9;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+// const SearchInput = styled.div`
+//   width: 271px;
+//   height: 36px;
+//   margin-right: 2.813rem;
+//   padding: 9px;
+//   border-radius: 1.125rem;
+//   background-color: #d9d9d9;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
 
-  input {
-    width: 90%;
-    background-color: #d9d9d9;
-    border: none;
-    outline: none;
-  }
-`;
+//   input {
+//     width: 90%;
+//     background-color: #d9d9d9;
+//     border: none;
+//     outline: none;
+//   }
+// `;
 
 const Login = styled.div`
+  font-family: "Noto Sans KR";
+  font-style: normal;
   font-weight: 400;
   font-size: 20px;
+  line-height: 29px;
+  color: #000000;
 `;
 
 const ModalContainer = styled.div`
