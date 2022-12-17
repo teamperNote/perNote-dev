@@ -9,7 +9,9 @@ export default function PersonalScent() {
 
   useEffect(() => {
     console.log(router.query);
-  }, [router.query]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (contentRef.current?.clientHeight > 461) {

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 // import { IoChevronBackSharp } from "react-icons/io5";
 
@@ -15,6 +15,16 @@ export default function PersonalSurvey() {
     personality: "",
     feature: "",
   });
+
+  useEffect(() => {
+    if (scentData.feature !== "") {
+      router.push({
+        pathname: "/personal-scent",
+        query: scentData,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scentData.feature]);
 
   return (
     <PersonalScentContainer>
@@ -143,10 +153,6 @@ export default function PersonalSurvey() {
                   key={data.id}
                   onClick={() => {
                     setScentData({ ...scentData, feature: data.value });
-                    router.push({
-                      pathname: "/personal-scent",
-                      query: scentData,
-                    });
                   }}
                 >
                   <TextCardContent>{data.text}</TextCardContent>

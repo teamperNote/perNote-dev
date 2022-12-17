@@ -37,7 +37,7 @@ export default async function handler(
         email: userInfo.email,
         name: userInfo.name,
         password: "",
-        phoneNumber: userInfo.id,
+        phoneNumber: userInfo.mobile,
         gender: "",
         snsType: "naver",
       },
