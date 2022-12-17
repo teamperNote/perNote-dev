@@ -3,17 +3,13 @@ import { useState } from "react";
 import styled from "styled-components";
 
 function SignupPage() {
-  const [username, setUserName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [birth, setBirth] = useState<string>("");
   const [gender, setGender] = useState<string>("");
 
-  const onUserNameChange = (e: any) => {
-    setUserName(e.target.value);
-  };
   const onEmailChange = (e: any) => {
     setEmail(e.target.value);
   };
@@ -30,6 +26,8 @@ function SignupPage() {
   };
 
   const onBirthChange = (e: any) => {
+    const brithday = e.target.value;
+
     setBirth(e.target.value);
   };
 
@@ -40,7 +38,6 @@ function SignupPage() {
   const onClickLoginButton = async (e: any) => {
     e.preventDefault();
     const data = {
-      username,
       email,
       name,
       password,
@@ -55,15 +52,6 @@ function SignupPage() {
       <Pernote>임시 회원가입</Pernote>
       <LoginForm>
         <div>
-          <InputContainer>
-            <InputLabel htmlFor="username">UserName</InputLabel>
-            <Input
-              type="text"
-              placeholder="name"
-              value={username}
-              onChange={onUserNameChange}
-            />
-          </InputContainer>
           <InputContainer>
             <InputLabel htmlFor="email">Email</InputLabel>
             <Input
