@@ -3,15 +3,20 @@ import { useState } from "react";
 import styled from "styled-components";
 
 function SignupPage() {
+  const [username, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [birth, setBirth] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
 
+  const onUserNameChange = (e: any) => {
+    setUserName(e.target.value);
+  };
   const onEmailChange = (e: any) => {
     setEmail(e.target.value);
   };
-
   const onNameChange = (e: any) => {
     setName(e.target.value);
   };
@@ -24,18 +29,25 @@ function SignupPage() {
     setPhoneNumber(e.target.value);
   };
 
+  const onBirthChange = (e: any) => {
+    setBirth(e.target.value);
+  };
+
+  const onGenderChange = (e: any) => {
+    setGender(e.target.value);
+  };
+
   const onClickLoginButton = async (e: any) => {
     e.preventDefault();
     const data = {
+      username,
       email,
       name,
       password,
       phoneNumber,
+      gender,
     };
-    const response = await axios.post("/api/users/signup", {
-      headers: { "Content-Type": "application/json" },
-      body: data,
-    });
+    const response = await axios.post("/api/users/signup", data);
     console.log(response.data);
   };
   return (
@@ -43,6 +55,15 @@ function SignupPage() {
       <Pernote>임시 회원가입</Pernote>
       <LoginForm>
         <div>
+          <InputContainer>
+            <InputLabel htmlFor="username">UserName</InputLabel>
+            <Input
+              type="text"
+              placeholder="name"
+              value={username}
+              onChange={onUserNameChange}
+            />
+          </InputContainer>
           <InputContainer>
             <InputLabel htmlFor="email">Email</InputLabel>
             <Input
@@ -80,10 +101,28 @@ function SignupPage() {
               onChange={onPhoneNumberChange}
             />
           </InputContainer>
+          <InputContainer>
+            <InputLabel htmlFor="birth">Birth</InputLabel>
+            <Input
+              type="text"
+              placeholder="0000-00-00"
+              value={birth}
+              onChange={onBirthChange}
+            />
+          </InputContainer>
+          <InputContainer>
+            <InputLabel htmlFor="gender">Gender</InputLabel>
+            <Input
+              type="text"
+              placeholder="male/female"
+              value={gender}
+              onChange={onGenderChange}
+            />
+          </InputContainer>
           <OptionContainer>
             <div>Sign in</div>
           </OptionContainer>
-          <LoginButton onClick={onClickLoginButton}>Log in</LoginButton>
+          <LoginButton onClick={onClickLoginButton}>Join</LoginButton>
         </div>
       </LoginForm>
       <SocialLogin>
