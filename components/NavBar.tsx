@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { BiSearchAlt2 } from "react-icons/bi";
+// import { BiSearchAlt2 } from "react-icons/bi";
 import Link from "next/link";
 import CategoryDropDown from "./CategoryDropDown";
 import { useState } from "react";
