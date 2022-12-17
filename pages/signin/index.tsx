@@ -4,10 +4,18 @@ import GoogleLogin from "./google-login";
 import NaverLogin from "./naver-login";
 import { useState } from "react";
 import axios from "axios";
+import { Cookies } from "react-cookie";
+import Router, { useRouter } from "next/router";
+import { useMutation } from "react-query";
+import { mutate } from "swr";
 
+const cookies = new Cookies();
 function Signin() {
+  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [userError, setUserError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
 
   const inputEmail = (e: any) => {
     setEmail(e.target.value);
@@ -17,16 +25,68 @@ function Signin() {
     setPassword(e.target.value);
   };
 
+  const postLogin = async (userInfo) => {
+    // const userInfo = {
+    //   username: email,
+    //   password,
+    // };
+    const response = await axios.post("/api/users/login", userInfo);
+    return response;
+  };
+
+  const { mutate, isLoading, isSuccess, isError } = useMutation(postLogin, {
+    onMutate: (variable) => {
+      console.log("onMutate", variable);
+      // variable : {loginId: 'xxx', password; 'xxx'}
+    },
+    onError: (error, variable, context) => {
+      //   setPasswordError("비밀번호가 일치하지 않습니다.");
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("success", data, variables, context);
+      if (data.data.message) {
+        setUserError("존재하지 않는 회원입니다.");
+        return;
+      }
+      const { user, accessToken, refreshToken } = data.data;
+      cookies.set("loginToken", accessToken, {
+        path: "/",
+        secure: true,
+        sameSite: "none",
+      });
+      // 성공시에만 홈으로 이동
+      router.push("/");
+    },
+    onSettled: () => {
+      console.log("end");
+    },
+  });
+
   const submitLogin = async (e: any) => {
-    const data = {
-      email,
-      password,
-    };
-    try {
-      const response = await axios.post("/api/users/login.ts", data);
-    } catch (e) {
-      console.log(e);
-    }
+    e.preventDefault();
+    mutate({ username: email, password: password });
+    // const data = {
+    //   username: email,
+    //   password,
+    // };
+    // try {
+    //   const response = await axios.post("/api/users/login", data);
+    //   if (response.data.message) {
+    //     // 임시 문구
+    //     setUserError("회원 정보가 존재하지 않습니다. 회원가입을 해주세요.");
+    //     return;
+    //   }
+    //   const { user, accessToken, refreshToken } = response.data;
+    //   cookies.set("loginToken", accessToken, {
+    //     path: "/",
+    //     secure: true,
+    //     sameSite: "none",
+    //   });
+    //   // 성공시에만 홈으로 이동
+    //   router.push("/");
+    // } catch (e) {
+    //   setPasswordError("비밀번호가 일치하지 않습니다.");
+    // }
   };
   return (
     <SignInContainer>
@@ -51,6 +111,9 @@ function Signin() {
               onChange={inputPassword}
             />
           </InputContainer>
+          {/* 비밀번호 에러처리 */}
+          {userError ? <div>{userError}</div> : ""}
+          {passwordError ? <div>{passwordError}</div> : ""}
           <OptionContainer>
             <div>Sign up</div>
             <div>Forget?</div>
@@ -73,7 +136,7 @@ function Signin() {
 export default Signin;
 
 const SignInContainer = styled.div`
-  height: 100%;
+  height: 100vh;
   background-color: #eaeaea;
   padding-top: 86.34px;
   padding-bottom: 143.56px;
