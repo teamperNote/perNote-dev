@@ -9,15 +9,8 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { name, email, password, phoneNumber, birth, gender } = req.body;
-
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
-    if (existingUser)
-      return res.status(400).json({
-        message: "이미 가입된 사용자입니다",
-      });
+    const { name, email, password, phoneNumber, birth, gender, userId } =
+      req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
@@ -28,7 +21,8 @@ export default async function handler(
         phoneNumber,
         birth,
         gender,
-        snsId: email,
+        snsId: userId,
+        snsType: "google",
       },
     });
 
