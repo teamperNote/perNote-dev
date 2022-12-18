@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import axios from "axios";
 import { PrismaClient } from "@prisma/client";
 
 const secretKey = process.env.JWT_SECRET_KEY || "";
@@ -12,32 +12,30 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { email, password } = req.body;
+    const { access_token } = req.body;
+
+    const { data } = await axios.get(
+      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${access_token}`,
+    );
 
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { snsId: data.id },
     });
     if (!user) {
-      return res.status(200).json({
-        message: "존재하지 않는 사용자입니다",
-      });
-    }
-
-    const isPassword = await bcrypt.compare(password, user.password);
-    if (!isPassword) {
       return res.status(400).json({
-        message: "비밀번호가 틀렸습니다",
+        message: "가입되지 않은 사용자입니다",
+        userId: data.id,
       });
     }
 
-    const accessToken = jwt.sign({ userId: user.email }, secretKey, {
+    const accessToken = jwt.sign({ userId: user.snsId }, secretKey, {
       expiresIn: "1h",
     });
-    const refreshToken = jwt.sign({ userId: user.email }, secretKey, {
+    const refreshToken = jwt.sign({ userId: user.snsId }, secretKey, {
       expiresIn: "14d",
     });
 
-    return res.status(200).json({
+    res.status(200).json({
       user,
       accessToken,
       refreshToken,
