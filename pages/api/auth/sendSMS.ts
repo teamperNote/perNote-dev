@@ -9,10 +9,10 @@ const SECRET_KEY = process.env.NCP_SECRET_KEY || "";
 const FROM_NUMBER = process.env.NCP_FROM_NUMBER || "";
 
 const getSignature = (
-  serviceId: any,
-  accessKey: any,
-  secretKey: any,
-  timestamp: any
+  serviceId: string,
+  accessKey: string,
+  secretKey: string,
+  timestamp: string,
 ) => {
   const space = " ";
   const newLine = "\n";
@@ -36,47 +36,54 @@ const getSignature = (
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  const { phoneNumber } = req.body;
+  if (req.method === "POST") {
+    const { phoneNumber } = req.body;
 
-  const timestamp = Date.now().toString();
-  const signature = getSignature(SERVICE_ID, ACCESS_KEY, SECRET_KEY, timestamp);
-  const url = `https://sens.apigw.ntruss.com/sms/v2/services/${SERVICE_ID}/messages`;
-  const verifyCode = Math.floor(Math.random() * (999999 - 100000)) + 100000;
+    const timestamp = Date.now().toString();
+    const signature = getSignature(
+      SERVICE_ID,
+      ACCESS_KEY,
+      SECRET_KEY,
+      timestamp,
+    );
+    const url = `https://sens.apigw.ntruss.com/sms/v2/services/${SERVICE_ID}/messages`;
+    const verifyCode = Math.floor(Math.random() * (999999 - 100000)) + 100000;
 
-  const body = JSON.stringify({
-    type: "SMS",
-    contentType: "COMM",
-    countryCode: "82",
-    from: FROM_NUMBER,
-    content: `인증번호 [${verifyCode}]를 입력해주세요.`,
-    messages: [
-      {
-        to: phoneNumber,
+    const body = JSON.stringify({
+      type: "SMS",
+      contentType: "COMM",
+      countryCode: "82",
+      from: FROM_NUMBER,
+      content: `인증번호 [${verifyCode}]를 입력해주세요.`,
+      messages: [
+        {
+          to: phoneNumber,
+        },
+      ],
+    });
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-ncp-iam-access-key": ACCESS_KEY,
+        "x-ncp-apigw-timestamp": timestamp,
+        "x-ncp-apigw-signature-v2": signature,
       },
-    ],
-  });
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-ncp-iam-access-key": ACCESS_KEY,
-      "x-ncp-apigw-timestamp": timestamp,
-      "x-ncp-apigw-signature-v2": signature,
-    },
-    body,
-  });
+      body,
+    });
 
-  const result = await response.json();
-  if (result.statusCode === "202") {
-    return res.status(200).json({
-      message: "SMS 요청 성공",
-      인증번호: verifyCode,
-    });
-  } else {
-    return res.status(400).json({
-      message: "SMS 요청 실패",
-    });
+    const result = await response.json();
+    if (result.statusCode === "202") {
+      return res.status(200).json({
+        message: "SMS 요청 성공",
+        인증번호: verifyCode,
+      });
+    } else {
+      return res.status(400).json({
+        message: "SMS 요청 실패",
+      });
+    }
   }
 }
