@@ -151,13 +151,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     top5 = top5.sort((a, b) => b.score - a.score);
     
 
-    // Test Result to test.tsx
-    return res.status(200).json({
-        perfumes: perfumes,
-        sexDB: genderDB,
-        algoDB: algoDB,
-        concenDB: concenDB,
-        query: query,
-        top5
-    });
+  // Test Result to test.tsx
+  return res.status(200).json({
+    top5,
+  });
 }
