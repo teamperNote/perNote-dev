@@ -1,6 +1,14 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import {
+  genderArray,
+  concentrationArray,
+  seasonArray,
+  colorArray,
+  personalityArray,
+  featureArray,
+} from "lib/modules";
 // import { IoChevronBackSharp } from "react-icons/io5";
 
 export default function PersonalSurvey() {
@@ -46,7 +54,7 @@ export default function PersonalSurvey() {
           <>
             <SubTitle>어느 성별의 향을 원하시나요?</SubTitle>
             <CardContainer>
-              {gender.map((data) => (
+              {genderArray.map((data) => (
                 // <DotBox key={data.id}>
                 //   <GenderDot></GenderDot>
                 //   <DotText>{data.content}</DotText>
@@ -69,7 +77,7 @@ export default function PersonalSurvey() {
           <>
             <SubTitle>어느 때에 향수를 뿌리고 싶으신가요?</SubTitle>
             <CardContainer>
-              {concentration.map((data) => (
+              {concentrationArray.map((data) => (
                 <Card
                   key={data.id}
                   onClick={() => {
@@ -87,7 +95,7 @@ export default function PersonalSurvey() {
           <>
             <SubTitle>당신이 좋아하는 계절은 무엇인가요?</SubTitle>
             <CardContainer>
-              {season.map((data) => (
+              {seasonArray.map((data) => (
                 <Card
                   key={data.id}
                   onClick={() => {
@@ -107,7 +115,7 @@ export default function PersonalSurvey() {
               당신이 좋아하는 색은 무엇인가요?
             </SubTitle>
             <ColorCardContainer>
-              {color.map((data) => (
+              {colorArray.map((data) => (
                 <ColorCard
                   key={data.id}
                   onClick={() => {
@@ -128,7 +136,7 @@ export default function PersonalSurvey() {
               당신을 가장 잘 표현한 단어는 무엇인가요?
             </SubTitle>
             <TextCardContainer>
-              {personality.map((data) => (
+              {personalityArray.map((data) => (
                 <TextCard
                   key={data.id}
                   onClick={() => {
@@ -148,7 +156,7 @@ export default function PersonalSurvey() {
               당신이 원하는 향수는 어떤 느낌인가요?
             </SubTitle>
             <TextCardContainer>
-              {feature.map((data) => (
+              {featureArray.map((data) => (
                 <TextCard
                   key={data.id}
                   onClick={() => {
