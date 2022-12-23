@@ -5,7 +5,7 @@ function Custom404() {
   return (
     <>
       <Header>
-        <h1>per.note</h1>
+        <h2>per.note</h2>
       </Header>
       <main>
         <NotFound>페이지를 찾을 수 없습니다.</NotFound>
@@ -30,26 +30,25 @@ export default Custom404;
 const Header = styled.header`
   margin-top: 170px;
   text-align: center;
-  font-weight: 700;
   font-size: 80px;
 `;
 
 const NotFound = styled.main`
   text-align: center;
   font-weight: 700;
-  font-size: 50px;
+  font-size: 40px;
 `;
 
 const Section = styled.section`
   text-align: center;
-  margin: 30px 0 76px 0;
+  margin: 30px 0 60px 0;
   font-weight: 400;
-  font-size: 40px;
+  font-size: 30px;
 `;
 
 const SectionParagraph = styled.p`
   margin: 0;
-  line-height: 58px;
+  line-height: 43px;
 `;
 
 const LinkButton = styled.div`
@@ -62,5 +61,5 @@ const Button = styled.button`
   width: 500px;
   height: 100px;
   font-weight: 400;
-  font-size: 40px;
+  font-size: 35px;
 `;
