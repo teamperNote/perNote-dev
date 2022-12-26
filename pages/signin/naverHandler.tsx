@@ -1,8 +1,6 @@
 import axios from "axios";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-const client_id = process.env.NAVER_CLIENT_ID;
-const client_secret = process.env.NAVER_CLIENT_SECRET;
 
 function NaverHandler(props: any) {
   const router = useRouter();
@@ -14,7 +12,7 @@ function NaverHandler(props: any) {
   useEffect(() => {
     axios.post("/api/auth/naver/login", data).then((res) => {
       console.log(res);
-      if (res.data.message === "해당 유저가 존재하지 않습니다") {
+      if (res.data.message === "가입되지 않은 사용자입니다") {
         router.push("/signup");
       }
     });

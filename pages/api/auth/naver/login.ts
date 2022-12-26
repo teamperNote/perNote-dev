@@ -33,7 +33,7 @@ export default async function handler(
     });
     if (!user) {
       res.status(200).json({
-        message: "해당 유저가 존재하지 않습니다",
+        message: "가입되지 않은 사용자입니다",
         userId: userInfo.id,
       });
     }
