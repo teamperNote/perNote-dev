@@ -1,28 +1,36 @@
 import axios from "axios";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import React, { useEffect } from "react";
 const client_id = process.env.NAVER_CLIENT_ID;
 const client_secret = process.env.NAVER_CLIENT_SECRET;
-function NaverHandler() {
+
+function NaverHandler(props: any) {
   const router = useRouter();
+  const data = {
+    code: props.code,
+    state: props.state,
+  };
 
   useEffect(() => {
-    const { code, state } = router.query;
-    const token_api_url = `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${client_id}&client_secret=${client_secret}&code=${code}&state=${state}`;
-
-    axios
-      .post(
-        token_api_url,
-        {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-          },
-        },
-        { withCredentials: true },
-      )
-      .then((res) => console.log(res));
-  }, [router.query.code]);
+    axios.post("/api/auth/naver/login", data).then((res) => {
+      console.log(res);
+      if (res.data.message === "해당 유저가 존재하지 않습니다") {
+        router.push("/signup");
+      }
+    });
+  }, [data]);
   return <div></div>;
 }
 
 export default NaverHandler;
+
+export async function getServerSideProps(context: any) {
+  const { query } = context;
+  const { code, state } = query;
+  return {
+    props: {
+      code,
+      state,
+    },
+  };
+}

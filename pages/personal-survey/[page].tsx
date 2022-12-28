@@ -1,6 +1,14 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import {
+  genderArray,
+  concentrationArray,
+  seasonArray,
+  colorArray,
+  personalityArray,
+  featureArray,
+} from "lib/modules";
 // import { IoChevronBackSharp } from "react-icons/io5";
 
 export default function PersonalSurvey() {
@@ -46,7 +54,7 @@ export default function PersonalSurvey() {
           <>
             <SubTitle>어느 성별의 향을 원하시나요?</SubTitle>
             <CardContainer>
-              {gender.map((data) => (
+              {genderArray.map((data) => (
                 // <DotBox key={data.id}>
                 //   <GenderDot></GenderDot>
                 //   <DotText>{data.content}</DotText>
@@ -69,7 +77,7 @@ export default function PersonalSurvey() {
           <>
             <SubTitle>어느 때에 향수를 뿌리고 싶으신가요?</SubTitle>
             <CardContainer>
-              {concentration.map((data) => (
+              {concentrationArray.map((data) => (
                 <Card
                   key={data.id}
                   onClick={() => {
@@ -87,7 +95,7 @@ export default function PersonalSurvey() {
           <>
             <SubTitle>당신이 좋아하는 계절은 무엇인가요?</SubTitle>
             <CardContainer>
-              {season.map((data) => (
+              {seasonArray.map((data) => (
                 <Card
                   key={data.id}
                   onClick={() => {
@@ -107,7 +115,7 @@ export default function PersonalSurvey() {
               당신이 좋아하는 색은 무엇인가요?
             </SubTitle>
             <ColorCardContainer>
-              {color.map((data) => (
+              {colorArray.map((data) => (
                 <ColorCard
                   key={data.id}
                   onClick={() => {
@@ -128,7 +136,7 @@ export default function PersonalSurvey() {
               당신을 가장 잘 표현한 단어는 무엇인가요?
             </SubTitle>
             <TextCardContainer>
-              {personality.map((data) => (
+              {personalityArray.map((data) => (
                 <TextCard
                   key={data.id}
                   onClick={() => {
@@ -148,7 +156,7 @@ export default function PersonalSurvey() {
               당신이 원하는 향수는 어떤 느낌인가요?
             </SubTitle>
             <TextCardContainer>
-              {feature.map((data) => (
+              {featureArray.map((data) => (
                 <TextCard
                   key={data.id}
                   onClick={() => {
@@ -165,229 +173,6 @@ export default function PersonalSurvey() {
     </PersonalScentContainer>
   );
 }
-
-const gender = [
-  {
-    id: 0,
-    value: "f",
-    text: "매우 여성적인",
-  },
-  {
-    id: 1,
-    value: "fUni",
-    text: "여성적인",
-  },
-  {
-    id: 2,
-    value: "uni",
-    text: "중성적인",
-  },
-  {
-    id: 3,
-    value: "mUni",
-    text: "남성적인",
-  },
-  {
-    id: 4,
-    value: "m",
-    text: "매우 남성적인",
-  },
-];
-
-const concentration = [
-  {
-    id: 0,
-    value: "daily",
-    text: "데일리",
-  },
-  {
-    id: 1,
-    value: "specialParty",
-    text: "특별한 날",
-  },
-];
-
-const season = [
-  {
-    id: 0,
-    value: "spring",
-    text: "봄",
-  },
-  {
-    id: 1,
-    value: "summer",
-    text: "여름",
-  },
-  {
-    id: 2,
-    value: "autumn",
-    text: "가을",
-  },
-  {
-    id: 3,
-    value: "winter",
-    text: "겨울",
-  },
-];
-
-const color = [
-  {
-    id: 0,
-    value: "red",
-    text: "빨간색",
-    color: "#ff0000",
-  },
-  {
-    id: 1,
-    value: "orange",
-    text: "주황색",
-    color: "#ff7f00",
-  },
-  {
-    id: 2,
-    value: "yellow",
-    text: "노란색",
-    color: "#ffff00",
-  },
-  {
-    id: 3,
-    value: "green",
-    text: "초록색",
-    color: "#ff7f00",
-  },
-  {
-    id: 4,
-    value: "blue",
-    text: "파란색",
-    color: "#ff7f00",
-  },
-  {
-    id: 5,
-    value: "pink",
-    text: "분홍색",
-    color: "#ff7f00",
-  },
-  {
-    id: 6,
-    value: "purple",
-    text: "보라색",
-    color: "#ff7f00",
-  },
-  {
-    id: 7,
-    value: "black",
-    text: "검은색",
-    color: "#ff7f00",
-  },
-  {
-    id: 8,
-    value: "white",
-    text: "흰 색",
-    color: "#ff7f00",
-  },
-  {
-    id: 9,
-    value: "brown",
-    text: "갈 색",
-    color: "#ff7f00",
-  },
-];
-
-const personality = [
-  {
-    id: 0,
-    value: "vivid",
-    text: "생동감 있는",
-  },
-  {
-    id: 1,
-    value: "delicate",
-    text: "섬세한",
-  },
-  {
-    id: 2,
-    value: "sensual",
-    text: "관능적인",
-  },
-  {
-    id: 3,
-    value: "comfortable",
-    text: "편안한",
-  },
-  {
-    id: 4,
-    value: "calm",
-    text: "차분한",
-  },
-  {
-    id: 5,
-    value: "adventurous",
-    text: "모험적인",
-  },
-  {
-    id: 6,
-    value: "masculine",
-    text: "남성스러운",
-  },
-  {
-    id: 7,
-    value: "feminine",
-    text: "여성스러운",
-  },
-  {
-    id: 8,
-    value: "pure",
-    text: "순수한",
-  },
-  {
-    id: 9,
-    value: "mature",
-    text: "성숙한",
-  },
-  {
-    id: 10,
-    value: "purehearted",
-    text: "청순한",
-  },
-];
-
-const feature = [
-  {
-    id: 0,
-    value: "intense",
-    text: "강렬한",
-  },
-  {
-    id: 1,
-    value: "fresh",
-    text: "신선한",
-  },
-  {
-    id: 2,
-    value: "deep",
-    text: "깊은",
-  },
-  {
-    id: 3,
-    value: "rich",
-    text: "풍부한",
-  },
-  {
-    id: 4,
-    value: "light",
-    text: "경쾌한",
-  },
-  {
-    id: 5,
-    value: "clean",
-    text: "깨끗한",
-  },
-  {
-    id: 6,
-    value: "luxurious",
-    text: "고급스러운",
-  },
-];
 
 export const PersonalScentContainer = styled.div`
   width: 1920px;

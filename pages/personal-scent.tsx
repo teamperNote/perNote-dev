@@ -1,75 +1,117 @@
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import {
+  genderArray,
+  concentrationArray,
+  personalityArray,
+  featureArray,
+} from "lib/modules";
 import styled from "styled-components";
 
 export default function PersonalScent() {
   const contentRef = useRef<any>(null);
   const [isHidden, setIsHidden] = useState(false);
   const router = useRouter();
+  const { gender, concentration, personality, feature } = router.query;
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [top5, setTop5] = useState([]);
+
+  const getTop5 = (data) => {
+    axios
+      .get("/api/personalScent", {
+        params: data,
+      })
+      .then((res) => {
+        setTop5(res.data.top5);
+        setIsLoading(true);
+      });
+  };
   useEffect(() => {
-    console.log(router.query);
-
+    if (gender !== undefined && gender !== null) {
+      getTop5(router.query);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [gender]);
 
   useEffect(() => {
     if (contentRef.current?.clientHeight > 461) {
       setIsHidden(true);
     }
   }, []);
+
   return (
     <RecommendationContainer>
-      <Title>당신에게 이 향수를 추천합니다</Title>
-      <TagBox>
-        {tag.map((data) => (
-          <RecommendationTag key={data.text}>
-            <TagText>{data.text}</TagText>
-          </RecommendationTag>
-        ))}
-      </TagBox>
-      <PerfumeImage />
-      <SubTitle margin_B={"60px"}>Lorem Ipsum</SubTitle>
-      <PerfumeDesc
-        ref={contentRef}
-        className={isHidden ? "hidden" : ""}
-        margin_B={"35px"}
-      >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis morbi nunc
-        vel turpis sit congue. Vitae, vulputate nascetur sed placerat id orci
-        velit sed. Consectetur faucibus magna at id etiam aliquam ultrices. Enim
-        elementum, molestie blandit sagittis. Orci, tincidunt vel ac quis donec
-        placerat viverra donec. In varius neque, ut turpis volutpat quis odio
-        proin egestas. Ultrices dolor elementum bibendum maecenas amet aliquam
-        gravida. Bibendum quis sit enim tempor. Tincidunt quis elit diam vitae
-        lectus nullam proin nibh egestas. Vulputate non morbi tempor arcu. Sit
-        id euismod pretium ante in nulla egestas dui in. Orci ut at metus
-        ultricies. Amet, eget aliquam amet feugiat mi euismod. Egestas ac tortor
-        consectetur maecenas amet proin nec, metus. Mauris, massa tellus lorem
-        ultrices enim. Diam nullam massa odio eleifend viverra eget proin at
-        magna. Ut turpis sed donec pharetra. Risus non posuere a elit. Dui
-        gravida sagittis, vitae enim.{" "}
-      </PerfumeDesc>
-      <ShowMore onClick={() => setIsHidden(!isHidden)}>Show more &gt;</ShowMore>
-      <Tip>TIP</Tip>
-      <SubTitle margin_B={"5px"}>이런 상황에서 사용해보세요</SubTitle>
-      <TipText>당신을 더욱 향기로운 사람으로 만들어줄 거예요!</TipText>
-      <ConditionsBox>
-        {conditions.map((data) => (
-          <ConditionsTag key={data.id}>
-            <ConditionsText>{data.text}</ConditionsText>
-          </ConditionsTag>
-        ))}
-      </ConditionsBox>
-      <SubTitle margin_B={"90px"}>비슷한 향수를 추천합니다</SubTitle>
-      <SubRecommendationBox>
-        {subRecommendation.map((data) => (
-          <SubRecommendationCard key={data.id}>
-            <SubRecommendationImg />
-            <SubPerfumeName>{data.text}</SubPerfumeName>
-          </SubRecommendationCard>
-        ))}
-      </SubRecommendationBox>
+      {isLoading && (
+        <>
+          <Title>당신에게 이 향수를 추천합니다</Title>
+          <TagBox>
+            <RecommendationTag>
+              <TagText>
+                {genderArray.find((x) => x.value === gender).text}
+              </TagText>
+            </RecommendationTag>
+            <RecommendationTag>
+              <TagText>
+                {concentrationArray.find((x) => x.value === concentration).text}
+              </TagText>
+            </RecommendationTag>
+            <RecommendationTag>
+              <TagText>
+                {personalityArray.find((x) => x.value === personality).text}
+              </TagText>
+            </RecommendationTag>
+            <RecommendationTag>
+              <TagText>
+                {featureArray.find((x) => x.value === feature).text}
+              </TagText>
+            </RecommendationTag>
+          </TagBox>
+          <PerfumeImage src={top5[0].imgUrl} />
+          <SubTitle margin_B={"60px"}>{top5[0].name}</SubTitle>
+          <PerfumeDesc
+            ref={contentRef}
+            className={isHidden ? "hidden" : ""}
+            margin_B={"35px"}
+          >
+            {top5[0].description}
+          </PerfumeDesc>
+          <ShowMore onClick={() => setIsHidden(!isHidden)}>
+            Show more &gt;
+          </ShowMore>
+          {/* TODO 나중에 주석 제거 */}
+          {/* <Tip>TIP</Tip>
+          <SubTitle margin_B={"5px"}>이런 상황에서 사용해보세요</SubTitle>
+          <TipText>당신을 더욱 향기로운 사람으로 만들어줄 거예요!</TipText>
+          <ConditionsBox>
+            {conditions.map((data) => (
+              <ConditionsTag key={data.id}>
+                <ConditionsText>{data.text}</ConditionsText>
+              </ConditionsTag>
+            ))}
+          </ConditionsBox> */}
+          <ShareContainer>
+            <ShareBox>
+              <ShareCircle />
+              <ShareText>링크 복사</ShareText>
+            </ShareBox>
+            <ShareBox>
+              <ShareCircle />
+              <ShareText>카카오톡</ShareText>
+            </ShareBox>
+          </ShareContainer>
+          <SubTitle margin_B={"90px"}>비슷한 향수를 추천합니다</SubTitle>
+          <SubRecommendationBox>
+            {top5.slice(1, 5).map((data) => (
+              <SubRecommendationCard key={data.id}>
+                <SubRecommendationImg src={data.imgUrl} />
+                <SubPerfumeName>{data.name}</SubPerfumeName>
+              </SubRecommendationCard>
+            ))}
+          </SubRecommendationBox>
+        </>
+      )}
     </RecommendationContainer>
   );
 }
@@ -101,7 +143,7 @@ export const TagBox = styled.div`
 
 export const RecommendationTag = styled.div`
   padding: 10px 30px;
-  background: #e2e2e2;
+  background: var(--secondary-color);
   border-radius: 100px;
   margin-right: 30px;
   :last-child {
@@ -113,6 +155,7 @@ export const TagText = styled(Span)`
   font-weight: 400;
   font-size: 30px;
   line-height: 43px;
+  color: #ffffff;
   ::before {
     content: "#";
   }
@@ -151,21 +194,52 @@ export const PerfumeDesc = styled(Span)<{ margin_B: string }>`
 export const ShowMore = styled(Span)`
   font-weight: 500;
   font-size: 30px;
-  line-height: 150%;
+  line-height: 45px;
   text-decoration-line: underline;
   cursor: pointer;
-  margin-bottom: 173px;
+  margin-bottom: 190px;
 `;
 
-export const Tip = styled(RecommendationTag)`
-  padding: 10px 50px;
+export const ShareContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 45px;
+  margin-bottom: 220px;
+  cursor: pointer;
+`;
+
+export const ShareBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ShareCircle = styled.div`
+  width: 150px;
+  height: 150px;
   background: #d9d9d9;
-  margin-right: 0;
+  margin-bottom: 10px;
+  border-radius: 100%;
+`;
+
+export const ShareText = styled.div`
+  font-family: "Noto Sans KR";
+  font-style: normal;
   font-weight: 400;
   font-size: 30px;
-  line-height: 45px;
-  margin-bottom: 35px;
+  line-height: 43px;
+  text-align: center;
+  color: #000000;
 `;
+
+// export const Tip = styled(RecommendationTag)`
+//   padding: 10px 50px;
+//   background: #d9d9d9;
+//   margin-right: 0;
+//   font-weight: 400;
+//   font-size: 30px;
+//   line-height: 45px;
+//   margin-bottom: 35px;
+// `;
 
 export const TipText = styled(TagText)`
   ::before {
@@ -174,105 +248,73 @@ export const TipText = styled(TagText)`
   margin-bottom: 70px;
 `;
 
-export const ConditionsBox = styled.div`
-  width: 1736px;
-  height: 213px;
-  background: #d9d9d9;
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 210px;
-`;
+// export const ConditionsBox = styled.div`
+//   width: 1736px;
+//   height: 213px;
+//   background: #d9d9d9;
+//   border-radius: 30px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-bottom: 210px;
+// `;
 
-export const ConditionsTag = styled(RecommendationTag)`
-  background: #ffffff;
-`;
+// export const ConditionsTag = styled(RecommendationTag)`
+//   background: #ffffff;
+// `;
 
-export const ConditionsText = styled(TipText)`
-  margin-bottom: 0;
-`;
+// export const ConditionsText = styled(TipText)`
+//   margin-bottom: 0;
+// `;
 
 export const SubRecommendationBox = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 21px;
+  margin-bottom: 250px;
 `;
 
 export const SubRecommendationCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 46px;
-  :last-child {
-    margin-right: 0;
-  }
+  cursor: pointer;
 `;
 
-export const SubRecommendationImg = styled.div`
-  //img로 수정
-  width: 400px;
-  height: 400px;
+export const SubRecommendationImg = styled.img`
+  width: 339px;
+  height: 339px;
   background: #d9d9d9;
   border-radius: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 `;
 
-export const SubPerfumeName = styled(TipText)`
-  margin-bottom: 190px;
+export const SubPerfumeName = styled.span`
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 43px;
+  text-align: center;
+  color: #000000;
+  width: 339px;
 `;
 
-const tag = [
-  {
-    id: 0,
-    text: "여성스러운",
-  },
-  {
-    id: 1,
-    text: "산뜻한",
-  },
-  {
-    id: 2,
-    text: "데일리",
-  },
-  {
-    id: 3,
-    text: "달콤한",
-  },
-];
-
-const conditions = [
-  {
-    id: 0,
-    text: "눈이 내리는 겨울",
-  },
-  {
-    id: 1,
-    text: "데이트 할 때",
-  },
-  {
-    id: 2,
-    text: "파티에 갈 때",
-  },
-  {
-    id: 3,
-    text: "꾸안꾸 데일리로",
-  },
-];
-
-const subRecommendation = [
-  {
-    id: 0,
-    text: "Lorem Ipsum",
-  },
-  {
-    id: 1,
-    text: "Lorem Ipsum",
-  },
-  {
-    id: 2,
-    text: "Lorem Ipsum",
-  },
-  {
-    id: 3,
-    text: "Lorem Ipsum",
-  },
-];
+// const conditions = [
+//   {
+//     id: 0,
+//     text: "눈이 내리는 겨울",
+//   },
+//   {
+//     id: 1,
+//     text: "데이트 할 때",
+//   },
+//   {
+//     id: 2,
+//     text: "파티에 갈 때",
+//   },
+//   {
+//     id: 3,
+//     text: "꾸안꾸 데일리로",
+//   },
+// ];

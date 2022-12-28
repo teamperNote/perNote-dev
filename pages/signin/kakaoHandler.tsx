@@ -6,7 +6,7 @@ function KakaoHandler(props: any) {
     const data = {
       code: props.code,
     };
-    axios.post("/api/auth/kakaoLogin", data).then((res) => console.log(res));
+    axios.post("/api/auth/kakao/login", data).then((res) => console.log(res));
   }, []);
   return <div></div>;
 }
