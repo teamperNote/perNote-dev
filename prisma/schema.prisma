@@ -19,30 +19,30 @@ model User {
   snsId         String?       @unique
   snsType       String?
   personalTests Test[]
-  postLikes     PostLike[]
+  storyLikes    StoryLike[]
   perfumeLikes  PerfumeLike[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
 
-model Post {
+model Story {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   body        String
   tags        String
   likeCount   Int         @default(0)
   viewCount   Int         @default(0)
-  postLikes   PostLike[]
+  storyLikes  StoryLike[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
 
-model PostLike {
+model StoryLike {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   user        User      @relation(fields: [userId], references: [id])
   userId      String    @db.ObjectId
-  post        Post      @relation(fields: [postId], references: [id])
-  postId      String    @db.ObjectId
+  story       Story     @relation(fields: [storyId], references: [id])
+  storyId     String    @db.ObjectId
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
