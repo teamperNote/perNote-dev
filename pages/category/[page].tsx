@@ -1,6 +1,7 @@
 import axios from "axios";
 import CategoryCard from "components/CategoryCard";
 import CategoryText from "components/CategoryText";
+import SortDropDown from "components/SortDropDown";
 import StoryCard from "components/StoryCard";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -55,6 +56,9 @@ export default function Category() {
           />
         ))}
       </NoteBox>
+      <SortBox>
+        <SortDropDown />
+      </SortBox>
       <CardBox>
         {purfume.map((data) => (
           <CategoryCard key={data.id} data={data} />
@@ -119,6 +123,13 @@ export const NoteBox = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 81px;
+`;
+
+export const SortBox = styled.div`
+  width: 1420px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
 `;
 
 export const CardBox = styled.div`
