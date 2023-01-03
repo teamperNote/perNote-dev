@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { IoMdCalendar, IoIosCheckboxOutline } from "react-icons/io";
+import { IoMdCalendar } from "react-icons/io";
+import AgreeItem from "components/AgreeItem";
+
+interface LoginProps {
+  isActive: string;
+}
 
 function Signup() {
   const [name, setName] = useState<string>("");
@@ -17,8 +22,8 @@ function Signup() {
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
-  const [authNumber, setAuthNumber] = useState<string>("");
-  const [inputAuthNumber, setInputAuthNumber] = useState<string>("");
+  const [receivedAuthNum, setReceivedAuthNum] = useState<string>("");
+  const [authNum, setInputAuthNumber] = useState<string>("");
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
   const [failAuth, setFailAuth] = useState<boolean>(false);
 
@@ -26,36 +31,46 @@ function Signup() {
 
   const [gender, setGender] = useState<string>("");
 
+  const [isAgree, setIsAgree] = useState<boolean>(false);
+
   const [snsId, setSnsId] = useState<string>("");
 
-  const onNameChange = (e: any) => {
+  const inputName = (e: any) => {
     setName(e.target.value);
   };
-  const onEmailChange = (e: any) => {
+  const inputEmail = (e: any) => {
     setEmail(e.target.value);
   };
 
-  const onPasswordChange = (e: any) => {
+  const inputPassword = (e: any) => {
     setPassword(e.target.value);
   };
 
-  const onCheckPasswordChange = (e: any) => {
+  const inputCheckPassword = (e: any) => {
     setCheckPassword(e.target.value);
   };
 
-  const onPhoneNumberChange = (e: any) => {
+  const inputPhoneNumber = (e: any) => {
     setPhoneNumber(e.target.value);
   };
 
-  const onBirthChange = (e: any) => {
+  const inputBirthday = (e: any) => {
     setBirth(e.target.value);
   };
 
-  const onGenderChange = (e: any) => {
+  const selectGender = (e: any) => {
     setGender(e.target.value);
   };
 
-  const onCheckEmailDuplicate = async (e: any) => {
+  const changeAgree = (e: any) => {
+    if (e.target.value === "yes") {
+      setIsAgree(true);
+    }
+    if (e.target.value === "no") {
+      setIsAgree(false);
+    }
+  };
+  const checkEmailDuplication = async (e: any) => {
     e.preventDefault();
     try {
       const response = await axios.get(`/api/users/checkEmail?email=${email}`);
@@ -73,7 +88,7 @@ function Signup() {
     }
   };
 
-  const onCheckSamePassword = async (e: any) => {
+  const checkSamePassword = async (e: any) => {
     e.preventDefault();
     if (password === checkPassword) {
       setIsPasswordSame(true);
@@ -94,10 +109,10 @@ function Signup() {
     const response = await axios.post("/api/auth/sendSMS", data);
     console.log(response);
     const authNumber = response.data.인증번호;
-    setAuthNumber(authNumber);
+    setReceivedAuthNum(authNumber);
   };
 
-  const onAuthNumChange = (e: any) => {
+  const inputAuthNumber = (e: any) => {
     setInputAuthNumber(e.target.value);
   };
   const convertBirth = (prevBirth: string) => {
@@ -108,11 +123,9 @@ function Signup() {
     return birthday;
   };
 
-  const onNumAuth = (e: any) => {
+  const verifyPhoneNum = (e: any) => {
     e.preventDefault();
-    console.log(typeof authNumber);
-    console.log(typeof inputAuthNumber);
-    if (authNumber.toString() === inputAuthNumber) {
+    if (receivedAuthNum.toString() === authNum) {
       setFailAuth(false);
       setSuccessAuth(true);
     } else {
@@ -120,7 +133,25 @@ function Signup() {
       setFailAuth(true);
     }
   };
-  const onClickLoginButton = async (e: any) => {
+
+  const checkRequired = () => {
+    // successAuth &&
+    if (
+      isValidEmail &&
+      isPasswordSame &&
+      name &&
+      email &&
+      password &&
+      phoneNumber &&
+      birth &&
+      gender &&
+      isAgree
+    ) {
+      return true;
+    }
+    return false;
+  };
+  const clickLogin = async (e: any) => {
     e.preventDefault();
     const birthday = convertBirth(birth);
     const data = {
@@ -132,8 +163,11 @@ function Signup() {
       gender,
       snsId,
     };
-    const response = await axios.post("/api/users/signup", data);
-    console.log(response.data);
+    // 모든 값 필수 조건 만족시 버튼 활성화
+    if (checkRequired()) {
+      const response = await axios.post("/api/users/signup", data);
+      console.log(response.data);
+    }
   };
   return (
     <SignupWrapper>
@@ -161,7 +195,7 @@ function Signup() {
                   type="text"
                   id="name"
                   value={name}
-                  onChange={onNameChange}
+                  onChange={inputName}
                   required
                 />
               </FormItem>
@@ -171,19 +205,19 @@ function Signup() {
                   type="email"
                   id="email"
                   value={email}
-                  onChange={onEmailChange}
+                  onChange={inputEmail}
                   required
                 />
-                <FormButton onClick={onCheckEmailDuplicate}>
+                <FormButton onClick={checkEmailDuplication}>
                   중복확인
                 </FormButton>
               </FormItem>
-              {isValidEmail ? (
+              {email && isValidEmail ? (
                 <Message>사용 가능한 이메일입니다.</Message>
               ) : (
                 <> </>
               )}
-              {isInvalidEmail ? (
+              {email && isInvalidEmail ? (
                 <Message>이미 사용중인 이메일입니다.</Message>
               ) : (
                 <> </>
@@ -194,7 +228,7 @@ function Signup() {
                   type="password"
                   id="password"
                   value={password}
-                  onChange={onPasswordChange}
+                  onChange={inputPassword}
                   required
                 />
               </FormItem>
@@ -204,13 +238,17 @@ function Signup() {
                   type="password"
                   id="pwdCheck"
                   value={checkPassword}
-                  onChange={onCheckPasswordChange}
+                  onChange={inputCheckPassword}
                   required
                 />
-                <FormButton onClick={onCheckSamePassword}>확인</FormButton>
+                <FormButton onClick={checkSamePassword}>확인</FormButton>
               </FormItem>
               <Message>*최소 8자리 이상, 대소문자, 숫자 포함</Message>
-              {isPasswordSame ? <Message>일치</Message> : <></>}
+              {password && checkPassword && isPasswordSame ? (
+                <Message>일치</Message>
+              ) : (
+                <></>
+              )}
               {isPasswordDiff ? <Message>불일치</Message> : <></>}
               <FormItem>
                 <FormLabel htmlFor="phone">전화번호</FormLabel>
@@ -218,7 +256,7 @@ function Signup() {
                   type="tel"
                   id="phone"
                   value={phoneNumber}
-                  onChange={onPhoneNumberChange}
+                  onChange={inputPhoneNumber}
                   required
                 />
                 <FormButton onClick={sendAuthMessage}>
@@ -231,10 +269,10 @@ function Signup() {
                   <FormInput
                     id="checkPhone"
                     type="text"
-                    value={inputAuthNumber}
-                    onChange={onAuthNumChange}
+                    value={authNum}
+                    onChange={inputAuthNumber}
                   />
-                  <FormButton onClick={onNumAuth}>확인</FormButton>
+                  <FormButton onClick={verifyPhoneNum}>확인</FormButton>
                 </FormItem>
               ) : (
                 <></>
@@ -247,7 +285,7 @@ function Signup() {
                   type="text"
                   id="birth"
                   value={birth}
-                  onChange={onBirthChange}
+                  onChange={inputBirthday}
                   required
                 />
                 <IconContainer>
@@ -256,100 +294,42 @@ function Signup() {
               </FormItem>
               <RadioItem>
                 <FormLabel>성별</FormLabel>
-                <RadioButton>
-                  <input type="radio" name="gender" value="male" />
-                  남성
+                <RadioButton onChange={selectGender}>
+                  <input id="male" type="radio" name="gender" value="male" />
+                  <label htmlFor="male">남성</label>
                 </RadioButton>
-                <RadioButton>
-                  <input type="radio" name="gender" value="female" />
-                  여성
+                <RadioButton onChange={selectGender}>
+                  <input
+                    id="female"
+                    type="radio"
+                    name="gender"
+                    value="female"
+                  />
+                  <label htmlFor="female">여성</label>
                 </RadioButton>
               </RadioItem>
               <RadioItem>
                 <FormLabel>스토리 수신 여부</FormLabel>
-                <RadioButton>
-                  <input type="radio" name="story" value="yes" />
-                  동의
+                <RadioButton onChange={changeAgree}>
+                  <input id="agree" type="radio" name="story" value="yes" />
+                  <label htmlFor="agree">동의</label>
                 </RadioButton>
-                <RadioButton>
-                  <input type="radio" name="story" value="no" />
-                  비동의
+                <RadioButton onChange={changeAgree}>
+                  <input id="disagree" type="radio" name="story" value="no" />
+                  <label htmlFor="disagree">비동의</label>
                 </RadioButton>
               </RadioItem>
             </FormList>
             <CheckList>
-              <CheckItem>
-                <label htmlFor="agree_all"></label>
-                <CheckIcon>
-                  <IoIosCheckboxOutline className="check-icon" />
-                </CheckIcon>
-                <input
-                  type="checkbox"
-                  name="agree_all"
-                  id="agree_all"
-                  className="a11y-hidden"
-                />
-                <AllCheck>약관 전체 동의</AllCheck>
-              </CheckItem>
-              <CheckItem>
-                <label htmlFor="agree"></label>
-                <CheckIcon>
-                  <IoIosCheckboxOutline className="check-icon" />
-                </CheckIcon>
-                <input
-                  type="checkbox"
-                  name="agree"
-                  id="agree"
-                  className="a11y-hidden"
-                />
-                <CheckText>[필수] 이용약관 동의</CheckText>
-                <MoreText>보기</MoreText>
-              </CheckItem>
-              <CheckItem>
-                <label htmlFor="agree"></label>
-                <CheckIcon>
-                  <IoIosCheckboxOutline className="check-icon" />
-                </CheckIcon>
-                <input
-                  type="checkbox"
-                  name="agree"
-                  id="agree"
-                  className="a11y-hidden"
-                />
-                <CheckText>[필수] 개인정보 수집 및 이용 동의</CheckText>
-                <MoreText>보기</MoreText>
-              </CheckItem>
-              <CheckItem>
-                <label htmlFor="agree"></label>
-                <CheckIcon>
-                  <IoIosCheckboxOutline className="check-icon" />
-                </CheckIcon>
-                <input
-                  type="checkbox"
-                  name="agree"
-                  id="agree"
-                  className="a11y-hidden"
-                />
-                <CheckText>[선택] 광고성 메세지 수신 동의</CheckText>
-                <MoreText>보기</MoreText>
-              </CheckItem>
-              <CheckItem>
-                <label htmlFor="agree"></label>
-                <CheckIcon>
-                  <IoIosCheckboxOutline className="check-icon" />
-                </CheckIcon>
-                <input
-                  type="checkbox"
-                  name="agree"
-                  id="agree"
-                  className="a11y-hidden"
-                />
-                <CheckText>[선택] 마케팅 정보 수집 동의</CheckText>
-                <MoreText>보기</MoreText>
-              </CheckItem>
+              <AgreeItem />
             </CheckList>
           </Field>
-          <SignupButton onClick={onClickLoginButton}>가입하기</SignupButton>
+          <SignupButton
+            isActive={checkRequired() ? "isActive" : ""}
+            onClick={clickLogin}
+          >
+            가입하기
+          </SignupButton>
         </SignupForm>
       </LocalSection>
     </SignupWrapper>
@@ -362,6 +342,7 @@ const SignupWrapper = styled.div`
   ul {
     list-style-type: none;
     padding: 0;
+    padding-top: 70px;
   }
   .a11y-hidden {
     position: absolute;
@@ -473,6 +454,7 @@ const FormLabel = styled.label`
 
 // 에러 메세지 출력까지 구현하고 border-top 잘리는 거 수정하기
 const FormInput = styled.input`
+  border: 2px solid #d9d9d9;
   width: 460px;
   height: 70px;
   /* 텍스트 및 패딩 마진 디자인 추가하기 */
@@ -500,9 +482,16 @@ const RadioButton = styled.div`
   font-weight: 400;
   font-size: 30px;
   margin-right: 35px;
+  display: flex;
+  align-items: center;
   input {
     width: 30px;
     height: 30px;
+    margin-right: 26px;
+  }
+
+  label {
+    padding-top: 4px;
   }
 `;
 const IconContainer = styled.div`
@@ -520,7 +509,7 @@ const Message = styled.div`
   font-weight: 400;
   font-size: 20px;
   /* label 너비 300px + label margin-right 더한 값으로 위치 잡기 */
-  padding-left: 350px;
+  padding-left: 360px;
 `;
 const CheckList = styled.ul`
   margin-top: 100px;
@@ -528,47 +517,15 @@ const CheckList = styled.ul`
   border-top: 3px solid #d9d9d9;
 `;
 
-// 약관 동의 부분 위 마진 설정하기
-const CheckItem = styled.li`
-  width: 100%;
-  margin: 17px 0;
-  padding: 0 70px;
-  display: flex;
-  align-items: center;
-`;
-
-const CheckIcon = styled.div`
-  width: 55px;
-  height: 55px;
-  margin-right: 70px;
-  .check-icon {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const AllCheck = styled.span`
-  font-weight: 700;
-  font-size: 35px;
-`;
-const CheckText = styled.span`
-  font-weight: 400;
-  font-size: 30px;
-  flex-grow: 1;
-`;
-
-const MoreText = styled.span`
-  font-weight: 400;
-  font-size: 30px;
-  display: inline-block;
-  text-align: right;
-`;
-const SignupButton = styled.button`
+const SignupButton = styled.button<LoginProps>`
   width: 800px;
   height: 120px;
+  border: none;
   background: #525d4d;
+  background: ${(props) =>
+    props.isActive === "isActive" ? "#525d4d" : "#d9d9d9"};
   border-radius: 20px;
-  color: white;
+  color: ${(props) => (props.isActive === "isActive" ? "white" : "#616161")};
   font-weight: 400;
   font-size: 40px;
   margin-top: 93px;
