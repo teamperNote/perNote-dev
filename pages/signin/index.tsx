@@ -2,12 +2,12 @@ import styled from "styled-components";
 import KaKaoLogin from "./kakao-login";
 import GoogleLogin from "./google-login";
 import NaverLogin from "./naver-login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+// import axiosInstance from "../../lib/api/api";
 import { Cookies } from "react-cookie";
 import Router, { useRouter } from "next/router";
 import { useMutation } from "react-query";
-import { mutate } from "swr";
 
 const cookies = new Cookies();
 function Signin() {
@@ -25,69 +25,75 @@ function Signin() {
     setPassword(e.target.value);
   };
 
-  const postLogin = async (userInfo) => {
-    // const userInfo = {
-    //   username: email,
-    //   password,
-    // };
-    const response = await axios.post("/api/users/login", userInfo);
-    return response;
-  };
+  // const postLogin = async (userInfo: any) => {
 
-  const { mutate, isLoading, isSuccess, isError } = useMutation(postLogin, {
-    onMutate: (variable) => {
-      console.log("onMutate", variable);
-      // variable : {loginId: 'xxx', password; 'xxx'}
-    },
-    onError: (error, variable, context) => {
-      //   setPasswordError("비밀번호가 일치하지 않습니다.");
-    },
-    onSuccess: (data, variables, context) => {
-      console.log("success", data, variables, context);
-      if (data.data.message) {
-        setUserError("존재하지 않는 회원입니다.");
-        return;
-      }
-      const { user, accessToken, refreshToken } = data.data;
-      cookies.set("loginToken", accessToken, {
-        path: "/",
-        secure: true,
-        sameSite: "none",
-      });
-      // 성공시에만 홈으로 이동
-      router.push("/");
-    },
-    onSettled: () => {
-      console.log("end");
-    },
-  });
+  // };
+
+  // const { mutate, isLoading, isSuccess, isError } = useMutation(postLogin, {
+  //   onMutate: (variable) => {
+  //     console.log("onMutate", variable);
+  //   },
+  //   onError: (error, variable, context) => {
+  //     setPasswordError("비밀번호가 일치하지 않습니다.");
+  //   },
+  //   onSuccess: (data, variables, context) => {
+  //     console.log("success", data, variables, context);
+  //     if (data.data.message) {
+  //       setUserError("존재하지 않는 회원입니다.");
+  //       return;
+  //     }
+  //     const { user, accessToken, refreshToken } = data.data;
+  //     cookies.set("loginToken", accessToken, {
+  //       path: "/",
+  //       secure: true,
+  //       sameSite: "none",
+  //     });
+  //     // 성공시에만 홈으로 이동
+  //     router.push("/");
+  //   },
+  //   onSettled: () => {
+  //     console.log("end");
+  //   },
+  // });
 
   const submitLogin = async (e: any) => {
     e.preventDefault();
-    mutate({ username: email, password: password });
-    // const data = {
-    //   username: email,
-    //   password,
-    // };
-    // try {
-    //   const response = await axios.post("/api/users/login", data);
-    //   if (response.data.message) {
-    //     // 임시 문구
-    //     setUserError("회원 정보가 존재하지 않습니다. 회원가입을 해주세요.");
-    //     return;
-    //   }
-    //   const { user, accessToken, refreshToken } = response.data;
-    //   cookies.set("loginToken", accessToken, {
-    //     path: "/",
-    //     secure: true,
-    //     sameSite: "none",
-    //   });
-    //   // 성공시에만 홈으로 이동
-    //   router.push("/");
-    // } catch (e) {
-    //   setPasswordError("비밀번호가 일치하지 않습니다.");
-    // }
+    // mutate({ email, password });
+    const userInfo = {
+      email,
+      password,
+    };
+    // const response = await
+    axios
+      .post("/api/users/login", userInfo)
+      .then((response) => {
+        if (response.data.message) {
+          setUserError("존재하지 않는 사용자입니다.");
+          return;
+        }
+
+        const { user, accessToken, refreshToken } = response.data;
+        localStorage.setItem("user", JSON.stringify(user));
+        cookies.set("access_token", accessToken, {
+          path: "/",
+          secure: true,
+          sameSite: "none",
+        });
+        cookies.set("refresh_token", refreshToken, {
+          path: "/",
+          secure: true,
+          sameSite: "none",
+        });
+        // 성공시에만 홈으로 이동
+        router.push("/");
+      })
+      .catch((e) => {
+        console.log(e);
+        setPasswordError(e.response.data.message);
+      });
+    // console.log(response);
   };
+
   return (
     <SignInContainer>
       <Pernote>per.note</Pernote>
