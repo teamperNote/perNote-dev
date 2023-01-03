@@ -10,6 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const category = query.category as string;
     const selected: Array<string> = query["selected[]"] as string[];
+    // const orderOpt = query.orderOpt as string
 
     const findManyOrCondition = [];
 
@@ -24,7 +25,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const perfumes = await prisma.perfume.findMany({
         where: {
             OR: findManyOrCondition
-        }
+        },
+        // orderBy: {
+        //     [orderOpt]: 'asc'
+        // }
     });
     if(!perfumes) {
         return res.status(200).json({
