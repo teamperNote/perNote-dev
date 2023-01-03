@@ -22,7 +22,7 @@ export default async function handler(
       where: { snsId: data.id },
     });
     if (!user) {
-      return res.status(400).json({
+      return res.status(200).json({
         message: "가입되지 않은 사용자입니다",
         userId: data.id,
       });
