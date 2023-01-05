@@ -12,7 +12,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             userId: userId
         },
         select: {
-          perfumes: true
+          perfumes: true,
+          perfumeIDs: true // For console
         }
     })
     if(!testResultDB) {
@@ -22,6 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     return res.status(200).json({
-      test: testResultDB
+      test: testResultDB,
+      elem: testResultDB[0]
     })
 }

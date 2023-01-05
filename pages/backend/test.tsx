@@ -12,11 +12,11 @@ const fetcher = (url: string) => axios
         // color: "red", 
         // personality: "calm", 
         // feature: "fresh",     
-        // concentration: "daily",
+        concentration: "daily",
 
         // // TEST SECTION - personalScent/result & personalScent/delete
         // userId: '63b3de201f11b89b53489d7d',
-        testId: '63b6aaea5229d2fbfaf64501',
+        testId: '63b6efb98a309d3d9a792a2e',
 
 
         // // TEST SECTION - shopping
@@ -33,7 +33,7 @@ const fetcher = (url: string) => axios
 
 const Test: NextPage = () => {
     // const {data, error} = useSWR('/api/db/personalScent', fetcher); // personalScent Test Section
-    const {data, error} = useSWR('/api/personalScent/delete', fetcher); // 네이버 쇼핑 API 결과 0개면 결과없음이라고 알려주기. 프론트쪽 UI도 표시해줘야함.
+    const {data, error} = useSWR('/api/personalScent/result', fetcher); // 네이버 쇼핑 API 결과 0개면 결과없음이라고 알려주기. 프론트쪽 UI도 표시해줘야함.
 
     if(error) return <div>An error occured.</div>
     if(!data) return <div>Loading...</div>

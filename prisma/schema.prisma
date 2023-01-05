@@ -65,7 +65,7 @@ model Perfume {
   imgUrl        String 
   score         Int           @default(0)
   likeCount     Int           @default(0)
-  tests         Test[]        @relation(fields: [testIDs], references: [id], onDelete: Cascade)
+  tests         Test[]        @relation(fields: [testIDs], references: [id])
   testIDs       String[]      @db.ObjectId
   perfumeLikes  PerfumeLike[]
 }
