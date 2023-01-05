@@ -39,9 +39,9 @@ model Story {
 
 model StoryLike {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String    @db.ObjectId
-  story       Story     @relation(fields: [storyId], references: [id])
+  story       Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
   storyId     String    @db.ObjectId
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -65,16 +65,16 @@ model Perfume {
   imgUrl        String 
   score         Int           @default(0)
   likeCount     Int           @default(0)
-  tests         Test[]        @relation(fields: [testIDs], references: [id])
+  tests         Test[]        @relation(fields: [testIDs], references: [id], onDelete: Cascade)
   testIDs       String[]      @db.ObjectId
   perfumeLikes  PerfumeLike[]
 }
 
 model PerfumeLike {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String    @db.ObjectId
-  perfume     Perfume   @relation(fields: [perfumeId], references: [id])
+  perfume     Perfume   @relation(fields: [perfumeId], references: [id], onDelete: Cascade)
   perfumeId   String    @db.ObjectId
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -82,7 +82,7 @@ model PerfumeLike {
 
 model Test {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  user         User       @relation(fields: [userId], references: [id])
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String     @db.ObjectId
   perfumes     Perfume[]  @relation(fields: [perfumeIDs], references: [id])
   perfumeIDs   String[]   @db.ObjectId

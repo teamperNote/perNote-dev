@@ -15,6 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     */
     
     const query = req.query; // 유저가 선택한 쿼리들. ex) 봄, 깊은 등
+    const userId = query.userId as string
     let userGender = query.gender as string;
     const userSeason = query.season as string;
     const userColor = query.color as string;
@@ -149,10 +150,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     top5 = top5.sort((a, b) => b.score - a.score);
-    
+    const perfumeIDs = []
+    for(const perfume of top5){
+        perfumeIDs.push({id: perfume.id})
+    }
+
+    const testResultDB = await prisma.test.create({
+        data: {
+            userId: userId,
+            perfumes: {
+                connect: perfumeIDs
+            }
+        }
+    })
+
 
   // Test Result to test.tsx
   return res.status(200).json({
-    top5,
+    top5
   });
 }
