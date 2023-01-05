@@ -1,7 +1,10 @@
+import axios from "axios";
+import CategoryCard from "components/CategoryCard";
 import CategoryText from "components/CategoryText";
+import SortDropDown from "components/SortDropDown";
 import StoryCard from "components/StoryCard";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default function Category() {
@@ -13,6 +16,21 @@ export default function Category() {
   const onPageClick = (value: string) => {
     router.push(value);
   };
+
+  const [purfume, setPurfume] = useState([]);
+  const getCategoryPerfume = () => {
+    axios
+      .get("/api/category", {
+        params: { category: "note", selected: ["amber"] },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setPurfume(res.data.perfumes.slice(0, 15));
+      });
+  };
+  useEffect(() => {
+    getCategoryPerfume();
+  }, []);
   return (
     <CategoryContainer>
       <CategoryBox>
@@ -38,7 +56,13 @@ export default function Category() {
           />
         ))}
       </NoteBox>
+      <SortBox>
+        <SortDropDown />
+      </SortBox>
       <CardBox>
+        {purfume.map((data) => (
+          <CategoryCard key={data.id} data={data} />
+        ))}
         <StoryCard
           url={
             "https://img.allurekorea.com/allure/2022/05/style_626fc90f2ff49-1200x815.jpg"
@@ -60,7 +84,6 @@ export default function Category() {
           }
         />
       </CardBox>
-      <div>{page}</div>
     </CategoryContainer>
   );
 }
@@ -100,6 +123,13 @@ export const NoteBox = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 81px;
+`;
+
+export const SortBox = styled.div`
+  width: 1420px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
 `;
 
 export const CardBox = styled.div`
