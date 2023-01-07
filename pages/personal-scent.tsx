@@ -8,23 +8,22 @@ import {
   featureArray,
 } from "lib/modules";
 import styled from "styled-components";
+import Link from "next/link";
 
 export default function PersonalScent() {
-  const contentRef = useRef<any>(null);
-  const [isHidden, setIsHidden] = useState(false);
   const router = useRouter();
-  const { gender, concentration, personality, feature } = router.query;
+  const { testId } = router.query;
 
   const [isLoading, setIsLoading] = useState(false);
   const [top5, setTop5] = useState([]);
 
-  const getTop5 = (data) => {
+  const getTop5 = () => {
     axios
-      .get("/api/personalScent", {
-        params: data,
+      .get("/api/personalScent/result", {
+        params: { testId: testId },
       })
       .then((res) => {
-        setTop5(res.data.top5);
+        setTop5(res.data.perfumes);
         setIsLoading(true);
       })
       .catch((err) => {
@@ -32,12 +31,15 @@ export default function PersonalScent() {
       });
   };
   useEffect(() => {
-    if (gender !== undefined && gender !== null) {
-      getTop5(router.query);
+    if (testId !== undefined) {
+      getTop5();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gender]);
+  }, [testId]);
 
+  // 향수 설명 길면 줄이기
+  const contentRef = useRef(null);
+  const [isHidden, setIsHidden] = useState(false);
   useEffect(() => {
     if (contentRef.current?.clientHeight > 461) {
       setIsHidden(true);
@@ -49,7 +51,7 @@ export default function PersonalScent() {
       {isLoading && (
         <>
           <Title>당신에게 이 향수를 추천합니다</Title>
-          <TagBox>
+          {/* <TagBox>
             <RecommendationTag>
               <TagText>
                 {genderArray.find((x) => x.value === gender).text}
@@ -70,7 +72,7 @@ export default function PersonalScent() {
                 {featureArray.find((x) => x.value === feature).text}
               </TagText>
             </RecommendationTag>
-          </TagBox>
+          </TagBox> */}
           <PerfumeImage src={top5[0].imgUrl} />
           <SubTitle margin_B={"60px"}>{top5[0].name}</SubTitle>
           <PerfumeDesc
@@ -80,9 +82,9 @@ export default function PersonalScent() {
           >
             {top5[0].description}
           </PerfumeDesc>
-          <ShowMore onClick={() => setIsHidden(!isHidden)}>
-            Show more &gt;
-          </ShowMore>
+          <ShowDetail onClick={() => setIsHidden(!isHidden)}>
+            <Link href={`/product-detail/${top5[0].id}`}>Show detail &gt;</Link>
+          </ShowDetail>
           {/* TODO 나중에 주석 제거 */}
           {/* <Tip>TIP</Tip>
           <SubTitle margin_B={"5px"}>이런 상황에서 사용해보세요</SubTitle>
@@ -106,11 +108,13 @@ export default function PersonalScent() {
           </ShareContainer>
           <SubTitle margin_B={"90px"}>비슷한 향수를 추천합니다</SubTitle>
           <SubRecommendationBox>
-            {top5.slice(1, 5).map((data) => (
-              <SubRecommendationCard key={data.id}>
-                <SubRecommendationImg src={data.imgUrl} />
-                <SubPerfumeName>{data.name}</SubPerfumeName>
-              </SubRecommendationCard>
+            {top5.slice(0, 4).map((data) => (
+              <Link href={`/product-detail/${data.id}`} key={data.id}>
+                <SubRecommendationCard>
+                  <SubRecommendationImg src={data.imgUrl} />
+                  <SubPerfumeName>{data.name}</SubPerfumeName>
+                </SubRecommendationCard>
+              </Link>
             ))}
           </SubRecommendationBox>
         </>
@@ -194,7 +198,7 @@ export const PerfumeDesc = styled(Span)<{ margin_B: string }>`
   }
 `;
 
-export const ShowMore = styled(Span)`
+export const ShowDetail = styled(Span)`
   font-weight: 500;
   font-size: 30px;
   line-height: 45px;
