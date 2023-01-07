@@ -25,8 +25,8 @@ export default function PersonalSurvey() {
     feature: "",
   });
 
-  const postSurvey = () => {
-    axios
+  const postSurvey = async () => {
+    await axios
       .get("/api/personalScent", {
         params: {
           userId: "63b3de201f11b89b53489d7d",
@@ -39,11 +39,10 @@ export default function PersonalSurvey() {
         },
       })
       .then((res) => {
-        // console.log(res);
-        // router.push({
-        //   pathname: "/personal-scent",
-        //   query: scentData,
-        // });
+        router.push({
+          pathname: "/personal-scent",
+          query: { testId: res.data.testId },
+        });
       })
       .catch((err) => {
         console.log(err);
