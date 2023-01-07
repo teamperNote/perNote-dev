@@ -157,7 +157,7 @@ export default async function handler(
         perfumeIDs.push({id: perfume.id})
     }
 
-    const testResultDB = await prisma.test.create({
+    const test = await prisma.test.create({
         data: {
             userId: userId,
             perfumes: {
@@ -169,6 +169,6 @@ export default async function handler(
 
   // Test Result to test.tsx
   return res.status(200).json({
-    message: "success"
+    testId: test.id
   });
 }
