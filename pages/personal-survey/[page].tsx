@@ -9,6 +9,7 @@ import {
   personalityArray,
   featureArray,
 } from "lib/modules";
+import axios from "axios";
 // import { IoChevronBackSharp } from "react-icons/io5";
 
 export default function PersonalSurvey() {
@@ -24,12 +25,34 @@ export default function PersonalSurvey() {
     feature: "",
   });
 
+  const postSurvey = () => {
+    axios
+      .get("/api/personalScent", {
+        params: {
+          userId: "63b3de201f11b89b53489d7d",
+          gender: scentData.gender,
+          concentration: scentData.concentration,
+          season: scentData.season,
+          color: scentData.color,
+          personality: scentData.personality,
+          feature: scentData.feature,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        // router.push({
+        //   pathname: "/personal-scent",
+        //   query: scentData,
+        // });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     if (scentData.feature !== "") {
-      router.push({
-        pathname: "/personal-scent",
-        query: scentData,
-      });
+      postSurvey();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scentData.feature]);
