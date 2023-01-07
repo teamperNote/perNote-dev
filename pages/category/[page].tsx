@@ -24,7 +24,6 @@ export default function Category() {
         params: { category: "note", selected: ["amber"] },
       })
       .then((res) => {
-        console.log(res.data);
         setPurfume(res.data.perfumes.slice(0, 15));
       });
   };
