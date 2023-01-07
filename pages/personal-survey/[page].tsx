@@ -39,7 +39,7 @@ export default function PersonalSurvey() {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         // router.push({
         //   pathname: "/personal-scent",
         //   query: scentData,
