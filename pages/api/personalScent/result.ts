@@ -5,11 +5,11 @@ const prisma = new PrismaClient()
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     const query = req.query
-    const userId = query.userId as string
+    const testId = query.testId as string
 
     const testResultDB = await prisma.test.findMany({
         where: {
-            userId: userId
+          id: testId
         },
         select: {
           perfumes: true,
@@ -24,6 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(200).json({
       test: testResultDB,
-      elem: testResultDB[0]
+      // elem: testResultDB[0]
     })
 }

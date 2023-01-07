@@ -137,23 +137,23 @@ export default async function handler(
     }
   }
 
-  let top5 = [];
+  let top4 = [];
 
   for (const perfume of perfumes) {
-    if (top5.length < 5) top5.push(perfume);
+    if (top4.length < 4) top4.push(perfume);
     else {
-      for (let i = 0; i < 5; i++) {
-        if (top5[i].score < perfume.score) {
-          top5[i] = perfume;
+      for (let i = 0; i < 4; i++) {
+        if (top4[i].score < perfume.score) {
+          top4[i] = perfume;
           break;
         }
       }
     }
   }
 
-    top5 = top5.sort((a, b) => b.score - a.score);
+    top4 = top4.sort((a, b) => b.score - a.score);
     const perfumeIDs = []
-    for(const perfume of top5){
+    for(const perfume of top4){
         perfumeIDs.push({id: perfume.id})
     }
 
@@ -169,6 +169,6 @@ export default async function handler(
 
   // Test Result to test.tsx
   return res.status(200).json({
-    top5
+    message: "success"
   });
 }

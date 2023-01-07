@@ -4,19 +4,19 @@ import axios from "axios";
 
 // const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 const fetcher = (url: string) => axios
-    .get(url, {params: {
-        // // TEST SECTION - personalScent
-        // userId: '63b3de201f11b89b53489d7d',
-        // gender: "mUni", 
-        // season: "spring",
-        // color: "red", 
-        // personality: "calm", 
-        // feature: "fresh",     
+    .get(url, {
+        params: {
+        // TEST SECTION - personalScent
+        userId: '63b3de201f11b89b53489d7d',
+        gender: "mUni", 
+        season: "spring",
+        color: "red", 
+        personality: "calm", 
+        feature: "fresh",     
         concentration: "daily",
 
-        // // TEST SECTION - personalScent/result & personalScent/delete
-        // userId: '63b3de201f11b89b53489d7d',
-        testId: '63b6efb98a309d3d9a792a2e',
+        // TEST SECTION - personalScent/result & personalScent/delete
+        // testId: '63b93dcb98c4f6bf9b9baa34',
 
 
         // // TEST SECTION - shopping
