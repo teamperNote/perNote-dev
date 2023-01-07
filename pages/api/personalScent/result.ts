@@ -7,23 +7,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const query = req.query
     const testId = query.testId as string
 
-    const testResultDB = await prisma.test.findMany({
+    const test = await prisma.test.findMany({
         where: {
           id: testId
         },
         select: {
           perfumes: true,
-          perfumeIDs: true // For console
+          // perfumeIDs: true // For console
         }
     })
-    if(!testResultDB) {
+    if(!test || test.length > 1) {
       return res.status(200).json({
         message: "Error: personalScent/result"
       })
     }
 
     return res.status(200).json({
-      test: testResultDB,
+      perfumes: test[0].perfumes,
       // elem: testResultDB[0]
     })
 }

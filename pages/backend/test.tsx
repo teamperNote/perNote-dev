@@ -6,17 +6,17 @@ import axios from "axios";
 const fetcher = (url: string) => axios
     .get(url, {
         params: {
-        // TEST SECTION - personalScent
-        userId: '63b3de201f11b89b53489d7d',
-        gender: "mUni", 
-        season: "spring",
-        color: "red", 
-        personality: "calm", 
-        feature: "fresh",     
-        concentration: "daily",
+        // // TEST SECTION - personalScent
+        // userId: '63b3de201f11b89b53489d7d',
+        // gender: "mUni", 
+        // season: "spring",
+        // color: "red", 
+        // personality: "calm", 
+        // feature: "fresh",     
+        // concentration: "daily",
 
         // TEST SECTION - personalScent/result & personalScent/delete
-        // testId: '63b93dcb98c4f6bf9b9baa34',
+        testId: '63b93dcb98c4f6bf9b9baa34',
 
 
         // // TEST SECTION - shopping
@@ -33,7 +33,7 @@ const fetcher = (url: string) => axios
 
 const Test: NextPage = () => {
     // const {data, error} = useSWR('/api/db/personalScent', fetcher); // personalScent Test Section
-    const {data, error} = useSWR('/api/personalScent', fetcher); // 네이버 쇼핑 API 결과 0개면 결과없음이라고 알려주기. 프론트쪽 UI도 표시해줘야함.
+    const {data, error} = useSWR('/api/personalScent/result', fetcher); // 네이버 쇼핑 API 결과 0개면 결과없음이라고 알려주기. 프론트쪽 UI도 표시해줘야함.
 
     if(error) return <div>An error occured.</div>
     if(!data) return <div>Loading...</div>
