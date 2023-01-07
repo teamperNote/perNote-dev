@@ -26,6 +26,9 @@ export default function PersonalScent() {
       .then((res) => {
         setTop5(res.data.top5);
         setIsLoading(true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   useEffect(() => {
