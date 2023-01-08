@@ -21,6 +21,13 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     }
 
+    .read-only{
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
     /* @media (prefers-color-scheme: dark) {
     html {
         color-scheme: dark;
