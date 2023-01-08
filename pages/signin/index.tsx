@@ -1,16 +1,16 @@
+import Link from "next/link";
+import React from "react";
 import styled from "styled-components";
 import KaKaoLogin from "./kakao-login";
 import GoogleLogin from "./google-login";
 import NaverLogin from "./naver-login";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-// import axiosInstance from "../../lib/api/api";
 import { Cookies } from "react-cookie";
-import Router, { useRouter } from "next/router";
-import { useMutation } from "react-query";
+import { useRouter } from "next/router";
 
 const cookies = new Cookies();
-function Signin() {
+function Login() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,45 +25,12 @@ function Signin() {
     setPassword(e.target.value);
   };
 
-  // const postLogin = async (userInfo: any) => {
-
-  // };
-
-  // const { mutate, isLoading, isSuccess, isError } = useMutation(postLogin, {
-  //   onMutate: (variable) => {
-  //     console.log("onMutate", variable);
-  //   },
-  //   onError: (error, variable, context) => {
-  //     setPasswordError("비밀번호가 일치하지 않습니다.");
-  //   },
-  //   onSuccess: (data, variables, context) => {
-  //     console.log("success", data, variables, context);
-  //     if (data.data.message) {
-  //       setUserError("존재하지 않는 회원입니다.");
-  //       return;
-  //     }
-  //     const { user, accessToken, refreshToken } = data.data;
-  //     cookies.set("loginToken", accessToken, {
-  //       path: "/",
-  //       secure: true,
-  //       sameSite: "none",
-  //     });
-  //     // 성공시에만 홈으로 이동
-  //     router.push("/");
-  //   },
-  //   onSettled: () => {
-  //     console.log("end");
-  //   },
-  // });
-
   const submitLogin = async (e: any) => {
     e.preventDefault();
-    // mutate({ email, password });
     const userInfo = {
       email,
       password,
     };
-    // const response = await
     axios
       .post("/api/users/login", userInfo)
       .then((response) => {
@@ -71,7 +38,6 @@ function Signin() {
           setUserError("존재하지 않는 사용자입니다.");
           return;
         }
-
         const { user, accessToken, refreshToken } = response.data;
         localStorage.setItem("user", JSON.stringify(user));
         cookies.set("access_token", accessToken, {
@@ -84,125 +50,157 @@ function Signin() {
           secure: true,
           sameSite: "none",
         });
-        // 성공시에만 홈으로 이동
         router.push("/");
       })
       .catch((e) => {
-        console.log(e);
         setPasswordError(e.response.data.message);
       });
-    // console.log(response);
   };
 
   return (
-    <SignInContainer>
-      <Pernote>per.note</Pernote>
-      <LoginForm>
-        <div>
-          <InputContainer>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <Input
-              type="text"
-              value={email}
-              placeholder="example@pernote.com"
-              onChange={inputEmail}
-            />
-          </InputContainer>
-          <InputContainer>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
-              type="password"
-              value={password}
-              placeholder="Enter your password"
-              onChange={inputPassword}
-            />
-          </InputContainer>
-          {/* 비밀번호 에러처리 */}
-          {userError ? <div>{userError}</div> : ""}
-          {passwordError ? <div>{passwordError}</div> : ""}
-          <OptionContainer>
-            <div>Sign up</div>
-            <div>Forget?</div>
-          </OptionContainer>
-          <LoginButton onClick={submitLogin}>Log in</LoginButton>
-        </div>
-      </LoginForm>
-      <SocialLogin>
-        <div>소셜로그인</div>
-        <SocialLoginList>
-          <KaKaoLogin />
-          <GoogleLogin />
-          <NaverLogin />
-        </SocialLoginList>
-      </SocialLogin>
-    </SignInContainer>
+    <Container>
+      <LoginBox>
+        <h2 className="read-only">Login</h2>
+        <LoginForm>
+          <FormTitle>Per.Note</FormTitle>
+          <InputList>
+            <InputItem>
+              <InputLabel htmlFor="email">Email</InputLabel>
+              <Input
+                id="email"
+                type="text"
+                value={email}
+                placeholder="example@pernote.com"
+                onChange={inputEmail}
+              />
+            </InputItem>
+            <InputItem>
+              <InputLabel htmlFor="password">password</InputLabel>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                placeholder="Enter your password"
+                onChange={inputPassword}
+              />
+            </InputItem>
+            {/* 비밀번호 에러처리 */}
+            {userError ? <div>{userError}</div> : ""}
+            {passwordError ? <div>{passwordError}</div> : ""}
+          </InputList>
+          <GoSignup>
+            <span>회원가입</span>
+            <SignupLink>
+              <Link href="/signup">Forget?</Link>
+            </SignupLink>
+          </GoSignup>
+          <LoginButton onClick={submitLogin}>로그인</LoginButton>
+        </LoginForm>
+        <SocialLogin>
+          <div>소셜로그인</div>
+          <SocialLoginList>
+            <KaKaoLogin />
+            <GoogleLogin />
+            <NaverLogin />
+          </SocialLoginList>
+        </SocialLogin>
+        {/* <div>
+          <div>소셜로그인</div>
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div> */}
+      </LoginBox>
+    </Container>
   );
 }
 
-export default Signin;
+export default Login;
 
-const SignInContainer = styled.div`
-  height: 100vh;
-  background-color: #eaeaea;
-  padding-top: 86.34px;
-  padding-bottom: 143.56px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const Container = styled.div`
+  height: 90vh;
+  background: url("/perNoteBackImg.png") no-repeat left top/100% 100%;
 `;
 
-const Pernote = styled.div`
+const LoginBox = styled.div`
+  width: 744px;
+  height: 832px;
+  background: white;
+  position: relative;
+  left: 50%;
+  transform: translate(-372px, 60px);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+`;
+
+const FormTitle = styled.h2`
+  margin: 0;
+  margin-bottom: 63px;
+  padding-top: 72px;
+  text-align: center;
   font-weight: 700;
   font-size: 50px;
 `;
 
 const LoginForm = styled.form`
-  margin-top: 83.06px;
-  margin-bottom: 47.04px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 600px;
+  margin: 0 auto;
+`;
+const InputList = styled.ul`
+  width: 600px;
+  list-style-type: none;
+  padding: 0;
 `;
 
-const InputContainer = styled.div`
-  width: 600px;
-  display: flex;
-  flex-direction: column;
+const InputItem = styled.li`
+  margin-bottom: 30px;
 `;
 
 const InputLabel = styled.label`
+  display: block;
   font-weight: 400;
   font-size: 20px;
+  margin-bottom: 21px;
   color: #707070;
-  margin-bottom: 33.61px;
 `;
 
 const Input = styled.input`
-  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px 0 10px 4px;
   border: none;
   border-bottom: 1px solid #707070;
-  background-color: transparent;
-  font-weight: 400;
-  font-size: 20px;
+  &::placeholder {
+    font-weight: 400;
+    font-size: 20px;
+    color: #b9b9b9;
+  }
 `;
 
-const OptionContainer = styled.div`
+const GoSignup = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 40px;
   color: #707070;
   font-weight: 400;
   font-size: 20px;
-  margin-bottom: 42.3px;
 `;
 
+const SignupLink = styled.span`
+  cursor: pointer;
+`;
 const LoginButton = styled.button`
-  width: 600px;
+  width: 100%;
   height: 90px;
-  background: #b3b3b3;
+  margin-bottom: 50px;
   border: none;
   border-radius: 100px;
+  background: #525d4d;
   font-weight: 400;
   font-size: 30px;
+  color: white;
 `;
 
 const SocialLogin = styled.div`
@@ -214,7 +212,9 @@ const SocialLogin = styled.div`
   font-size: 20px;
 `;
 
-const SocialLoginList = styled.div`
+const SocialLoginList = styled.ul`
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: space-between;
   margin-top: 28.66px;
