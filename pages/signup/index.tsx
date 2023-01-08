@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { IoMdCalendar } from "react-icons/io";
+import { useRouter } from "next/router";
 import AgreeItem from "components/AgreeItem";
 
 interface LoginProps {
@@ -9,6 +10,7 @@ interface LoginProps {
 }
 
 function Signup() {
+  const router = useRouter();
   const [name, setName] = useState<string>("");
 
   const [email, setEmail] = useState<string>("");
@@ -166,7 +168,9 @@ function Signup() {
     // 모든 값 필수 조건 만족시 버튼 활성화
     if (checkRequired()) {
       const response = await axios.post("/api/users/signup", data);
-      console.log(response.data);
+      if (response.data.status === 200) {
+        router.push("/");
+      }
     }
   };
   return (
@@ -186,7 +190,7 @@ function Signup() {
       <LocalSection>
         <SignupForm>
           <Field>
-            <legend className="a11y-hidden">일반 회원가입</legend>
+            <legend className="read-only">일반 회원가입</legend>
             <LocalTitle>일반 회원가입</LocalTitle>
             <FormList>
               <FormItem>
@@ -344,13 +348,7 @@ const SignupWrapper = styled.div`
     padding: 0;
     padding-top: 70px;
   }
-  .a11y-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-  }
+
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
