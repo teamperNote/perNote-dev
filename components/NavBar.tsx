@@ -45,7 +45,10 @@ export default function NavBar() {
           <BiSearchAlt2 />
         </SearchInput> */}
         <Link href="/signin">
-          <Login>Login</Login>
+          <Sign>Login</Sign>
+        </Link>
+        <Link href="/signup">
+          <Sign>Signup</Sign>
         </Link>
       </HeaderRight>
     </NavBarContainer>
@@ -78,7 +81,6 @@ const NavigatorLink = styled.div`
   font-size: 20px;
   line-height: 29px;
   margin-right: 3.75rem;
-  padding: 20px 0;
 `;
 
 const CategoryContainer = styled.div`
@@ -119,13 +121,15 @@ const HeaderRight = styled.div`
 //   }
 // `;
 
-const Login = styled.div`
+const Sign = styled.div`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
+  margin-left: 25px;
   color: #000000;
+  cursor: pointer;
 `;
 
 const ModalContainer = styled.div`
