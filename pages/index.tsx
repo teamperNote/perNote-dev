@@ -2,6 +2,7 @@
 import type { NextPage } from "next";
 import styled from "styled-components";
 import { BsBell } from "react-icons/bs";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -24,30 +25,26 @@ const Home: NextPage = () => {
       </FirstMain>
       <SecondMain>
         <PerNoteImage src="/perNoteBackImg.png" alt="second main image" />
-        <PerNoteIntro>
-          <PerNoteIntroTitle>per.note 개요</PerNoteIntroTitle>
-          <PerNoteIntroContent>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
-            <br />
-            gravida sit facilisis cras. In blandit mi id est luctus. Non turpis
-            non
-            <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
-          </PerNoteIntroContent>
-        </PerNoteIntro>
+        <PerNoteIntroContent>
+          {`
+향기는 첫인상이죠. 무언의 감각이며 단어가 없는 언어입니다. 자신에게 어울리는, 자신이 원하는 향수를
+           찾고 싶지만 향수를 맡아보러 매장까지 가는 것도 쉽지 않은 일입니다.
+      언제 어디서든 향수를 맡아보지 않더라도 쉽게 비교하고 선택도록 함께 하겠습니다.
+          `}
+        </PerNoteIntroContent>
       </SecondMain>
       <ThirdMain>
-        <PersonalScentImage src="/perNoteBackImg.png" alt="second main image" />
-        <PersonalScentText>
-          <PersonalScentTitle>Personal Scent </PersonalScentTitle>
-          <PersonalScentTContent>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
-            <br />
-            gravida sit facilisis cras. In blandit mi id est luctus. Non turpis
-            non
-            <br /> risus purus. Eget vel commodo ac purus, laoreet sollicitudin.
-          </PersonalScentTContent>
-          <PersonalScentReacMore>바로가기 {`>`}</PersonalScentReacMore>
-        </PersonalScentText>
+        <PersonalScentContent>
+          <ScentTitle>Personal Scent </ScentTitle>
+          <ScentContent>
+            {`향수를 모르더라도 걱정하지 마세요 간단한 설문조사로
+          당신의 향수를 찾아드려요
+              `}
+          </ScentContent>
+          <ScentButton>
+            <Link href="#">바로가기 &nbsp; &#62;</Link>
+          </ScentButton>
+        </PersonalScentContent>
       </ThirdMain>
       <FourthMain>
         <FourthFirst>
@@ -68,22 +65,14 @@ const Home: NextPage = () => {
           <div>
             <PerfumeStoryIntroTitle>Purfume story</PerfumeStoryIntroTitle>
             <PerfumeStoryIntroContent>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa
-              gravida sit facilisis cras. In blandit mi id est luctus. Non
-              <br />
-              turpis non risus purus. Eget vel commodo ac purus, laoreet
-              sollicitudin. <br />
-              <br /> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Massa gravida sit facilisis cras.
-              <br /> In blandit mi id est luctus. Non turpis non risus purus.
-              Eget vel commodo ac purus, laoreet sollicitudin.
+              향수에 대한 모든 이야기, 여러분들을 위한 향수 이야기 Per.note 에서
+              들려드려요
             </PerfumeStoryIntroContent>
+            <GuidText>*다음 기능은 로그인이 필요한 기능입니다.</GuidText>
           </div>
           <SubscribeButton>
-            <span className="subscribe-icon">
-              <BsBell />
-            </span>
-            <span>알림받기</span>
+            <BsBell className="subscribe-icon" />
+            <div className="subscribe-text">알림받기</div>
           </SubscribeButton>
         </FourthFirst>
         <FourthSecond>
@@ -96,34 +85,15 @@ const Home: NextPage = () => {
               turpis non risus purus. Eget vel commodo <br />
               ac purus, laoreet sollicitudin.
             </CategoryIntroContent>
-            <CategoryReadMore>Read More {`>`}</CategoryReadMore>
+            <CategoryButton>
+              <Link href="#">바로가기 &nbsp; &#62;</Link>
+            </CategoryButton>
           </CategoryIntro>
           <div>
             <CategoryImage src="/perNoteBackImg.png" alt="image1" />
             <CategoryImage src="/perNoteBackImg.png" alt="image2" />
           </div>
         </FourthSecond>
-        <FourthThird>
-          <img src="/perNoteBackImg.png" alt="second main image" />
-          <div className="description">
-            <div className="description-title">설명글~~~</div>
-            <div className="description-content">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              <br />
-              Consectetur sed in urna risus aliquet massa consectetur
-              <br /> mattis. Arcu et diam tortor quis pulvinar vel dolor
-              <br /> condimentum. Donec id eu porttitor turpis enim dui.
-              <br /> Faucibus eu blandit hac morbi mi. Tincidunt sagittis amet{" "}
-              <br />
-              placerat lacus, varius feugiat. Tempor sed orci adipiscing
-              <br /> molestie ipsum eu sed semper. Viverra rutrum ornare ut sit{" "}
-              <br />
-              euismod molestie turpis. Massa risus, quisque non viverra <br />
-              nam consequat cursus consectetur.
-            </div>
-            <button>Read More {`>`}</button>
-          </div>
-        </FourthThird>
       </FourthMain>
     </>
   );
@@ -133,6 +103,7 @@ export default Home;
 
 const FirstMain = styled.div`
   position: relative;
+  color: white;
 `;
 const MainImage = styled.img`
   width: 100%;
@@ -166,66 +137,68 @@ const SecondMain = styled.div`
 const PerNoteImage = styled.img`
   width: 1668px;
   height: 392px;
-  margin-bottom: 56px;
+  margin-bottom: 90px;
   border-radius: 30px;
 `;
 
-const PerNoteIntro = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const PerNoteIntroTitle = styled.div`
-  margin-bottom: 1.875rem;
-  font-weight: bold;
-  font-size: 50px;
-`;
-const PerNoteIntroContent = styled.div`
-  font-weight: normal;
+const PerNoteIntroContent = styled.pre`
+  font-weight: 400;
   font-size: 30px;
+  white-space: pre;
+  word-break: break-all;
+  overflow: auto;
+  line-height: 1.6;
 `;
 
+// 세번째
 const ThirdMain = styled.div`
-  padding: 180px 0;
-  padding-left: 174px;
-  margin-bottom: 209px;
-  background-color: #eaeaea;
-  display: flex;
+  background: url("/perNoteBackImg.png");
+  width: 100%;
+  height: 1080px;
+  margin-bottom: 200px;
+  position: relative;
 `;
 
-const PersonalScentImage = styled.img`
-  width: 680px;
-  height: 720px;
-  margin-right: 106px;
-  border-radius: 30px;
+const PersonalScentContent = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
-const PersonalScentText = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-`;
-const PersonalScentTitle = styled.div`
-  margin-bottom: 1.563rem;
-  font-weight: bold;
+const ScentTitle = styled.h2`
+  margin: 0;
+  font-weight: 700;
   font-size: 50px;
-`;
-const PersonalScentTContent = styled.div`
-  margin-bottom: 35px;
-  font-weight: normal;
-  font-size: 30px;
+  text-align: center;
+  color: white;
+  margin-bottom: 25px;
 `;
 
-const PersonalScentReacMore = styled.button`
-  width: 166px;
-  padding: 12px 23.5px;
+const ScentContent = styled.pre`
+  font-weight: 400;
+  font-size: 30px;
+  color: white;
+  margin-bottom: 65px;
+  white-space: pre;
+  word-break: break-all;
+  overflow: auto;
+  line-height: 43px;
+`;
+
+const ScentButton = styled.button`
+  display: block;
+  margin: 0 auto;
+  background: white;
   border: none;
   border-radius: 100px;
-  background-color: #ffffff;
-  font-weight: normal;
+  width: 166px;
+  height: 53px;
+  font-weight: 400;
   font-size: 20px;
+  padding: 12px 25px;
 `;
-
+// 네번째
 const FourthMain = styled.div`
   padding-left: 131px;
 `;
@@ -265,25 +238,32 @@ const PerfumeStoryIntroContent = styled.div`
   margin-bottom: 35px;
   font-weight: normal;
   font-size: 30px;
+  margin-bottom: 45px;
 `;
 
+const GuidText = styled.div`
+  font-weight: 400;
+  font-size: 30px;
+  color: #656565;
+  margin-bottom: 39px;
+`;
 const SubscribeButton = styled.button`
-  width: 269.03px;
-  height: 69.18px;
-
-  padding: 0 49px;
-  background-color: #d9d9d9;
-
+  width: 269px;
+  height: 69px;
+  background: #9fac9a;
   border: none;
   border-radius: 100px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  span {
-    font-weight: 400;
-    font-size: 30px;
+  font-weight: 400;
+  font-size: 30px;
+  color: white;
+  padding-left: 49px;
+  padding-top: 4px;
+  .subscribe-icon {
+    float: left;
+    margin-right: 22px;
+  }
+  .subscribe-text {
+    float: left;
   }
 `;
 
@@ -310,14 +290,16 @@ const CategoryIntroContent = styled.div`
   margin-bottom: 35px;
 `;
 
-const CategoryReadMore = styled.button`
+const CategoryButton = styled.button`
   width: 166px;
-  padding: 12px 23.5px;
+  height: 53px;
+  padding: 12px 25px;
   border: none;
   border-radius: 100px;
-  background-color: #eaeaea;
-  font-weight: normal;
+  background: #9fac9a;
+  font-weight: 400;
   font-size: 20px;
+  color: white;
 `;
 
 const CategoryImage = styled.img`
@@ -325,42 +307,4 @@ const CategoryImage = styled.img`
   height: 642px;
   margin-right: 74px;
   border-radius: 30px;
-`;
-
-const FourthThird = styled.div`
-  display: flex;
-  margin-bottom: 30rem;
-
-  img {
-    width: 680px;
-    height: 720px;
-    margin-right: 106px;
-    border-radius: 30px;
-  }
-  .description {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    .description-title {
-      margin-bottom: 1.563rem;
-      font-weight: bold;
-      font-size: 50px;
-    }
-
-    .description-content {
-      margin-bottom: 35px;
-      font-weight: normal;
-      font-size: 30px;
-    }
-
-    button {
-      width: 166px;
-      padding: 12px 23.5px;
-      border: none;
-      border-radius: 100px;
-      background-color: #eaeaea;
-      font-weight: normal;
-      font-size: 20px;
-    }
-  }
 `;
