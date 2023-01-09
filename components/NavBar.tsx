@@ -34,7 +34,9 @@ export default function NavBar() {
 
     if (scrollY > 45) {
       setIsTransparent(false);
-    } else [setIsTransparent(true)];
+    } else {
+      setIsTransparent(true);
+    }
 
     console.log(isTransparent);
     return () => {
