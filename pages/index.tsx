@@ -26,8 +26,7 @@ const Home: NextPage = () => {
       <SecondMain>
         <PerNoteImage src="/perNoteBackImg.png" alt="second main image" />
         <PerNoteIntroContent>
-          {`
-향기는 첫인상이죠. 무언의 감각이며 단어가 없는 언어입니다. 자신에게 어울리는, 자신이 원하는 향수를
+          {`향기는 첫인상이죠. 무언의 감각이며 단어가 없는 언어입니다. 자신에게 어울리는, 자신이 원하는 향수를
            찾고 싶지만 향수를 맡아보러 매장까지 가는 것도 쉽지 않은 일입니다.
       언제 어디서든 향수를 맡아보지 않더라도 쉽게 비교하고 선택도록 함께 하겠습니다.
           `}
@@ -148,6 +147,7 @@ const PerNoteIntroContent = styled.pre`
   word-break: break-all;
   overflow: auto;
   line-height: 1.6;
+  margin: 0;
 `;
 
 // 세번째
