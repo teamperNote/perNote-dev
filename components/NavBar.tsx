@@ -4,11 +4,16 @@ import { useRouter } from "next/router";
 // import { BiSearchAlt2 } from "react-icons/bi";
 import Link from "next/link";
 import CategoryDropDown from "./CategoryDropDown";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+interface NavBarProps {
+  navOption: string;
+}
 export default function NavBar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isTransparent, setIsTransparent] = useState<boolean>(true);
+  const [scrollY, setScrollY] = useState(0);
   const openDropDown = () => {
     setIsOpen(true);
   };
@@ -16,51 +21,81 @@ export default function NavBar() {
   const closeDropDown = () => {
     setIsOpen(false);
   };
+
+  function logit() {
+    setScrollY(window.pageYOffset);
+  }
+
+  useEffect(() => {
+    function watchScroll() {
+      window.addEventListener("scroll", logit);
+    }
+    watchScroll();
+
+    if (scrollY > 45) {
+      setIsTransparent(false);
+    } else [setIsTransparent(true)];
+
+    console.log(isTransparent);
+    return () => {
+      window.removeEventListener("scroll", logit);
+    };
+  }, [isTransparent, scrollY]);
   return (
-    <NavBarContainer>
-      <PernoteLogo>
-        <Link href="/">per.note</Link>
-      </PernoteLogo>
-      <Navigator>
-        <NavigatorLink>
-          <Link href="/personal-survey/start">personal scent</Link>
-        </NavigatorLink>
-        <NavigatorLink>perfume story</NavigatorLink>
-        <CategoryContainer
-          onMouseOver={openDropDown}
-          onMouseLeave={closeDropDown}
-        >
-          <NavigatorLink>Category</NavigatorLink>
-          <div className={isOpen ? "show-modal" : "close-modal"}>
-            <CategoryDropDown
-              openDropDown={openDropDown}
-              closeDropDown={closeDropDown}
-            />
-          </div>
-        </CategoryContainer>
-      </Navigator>
-      <HeaderRight>
-        {/* <SearchInput>
+    <>
+      <NavBarContainer navOption={isTransparent ? "transparent" : ""}>
+        <PernoteLogo>
+          <Link href="/">per.note</Link>
+        </PernoteLogo>
+        <Navigator>
+          <NavigatorLink>
+            <Link href="/personal-survey/start">personal scent</Link>
+          </NavigatorLink>
+          <NavigatorLink>perfume story</NavigatorLink>
+          <CategoryContainer
+            onMouseOver={openDropDown}
+            onMouseLeave={closeDropDown}
+          >
+            <NavigatorLink>Category</NavigatorLink>
+            <div className={isOpen ? "show-modal" : "close-modal"}>
+              <CategoryDropDown
+                openDropDown={openDropDown}
+                closeDropDown={closeDropDown}
+              />
+            </div>
+          </CategoryContainer>
+        </Navigator>
+        <HeaderRight>
+          {/* <SearchInput>
           <input type="text" />
           <BiSearchAlt2 />
         </SearchInput> */}
-        <Link href="/signin">
-          <Sign>Login</Sign>
-        </Link>
-        <Link href="/signup">
-          <Sign>Signup</Sign>
-        </Link>
-      </HeaderRight>
-    </NavBarContainer>
+          <Link href="/signin">
+            <Sign>Login</Sign>
+          </Link>
+          <Link href="/signup">
+            <Sign>Signup</Sign>
+          </Link>
+        </HeaderRight>
+      </NavBarContainer>
+    </>
   );
 }
 
-const NavBarContainer = styled.div`
+const NavBarContainer = styled.div<NavBarProps>`
+  width: 1920px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 17px 70px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #d9d9d9;
+  border: ${(props) => (props.navOption === "transparent" ? "none" : "")};
+  border-bottom: ${(props) =>
+    props.navOption === "transparent" ? "" : "1px solid #d9d9d9"};
+  position: fixed;
+  color: ${(props) => (props.navOption === "transparent" ? "white" : "black")};
+  background: ${(props) =>
+    props.navOption === "transparent" ? "transparent" : "white"};
+  z-index: 1;
 `;
 
 // 로고 나중에 바꾸기
@@ -128,7 +163,6 @@ const Sign = styled.div`
   font-size: 20px;
   line-height: 29px;
   margin-left: 25px;
-  color: #000000;
   cursor: pointer;
 `;
 
