@@ -1,6 +1,6 @@
 import axios from "axios";
 import CategoryCard from "components/CategoryCard";
-import CategoryText from "components/CategoryText";
+import CategorySelect from "components/CategorySelect";
 import SortDropDown from "components/SortDropDown";
 import { sortArray } from "lib/modules";
 import { useRouter } from "next/router";
@@ -46,16 +46,16 @@ export default function Category() {
           </CategoryTitle>
         ))}
       </CategoryBox>
-      <NoteBox>
+      <SelectBox>
         {noteContent.map((data) => (
-          <CategoryText
+          <CategorySelect
             key={data.id}
             data={data}
             isFocus={isFocus}
             setIsFocus={setIsFocus}
           />
         ))}
-      </NoteBox>
+      </SelectBox>
       <SortBox>
         <SortDropDown sort={sort} setSort={setSort} />
       </SortBox>
@@ -90,6 +90,7 @@ export const CategoryTitle = styled.div`
   line-height: 43px;
   color: #b2b2b2;
   margin-right: 80px;
+  cursor: pointer;
   &.focus {
     color: #000000;
   }
@@ -98,7 +99,7 @@ export const CategoryTitle = styled.div`
   }
 `;
 
-export const NoteBox = styled.div`
+export const SelectBox = styled.div`
   width: 897px;
   display: flex;
   flex-wrap: wrap;

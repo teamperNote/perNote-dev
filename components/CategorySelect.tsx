@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function CategoryText({ data, isFocus, setIsFocus }) {
+export default function CategorySelect({ data, isFocus, setIsFocus }) {
   const onBtnClick = () => {
     setIsFocus(data.value);
   };
@@ -21,6 +21,7 @@ const TextBox = styled.div`
   border-radius: 100px;
   padding: 3px 15px;
   margin: 12.5px;
+  cursor: pointer;
   &.focus {
     background: #525d4d;
   }
