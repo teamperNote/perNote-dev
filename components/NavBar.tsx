@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unknown-property */
 import styled from "styled-components";
-import { useRouter } from "next/router";
 // import { BiSearchAlt2 } from "react-icons/bi";
 import Link from "next/link";
 import CategoryDropDown from "./CategoryDropDown";
@@ -10,9 +9,9 @@ interface NavBarProps {
   navOption: string;
 }
 export default function NavBar() {
-  const router = useRouter();
+  const pathSlice = window.location.href.slice(-1) === "/";
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isTransparent, setIsTransparent] = useState<boolean>(true);
+  const [isNavShow, setIsNavShow] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
   const openDropDown = () => {
     setIsOpen(true);
@@ -33,19 +32,56 @@ export default function NavBar() {
     watchScroll();
 
     if (scrollY > 45) {
-      setIsTransparent(false);
+      setIsNavShow(true);
     } else {
-      setIsTransparent(true);
+      setIsNavShow(false);
     }
 
-    console.log(isTransparent);
     return () => {
       window.removeEventListener("scroll", logit);
     };
-  }, [isTransparent, scrollY]);
-  return (
+  }, [isNavShow, scrollY]);
+  return pathSlice ? (
     <>
-      <NavBarContainer navOption={isTransparent ? "transparent" : ""}>
+      <ScrollNavBarContainer navOption={isNavShow ? "show" : ""}>
+        <PernoteLogo>
+          <Link href="/">per.note</Link>
+        </PernoteLogo>
+        <Navigator>
+          <NavigatorLink>
+            <Link href="/personal-survey/start">personal scent</Link>
+          </NavigatorLink>
+          <NavigatorLink>perfume story</NavigatorLink>
+          <CategoryContainer
+            onMouseOver={openDropDown}
+            onMouseLeave={closeDropDown}
+          >
+            <NavigatorLink>Category</NavigatorLink>
+            <div className={isOpen ? "show-modal" : "close-modal"}>
+              <CategoryDropDown
+                openDropDown={openDropDown}
+                closeDropDown={closeDropDown}
+              />
+            </div>
+          </CategoryContainer>
+        </Navigator>
+        <HeaderRight>
+          {/* <SearchInput>
+          <input type="text" />
+          <BiSearchAlt2 />
+        </SearchInput> */}
+          <Link href="/signin">
+            <Sign>Login</Sign>
+          </Link>
+          <Link href="/signup">
+            <Sign>Signup</Sign>
+          </Link>
+        </HeaderRight>
+      </ScrollNavBarContainer>
+    </>
+  ) : (
+    <>
+      <NavBarContainer>
         <PernoteLogo>
           <Link href="/">per.note</Link>
         </PernoteLogo>
@@ -84,22 +120,34 @@ export default function NavBar() {
   );
 }
 
-const NavBarContainer = styled.div<NavBarProps>`
+const ScrollNavBarContainer = styled.div<NavBarProps>`
   width: 1920px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 17px 70px;
-  border: ${(props) => (props.navOption === "transparent" ? "none" : "")};
+  border: ${(props) => (props.navOption === "show" ? "" : "none")};
   border-bottom: ${(props) =>
-    props.navOption === "transparent" ? "" : "1px solid #d9d9d9"};
+    props.navOption === "show" ? "1px solid #d9d9d9" : ""};
   position: fixed;
-  color: ${(props) => (props.navOption === "transparent" ? "white" : "black")};
+  color: ${(props) => (props.navOption === "show" ? "black" : "white")};
   background: ${(props) =>
-    props.navOption === "transparent" ? "transparent" : "white"};
+    props.navOption === "show" ? "white" : "transparent"};
   z-index: 1;
 `;
 
+const NavBarContainer = styled.div`
+  width: 1920px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 70px;
+  border-bottom: 1px solid #d9d9d9;
+  position: fixed;
+  color: black;
+  background: white;
+  /* z-index: 1; */
+`;
 // 로고 나중에 바꾸기
 const PernoteLogo = styled.div`
   margin-right: 153px;

@@ -8,10 +8,6 @@ const Home: NextPage = () => {
   return (
     <>
       <FirstMain>
-        <MainImage
-          src="/perNoteBackImg.png"
-          alt="main first background image"
-        />
         <MainText>
           <MainTitle>메인화면</MainTitle>
           <MainContent>
@@ -103,10 +99,13 @@ export default Home;
 const FirstMain = styled.div`
   position: relative;
   color: white;
+  height: 100vh;
+  background-image: url("/perNoteBackImg.png");
+  background-size: cover;
 `;
-const MainImage = styled.img`
-  width: 100%;
-`;
+// const MainImage = styled.img`
+//   width: 100%;
+// `;
 const MainText = styled.div`
   width: 921px;
   margin-left: 174px;
@@ -148,6 +147,8 @@ const PerNoteIntroContent = styled.pre`
   overflow: auto;
   line-height: 1.6;
   margin: 0;
+  /* 메인 두번째 자간 설정 */
+  letter-spacing: -2px;
 `;
 
 // 세번째
