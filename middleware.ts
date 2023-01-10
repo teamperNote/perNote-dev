@@ -12,15 +12,11 @@ export async function middleware(req: NextRequest) {
   }
 
   const accessToken = role.split("Bearer ")[1];
-  if (!accessToken) {
-    return NextResponse.redirect(
-      new URL("/api/middleware/unauthorized", req.url),
-    );
-  }
 
   try {
-    await jwtVerify(accessToken, secretKey);
-  } catch (e) {
+    const { payload } = await jwtVerify(accessToken, secretKey);
+    console.log(payload.iss);
+  } catch (error) {
     return NextResponse.redirect(
       new URL("/api/middleware/tokenExpired", req.url),
     );

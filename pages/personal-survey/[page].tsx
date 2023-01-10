@@ -38,11 +38,8 @@ export default function PersonalSurvey() {
           feature: scentData.feature,
         },
       })
-      .then((res) => {
-        router.push({
-          pathname: "/personal-scent",
-          query: { testId: res.data.testId },
-        });
+      .then(({ data }) => {
+        router.push(`/personal-scent/${data.testId}`);
       })
       .catch((err) => {
         console.log(err);
