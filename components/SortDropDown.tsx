@@ -21,7 +21,7 @@ export default function SortDropDown({ sort, setSort }) {
   return (
     <SortDropDownContainer ref={DropDownRef}>
       <SortBox onClick={() => SetIsShowDropDown(!isShowDropDown)}>
-        <SortName>{sortArray.find((x) => x.id === sort).text}</SortName>
+        <SortName>{sortArray.find((x) => x.value === sort).text}</SortName>
         <SortButton src={"/sortBtn.svg"} />
       </SortBox>
       {isShowDropDown && (
@@ -31,7 +31,7 @@ export default function SortDropDown({ sort, setSort }) {
               key={data.id}
               onClick={() => {
                 SetIsShowDropDown(false);
-                setSort(data.id);
+                setSort(data.value);
               }}
             >
               <DropDownSpan>{data.text}</DropDownSpan>

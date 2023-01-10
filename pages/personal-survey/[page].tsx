@@ -7,7 +7,7 @@ import {
   seasonArray,
   colorArray,
   personalityArray,
-  featureArray,
+  charArray,
 } from "lib/modules";
 import axios from "axios";
 // import { IoChevronBackSharp } from "react-icons/io5";
@@ -55,145 +55,151 @@ export default function PersonalSurvey() {
 
   return (
     <PersonalScentContainer>
-      <PersonalScentBox>
-        {page == "start" && (
-          <>
-            <PersonalScentTitle>Personal Scent</PersonalScentTitle>
-            <PersonalScentText>
-              자신만의 향을 찾기 어려우셨나요?
-              <br />
-              간단한 질문으로 여러분의 향을 찾아드립니다.
-            </PersonalScentText>
-            <StartBtn onClick={() => router.push("gender")}>
-              <StartSpan>START</StartSpan>
-            </StartBtn>
-          </>
-        )}
-        {page == "gender" && (
-          <>
-            <SubTitle>어느 성별의 향을 원하시나요?</SubTitle>
-            <CardContainer>
-              {genderArray.map((data) => (
-                // <DotBox key={data.id}>
-                //   <GenderDot></GenderDot>
-                //   <DotText>{data.content}</DotText>
-                // </DotBox>
-                <Card
-                  key={data.id}
-                  margin_R={"30px"}
-                  onClick={() => {
-                    setScentData({ ...scentData, gender: data.value });
-                    router.push("concentration");
-                  }}
-                >
-                  <CardContent>{data.text}</CardContent>
-                </Card>
-              ))}
-            </CardContainer>
-          </>
-        )}
-        {page == "concentration" && (
-          <>
-            <SubTitle>어느 때에 향수를 뿌리고 싶으신가요?</SubTitle>
-            <CardContainer>
-              {concentrationArray.map((data) => (
-                <Card
-                  key={data.id}
-                  onClick={() => {
-                    setScentData({ ...scentData, concentration: data.value });
-                    router.push("season");
-                  }}
-                >
-                  <CardContent>{data.text}</CardContent>
-                </Card>
-              ))}
-            </CardContainer>
-          </>
-        )}
-        {page == "season" && (
-          <>
-            <SubTitle>당신이 좋아하는 계절은 무엇인가요?</SubTitle>
-            <CardContainer>
-              {seasonArray.map((data) => (
-                <Card
-                  key={data.id}
-                  onClick={() => {
-                    setScentData({ ...scentData, season: data.value });
-                    router.push("color");
-                  }}
-                >
-                  <CardContent>{data.text}</CardContent>
-                </Card>
-              ))}
-            </CardContainer>
-          </>
-        )}
-        {page == "color" && (
-          <>
-            <SubTitle margin_T={"90px"} margin_B={"67px"}>
-              당신이 좋아하는 색은 무엇인가요?
-            </SubTitle>
-            <ColorCardContainer>
-              {colorArray.map((data) => (
-                <ColorCard
-                  key={data.id}
-                  onClick={() => {
-                    setScentData({ ...scentData, color: data.value });
-                    router.push("personality");
-                  }}
-                >
-                  <Color background={data.color} />
-                  <ColorCardContent>{data.text}</ColorCardContent>
-                </ColorCard>
-              ))}
-            </ColorCardContainer>
-          </>
-        )}
-        {page == "personality" && (
-          <>
-            <SubTitle margin_T={"90px"} margin_B={"92px"}>
-              당신을 가장 잘 표현한 단어는 무엇인가요?
-            </SubTitle>
-            <TextCardContainer>
-              {personalityArray.map((data) => (
-                <TextCard
-                  key={data.id}
-                  onClick={() => {
-                    setScentData({ ...scentData, personality: data.value });
-                    router.push("feature");
-                  }}
-                >
-                  <TextCardContent>{data.text}</TextCardContent>
-                </TextCard>
-              ))}
-            </TextCardContainer>
-          </>
-        )}
-        {page == "feature" && (
-          <>
-            <SubTitle margin_B="100px">
-              당신이 원하는 향수는 어떤 느낌인가요?
-            </SubTitle>
-            <TextCardContainer>
-              {featureArray.map((data) => (
-                <TextCard
-                  key={data.id}
-                  onClick={() => {
-                    setScentData({ ...scentData, feature: data.value });
-                  }}
-                >
-                  <TextCardContent>{data.text}</TextCardContent>
-                </TextCard>
-              ))}
-            </TextCardContainer>
-          </>
-        )}
-      </PersonalScentBox>
+      <Background>
+        <PersonalScentBox>
+          {page == "start" && (
+            <>
+              <PersonalScentTitle>Personal Scent</PersonalScentTitle>
+              <PersonalScentText>
+                자신만의 향을 찾기 어려우셨나요?
+                <br />
+                간단한 질문으로 여러분의 향을 찾아드립니다.
+              </PersonalScentText>
+              <StartBtn onClick={() => router.push("gender")}>
+                <StartSpan>START</StartSpan>
+              </StartBtn>
+            </>
+          )}
+          {page == "gender" && (
+            <>
+              <SubTitle>어느 성별의 향을 원하시나요?</SubTitle>
+              <CardContainer>
+                {genderArray.map((data) => (
+                  // <DotBox key={data.id}>
+                  //   <GenderDot></GenderDot>
+                  //   <DotText>{data.content}</DotText>
+                  // </DotBox>
+                  <Card
+                    key={data.id}
+                    margin_R={"30px"}
+                    onClick={() => {
+                      setScentData({ ...scentData, gender: data.value });
+                      router.push("concentration");
+                    }}
+                  >
+                    <CardContent>{data.text}</CardContent>
+                  </Card>
+                ))}
+              </CardContainer>
+            </>
+          )}
+          {page == "concentration" && (
+            <>
+              <SubTitle>어느 때에 향수를 뿌리고 싶으신가요?</SubTitle>
+              <CardContainer>
+                {concentrationArray.map((data) => (
+                  <Card
+                    key={data.id}
+                    onClick={() => {
+                      setScentData({ ...scentData, concentration: data.value });
+                      router.push("season");
+                    }}
+                  >
+                    <CardContent>{data.text}</CardContent>
+                  </Card>
+                ))}
+              </CardContainer>
+            </>
+          )}
+          {page == "season" && (
+            <>
+              <SubTitle>당신이 좋아하는 계절은 무엇인가요?</SubTitle>
+              <CardContainer>
+                {seasonArray.map((data) => (
+                  <Card
+                    key={data.id}
+                    onClick={() => {
+                      setScentData({ ...scentData, season: data.value });
+                      router.push("color");
+                    }}
+                  >
+                    <CardContent>{data.text}</CardContent>
+                  </Card>
+                ))}
+              </CardContainer>
+            </>
+          )}
+          {page == "color" && (
+            <>
+              <SubTitle margin_T={"90px"} margin_B={"67px"}>
+                당신이 좋아하는 색은 무엇인가요?
+              </SubTitle>
+              <ColorCardContainer>
+                {colorArray.map((data) => (
+                  <ColorCard
+                    key={data.id}
+                    onClick={() => {
+                      setScentData({ ...scentData, color: data.value });
+                      router.push("personality");
+                    }}
+                  >
+                    <Color background={data.color} />
+                    <ColorCardContent>{data.text}</ColorCardContent>
+                  </ColorCard>
+                ))}
+              </ColorCardContainer>
+            </>
+          )}
+          {page == "personality" && (
+            <>
+              <SubTitle margin_T={"90px"} margin_B={"92px"}>
+                당신을 가장 잘 표현한 단어는 무엇인가요?
+              </SubTitle>
+              <TextCardContainer>
+                {personalityArray.map((data) => (
+                  <TextCard
+                    key={data.id}
+                    onClick={() => {
+                      setScentData({ ...scentData, personality: data.value });
+                      router.push("feature");
+                    }}
+                  >
+                    <TextCardContent>{data.text}</TextCardContent>
+                  </TextCard>
+                ))}
+              </TextCardContainer>
+            </>
+          )}
+          {page == "feature" && (
+            <>
+              <SubTitle margin_B="100px">
+                당신이 원하는 향수는 어떤 느낌인가요?
+              </SubTitle>
+              <TextCardContainer>
+                {charArray.map((data) => (
+                  <TextCard
+                    key={data.id}
+                    onClick={() => {
+                      setScentData({ ...scentData, feature: data.value });
+                    }}
+                  >
+                    <TextCardContent>{data.text}</TextCardContent>
+                  </TextCard>
+                ))}
+              </TextCardContainer>
+            </>
+          )}
+        </PersonalScentBox>
+      </Background>
     </PersonalScentContainer>
   );
 }
 
 export const PersonalScentContainer = styled.div`
+  padding-top: 110px;
+`;
+
+export const Background = styled.div`
   width: 1920px;
   height: 970px;
   background: #eaeaea;
