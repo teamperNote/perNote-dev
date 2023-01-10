@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 
-const secretKey = process.env.JWT_SECRET_KEY || "";
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 const prisma = new PrismaClient();
 
@@ -30,12 +30,19 @@ export default async function handler(
       });
     }
 
-    const accessToken = jwt.sign({ userId: user.email }, secretKey, {
-      expiresIn: "1h",
-    });
-    const refreshToken = jwt.sign({ userId: user.email }, secretKey, {
-      expiresIn: "14d",
-    });
+    const alg = "HS256";
+
+    const accessToken = await new SignJWT({ "urn:example:claim": true })
+      .setProtectedHeader({ alg })
+      .setIssuer(user.email)
+      .setExpirationTime("1h")
+      .sign(secretKey);
+
+    const refreshToken = await new SignJWT({ "urn:example:claim": true })
+      .setProtectedHeader({ alg })
+      .setIssuer(user.email)
+      .setExpirationTime("14d")
+      .sign(secretKey);
 
     return res.status(200).json({
       user,
