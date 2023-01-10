@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
-export default function CategorySelect({ data, isFocus, setIsFocus }) {
+export default function CategorySelect({ data, selected, setSelected }) {
   const onBtnClick = () => {
-    setIsFocus(data.value);
+    setSelected(data.value);
   };
   return (
     <TextBox
       onClick={onBtnClick}
-      className={isFocus == data.value ? "focus" : "noo"}
+      className={selected == data.value ? "focus" : "noo"}
     >
-      <TextSpan className={isFocus == data.value ? "focus" : ""}>
+      <TextSpan className={selected == data.value ? "focus" : ""}>
         {data.text}
       </TextSpan>
     </TextBox>
@@ -20,10 +20,10 @@ const TextBox = styled.div`
   background: #dfdfdf;
   border-radius: 100px;
   padding: 3px 15px;
-  margin: 12.5px;
+  margin: 0 12.5px 25px 12.5px;
   cursor: pointer;
   &.focus {
-    background: #525d4d;
+    background: var(--primary-color);
   }
 `;
 
