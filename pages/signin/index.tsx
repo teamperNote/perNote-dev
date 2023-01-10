@@ -121,7 +121,8 @@ function Login() {
 export default Login;
 
 const Container = styled.div`
-  height: 90vh;
+  padding-top: 105px;
+  height: 100vh;
   background: url("/perNoteBackImg.png") no-repeat left top/100% 100%;
 `;
 

@@ -352,7 +352,7 @@ const SignupWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  margin-top: 180px;
+  padding-top: 180px;
 `;
 
 const Title = styled.h2`
@@ -380,7 +380,7 @@ const SnsList = styled.ul`
 const SnsItem = styled.li`
   width: 940px;
   height: 120px;
-  background: #d9d9d9;
+  background: #fee500;
   padding: 1rem 2rem;
   /* margin-bottom 둘 중 하나만  */
   margin-bottom: 35px;
