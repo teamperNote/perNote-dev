@@ -4,12 +4,14 @@ import styled from "styled-components";
 import Link from "next/link";
 import CategoryDropDown from "./CategoryDropDown";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface NavBarProps {
   navOption: string;
 }
 export default function NavBar() {
-  // const pathSlice = window.location.href.slice(-1) === "/";
+  const router = useRouter();
+  const pathname = router.pathname;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNavShow, setIsNavShow] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
@@ -41,46 +43,46 @@ export default function NavBar() {
       window.removeEventListener("scroll", logit);
     };
   }, [isNavShow, scrollY]);
-  // return pathSlice ? (
-  //   <>
-  //     <ScrollNavBarContainer navOption={isNavShow ? "show" : ""}>
-  //       <PernoteLogo>
-  //         <Link href="/">per.note</Link>
-  //       </PernoteLogo>
-  //       <Navigator>
-  //         <NavigatorLink>
-  //           <Link href="/personal-survey/start">personal scent</Link>
-  //         </NavigatorLink>
-  //         <NavigatorLink>perfume story</NavigatorLink>
-  //         <CategoryContainer
-  //           onMouseOver={openDropDown}
-  //           onMouseLeave={closeDropDown}
-  //         >
-  //           <NavigatorLink>Category</NavigatorLink>
-  //           <div className={isOpen ? "show-modal" : "close-modal"}>
-  //             <CategoryDropDown
-  //               openDropDown={openDropDown}
-  //               closeDropDown={closeDropDown}
-  //             />
-  //           </div>
-  //         </CategoryContainer>
-  //       </Navigator>
-  //       <HeaderRight>
-  //         {/* <SearchInput>
-  //         <input type="text" />
-  //         <BiSearchAlt2 />
-  //       </SearchInput> */}
-  //         <Link href="/signin">
-  //           <Sign>Login</Sign>
-  //         </Link>
-  //         <Link href="/signup">
-  //           <Sign>Signup</Sign>
-  //         </Link>
-  //       </HeaderRight>
-  //     </ScrollNavBarContainer>
-  //   </>
-  // ) : (
-    return(<>
+  return pathname === "/" ? (
+    <>
+      <ScrollNavBarContainer navOption={isNavShow ? "show" : ""}>
+        <PernoteLogo>
+          <Link href="/">per.note</Link>
+        </PernoteLogo>
+        <Navigator>
+          <NavigatorLink>
+            <Link href="/personal-survey/start">personal scent</Link>
+          </NavigatorLink>
+          <NavigatorLink>perfume story</NavigatorLink>
+          <CategoryContainer
+            onMouseOver={openDropDown}
+            onMouseLeave={closeDropDown}
+          >
+            <NavigatorLink>Category</NavigatorLink>
+            <div className={isOpen ? "show-modal" : "close-modal"}>
+              <CategoryDropDown
+                openDropDown={openDropDown}
+                closeDropDown={closeDropDown}
+              />
+            </div>
+          </CategoryContainer>
+        </Navigator>
+        <HeaderRight>
+          {/* <SearchInput>
+          <input type="text" />
+          <BiSearchAlt2 />
+        </SearchInput> */}
+          <Link href="/signin">
+            <Sign>Login</Sign>
+          </Link>
+          <Link href="/signup">
+            <Sign>Signup</Sign>
+          </Link>
+        </HeaderRight>
+      </ScrollNavBarContainer>
+    </>
+  ) : (
+    <>
       <NavBarContainer>
         <PernoteLogo>
           <Link href="/">per.note</Link>
@@ -146,7 +148,7 @@ const NavBarContainer = styled.div`
   position: fixed;
   color: black;
   background: white;
-  /* z-index: 1; */
+  z-index: 1;
 `;
 // 로고 나중에 바꾸기
 const PernoteLogo = styled.div`
