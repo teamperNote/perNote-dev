@@ -2,6 +2,7 @@ import axios from "axios";
 import CategoryCard from "components/CategoryCard";
 import CategoryText from "components/CategoryText";
 import SortDropDown from "components/SortDropDown";
+import { sortArray } from "lib/modules";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -17,6 +18,7 @@ export default function Category() {
   };
 
   const [purfume, setPurfume] = useState([]);
+  const [sort, setSort] = useState(sortArray[0].id);
   const getCategoryPerfume = () => {
     axios
       .get("/api/category", {
@@ -55,7 +57,7 @@ export default function Category() {
         ))}
       </NoteBox>
       <SortBox>
-        <SortDropDown />
+        <SortDropDown sort={sort} setSort={setSort} />
       </SortBox>
       <CardBox>
         {purfume.map((data) => (
