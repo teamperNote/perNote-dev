@@ -7,7 +7,7 @@ import {
   seasonArray,
   colorArray,
   personalityArray,
-  featureArray,
+  charArray,
 } from "lib/modules";
 import axios from "axios";
 // import { IoChevronBackSharp } from "react-icons/io5";
@@ -176,7 +176,7 @@ export default function PersonalSurvey() {
                 당신이 원하는 향수는 어떤 느낌인가요?
               </SubTitle>
               <TextCardContainer>
-                {featureArray.map((data) => (
+                {charArray.map((data) => (
                   <TextCard
                     key={data.id}
                     onClick={() => {

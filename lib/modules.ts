@@ -1,4 +1,10 @@
-export const genderArray = [
+interface ICategory {
+  id: number;
+  value: string;
+  text: string;
+}
+
+export const genderArray: ICategory[] = [
   {
     id: 0,
     value: "f",
@@ -26,7 +32,7 @@ export const genderArray = [
   },
 ];
 
-export const concentrationArray = [
+export const concentrationArray: ICategory[] = [
   {
     id: 0,
     value: "daily",
@@ -39,7 +45,7 @@ export const concentrationArray = [
   },
 ];
 
-export const seasonArray = [
+export const seasonArray: ICategory[] = [
   {
     id: 0,
     value: "spring",
@@ -67,69 +73,69 @@ export const colorArray = [
     id: 0,
     value: "red",
     text: "빨간색",
-    color: "#ff0000",
+    color: "#FF0000",
   },
   {
     id: 1,
     value: "orange",
     text: "주황색",
-    color: "#ff7f00",
+    color: "#FF7A00",
   },
   {
     id: 2,
     value: "yellow",
     text: "노란색",
-    color: "#ffff00",
+    color: "#FFE600",
   },
   {
     id: 3,
     value: "green",
     text: "초록색",
-    color: "#ff7f00",
+    color: "#00A61B",
   },
   {
     id: 4,
     value: "blue",
     text: "파란색",
-    color: "#ff7f00",
+    color: "#0500FF",
   },
   {
     id: 5,
     value: "pink",
     text: "분홍색",
-    color: "#ff7f00",
+    color: "#FF9999",
   },
   {
     id: 6,
     value: "purple",
     text: "보라색",
-    color: "#ff7f00",
+    color: "#9816D4",
   },
   {
     id: 7,
     value: "black",
     text: "검은색",
-    color: "#ff7f00",
+    color: "#000000",
   },
   {
     id: 8,
     value: "white",
     text: "흰 색",
-    color: "#ff7f00",
+    color: "#000000",
   },
   {
     id: 9,
     value: "brown",
     text: "갈 색",
-    color: "#ff7f00",
+    color: "#D9D9D9",
   },
 ];
 
-export const personalityArray = [
+export const personalityArray: ICategory[] = [
   {
     id: 0,
     value: "vivid",
-    text: "생동감 있는",
+    text: "생동감있는",
   },
   {
     id: 1,
@@ -159,12 +165,12 @@ export const personalityArray = [
   {
     id: 6,
     value: "masculine",
-    text: "남성스러운",
+    text: "남성적인",
   },
   {
     id: 7,
     value: "feminine",
-    text: "여성스러운",
+    text: "여성적인",
   },
   {
     id: 8,
@@ -181,9 +187,14 @@ export const personalityArray = [
     value: "purehearted",
     text: "청순한",
   },
+  // {
+  //   id: 11,
+  //   value: "cotton",
+  //   text: "활기찬",
+  // },
 ];
 
-export const featureArray = [
+export const charArray: ICategory[] = [
   {
     id: 0,
     value: "intense",
@@ -219,32 +230,115 @@ export const featureArray = [
     value: "luxurious",
     text: "고급스러운",
   },
+  // {
+  //   id: 7,
+  //   value: "",
+  //   text: "모던한",
+  // },
+  // {
+  //   id: 8,
+  //   value: "",
+  //   text: "산뜻한",
+  // },
 ];
 
-export const categoryUrl = [
+export const categoryArray: ICategory[] = [
   {
     id: 0,
-    value: "/category/note",
+    value: "note",
     text: "노트",
   },
   {
     id: 1,
-    value: "/category/brand",
+    value: "brand",
     text: "브랜드",
   },
   {
     id: 2,
-    value: "/category/personality",
+    value: "personality",
     text: "성격",
   },
   {
     id: 3,
-    value: "/category/characteristics",
+    value: "characteristics",
     text: "특징",
   },
 ];
 
-export const sortArray = [
+export const noteArray: ICategory[] = [
+  {
+    id: 0,
+    value: "amber",
+    text: "AMBER",
+  },
+  {
+    id: 1,
+    value: "aquatic",
+    text: "AQUATIC",
+  },
+  {
+    id: 2,
+    value: "woody",
+    text: "WOODY",
+  },
+  {
+    id: 3,
+    value: "aromatic",
+    text: "AROMATIC",
+  },
+  {
+    id: 4,
+    value: "chypre",
+    text: "CHYPRE",
+  },
+  {
+    id: 5,
+    value: "citrus",
+    text: "CITRUS",
+  },
+  {
+    id: 6,
+    value: "floral",
+    text: "FLORAL",
+  },
+  {
+    id: 7,
+    value: "frutiy",
+    text: "FRUTIY",
+  },
+  {
+    id: 8,
+    value: "green",
+    text: "GREEN",
+  },
+  {
+    id: 9,
+    value: "animalic",
+    text: "ANIMALIC",
+  },
+  {
+    id: 10,
+    value: "spicy",
+    text: "SPICY",
+  },
+  {
+    id: 11,
+    value: "cotton",
+    text: "COTTON",
+  },
+  {
+    id: 12,
+    value: "flourere",
+    text: "FOURERE",
+  },
+  {
+    id: 13,
+    value: "etc",
+    text: "E.T.C",
+  },
+];
+
+export const sortArray: ICategory[] = [
   {
     id: 0,
     value: "latest",

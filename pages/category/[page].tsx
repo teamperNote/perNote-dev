@@ -2,7 +2,7 @@ import axios from "axios";
 import CategoryCard from "components/CategoryCard";
 import CategorySelect from "components/CategorySelect";
 import SortDropDown from "components/SortDropDown";
-import { sortArray } from "lib/modules";
+import { categoryArray, noteArray, sortArray } from "lib/modules";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ export default function Category() {
   const router = useRouter();
   const { page } = router.query;
 
-  const [isFocus, setIsFocus] = useState(noteContent[0].value);
+  const [isFocus, setIsFocus] = useState(noteArray[0].value);
 
   const onPageClick = (value: string) => {
     router.push(value);
@@ -34,7 +34,7 @@ export default function Category() {
   return (
     <CategoryContainer>
       <CategoryBox>
-        {categoryTitle.map((data) => (
+        {categoryArray.map((data) => (
           <CategoryTitle
             key={data.id}
             onClick={() => {
@@ -47,7 +47,7 @@ export default function Category() {
         ))}
       </CategoryBox>
       <SelectBox>
-        {noteContent.map((data) => (
+        {noteArray.map((data) => (
           <CategorySelect
             key={data.id}
             data={data}
@@ -119,105 +119,3 @@ export const CardBox = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 `;
-
-interface ICategory {
-  id: number;
-  value: string;
-  text: string;
-}
-
-const categoryTitle: ICategory[] = [
-  {
-    id: 0,
-    value: "note",
-    text: "노트",
-  },
-  {
-    id: 1,
-    value: "brand",
-    text: "브랜드",
-  },
-  {
-    id: 2,
-    value: "personality",
-    text: "성격",
-  },
-  {
-    id: 3,
-    value: "characteristics",
-    text: "특징",
-  },
-];
-
-const noteContent: ICategory[] = [
-  {
-    id: 0,
-    value: "amber",
-    text: "AMBER",
-  },
-  {
-    id: 1,
-    value: "aquatic",
-    text: "AQUATIC",
-  },
-  {
-    id: 2,
-    value: "woody",
-    text: "WOODY",
-  },
-  {
-    id: 3,
-    value: "aromatic",
-    text: "AROMATIC",
-  },
-  {
-    id: 4,
-    value: "chypre",
-    text: "CHYPRE",
-  },
-  {
-    id: 5,
-    value: "citrus",
-    text: "CITRUS",
-  },
-  {
-    id: 6,
-    value: "floral",
-    text: "FLORAL",
-  },
-  {
-    id: 7,
-    value: "frutiy",
-    text: "FRUTIY",
-  },
-  {
-    id: 8,
-    value: "green",
-    text: "GREEN",
-  },
-  {
-    id: 9,
-    value: "animalic",
-    text: "ANIMALIC",
-  },
-  {
-    id: 10,
-    value: "spicy",
-    text: "SPICY",
-  },
-  {
-    id: 11,
-    value: "cotton",
-    text: "COTTON",
-  },
-  {
-    id: 12,
-    value: "flourere",
-    text: "FOURERE",
-  },
-  {
-    id: 13,
-    value: "etc",
-    text: "E.T.C",
-  },
-];

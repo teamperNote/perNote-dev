@@ -1,13 +1,13 @@
 import Link from "next/link";
 import styled from "styled-components";
-import { categoryUrl } from "lib/modules";
+import { categoryArray } from "lib/modules";
 
 export default function CategoryDropDown({ openDropDown, closeDropDown }: any) {
   return (
     <DropDownContainer onMouseOver={openDropDown} onMouseLeave={closeDropDown}>
-      {categoryUrl.map((data) => (
+      {categoryArray.map((data) => (
         <Div key={data.id} onClick={closeDropDown}>
-          <Link href={data.value}>{data.text}</Link>
+          <Link href={`/category/${data.value}`}>{data.text}</Link>
         </Div>
       ))}
     </DropDownContainer>
