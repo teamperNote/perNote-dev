@@ -2,7 +2,6 @@ import axios from "axios";
 import CategoryCard from "components/CategoryCard";
 import CategoryText from "components/CategoryText";
 import SortDropDown from "components/SortDropDown";
-import StoryCard from "components/StoryCard";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -62,26 +61,6 @@ export default function Category() {
         {purfume.map((data) => (
           <CategoryCard key={data.id} data={data} />
         ))}
-        <StoryCard
-          url={
-            "https://img.allurekorea.com/allure/2022/05/style_626fc90f2ff49-1200x815.jpg"
-          }
-        />
-        <StoryCard
-          url={
-            "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202202/15/da58e766-6eec-43f2-ba9a-09da61e1d1eb.jpg"
-          }
-        />
-        <StoryCard
-          url={
-            "https://d33ur1yh5ph6b5.cloudfront.net/cad4f8d3-5c0c-4ff0-8ce6-66ba5c4ec7df-mid"
-          }
-        />
-        <StoryCard
-          url={
-            "https://www.noblesse.com/shop/data/m/editor_new/2020/05/08/5a05222cdb19caa12005_men_152_01.jpg"
-          }
-        />
       </CardBox>
     </CategoryContainer>
   );
