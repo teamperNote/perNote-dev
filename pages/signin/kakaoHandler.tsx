@@ -14,7 +14,7 @@ function KakaoHandler(props: any) {
         router.push("/signup");
       }
     });
-  }, []);
+  }, [props.code, router]);
   return <div></div>;
 }
 
