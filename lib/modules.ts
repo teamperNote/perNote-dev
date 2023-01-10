@@ -338,6 +338,139 @@ export const noteArray: ICategory[] = [
   },
 ];
 
+export const alphabetArray: ICategory[] = [
+  {
+    id: 0,
+    value: "a",
+    text: "A",
+  },
+  {
+    id: 1,
+    value: "b",
+    text: "B",
+  },
+  {
+    id: 2,
+    value: "c",
+    text: "C",
+  },
+  {
+    id: 3,
+    value: "d",
+    text: "D",
+  },
+  {
+    id: 4,
+    value: "e",
+    text: "E",
+  },
+  {
+    id: 5,
+    value: "f",
+    text: "F",
+  },
+  {
+    id: 6,
+    value: "g",
+    text: "G",
+  },
+  {
+    id: 7,
+    value: "h",
+    text: "H",
+  },
+  {
+    id: 8,
+    value: "i",
+    text: "I",
+  },
+  {
+    id: 9,
+    value: "j",
+    text: "J",
+  },
+  {
+    id: 10,
+    value: "k",
+    text: "K",
+  },
+  {
+    id: 11,
+    value: "l",
+    text: "L",
+  },
+  {
+    id: 12,
+    value: "m",
+    text: "M",
+  },
+  {
+    id: 13,
+    value: "n",
+    text: "N",
+  },
+  {
+    id: 14,
+    value: "o",
+    text: "O",
+  },
+  {
+    id: 15,
+    value: "p",
+    text: "P",
+  },
+  {
+    id: 16,
+    value: "q",
+    text: "Q",
+  },
+  {
+    id: 17,
+    value: "r",
+    text: "R",
+  },
+  {
+    id: 18,
+    value: "s",
+    text: "S",
+  },
+  {
+    id: 19,
+    value: "t",
+    text: "T",
+  },
+  {
+    id: 20,
+    value: "u",
+    text: "U",
+  },
+  {
+    id: 21,
+    value: "v",
+    text: "V",
+  },
+  {
+    id: 22,
+    value: "w",
+    text: "W",
+  },
+  {
+    id: 23,
+    value: "x",
+    text: "X",
+  },
+  {
+    id: 24,
+    value: "y",
+    text: "Y",
+  },
+  {
+    id: 25,
+    value: "z",
+    text: "Z",
+  },
+];
+
 export const sortArray: ICategory[] = [
   {
     id: 0,
