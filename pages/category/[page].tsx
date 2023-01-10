@@ -73,6 +73,7 @@ export const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 110px;
 `;
 
 export const CategoryBox = styled.div`
