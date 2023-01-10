@@ -5,7 +5,7 @@ import { sortArray } from "lib/modules";
 export default function SortDropDown({ sort, setSort }) {
   const [isShowDropDown, SetIsShowDropDown] = useState(false);
 
-  const DropDownRef = useRef();
+  const DropDownRef = useRef<HTMLDivElement>();
   useEffect(() => {
     // 모달 영역 외 클릭 시 종료
     const handleCloseModal = (e) => {
