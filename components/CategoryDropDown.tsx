@@ -1,7 +1,8 @@
 import Link from "next/link";
-import React from "react";
 import styled from "styled-components";
-const CategoryDropDown = ({ openDropDown, closeDropDown }: any) => {
+import { categoryUrl } from "lib/modules";
+
+export default function CategoryDropDown({ openDropDown, closeDropDown }: any) {
   return (
     <DropDownContainer onMouseOver={openDropDown} onMouseLeave={closeDropDown}>
       {categoryUrl.map((data) => (
@@ -11,9 +12,7 @@ const CategoryDropDown = ({ openDropDown, closeDropDown }: any) => {
       ))}
     </DropDownContainer>
   );
-};
-
-export default CategoryDropDown;
+}
 
 const DropDownContainer = styled.div`
   width: 184px;
@@ -36,26 +35,3 @@ const Div = styled.div`
   text-align: center;
   color: #000000; ;
 `;
-
-const categoryUrl = [
-  {
-    id: 0,
-    value: "/category/note",
-    text: "노트",
-  },
-  {
-    id: 1,
-    value: "/category/brand",
-    text: "브랜드",
-  },
-  {
-    id: 2,
-    value: "/category/personality",
-    text: "성격",
-  },
-  {
-    id: 3,
-    value: "/category/characteristics",
-    text: "특징",
-  },
-];
