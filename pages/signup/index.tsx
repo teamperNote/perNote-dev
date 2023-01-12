@@ -10,6 +10,25 @@ interface LoginProps {
 }
 
 function Signup() {
+  const agreeList = [
+    { isCheckAll: true, text: "약관 전체 동의" },
+    {
+      isCheckAll: false,
+      text: "[필수] 이용약관 동의",
+    },
+    {
+      isCheckAll: false,
+      text: "[필수] 개인정보 수집 및 이용 동의",
+    },
+    {
+      isCheckAll: false,
+      text: "[선택] 광고성 메세지 수신 동의",
+    },
+    {
+      isCheckAll: false,
+      text: "[선택] 마케팅 정보 수집 동의",
+    },
+  ];
   const router = useRouter();
   const [name, setName] = useState<string>("");
 
@@ -33,7 +52,7 @@ function Signup() {
 
   const [gender, setGender] = useState<string>("");
 
-  const [isAgree, setIsAgree] = useState<boolean>(false);
+  const [isStoryAgree, setIsStoryAgree] = useState<boolean>(false);
 
   const [snsId, setSnsId] = useState<string>("");
 
@@ -64,12 +83,12 @@ function Signup() {
     setGender(e.target.value);
   };
 
-  const changeAgree = (e: any) => {
+  const changeStoryAgree = (e: any) => {
     if (e.target.value === "yes") {
-      setIsAgree(true);
+      setIsStoryAgree(true);
     }
     if (e.target.value === "no") {
-      setIsAgree(false);
+      setIsStoryAgree(false);
     }
   };
   const checkEmailDuplication = async (e: any) => {
@@ -147,7 +166,7 @@ function Signup() {
       phoneNumber &&
       birth &&
       gender &&
-      isAgree
+      isStoryAgree
     ) {
       return true;
     }
@@ -314,18 +333,24 @@ function Signup() {
               </RadioItem>
               <RadioItem>
                 <FormLabel>스토리 수신 여부</FormLabel>
-                <RadioButton onChange={changeAgree}>
+                <RadioButton onChange={changeStoryAgree}>
                   <input id="agree" type="radio" name="story" value="yes" />
                   <label htmlFor="agree">동의</label>
                 </RadioButton>
-                <RadioButton onChange={changeAgree}>
+                <RadioButton onChange={changeStoryAgree}>
                   <input id="disagree" type="radio" name="story" value="no" />
                   <label htmlFor="disagree">비동의</label>
                 </RadioButton>
               </RadioItem>
             </FormList>
             <CheckList>
-              <AgreeItem />
+              {agreeList.map((item: any, index: any) => (
+                <AgreeItem
+                  key={index}
+                  isCheckAll={item.isCheckAll}
+                  text={item.text}
+                />
+              ))}
             </CheckList>
           </Field>
           <SignupButton
