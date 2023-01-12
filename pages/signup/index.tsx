@@ -4,31 +4,46 @@ import axios from "axios";
 import { IoMdCalendar } from "react-icons/io";
 import { useRouter } from "next/router";
 import AgreeItem from "components/AgreeItem";
+import RadioItem from "components/RadioButton";
 
 interface LoginProps {
   isActive: string;
 }
 
+const agreeList = [
+  { isCheckAll: true, text: "약관 전체 동의" },
+  {
+    isCheckAll: false,
+    text: "[필수] 이용약관 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[필수] 개인정보 수집 및 이용 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[선택] 광고성 메세지 수신 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[선택] 마케팅 정보 수집 동의",
+  },
+];
+const radioList = [
+  {
+    label: "성별",
+    id: ["male", "female"],
+    name: "gender",
+    text: ["남성", "여성"],
+  },
+  {
+    label: "스토리 수신 여부",
+    id: ["agree", "disagee"],
+    name: "story",
+    text: ["동의", "비동의"],
+  },
+];
 function Signup() {
-  const agreeList = [
-    { isCheckAll: true, text: "약관 전체 동의" },
-    {
-      isCheckAll: false,
-      text: "[필수] 이용약관 동의",
-    },
-    {
-      isCheckAll: false,
-      text: "[필수] 개인정보 수집 및 이용 동의",
-    },
-    {
-      isCheckAll: false,
-      text: "[선택] 광고성 메세지 수신 동의",
-    },
-    {
-      isCheckAll: false,
-      text: "[선택] 마케팅 정보 수집 동의",
-    },
-  ];
   const router = useRouter();
   const [name, setName] = useState<string>("");
 
@@ -315,33 +330,10 @@ function Signup() {
                   <IoMdCalendar className="icon" />
                 </IconContainer>
               </FormItem>
-              <RadioItem>
-                <FormLabel>성별</FormLabel>
-                <RadioButton onChange={selectGender}>
-                  <input id="male" type="radio" name="gender" value="male" />
-                  <label htmlFor="male">남성</label>
-                </RadioButton>
-                <RadioButton onChange={selectGender}>
-                  <input
-                    id="female"
-                    type="radio"
-                    name="gender"
-                    value="female"
-                  />
-                  <label htmlFor="female">여성</label>
-                </RadioButton>
-              </RadioItem>
-              <RadioItem>
-                <FormLabel>스토리 수신 여부</FormLabel>
-                <RadioButton onChange={changeStoryAgree}>
-                  <input id="agree" type="radio" name="story" value="yes" />
-                  <label htmlFor="agree">동의</label>
-                </RadioButton>
-                <RadioButton onChange={changeStoryAgree}>
-                  <input id="disagree" type="radio" name="story" value="no" />
-                  <label htmlFor="disagree">비동의</label>
-                </RadioButton>
-              </RadioItem>
+              <div>
+                <RadioItem radioData={radioList[0]} />
+                <RadioItem radioData={radioList[1]} />
+              </div>
             </FormList>
             <CheckList>
               {agreeList.map((item: any, index: any) => (
@@ -495,28 +487,6 @@ const FormButton = styled.button`
   margin-left: 47px;
 `;
 
-const RadioItem = styled.li`
-  /* background: pink; */
-  display: flex;
-  margin-top: 35px;
-`;
-
-const RadioButton = styled.div`
-  font-weight: 400;
-  font-size: 30px;
-  margin-right: 35px;
-  display: flex;
-  align-items: center;
-  input {
-    width: 30px;
-    height: 30px;
-    margin-right: 26px;
-  }
-
-  label {
-    padding-top: 4px;
-  }
-`;
 const IconContainer = styled.div`
   font-size: 5rem;
   color: #939393;
