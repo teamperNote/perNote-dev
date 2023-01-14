@@ -1,13 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-interface radioProps {
+interface RadioDataProps {
   label: string;
   id: object;
   name: string;
   text: object;
 }
-function RadioItem({ radioData }: { radioData: radioProps }) {
+interface RadioProps {
+  radioData: RadioDataProps;
+  setStateValue: (e: any) => void;
+}
+
+function RadioItem({ radioData, setStateValue }: RadioProps) {
   return (
     <div>
       <RadioContainer>
@@ -18,6 +23,9 @@ function RadioItem({ radioData }: { radioData: radioProps }) {
             type="radio"
             name={radioData.name}
             value={radioData.id[0]}
+            onChange={(e) => {
+              setStateValue(e.target.value);
+            }}
           />
           <label htmlFor={radioData.id[0]}>{radioData.text[0]}</label>
         </RadioButton>
@@ -27,41 +35,15 @@ function RadioItem({ radioData }: { radioData: radioProps }) {
             type="radio"
             name={radioData.name}
             value={radioData.id[1]}
+            onChange={(e) => {
+              setStateValue(e.target.value);
+            }}
           />
           <label htmlFor={radioData.id[1]}>{radioData.text[1]}</label>
         </RadioButton>
       </RadioContainer>
     </div>
   );
-}
-{
-  /* <RadioItem>
-                <FormLabel>성별</FormLabel>
-                <RadioButton onChange={selectGender}>
-                  <input id="male" type="radio" name="gender" value="male" />
-                  <label htmlFor="male">남성</label>
-                </RadioButton>
-                <RadioButton onChange={selectGender}>
-                  <input
-                    id="female"
-                    type="radio"
-                    name="gender"
-                    value="female"
-                  />
-                  <label htmlFor="female">여성</label>
-                </RadioButton>
-              </RadioItem>
-              <RadioItem>
-                <FormLabel>스토리 수신 여부</FormLabel>
-                <RadioButton onChange={changeStoryAgree}>
-                  <input id="agree" type="radio" name="story" value="yes" />
-                  <label htmlFor="agree">동의</label>
-                </RadioButton>
-                <RadioButton onChange={changeStoryAgree}>
-                  <input id="disagree" type="radio" name="story" value="no" />
-                  <label htmlFor="disagree">비동의</label>
-                </RadioButton>
-              </RadioItem> */
 }
 
 export default RadioItem;
