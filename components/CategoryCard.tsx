@@ -2,40 +2,39 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function CategoryCard({ data }) {
+export default function CategoryCard({ data, from }) {
   const router = useRouter();
   const [isShow, setIsShow] = useState(false);
-  const onShowOver = () => {
-    setIsShow(true);
-  };
-  const onShowLeave = () => {
-    setIsShow(false);
-  };
   const onClick = () => {
     router.push("/product-detail");
   };
   return (
     <CategoryCardContainer
       background={data.imgUrl}
-      onMouseOver={onShowOver}
-      onMouseLeave={onShowLeave}
+      onMouseOver={() => setIsShow(true)}
+      onMouseLeave={() => setIsShow(false)}
       onClick={onClick}
     >
       {isShow && (
         <Filter>
-          <HeartBox>
-            {/* TODO 서지수 마우스 올라가면 빨간 하트로 변경 해야함 */}
-            {/* TODO 서지수 좋아요 여부에 따라 빨간 하트 */}
-            <StoryCardOutlineHeart src="/heatIcon.png" />
-            {/* TODO 좋아요 갯수 반영 */}
-            <HeartCount>108</HeartCount>
-          </HeartBox>
+          {from == "Category" && (
+            <HeartBox>
+              {/* TODO 서지수 마우스 올라가면 빨간 하트로 변경 해야함 */}
+              {/* TODO 서지수 좋아요 여부에 따라 빨간 하트 */}
+              <StoryCardOutlineHeart src="/heatIcon.png" />
+              {/* TODO 좋아요 갯수 반영 */}
+              <HeartCount>108</HeartCount>
+            </HeartBox>
+          )}
           <PurfumeName>{data.name}</PurfumeName>
           {/* TODO 서지수 향수 설명 추가되면 수정 */}
-          <PurfumeDesc>
-            뭐라뭐라 뭐라뭐라 블라블라해서 어쩌고 저쩌고한 향수입니다. 이런 저런
-            이런 저런 향이 나고 어쩌고 저쩌고 쨌든 냄새 좋음
-          </PurfumeDesc>
+          {/* TODO 서지수 브랜드 카드 디자인 확저오디면 수정하기 */}
+          {from == "Category" && (
+            <PurfumeDesc>
+              뭐라뭐라 뭐라뭐라 블라블라해서 어쩌고 저쩌고한 향수입니다. 이런
+              저런 이런 저런 향이 나고 어쩌고 저쩌고 쨌든 냄새 좋음
+            </PurfumeDesc>
+          )}
         </Filter>
       )}
     </CategoryCardContainer>
