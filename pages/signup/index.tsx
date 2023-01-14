@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { IoMdCalendar } from "react-icons/io";
@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import AgreeItem from "components/AgreeItem";
 import RadioItem from "components/RadioButton";
 
-interface LoginProps {
+interface SignupProps {
   isActive: string;
 }
 
@@ -67,9 +67,17 @@ function Signup() {
 
   const [gender, setGender] = useState<string>("");
 
-  const [isStoryAgree, setIsStoryAgree] = useState<boolean>(false);
+  const [isStoryAgree, setIsStoryAgree] = useState<string>("false");
 
   const [snsId, setSnsId] = useState<string>("");
+
+  const [isCheckMust, setIsCheckMust] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const inputName = (e: any) => {
     setName(e.target.value);
@@ -94,18 +102,6 @@ function Signup() {
     setBirth(e.target.value);
   };
 
-  const selectGender = (e: any) => {
-    setGender(e.target.value);
-  };
-
-  const changeStoryAgree = (e: any) => {
-    if (e.target.value === "yes") {
-      setIsStoryAgree(true);
-    }
-    if (e.target.value === "no") {
-      setIsStoryAgree(false);
-    }
-  };
   const checkEmailDuplication = async (e: any) => {
     e.preventDefault();
     try {
@@ -169,7 +165,6 @@ function Signup() {
       setFailAuth(true);
     }
   };
-
   const checkRequired = () => {
     // successAuth &&
     if (
@@ -197,6 +192,7 @@ function Signup() {
       phoneNumber,
       birth: birthday,
       gender,
+      // 스토리 수신 여부, 성별 타입 어떻게 보내는지?
       snsId,
     };
     // 모든 값 필수 조건 만족시 버튼 활성화
@@ -207,6 +203,10 @@ function Signup() {
       }
     }
   };
+  useEffect(() => {
+    // console.log(gender, isStoryAgree);
+    console.log(isCheckMust);
+  }, [gender, isCheckMust, isStoryAgree]);
   return (
     <SignupWrapper>
       <Title>회원가입</Title>
@@ -331,16 +331,22 @@ function Signup() {
                 </IconContainer>
               </FormItem>
               <div>
-                <RadioItem radioData={radioList[0]} />
-                <RadioItem radioData={radioList[1]} />
+                <RadioItem radioData={radioList[0]} setStateValue={setGender} />
+                <RadioItem
+                  radioData={radioList[1]}
+                  setStateValue={setIsStoryAgree}
+                />
               </div>
             </FormList>
             <CheckList>
               {agreeList.map((item: any, index: any) => (
                 <AgreeItem
                   key={index}
+                  index={index}
+                  ischecked={isCheckMust}
                   isCheckAll={item.isCheckAll}
                   text={item.text}
+                  setStateValue={setIsCheckMust}
                 />
               ))}
             </CheckList>
@@ -369,7 +375,8 @@ const SignupWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding-top: 180px;
+  padding-top: 290px;
+  padding-bottom: 200px;
 `;
 
 const Title = styled.h2`
@@ -510,7 +517,7 @@ const CheckList = styled.ul`
   border-top: 3px solid #d9d9d9;
 `;
 
-const SignupButton = styled.button<LoginProps>`
+const SignupButton = styled.button<SignupProps>`
   width: 800px;
   height: 120px;
   border: none;
