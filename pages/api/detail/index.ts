@@ -11,20 +11,23 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     const id: string = req.query.id as string;
 
-    const detail = await prisma.perfume.findMany({
+    const perfume = await prisma.perfume.findFirst({
         where: {
             id: id
         }
     })
-    if(!detail) {
+    if(!perfume) {
         return res.status(200).json({
-            message: "Error: detail"
+            message: "Error: perfume"
         });
     }
 
+    const similars = await similar(perfume)
+
     return res.status(200).json({
-        perfume: detail,
-        query: id
+        perfume: perfume,
+        similars: similars,
+        query: id,
     });
 }
 

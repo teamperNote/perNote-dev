@@ -11,6 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const category = query.category as string;
     // const orderOpt = query.orderOpt as string
     let perfumes;
+    let test
 
     if(category === "brand"){
         const selected = query["selected"] as string
@@ -25,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             })
         }
     }
-    else {
+    else if(category === "note") {
         // == 다중 선택 가능 ==
         // const selected: Array<string> = query["selected[]"] as string[];
         // const findManyOrCondition = [];
@@ -64,12 +65,37 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 message: "Error: /category"
             })
         }
+    } else if(category === "personality"){
+        // == 단일 선택 ==
+        const selected = query["selected"] as string
+        
+        const algorithm = await prisma.algorithm.findMany()
+        if(!algorithm) {
+            return res.status(404).json({
+                message: "Error: category - algorithm"
+            })
+        }
+        const scents = algorithm.filter((row) => row[selected] !== -1).sort((row1, row2) => row2[selected] - row1[selected])
+        test = scents
+        // 1점 
+
+        perfumes = await prisma.perfume.findMany({
+            where: {
+                note: selected,
+            },
+        })
+        if(!perfumes) {
+            return res.status(404).json({
+                message: "Error: /category"
+            })
+        }
     }
     
 
     return res.status(200).json({
        perfumes: perfumes,
-       query: query
+       query: query,
+       test
     });
 
 
