@@ -4,15 +4,16 @@
 
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import similar from "./similar"
 
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-    const name: string = req.query.name as string;
+    const id: string = req.query.id as string;
 
     const detail = await prisma.perfume.findMany({
         where: {
-            name: name
+            id: id
         }
     })
     if(!detail) {
@@ -23,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(200).json({
         perfume: detail,
-        query: name
+        query: id
     });
 }
 

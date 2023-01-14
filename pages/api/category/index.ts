@@ -25,26 +25,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             })
         }
     }
-    else{
-        const selected: Array<string> = query["selected[]"] as string[];
-        const findManyOrCondition = [];
+    else {
+        // == 다중 선택 가능 ==
+        // const selected: Array<string> = query["selected[]"] as string[];
+        // const findManyOrCondition = [];
 
-        for(const tag of selected){
-            findManyOrCondition.push({
-                [category]: {
-                    contains: tag
-                }
-            });
-        }
+        // for(const tag of selected){
+        //     findManyOrCondition.push({
+        //         [category]: {
+        //             contains: tag
+        //         }
+        //     });
+        // }
 
+        // perfumes = await prisma.perfume.findMany({
+        //     where: {
+        //         OR: findManyOrCondition
+        //     },
+        //     // orderBy: {
+        //     //     [orderOpt]: 'asc'
+        //     // }
+        // });
+        // if(!perfumes) {
+        //     return res.status(404).json({
+        //         message: "Error: /category"
+        //     })
+        // }
+
+        // == 단일 선택 ==
+        const selected = query["selected"] as string
         perfumes = await prisma.perfume.findMany({
             where: {
-                OR: findManyOrCondition
+                note: selected,
             },
-            // orderBy: {
-            //     [orderOpt]: 'asc'
-            // }
-        });
+        })
         if(!perfumes) {
             return res.status(404).json({
                 message: "Error: /category"

@@ -20,14 +20,14 @@ const fetcher = (url: string) => axios
 
 
         // // TEST SECTION - shopping
-        // name: "a winter melody",
+        // id: "63466058b57dcd767a0f0553",
         // brand: "gucci"  
 
         // TEST SECTION - category
-        // category: "note",
-        // selected: ["amber", "woody"],
-        category: "brand",
-        selected: "Dior",
+        category: "note",
+        selected: "woody",
+        // category: "brand",
+        // selected: "Dior",
         // orderOpt: 'name'
     }})
     .then(res => res.data);
