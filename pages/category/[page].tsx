@@ -1,4 +1,5 @@
 import axios from "axios";
+import CategoryBrand from "components/categoryBrand";
 import CategoryCard from "components/CategoryCard";
 import CategorySelect from "components/CategorySelect";
 import CategorySelectAlphabet from "components/CategorySelectAlphabet";
@@ -33,33 +34,39 @@ export default function Category() {
 
   const [purfume, setPurfume] = useState([]);
   const [sort, setSort] = useState(sortArray[0].value);
-  useEffect(() => {
-    const getCategoryPerfume = () => {
-      axios
-        .get("/api/category", {
-          params: { category: page, selected: [selected], orderOpt: sort },
-        })
-        .then((res) => {
-          setPurfume(res.data.perfumes.slice(0, 30));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
+  const getCategoryPerfume = () => {
+    axios
+      .get("/api/category", {
+        params: { category: page, selected: [selected], orderOpt: sort },
+      })
+      .then((res) => {
+        setPurfume(res.data.perfumes.slice(0, 30));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-    const getBrand = () => {
-      axios
-        .get("/api/category/brandList")
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
+  const [brandList, setBrandList] = useState({ isLoading: false, data: [] });
+  const getBrand = () => {
+    axios
+      .get("/api/category/brandList")
+      .then((res) => {
+        setBrandList({
+          ...brandList,
+          isLoading: true,
+          data: Object.entries(res.data.dict),
         });
-    };
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
     if (selected !== "" && page !== "brand") {
       getCategoryPerfume();
     } else if (page === "brand") {
+      setBrandList({ ...brandList, isLoading: false, data: [] });
       getBrand();
     }
   }, [page, selected, sort]);
@@ -105,14 +112,24 @@ export default function Category() {
           </>
         )}
       </SelectBox>
-      <SortBox>
-        <SortDropDown sort={sort} setSort={setSort} />
-      </SortBox>
-      <CardBox>
-        {purfume.map((data) => (
-          <CategoryCard key={data.id} data={data} />
-        ))}
-      </CardBox>
+      {page !== "brand" && (
+        <SortBox>
+          <SortDropDown sort={sort} setSort={setSort} />
+        </SortBox>
+      )}
+      {page == "brand" && brandList.isLoading ? (
+        <BrandBox>
+          {brandList.data.map((data) => (
+            <CategoryBrand key={data[0]} brandList={data} />
+          ))}
+        </BrandBox>
+      ) : (
+        <CardBox>
+          {purfume.map((data) => (
+            <CategoryCard key={data.id} data={data} from={Category} />
+          ))}
+        </CardBox>
+      )}
     </CategoryContainer>
   );
 }
@@ -160,7 +177,7 @@ export const SelectBox = styled.div<{ page?: string | string[] }>`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 56px;
+  margin-bottom: ${({ page }) => (page === "brand" ? "154px" : "81px")};
 `;
 
 export const SortBox = styled.div`
@@ -168,6 +185,11 @@ export const SortBox = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 30px;
+`;
+
+export const BrandBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const CardBox = styled.div`
