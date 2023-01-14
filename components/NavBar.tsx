@@ -127,7 +127,7 @@ const ScrollNavBarContainer = styled.div<NavBarProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 17px 70px;
+  padding: 27px 60px 28px;
   border: ${(props) => (props.navOption === "show" ? "" : "none")};
   border-bottom: ${(props) =>
     props.navOption === "show" ? "1px solid #d9d9d9" : ""};
@@ -135,26 +135,27 @@ const ScrollNavBarContainer = styled.div<NavBarProps>`
   color: ${(props) => (props.navOption === "show" ? "black" : "white")};
   background: ${(props) =>
     props.navOption === "show" ? "white" : "transparent"};
-  z-index: 1;
+  z-index: 1000;
 `;
 
 const NavBarContainer = styled.div`
+  padding: 27px 60px 28px;
   width: 1920px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 17px 70px;
   border-bottom: 1px solid #d9d9d9;
   position: fixed;
   color: black;
   background: white;
-  z-index: 1;
+  z-index: 1000;
 `;
 // 로고 나중에 바꾸기
 const PernoteLogo = styled.div`
-  margin-right: 153px;
+  margin-right: 133px;
   font-weight: 700;
   font-size: 30px;
+  padding: 10px;
 `;
 
 const Navigator = styled.div`
@@ -167,7 +168,8 @@ const NavigatorLink = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  margin-right: 3.75rem;
+  margin-right: 40px;
+  padding: 10px;
 `;
 
 const CategoryContainer = styled.div`
@@ -214,7 +216,8 @@ const Sign = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  margin-left: 25px;
+  padding: 10px;
+  margin-left: 5px;
   cursor: pointer;
 `;
 
