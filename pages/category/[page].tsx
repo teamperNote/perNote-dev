@@ -1,8 +1,17 @@
 import axios from "axios";
 import CategoryCard from "components/CategoryCard";
-import CategoryText from "components/CategoryText";
+import CategorySelect from "components/CategorySelect";
+import CategorySelectAlphabet from "components/CategorySelectAlphabet";
 import SortDropDown from "components/SortDropDown";
-import { sortArray } from "lib/modules";
+import {
+  alphabetArray,
+  categoryArray,
+  charArray,
+  noteArray,
+  personalityArray,
+  sortArray,
+} from "lib/modules";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -11,51 +20,91 @@ export default function Category() {
   const router = useRouter();
   const { page } = router.query;
 
-  const [isFocus, setIsFocus] = useState(noteContent[0].value);
-
-  const onPageClick = (value: string) => {
-    router.push(value);
-  };
+  const [selected, setSelected] = useState("");
+  useEffect(() => {
+    if (page === "note") {
+      setSelected(noteArray[0].value);
+    } else if (page === "personality") {
+      setSelected(personalityArray[0].value);
+    } else if (page === "characteristics") {
+      setSelected(charArray[0].value);
+    }
+  }, [page]);
 
   const [purfume, setPurfume] = useState([]);
-  const [sort, setSort] = useState(sortArray[0].id);
-  const getCategoryPerfume = () => {
-    axios
-      .get("/api/category", {
-        params: { category: "note", selected: ["amber"] },
-      })
-      .then((res) => {
-        setPurfume(res.data.perfumes.slice(0, 15));
-      });
-  };
+  const [sort, setSort] = useState(sortArray[0].value);
   useEffect(() => {
-    getCategoryPerfume();
-  }, []);
+    const getCategoryPerfume = () => {
+      axios
+        .get("/api/category", {
+          params: { category: page, selected: [selected], orderOpt: sort },
+        })
+        .then((res) => {
+          setPurfume(res.data.perfumes.slice(0, 30));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const getBrand = () => {
+      axios
+        .get("/api/category/brandList")
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    if (selected !== "" && page !== "brand") {
+      getCategoryPerfume();
+    } else if (page === "brand") {
+      getBrand();
+    }
+  }, [page, selected, sort]);
   return (
     <CategoryContainer>
       <CategoryBox>
-        {categoryTitle.map((data) => (
+        {categoryArray.map((data) => (
           <CategoryTitle
             key={data.id}
-            onClick={() => {
-              onPageClick(data.value);
-            }}
             className={page === data.value ? "focus" : ""}
           >
-            {data.text}
+            <Link href={data.value}>{data.text}</Link>
           </CategoryTitle>
         ))}
       </CategoryBox>
-      <NoteBox>
-        {noteContent.map((data) => (
-          <CategoryText
-            key={data.id}
-            data={data}
-            isFocus={isFocus}
-            setIsFocus={setIsFocus}
-          />
-        ))}
-      </NoteBox>
+      <SelectBox page={page}>
+        {page === "brand" ? (
+          <>
+            {alphabetArray.map((data) => (
+              <CategorySelectAlphabet
+                key={data.id}
+                data={data}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            {(page === "note"
+              ? noteArray
+              : page === "personality"
+              ? personalityArray
+              : charArray
+            ).map((data) => (
+              <CategorySelect
+                key={data.id}
+                data={data}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            ))}
+          </>
+        )}
+      </SelectBox>
       <SortBox>
         <SortDropDown sort={sort} setSort={setSort} />
       </SortBox>
@@ -73,6 +122,7 @@ export const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 110px;
 `;
 
 export const CategoryBox = styled.div`
@@ -89,6 +139,7 @@ export const CategoryTitle = styled.div`
   line-height: 43px;
   color: #b2b2b2;
   margin-right: 80px;
+  cursor: pointer;
   &.focus {
     color: #000000;
   }
@@ -97,12 +148,19 @@ export const CategoryTitle = styled.div`
   }
 `;
 
-export const NoteBox = styled.div`
-  width: 897px;
+export const SelectBox = styled.div<{ page?: string | string[] }>`
+  width: ${({ page }) =>
+    page === "note"
+      ? "897px"
+      : page === "brand"
+      ? "1450px"
+      : page === "personality"
+      ? "1415px"
+      : "880px"};
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 81px;
+  margin-bottom: 56px;
 `;
 
 export const SortBox = styled.div`
@@ -117,105 +175,3 @@ export const CardBox = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 `;
-
-interface ICategory {
-  id: number;
-  value: string;
-  text: string;
-}
-
-const categoryTitle: ICategory[] = [
-  {
-    id: 0,
-    value: "note",
-    text: "노트",
-  },
-  {
-    id: 1,
-    value: "brand",
-    text: "브랜드",
-  },
-  {
-    id: 2,
-    value: "personality",
-    text: "성격",
-  },
-  {
-    id: 3,
-    value: "characteristics",
-    text: "특징",
-  },
-];
-
-const noteContent: ICategory[] = [
-  {
-    id: 0,
-    value: "amber",
-    text: "AMBER",
-  },
-  {
-    id: 1,
-    value: "aquatic",
-    text: "AQUATIC",
-  },
-  {
-    id: 2,
-    value: "woody",
-    text: "WOODY",
-  },
-  {
-    id: 3,
-    value: "aromatic",
-    text: "AROMATIC",
-  },
-  {
-    id: 4,
-    value: "chypre",
-    text: "CHYPRE",
-  },
-  {
-    id: 5,
-    value: "citrus",
-    text: "CITRUS",
-  },
-  {
-    id: 6,
-    value: "floral",
-    text: "FLORAL",
-  },
-  {
-    id: 7,
-    value: "frutiy",
-    text: "FRUTIY",
-  },
-  {
-    id: 8,
-    value: "green",
-    text: "GREEN",
-  },
-  {
-    id: 9,
-    value: "animalic",
-    text: "ANIMALIC",
-  },
-  {
-    id: 10,
-    value: "spicy",
-    text: "SPICY",
-  },
-  {
-    id: 11,
-    value: "cotton",
-    text: "COTTON",
-  },
-  {
-    id: 12,
-    value: "flourere",
-    text: "FOURERE",
-  },
-  {
-    id: 13,
-    value: "etc",
-    text: "E.T.C",
-  },
-];

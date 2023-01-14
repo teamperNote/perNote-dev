@@ -5,7 +5,7 @@ import {
   genderArray,
   concentrationArray,
   personalityArray,
-  featureArray,
+  charArray,
 } from "lib/modules";
 import styled from "styled-components";
 import Link from "next/link";
@@ -16,7 +16,6 @@ export default function PersonalScent() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [top5, setTop5] = useState([]);
-
   const getTop5 = () => {
     axios
       .get("/api/personalScent/result", {
@@ -128,6 +127,7 @@ export const RecommendationContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 110px;
 `;
 
 export const Span = styled.span`
