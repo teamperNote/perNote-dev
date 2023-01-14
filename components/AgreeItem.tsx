@@ -2,17 +2,34 @@ import styled from "styled-components";
 import { IoIosCheckboxOutline } from "react-icons/io";
 
 interface agreeProps {
+  key: number;
+  index: number;
+  ischecked: boolean[];
   isCheckAll: boolean;
   text: string;
+  setStateValue: (e: any) => void;
 }
-function AgreeItem({ isCheckAll, text }: agreeProps) {
+
+function AgreeItem({
+  index,
+  ischecked,
+  isCheckAll,
+  text,
+  setStateValue,
+}: agreeProps) {
   return (
     <div>
       {isCheckAll ? (
         <CheckItem>
           <label htmlFor="agree_all">
             <CheckIcon>
-              <IoIosCheckboxOutline className="check-icon" />
+              <IoIosCheckboxOutline
+                className="check-icon"
+                onClick={() => {
+                  ischecked[index] = !ischecked[index];
+                  setStateValue([...ischecked]);
+                }}
+              />
             </CheckIcon>
           </label>
           <input
@@ -27,7 +44,13 @@ function AgreeItem({ isCheckAll, text }: agreeProps) {
         <CheckItem>
           <label htmlFor="agree"></label>
           <CheckIcon>
-            <IoIosCheckboxOutline className="check-icon" />
+            <IoIosCheckboxOutline
+              className="check-icon"
+              onClick={() => {
+                ischecked[index] = !ischecked[index];
+                setStateValue([...ischecked]);
+              }}
+            />
           </CheckIcon>
           <input
             type="checkbox"
