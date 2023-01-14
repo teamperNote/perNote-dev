@@ -1,14 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { IoMdCalendar } from "react-icons/io";
 import { useRouter } from "next/router";
 import AgreeItem from "components/AgreeItem";
+import RadioItem from "components/RadioButton";
 
-interface LoginProps {
+interface SignupProps {
   isActive: string;
 }
 
+const agreeList = [
+  { isCheckAll: true, text: "약관 전체 동의" },
+  {
+    isCheckAll: false,
+    text: "[필수] 이용약관 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[필수] 개인정보 수집 및 이용 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[선택] 광고성 메세지 수신 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[선택] 마케팅 정보 수집 동의",
+  },
+];
+const radioList = [
+  {
+    label: "성별",
+    id: ["male", "female"],
+    name: "gender",
+    text: ["남성", "여성"],
+  },
+  {
+    label: "스토리 수신 여부",
+    id: ["agree", "disagee"],
+    name: "story",
+    text: ["동의", "비동의"],
+  },
+];
 function Signup() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
@@ -33,9 +67,17 @@ function Signup() {
 
   const [gender, setGender] = useState<string>("");
 
-  const [isAgree, setIsAgree] = useState<boolean>(false);
+  const [isStoryAgree, setIsStoryAgree] = useState<string>("false");
 
   const [snsId, setSnsId] = useState<string>("");
+
+  const [isCheckMust, setIsCheckMust] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const inputName = (e: any) => {
     setName(e.target.value);
@@ -60,18 +102,6 @@ function Signup() {
     setBirth(e.target.value);
   };
 
-  const selectGender = (e: any) => {
-    setGender(e.target.value);
-  };
-
-  const changeAgree = (e: any) => {
-    if (e.target.value === "yes") {
-      setIsAgree(true);
-    }
-    if (e.target.value === "no") {
-      setIsAgree(false);
-    }
-  };
   const checkEmailDuplication = async (e: any) => {
     e.preventDefault();
     try {
@@ -135,7 +165,6 @@ function Signup() {
       setFailAuth(true);
     }
   };
-
   const checkRequired = () => {
     // successAuth &&
     if (
@@ -147,7 +176,7 @@ function Signup() {
       phoneNumber &&
       birth &&
       gender &&
-      isAgree
+      isStoryAgree
     ) {
       return true;
     }
@@ -163,6 +192,7 @@ function Signup() {
       phoneNumber,
       birth: birthday,
       gender,
+      // 스토리 수신 여부, 성별 타입 어떻게 보내는지?
       snsId,
     };
     // 모든 값 필수 조건 만족시 버튼 활성화
@@ -173,6 +203,10 @@ function Signup() {
       }
     }
   };
+  useEffect(() => {
+    // console.log(gender, isStoryAgree);
+    console.log(isCheckMust);
+  }, [gender, isCheckMust, isStoryAgree]);
   return (
     <SignupWrapper>
       <Title>회원가입</Title>
@@ -296,36 +330,25 @@ function Signup() {
                   <IoMdCalendar className="icon" />
                 </IconContainer>
               </FormItem>
-              <RadioItem>
-                <FormLabel>성별</FormLabel>
-                <RadioButton onChange={selectGender}>
-                  <input id="male" type="radio" name="gender" value="male" />
-                  <label htmlFor="male">남성</label>
-                </RadioButton>
-                <RadioButton onChange={selectGender}>
-                  <input
-                    id="female"
-                    type="radio"
-                    name="gender"
-                    value="female"
-                  />
-                  <label htmlFor="female">여성</label>
-                </RadioButton>
-              </RadioItem>
-              <RadioItem>
-                <FormLabel>스토리 수신 여부</FormLabel>
-                <RadioButton onChange={changeAgree}>
-                  <input id="agree" type="radio" name="story" value="yes" />
-                  <label htmlFor="agree">동의</label>
-                </RadioButton>
-                <RadioButton onChange={changeAgree}>
-                  <input id="disagree" type="radio" name="story" value="no" />
-                  <label htmlFor="disagree">비동의</label>
-                </RadioButton>
-              </RadioItem>
+              <div>
+                <RadioItem radioData={radioList[0]} setStateValue={setGender} />
+                <RadioItem
+                  radioData={radioList[1]}
+                  setStateValue={setIsStoryAgree}
+                />
+              </div>
             </FormList>
             <CheckList>
-              <AgreeItem />
+              {agreeList.map((item: any, index: any) => (
+                <AgreeItem
+                  key={index}
+                  index={index}
+                  ischecked={isCheckMust}
+                  isCheckAll={item.isCheckAll}
+                  text={item.text}
+                  setStateValue={setIsCheckMust}
+                />
+              ))}
             </CheckList>
           </Field>
           <SignupButton
@@ -352,7 +375,8 @@ const SignupWrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding-top: 180px;
+  padding-top: 290px;
+  padding-bottom: 200px;
 `;
 
 const Title = styled.h2`
@@ -470,28 +494,6 @@ const FormButton = styled.button`
   margin-left: 47px;
 `;
 
-const RadioItem = styled.li`
-  /* background: pink; */
-  display: flex;
-  margin-top: 35px;
-`;
-
-const RadioButton = styled.div`
-  font-weight: 400;
-  font-size: 30px;
-  margin-right: 35px;
-  display: flex;
-  align-items: center;
-  input {
-    width: 30px;
-    height: 30px;
-    margin-right: 26px;
-  }
-
-  label {
-    padding-top: 4px;
-  }
-`;
 const IconContainer = styled.div`
   font-size: 5rem;
   color: #939393;
@@ -515,7 +517,7 @@ const CheckList = styled.ul`
   border-top: 3px solid #d9d9d9;
 `;
 
-const SignupButton = styled.button<LoginProps>`
+const SignupButton = styled.button<SignupProps>`
   width: 800px;
   height: 120px;
   border: none;

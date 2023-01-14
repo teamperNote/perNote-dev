@@ -37,7 +37,7 @@ const Home: NextPage = () => {
               `}
           </ScentContent>
           <ScentButton>
-            <Link href="#">바로가기 &nbsp; &#62;</Link>
+            <Link href="/personal-survey/start">바로가기 &nbsp; &#62;</Link>
           </ScentButton>
         </PersonalScentContent>
       </ThirdMain>
@@ -81,7 +81,7 @@ const Home: NextPage = () => {
               ac purus, laoreet sollicitudin.
             </CategoryIntroContent>
             <CategoryButton>
-              <Link href="#">바로가기 &nbsp; &#62;</Link>
+              <Link href="/category/note">바로가기 &nbsp; &#62;</Link>
             </CategoryButton>
           </CategoryIntro>
           <div>
@@ -103,9 +103,7 @@ const FirstMain = styled.div`
   background-image: url("/perNoteBackImg.png");
   background-size: cover;
 `;
-// const MainImage = styled.img`
-//   width: 100%;
-// `;
+
 const MainText = styled.div`
   width: 921px;
   margin-left: 174px;
