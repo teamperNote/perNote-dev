@@ -31,6 +31,7 @@ function AgreeItem({
   }, [index, ischecked, setStateValue]);
 
   const clickEach = useCallback(() => {
+    ischecked[0] = false;
     ischecked[index] = !ischecked[index];
     setStateValue([...ischecked]);
   }, [index, ischecked, setStateValue]);
