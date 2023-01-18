@@ -35,6 +35,4 @@ yarn-error.log*
 next-env.d.ts
 
 # 임시 적용
-/pages/api/auth/kakao/request.ts
-/pages/api/auth/naver/request.ts
-/pages/backend
+/pages/api/message
