@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 interface InputProps {
   htmlFor: string;
@@ -8,6 +9,10 @@ interface InputProps {
   value: string;
   setStateValue: (e: any) => void;
 }
+
+interface MarginProps {
+  marginProps: string;
+}
 function Input({
   htmlFor,
   labelContent,
@@ -15,9 +20,13 @@ function Input({
   value,
   setStateValue,
 }: InputProps) {
+  const router = useRouter();
+  const { pathname } = router;
   return (
     <div>
-      <FormLabel htmlFor={htmlFor}>{labelContent}</FormLabel>
+      <FormLabel htmlFor={htmlFor} marginProps={pathname}>
+        {labelContent}
+      </FormLabel>
       <FormInput
         type={type}
         id={htmlFor}
@@ -31,21 +40,20 @@ function Input({
 
 export default Input;
 
-const FormLabel = styled.label`
+const FormLabel = styled.label<MarginProps>`
   display: inline-block;
-  width: 300px;
+  /* 248px 이상이면 레이아웃 깨짐  */
+  width: ${(props) => (props.marginProps === "/mypage" ? "248px" : "300px")};
   text-align: right;
   font-weight: 400;
   font-size: 35px;
   margin-right: 63px;
 `;
 
-// 에러 메세지 출력까지 구현하고 border-top 잘리는 거 수정하기
 const FormInput = styled.input`
   border: 2px solid #d9d9d9;
   width: 460px;
   height: 70px;
-  /* 텍스트 및 패딩 마진 디자인 추가하기 */
   padding: 8px 0 8px 4px;
   font-size: 30px;
 `;
