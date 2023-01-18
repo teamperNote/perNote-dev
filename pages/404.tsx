@@ -28,7 +28,7 @@ function Custom404() {
 export default Custom404;
 
 const Header = styled.header`
-  margin-top: 170px;
+  padding-top: 212px;
   text-align: center;
   font-size: 80px;
 `;

@@ -5,6 +5,12 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "../styles/common.scss";
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
