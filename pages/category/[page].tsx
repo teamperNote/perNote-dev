@@ -1,5 +1,5 @@
 import axios from "axios";
-import CategoryBrand from "components/categoryBrand";
+import CategoryBrand from "components/CategoryBrand";
 import CategoryCard from "components/CategoryCard";
 import CategorySelect from "components/CategorySelect";
 import CategorySelectAlphabet from "components/CategorySelectAlphabet";

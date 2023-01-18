@@ -33,8 +33,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# 임시 적용
-/pages/api/auth/kakao/request.ts
-/pages/api/auth/naver/request.ts
-/pages/backend
