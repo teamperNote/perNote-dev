@@ -177,7 +177,7 @@ const CategoryContainer = styled.div`
 
   .show-modal {
     position: absolute;
-    left: -54px;
+    left: -44px;
     z-index: 1000;
   }
   .close-modal {
