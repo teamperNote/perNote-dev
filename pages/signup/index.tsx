@@ -34,7 +34,7 @@ const agreeList = [
 const radioList = [
   {
     label: "성별",
-    id: ["male", "female"],
+    id: ["m", "f"],
     name: "gender",
     text: ["남성", "여성"],
   },
@@ -205,10 +205,10 @@ function Signup() {
       }
     }
   };
-  useEffect(() => {
-    // console.log(gender, isStoryAgree);
-    console.log(isCheckMust);
-  }, [gender, isCheckMust, isStoryAgree]);
+  // useEffect(() => {
+  //   console.log(gender, isStoryAgree);
+  //   console.log(isCheckMust);
+  // }, [gender, isCheckMust, isStoryAgree]);
   return (
     <SignupWrapper>
       <Title>회원가입</Title>
@@ -492,7 +492,6 @@ const SignupButton = styled.button<SignupProps>`
   width: 800px;
   height: 120px;
   border: none;
-  background: #525d4d;
   background: ${(props) =>
     props.isActive === "isActive" ? "#525d4d" : "#d9d9d9"};
   border-radius: 20px;
