@@ -40,12 +40,12 @@ function Login() {
         }
         const { user, accessToken, refreshToken } = response.data;
         localStorage.setItem("user", JSON.stringify(user));
-        cookies.set("access_token", accessToken, {
+        cookies.set("accessToken", accessToken, {
           path: "/",
           secure: true,
           sameSite: "none",
         });
-        cookies.set("refresh_token", refreshToken, {
+        cookies.set("refreshToken", refreshToken, {
           path: "/",
           secure: true,
           sameSite: "none",

@@ -2,7 +2,7 @@
 import styled from "styled-components";
 // import { BiSearchAlt2 } from "react-icons/bi";
 import Link from "next/link";
-import CategoryDropDown from "./CategoryDropDown";
+import CategoryDropDown from "../category/CategoryDropDown";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
