@@ -1,8 +1,8 @@
-import Input from "components/Input";
+import Input from "components/form/Input";
 import React from "react";
 import styled from "styled-components";
-import ValidationButton from "components/ValidationButton";
-import RadioItem from "components/RadioButton";
+import ValidationButton from "components/form/ValidationButton";
+import RadioItem from "components/form/RadioButton";
 
 const radioList = [
   {

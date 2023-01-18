@@ -3,10 +3,10 @@ import styled from "styled-components";
 import axios from "axios";
 import { IoMdCalendar } from "react-icons/io";
 import { useRouter } from "next/router";
-import AgreeItem from "components/AgreeItem";
-import RadioItem from "components/RadioButton";
-import Input from "../../components/Input";
-import ValidationButton from "components/ValidationButton";
+import AgreeItem from "components/form/AgreeItem";
+import RadioItem from "components/form/RadioButton";
+import Input from "../../components/form/Input";
+import ValidationButton from "components/form/ValidationButton";
 
 interface SignupProps {
   isActive: string;
@@ -194,7 +194,6 @@ function Signup() {
       phoneNumber,
       birth: birthday,
       gender,
-      // 스토리 수신 여부, 성별 타입 어떻게 보내는지?
       snsId,
     };
     // 모든 값 필수 조건 만족시 버튼 활성화
