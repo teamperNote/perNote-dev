@@ -37,7 +37,7 @@ export default function Category() {
   const getCategoryPerfume = () => {
     axios
       .get("/api/category", {
-        params: { category: page, selected: [selected], orderOpt: sort },
+        params: { category: page, selected: selected, orderOpt: sort },
       })
       .then((res) => {
         setPurfume(res.data.perfumes.slice(0, 30));
@@ -69,7 +69,9 @@ export default function Category() {
       setBrandList({ ...brandList, isLoading: false, data: [] });
       getBrand();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, selected, sort]);
+
   return (
     <CategoryContainer>
       <CategoryBox>
