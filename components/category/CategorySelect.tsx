@@ -7,7 +7,7 @@ export default function CategorySelect({ data, selected, setSelected }) {
   return (
     <TextBox
       onClick={onBtnClick}
-      className={selected == data.value ? "focus" : "noo"}
+      className={selected == data.value ? "focus" : ""}
     >
       <TextSpan className={selected == data.value ? "focus" : ""}>
         {data.text}
