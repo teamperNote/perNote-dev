@@ -91,7 +91,9 @@ export default function NavBar() {
           <NavigatorLink>
             <Link href="/personal-survey/start">personal scent</Link>
           </NavigatorLink>
-          <NavigatorLink>perfume story</NavigatorLink>
+          <NavigatorLink>
+            <Link href="/perfumeStory">perfume story</Link>
+          </NavigatorLink>
           <CategoryContainer
             onMouseOver={openDropDown}
             onMouseLeave={closeDropDown}
