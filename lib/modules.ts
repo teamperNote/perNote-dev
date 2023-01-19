@@ -1,7 +1,9 @@
 interface ICategory {
   id: number;
   value: string;
+  url?: string;
   text: string;
+  color?: string;
 }
 
 export const genderArray: ICategory[] = [
@@ -68,7 +70,7 @@ export const seasonArray: ICategory[] = [
   },
 ];
 
-export const colorArray = [
+export const colorArray: ICategory[] = [
   {
     id: 0,
     value: "red",
@@ -240,29 +242,6 @@ export const charArray: ICategory[] = [
   //   value: "",
   //   text: "산뜻한",
   // },
-];
-
-export const categoryArray: ICategory[] = [
-  {
-    id: 0,
-    value: "note",
-    text: "노트",
-  },
-  {
-    id: 1,
-    value: "brand",
-    text: "브랜드",
-  },
-  {
-    id: 2,
-    value: "personality",
-    text: "성격",
-  },
-  {
-    id: 3,
-    value: "characteristics",
-    text: "특징",
-  },
 ];
 
 export const noteArray: ICategory[] = [
@@ -468,6 +447,33 @@ export const alphabetArray: ICategory[] = [
     id: 25,
     value: "z",
     text: "Z",
+  },
+];
+
+export const categoryArray: ICategory[] = [
+  {
+    id: 0,
+    value: "note",
+    url: `note/${noteArray[0].value}`,
+    text: "노트",
+  },
+  {
+    id: 1,
+    value: "brand",
+    url: `brand/0`,
+    text: "브랜드",
+  },
+  {
+    id: 2,
+    value: "personality",
+    url: `personality/${personalityArray[0].value}`,
+    text: "성격",
+  },
+  {
+    id: 3,
+    value: "characteristics",
+    url: `characteristics/${charArray[0].value}`,
+    text: "특징",
   },
 ];
 
