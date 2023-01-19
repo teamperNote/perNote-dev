@@ -3,13 +3,28 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-export default function CategoryCard({ data, from }) {
+type Props = {
+  alphabet?: string;
+  data: {
+    name: string;
+    imgUrl?: string;
+  };
+  from: string;
+};
+
+export default function CategoryCard({ alphabet, data, from }: Props) {
   const router = useRouter();
-  const { page } = router.query;
+  const { slug } = router.query;
 
   const [isShow, setIsShow] = useState(false);
   return (
-    <Link href={page === "brand" ? `brand/${data.name}` : "/product-detail"}>
+    <Link
+      href={
+        slug[0] === "brand"
+          ? `brand/${alphabet}/${data.name}`
+          : "/product-detail"
+      }
+    >
       <CategoryCardContainer
         background={data.imgUrl}
         onMouseOver={() => setIsShow(true)}

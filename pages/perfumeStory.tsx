@@ -1,5 +1,5 @@
 import axios from "axios";
-import StoryCard from "components/StoryCard";
+import StoryCard from "components/story/StoryCard";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -11,7 +11,6 @@ export default function PerfumeStory() {
         params: { userId: "63ae968c0665ea07c7c07acb" },
       })
       .then((res) => {
-        console.log(res);
         setStoryList(res.data);
       })
       .catch((err) => {

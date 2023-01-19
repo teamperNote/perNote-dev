@@ -1,7 +1,9 @@
 interface ICategory {
   id: number;
   value: string;
+  url?: string;
   text: string;
+  color?: string;
 }
 
 export const genderArray: ICategory[] = [
@@ -68,7 +70,7 @@ export const seasonArray: ICategory[] = [
   },
 ];
 
-export const colorArray = [
+export const colorArray: ICategory[] = [
   {
     id: 0,
     value: "red",
@@ -242,29 +244,6 @@ export const charArray: ICategory[] = [
   // },
 ];
 
-export const categoryArray: ICategory[] = [
-  {
-    id: 0,
-    value: "note",
-    text: "노트",
-  },
-  {
-    id: 1,
-    value: "brand",
-    text: "브랜드",
-  },
-  {
-    id: 2,
-    value: "personality",
-    text: "성격",
-  },
-  {
-    id: 3,
-    value: "characteristics",
-    text: "특징",
-  },
-];
-
 export const noteArray: ICategory[] = [
   {
     id: 0,
@@ -341,133 +320,160 @@ export const noteArray: ICategory[] = [
 export const alphabetArray: ICategory[] = [
   {
     id: 0,
-    value: "a",
+    value: "A",
     text: "A",
   },
   {
     id: 1,
-    value: "b",
+    value: "B",
     text: "B",
   },
   {
     id: 2,
-    value: "c",
+    value: "C",
     text: "C",
   },
   {
     id: 3,
-    value: "d",
+    value: "D",
     text: "D",
   },
   {
     id: 4,
-    value: "e",
+    value: "E",
     text: "E",
   },
   {
     id: 5,
-    value: "f",
+    value: "F",
     text: "F",
   },
   {
     id: 6,
-    value: "g",
+    value: "G",
     text: "G",
   },
   {
     id: 7,
-    value: "h",
+    value: "H",
     text: "H",
   },
   {
     id: 8,
-    value: "i",
+    value: "I",
     text: "I",
   },
   {
     id: 9,
-    value: "j",
+    value: "J",
     text: "J",
   },
   {
     id: 10,
-    value: "k",
+    value: "K",
     text: "K",
   },
   {
     id: 11,
-    value: "l",
+    value: "L",
     text: "L",
   },
   {
     id: 12,
-    value: "m",
+    value: "M",
     text: "M",
   },
   {
     id: 13,
-    value: "n",
+    value: "N",
     text: "N",
   },
   {
     id: 14,
-    value: "o",
+    value: "O",
     text: "O",
   },
   {
     id: 15,
-    value: "p",
+    value: "P",
     text: "P",
   },
   {
     id: 16,
-    value: "q",
+    value: "Q",
     text: "Q",
   },
   {
     id: 17,
-    value: "r",
+    value: "R",
     text: "R",
   },
   {
     id: 18,
-    value: "s",
+    value: "S",
     text: "S",
   },
   {
     id: 19,
-    value: "t",
+    value: "T",
     text: "T",
   },
   {
     id: 20,
-    value: "u",
+    value: "U",
     text: "U",
   },
   {
     id: 21,
-    value: "v",
+    value: "V",
     text: "V",
   },
   {
     id: 22,
-    value: "w",
+    value: "W",
     text: "W",
   },
   {
     id: 23,
-    value: "x",
+    value: "X",
     text: "X",
   },
   {
     id: 24,
-    value: "y",
+    value: "Y",
     text: "Y",
   },
   {
     id: 25,
-    value: "z",
+    value: "Z",
     text: "Z",
+  },
+];
+
+export const categoryArray: ICategory[] = [
+  {
+    id: 0,
+    value: "note",
+    url: `note/${noteArray[0].value}`,
+    text: "노트",
+  },
+  {
+    id: 1,
+    value: "brand",
+    url: `brand/0`,
+    text: "브랜드",
+  },
+  {
+    id: 2,
+    value: "personality",
+    url: `personality/${personalityArray[0].value}`,
+    text: "성격",
+  },
+  {
+    id: 3,
+    value: "characteristics",
+    url: `characteristics/${charArray[0].value}`,
+    text: "특징",
   },
 ];
 
