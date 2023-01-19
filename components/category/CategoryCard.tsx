@@ -5,11 +5,17 @@ import Link from "next/link";
 
 export default function CategoryCard({ data, from }) {
   const router = useRouter();
-  const { page } = router.query;
+  const { slug } = router.query;
 
   const [isShow, setIsShow] = useState(false);
   return (
-    <Link href={page === "brand" ? `brand/${data.name}` : "/product-detail"}>
+    <Link
+      href={
+        slug[0] === "brand"
+          ? `brand/${slug[1]}/${data.name}`
+          : "/product-detail"
+      }
+    >
       <CategoryCardContainer
         background={data.imgUrl}
         onMouseOver={() => setIsShow(true)}

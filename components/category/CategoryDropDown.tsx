@@ -7,7 +7,7 @@ export default function CategoryDropDown({ openDropDown, closeDropDown }: any) {
     <DropDownContainer onMouseOver={openDropDown} onMouseLeave={closeDropDown}>
       {categoryArray.map((data) => (
         <Div key={data.id} onClick={closeDropDown}>
-          <Link href={`/category/${data.value}`}>{data.text}</Link>
+          <Link href={`/category/${data.url}`}>{data.text}</Link>
         </Div>
       ))}
     </DropDownContainer>

@@ -19,28 +19,33 @@ import styled from "styled-components";
 
 export default function Category() {
   const router = useRouter();
-  const { page } = router.query;
+  const { slug } = router.query;
 
+  const [category, setCategory] = useState("");
   const [selected, setSelected] = useState("");
+  const [name, setName] = useState("");
   useEffect(() => {
-    if (page === "note") {
-      setSelected(noteArray[0].value);
-    } else if (page === "personality") {
-      setSelected(personalityArray[0].value);
-    } else if (page === "characteristics") {
-      setSelected(charArray[0].value);
+    if (slug) {
+      console.log(slug);
+      setCategory(slug[0]);
+      setSelected(slug[1]);
+      setName(slug[2]);
     }
-  }, [page]);
+  }, [slug]);
 
-  const [purfume, setPurfume] = useState([]);
+  const [purfume, setPurfume] = useState({ isLoading: false, data: [] });
   const [sort, setSort] = useState(sortArray[0].value);
   const getCategoryPerfume = () => {
     axios
       .get("/api/category", {
-        params: { category: page, selected: selected, orderOpt: sort },
+        params: { category: category, selected: selected, orderOpt: sort },
       })
       .then((res) => {
-        setPurfume(res.data.perfumes.slice(0, 30));
+        setPurfume({
+          ...purfume,
+          isLoading: true,
+          data: res.data.perfumes,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -63,63 +68,50 @@ export default function Category() {
       });
   };
   useEffect(() => {
-    if (selected !== "" && page !== "brand") {
+    if (category !== "brand" && selected !== "") {
+      setPurfume({ ...purfume, isLoading: false, data: [] });
       getCategoryPerfume();
-    } else if (page === "brand") {
+    } else if (category === "brand") {
       setBrandList({ ...brandList, isLoading: false, data: [] });
       getBrand();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, selected, sort]);
+  }, [category, selected, sort]);
 
   return (
     <CategoryContainer>
       <CategoryBox>
         {categoryArray.map((data) => (
-          <CategoryTitle
-            key={data.id}
-            className={page === data.value ? "focus" : ""}
-          >
-            <Link href={data.value}>{data.text}</Link>
-          </CategoryTitle>
+          <Link key={data.id} href={data.url}>
+            <CategoryTitle className={category === data.value ? "focus" : ""}>
+              {data.text}
+            </CategoryTitle>
+          </Link>
         ))}
       </CategoryBox>
-      <SelectBox page={page}>
-        {page === "brand" ? (
-          <>
-            {alphabetArray.map((data) => (
-              <CategorySelectAlphabet
-                key={data.id}
-                data={data}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            ))}
-          </>
-        ) : (
-          <>
-            {(page === "note"
-              ? noteArray
-              : page === "personality"
-              ? personalityArray
-              : charArray
-            ).map((data) => (
-              <CategorySelect
-                key={data.id}
-                data={data}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            ))}
-          </>
-        )}
+      <SelectBox category={category}>
+        {(category === "note"
+          ? noteArray
+          : category === "brand"
+          ? alphabetArray
+          : category === "personality"
+          ? personalityArray
+          : charArray
+        ).map((data) => (
+          <CategorySelect
+            key={data.id}
+            data={data}
+            category={category}
+            selected={selected}
+          />
+        ))}
       </SelectBox>
-      {page !== "brand" && (
+      {category !== "brand" && (
         <SortBox>
           <SortDropDown sort={sort} setSort={setSort} />
         </SortBox>
       )}
-      {page == "brand" && brandList.isLoading ? (
+      {category == "brand" && brandList.isLoading ? (
         <BrandBox>
           {brandList.data.map((data) => (
             <CategoryBrand key={data[0]} brandList={data} />
@@ -127,7 +119,7 @@ export default function Category() {
         </BrandBox>
       ) : (
         <CardBox>
-          {purfume.map((data) => (
+          {purfume.data.map((data) => (
             <CategoryCard key={data.id} data={data} from={Category} />
           ))}
         </CardBox>
@@ -167,19 +159,19 @@ export const CategoryTitle = styled.div`
   }
 `;
 
-export const SelectBox = styled.div<{ page?: string | string[] }>`
-  width: ${({ page }) =>
-    page === "note"
+export const SelectBox = styled.div<{ category: string | string[] }>`
+  width: ${({ category }) =>
+    category === "note"
       ? "897px"
-      : page === "brand"
+      : category === "brand"
       ? "1450px"
-      : page === "personality"
+      : category === "personality"
       ? "1415px"
       : "880px"};
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: ${({ page }) => (page === "brand" ? "154px" : "81px")};
+  margin-bottom: ${({ category }) => (category === "brand" ? "154px" : "81px")};
 `;
 
 export const SortBox = styled.div`

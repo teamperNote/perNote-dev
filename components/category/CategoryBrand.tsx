@@ -7,7 +7,7 @@ export default function CategoryBrand({ brandList }) {
       <BrandAlphabet>{brandList[0]}</BrandAlphabet>
       <CardBox>
         {brandList[1].map((data) => (
-          <CategoryCard key={data.id} data={data} from={CategoryBrand} />
+          <CategoryCard key={data.id} data={data} from={"CategoryBrand"} />
         ))}
       </CardBox>
     </CategoryBrandContainer>
