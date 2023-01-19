@@ -3,7 +3,16 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-export default function CategoryCard({ data, from }) {
+type Props = {
+  alphabet?: string;
+  data: {
+    name: string;
+    imgUrl?: string;
+  };
+  from: string;
+};
+
+export default function CategoryCard({ alphabet, data, from }: Props) {
   const router = useRouter();
   const { slug } = router.query;
 
@@ -12,7 +21,7 @@ export default function CategoryCard({ data, from }) {
     <Link
       href={
         slug[0] === "brand"
-          ? `brand/${slug[1]}/${data.name}`
+          ? `brand/${alphabet}/${data.name}`
           : "/product-detail"
       }
     >

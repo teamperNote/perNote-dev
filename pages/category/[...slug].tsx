@@ -1,5 +1,8 @@
+import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import axios from "axios";
-import CategoryBrand from "components/category/CategoryBrand";
 import CategoryCard from "components/category/CategoryCard";
 import CategorySelect from "components/category/CategorySelect";
 import SortDropDown from "components/SortDropDown";
@@ -11,10 +14,6 @@ import {
   personalityArray,
   sortArray,
 } from "lib/modules";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 
 export default function Category() {
   const router = useRouter();
@@ -25,7 +24,6 @@ export default function Category() {
   const [name, setName] = useState("");
   useEffect(() => {
     if (slug) {
-      console.log(slug);
       setCategory(slug[0]);
       setSelected(slug[1]);
       setName(slug[2]);
@@ -34,7 +32,7 @@ export default function Category() {
 
   const [purfume, setPurfume] = useState({ isLoading: false, data: [] });
   const [sort, setSort] = useState(sortArray[0].value);
-  const getCategoryPerfume = () => {
+  const getCategoryPerfume = (category: string, selected: string) => {
     axios
       .get("/api/category", {
         params: { category: category, selected: selected, orderOpt: sort },
@@ -67,12 +65,20 @@ export default function Category() {
       });
   };
   useEffect(() => {
-    if (category !== "brand" && selected !== "") {
-      setPurfume({ ...purfume, isLoading: false, data: [] });
-      getCategoryPerfume();
-    } else if (category === "brand") {
-      setBrandList({ ...brandList, isLoading: false, data: [] });
-      getBrand();
+    setBrandList({ ...brandList, isLoading: false, data: [] });
+    setPurfume({ ...purfume, isLoading: false, data: [] });
+    if (category === "brand") {
+      if (name === undefined) {
+        getBrand();
+      } else {
+        if (name) {
+          getCategoryPerfume(category, name);
+        }
+      }
+    } else {
+      if (selected) {
+        getCategoryPerfume(category, selected);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, selected, sort]);
@@ -105,23 +111,44 @@ export default function Category() {
           />
         ))}
       </SelectBox>
-      {category !== "brand" && (
+      {(category !== "brand" || name !== undefined) && (
         <SortBox>
           <SortDropDown sort={sort} setSort={setSort} />
         </SortBox>
       )}
-      {category == "brand" && brandList.isLoading ? (
-        <BrandBox>
-          {brandList.data.map((data) => (
-            <CategoryBrand key={data[0]} brandList={data} />
-          ))}
-        </BrandBox>
-      ) : (
+      {category !== "brand" ? (
         <CardBox>
           {purfume.data.map((data) => (
-            <CategoryCard key={data.id} data={data} from={Category} />
+            <CategoryCard key={data.id} data={data} from={"Category"} />
           ))}
         </CardBox>
+      ) : name === undefined ? (
+        <CategoryBrandBox>
+          {brandList.data.map((alphabet) => (
+            <BrandBox key={alphabet[0]}>
+              <BrandSpan>{alphabet[0]}</BrandSpan>
+              <CardBox>
+                {alphabet[1].map((brand) => (
+                  <CategoryCard
+                    key={brand.id}
+                    alphabet={alphabet[0]}
+                    data={brand}
+                    from={"CategoryBrand"}
+                  />
+                ))}
+              </CardBox>
+            </BrandBox>
+          ))}
+        </CategoryBrandBox>
+      ) : (
+        <>
+          <BrandSpan>{name}</BrandSpan>
+          <CardBox>
+            {purfume.data.map((data) => (
+              <CategoryCard key={data.id} data={data} from={"Category"} />
+            ))}
+          </CardBox>
+        </>
       )}
     </CategoryContainer>
   );
@@ -180,13 +207,31 @@ export const SortBox = styled.div`
   margin-bottom: 30px;
 `;
 
-export const BrandBox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const CardBox = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+`;
+
+export const CategoryBrandBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const BrandBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 140px;
+`;
+
+const BrandSpan = styled.span`
+  width: 1420px;
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  text-align: left;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 72px;
+  color: #000000;
+  margin-bottom: 80px;
 `;
