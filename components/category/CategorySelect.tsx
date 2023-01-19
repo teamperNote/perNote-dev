@@ -42,7 +42,7 @@ const TextBox = styled.div<{ category: string }>`
   }
 `;
 
-const TextSpan = styled.div<{ category: string /*| string[] */ }>`
+const TextSpan = styled.div<{ category: string }>`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
