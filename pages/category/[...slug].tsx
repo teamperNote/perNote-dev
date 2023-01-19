@@ -2,7 +2,6 @@ import axios from "axios";
 import CategoryBrand from "components/category/CategoryBrand";
 import CategoryCard from "components/category/CategoryCard";
 import CategorySelect from "components/category/CategorySelect";
-import CategorySelectAlphabet from "components/category/CategorySelectAlphabet";
 import SortDropDown from "components/SortDropDown";
 import {
   alphabetArray,
