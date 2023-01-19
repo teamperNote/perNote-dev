@@ -2,7 +2,7 @@
 import styled from "styled-components";
 // import { BiSearchAlt2 } from "react-icons/bi";
 import Link from "next/link";
-import CategoryDropDown from "./CategoryDropDown";
+import CategoryDropDown from "../category/CategoryDropDown";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
@@ -91,7 +91,9 @@ export default function NavBar() {
           <NavigatorLink>
             <Link href="/personal-survey/start">personal scent</Link>
           </NavigatorLink>
-          <NavigatorLink>perfume story</NavigatorLink>
+          <NavigatorLink>
+            <Link href="/perfumeStory">perfume story</Link>
+          </NavigatorLink>
           <CategoryContainer
             onMouseOver={openDropDown}
             onMouseLeave={closeDropDown}
@@ -177,7 +179,7 @@ const CategoryContainer = styled.div`
 
   .show-modal {
     position: absolute;
-    left: -54px;
+    left: -44px;
     z-index: 1000;
   }
   .close-modal {

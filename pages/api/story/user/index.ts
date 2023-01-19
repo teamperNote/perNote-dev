@@ -9,7 +9,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { userId } = req.body;
+  const userId = req.query.userId as string;
 
   const isLiked = [];
   const allStoryIdForUser = [];

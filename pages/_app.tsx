@@ -1,9 +1,15 @@
 import type { AppProps } from "next/app";
-import Layout from "../components/Layout";
+import Layout from "../components/layout/Layout";
 import { GlobalStyle } from "../styles/global-styles";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "../styles/common.scss";
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {

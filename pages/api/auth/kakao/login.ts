@@ -25,7 +25,7 @@ export default async function handler(
       },
     });
     const { access_token } = result.data;
-
+    console.log(access_token);
     result = await axios.get("https://kapi.kakao.com/v2/user/me", {
       headers: {
         Authorization: `Bearer ${access_token}`,

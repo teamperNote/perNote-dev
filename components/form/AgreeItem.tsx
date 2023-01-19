@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { IoIosCheckboxOutline } from "react-icons/io";
+import { useCallback } from "react";
 
 interface agreeProps {
   key: number;
@@ -17,6 +18,24 @@ function AgreeItem({
   text,
   setStateValue,
 }: agreeProps) {
+  const checkAll = useCallback(() => {
+    return ischecked.every((item: boolean) => item);
+  }, [ischecked]);
+
+  const clickAll = useCallback(() => {
+    ischecked[index] = !ischecked[index];
+    const toggleArr = ischecked.map(() => {
+      return ischecked[index];
+    });
+    setStateValue([...toggleArr]);
+  }, [index, ischecked, setStateValue]);
+
+  const clickEach = useCallback(() => {
+    ischecked[0] = false;
+    ischecked[index] = !ischecked[index];
+    setStateValue([...ischecked]);
+  }, [index, ischecked, setStateValue]);
+
   return (
     <div>
       {isCheckAll ? (
@@ -24,11 +43,12 @@ function AgreeItem({
           <label htmlFor="agree_all">
             <CheckIcon>
               <IoIosCheckboxOutline
-                className="check-icon"
-                onClick={() => {
-                  ischecked[index] = !ischecked[index];
-                  setStateValue([...ischecked]);
-                }}
+                className={
+                  checkAll() && ischecked[index]
+                    ? "check-icon is-active"
+                    : "check-icon"
+                }
+                onClick={clickAll}
               />
             </CheckIcon>
           </label>
@@ -45,11 +65,10 @@ function AgreeItem({
           <label htmlFor="agree"></label>
           <CheckIcon>
             <IoIosCheckboxOutline
-              className="check-icon"
-              onClick={() => {
-                ischecked[index] = !ischecked[index];
-                setStateValue([...ischecked]);
-              }}
+              className={
+                ischecked[index] ? "check-icon is-active" : "check-icon"
+              }
+              onClick={clickEach}
             />
           </CheckIcon>
           <input
@@ -84,6 +103,10 @@ const CheckIcon = styled.div`
   .check-icon {
     width: 100%;
     height: 100%;
+  }
+
+  .is-active {
+    color: #9fac9a;
   }
 `;
 

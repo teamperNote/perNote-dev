@@ -1,8 +1,8 @@
 import axios from "axios";
-import CategoryBrand from "components/categoryBrand";
-import CategoryCard from "components/CategoryCard";
-import CategorySelect from "components/CategorySelect";
-import CategorySelectAlphabet from "components/CategorySelectAlphabet";
+import CategoryBrand from "components/category/CategoryBrand";
+import CategoryCard from "components/category/CategoryCard";
+import CategorySelect from "components/category/CategorySelect";
+import CategorySelectAlphabet from "components/category/CategorySelectAlphabet";
 import SortDropDown from "components/SortDropDown";
 import {
   alphabetArray,
@@ -37,7 +37,7 @@ export default function Category() {
   const getCategoryPerfume = () => {
     axios
       .get("/api/category", {
-        params: { category: page, selected: [selected], orderOpt: sort },
+        params: { category: page, selected: selected, orderOpt: sort },
       })
       .then((res) => {
         setPurfume(res.data.perfumes.slice(0, 30));
@@ -69,7 +69,9 @@ export default function Category() {
       setBrandList({ ...brandList, isLoading: false, data: [] });
       getBrand();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, selected, sort]);
+
   return (
     <CategoryContainer>
       <CategoryBox>

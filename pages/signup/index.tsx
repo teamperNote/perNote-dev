@@ -3,8 +3,10 @@ import styled from "styled-components";
 import axios from "axios";
 import { IoMdCalendar } from "react-icons/io";
 import { useRouter } from "next/router";
-import AgreeItem from "components/AgreeItem";
-import RadioItem from "components/RadioButton";
+import AgreeItem from "components/form/AgreeItem";
+import RadioItem from "components/form/RadioButton";
+import Input from "../../components/form/Input";
+import ValidationButton from "components/form/ValidationButton";
 
 interface SignupProps {
   isActive: string;
@@ -32,7 +34,7 @@ const agreeList = [
 const radioList = [
   {
     label: "성별",
-    id: ["male", "female"],
+    id: ["m", "f"],
     name: "gender",
     text: ["남성", "여성"],
   },
@@ -192,7 +194,6 @@ function Signup() {
       phoneNumber,
       birth: birthday,
       gender,
-      // 스토리 수신 여부, 성별 타입 어떻게 보내는지?
       snsId,
     };
     // 모든 값 필수 조건 만족시 버튼 활성화
@@ -203,10 +204,10 @@ function Signup() {
       }
     }
   };
-  useEffect(() => {
-    // console.log(gender, isStoryAgree);
-    console.log(isCheckMust);
-  }, [gender, isCheckMust, isStoryAgree]);
+  // useEffect(() => {
+  //   console.log(gender, isStoryAgree);
+  //   console.log(isCheckMust);
+  // }, [gender, isCheckMust, isStoryAgree]);
   return (
     <SignupWrapper>
       <Title>회원가입</Title>
@@ -228,27 +229,25 @@ function Signup() {
             <LocalTitle>일반 회원가입</LocalTitle>
             <FormList>
               <FormItem>
-                <FormLabel htmlFor="name">이름</FormLabel>
-                <FormInput
+                <Input
+                  htmlFor="name"
+                  labelContent="이름"
                   type="text"
-                  id="name"
                   value={name}
-                  onChange={inputName}
-                  required
+                  setStateValue={inputName}
                 />
               </FormItem>
               <FormItem>
-                <FormLabel htmlFor="email">이메일</FormLabel>
-                <FormInput
+                <Input
+                  htmlFor="email"
+                  labelContent="이메일"
                   type="email"
-                  id="email"
                   value={email}
-                  onChange={inputEmail}
-                  required
+                  setStateValue={inputEmail}
                 />
-                <FormButton onClick={checkEmailDuplication}>
+                <ValidationButton click={checkEmailDuplication}>
                   중복확인
-                </FormButton>
+                </ValidationButton>
               </FormItem>
               {email && isValidEmail ? (
                 <Message>사용 가능한 이메일입니다.</Message>
@@ -261,25 +260,25 @@ function Signup() {
                 <> </>
               )}
               <FormItem>
-                <FormLabel htmlFor="password">비밀번호</FormLabel>
-                <FormInput
-                  type="password"
-                  id="password"
+                <Input
+                  htmlFor="password"
+                  labelContent="비밀번호"
+                  type="passowrd"
                   value={password}
-                  onChange={inputPassword}
-                  required
+                  setStateValue={inputPassword}
                 />
               </FormItem>
               <FormItem>
-                <FormLabel htmlFor="pwdCheck">비밀번호 확인</FormLabel>
-                <FormInput
-                  type="password"
-                  id="pwdCheck"
+                <Input
+                  htmlFor="pwdCheck"
+                  labelContent="비밀번호 확인"
+                  type="passowrd"
                   value={checkPassword}
-                  onChange={inputCheckPassword}
-                  required
+                  setStateValue={inputCheckPassword}
                 />
-                <FormButton onClick={checkSamePassword}>확인</FormButton>
+                <ValidationButton click={checkSamePassword}>
+                  확인
+                </ValidationButton>
               </FormItem>
               <Message>*최소 8자리 이상, 대소문자, 숫자 포함</Message>
               {password && checkPassword && isPasswordSame ? (
@@ -289,28 +288,29 @@ function Signup() {
               )}
               {isPasswordDiff ? <Message>불일치</Message> : <></>}
               <FormItem>
-                <FormLabel htmlFor="phone">전화번호</FormLabel>
-                <FormInput
+                <Input
+                  htmlFor="phone"
+                  labelContent="전화번호"
                   type="tel"
-                  id="phone"
                   value={phoneNumber}
-                  onChange={inputPhoneNumber}
-                  required
+                  setStateValue={inputPhoneNumber}
                 />
-                <FormButton onClick={sendAuthMessage}>
+                <ValidationButton click={sendAuthMessage}>
                   {isSendMessage ? "재발송" : "인증하기"}
-                </FormButton>
+                </ValidationButton>
               </FormItem>
               {isSendMessage ? (
                 <FormItem>
-                  <FormLabel htmlFor="checkPhone">인증번호</FormLabel>
-                  <FormInput
-                    id="checkPhone"
+                  <Input
+                    htmlFor="checkPhone"
+                    labelContent="인증번호"
                     type="text"
                     value={authNum}
-                    onChange={inputAuthNumber}
+                    setStateValue={inputAuthNumber}
                   />
-                  <FormButton onClick={verifyPhoneNum}>확인</FormButton>
+                  <ValidationButton click={verifyPhoneNum}>
+                    확인
+                  </ValidationButton>
                 </FormItem>
               ) : (
                 <></>
@@ -318,13 +318,12 @@ function Signup() {
               {successAuth ? <Message>전화번호 인증 성공</Message> : <></>}
               {failAuth ? <Message>전화번호 인증 실패</Message> : <></>}
               <FormItem>
-                <FormLabel htmlFor="birth">생년월일</FormLabel>
-                <FormInput
+                <Input
+                  htmlFor="birth"
+                  labelContent="생년월일"
                   type="text"
-                  id="birth"
                   value={birth}
-                  onChange={inputBirthday}
-                  required
+                  setStateValue={inputBirthday}
                 />
                 <IconContainer>
                   <IoMdCalendar className="icon" />
@@ -465,35 +464,6 @@ const FormItem = styled.li`
   margin-top: 35px;
 `;
 
-const FormLabel = styled.label`
-  display: inline-block;
-  width: 300px;
-  text-align: right;
-  font-weight: 400;
-  font-size: 35px;
-  margin-right: 63px;
-`;
-
-// 에러 메세지 출력까지 구현하고 border-top 잘리는 거 수정하기
-const FormInput = styled.input`
-  border: 2px solid #d9d9d9;
-  width: 460px;
-  height: 70px;
-  /* 텍스트 및 패딩 마진 디자인 추가하기 */
-  padding: 8px 0 8px 4px;
-  font-size: 30px;
-`;
-
-const FormButton = styled.button`
-  width: 150px;
-  height: 70px;
-  background: transparent;
-  border: 2px solid #d9d9d9;
-  font-weight: 400;
-  font-size: 30px;
-  margin-left: 47px;
-`;
-
 const IconContainer = styled.div`
   font-size: 5rem;
   color: #939393;
@@ -521,7 +491,6 @@ const SignupButton = styled.button<SignupProps>`
   width: 800px;
   height: 120px;
   border: none;
-  background: #525d4d;
   background: ${(props) =>
     props.isActive === "isActive" ? "#525d4d" : "#d9d9d9"};
   border-radius: 20px;
