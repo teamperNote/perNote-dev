@@ -7,12 +7,20 @@ const prisma = new PrismaClient();
 // 다중 태그 선택
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
     const query = req.query;
+    // let test
 
     const category = query.category as string;
     // const orderOpt = query.orderOpt as string
-    let perfumes;
-    let test
+    let perfumes
 
+    if(category === "default"){
+        perfumes = prisma.perfume.findMany()
+        if(!perfumes) {
+            return res.status(404).json({
+                message: "Error: /category"
+            })
+        }
+    }
     if(category === "brand"){
         const selected = query["selected"] as string
         perfumes = await prisma.perfume.findMany({
@@ -65,7 +73,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 message: "Error: /category"
             })
         }
-    } else if(category === "personality"){
+    } else if(category === "personality" || category === "feature"){
         // == 단일 선택 ==
         const selected = query["selected"] as string
         
@@ -75,13 +83,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 message: "Error: category - algorithm"
             })
         }
-        const scents = algorithm.filter((row) => row[selected] !== -1).sort((row1, row2) => row2[selected] - row1[selected])
-        test = scents
-        // 1점 
+        const scents = algorithm.filter((row) => row[selected] === -1)
+        const findManyOrCondition = []
+        for(const row of scents){
+            findManyOrCondition.push(
+                {first: row['scent']},
+                {second: row['scent']},
+                {third: row['scent']},
+                {fourth: row['scent']},
+                {fifth: row['scent']} 
+            )
+        }
 
         perfumes = await prisma.perfume.findMany({
             where: {
-                note: selected,
+                NOT: findManyOrCondition,
             },
         })
         if(!perfumes) {
@@ -89,13 +105,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 message: "Error: /category"
             })
         }
+    } else{
+        return res.status(404).json({
+            message: "Error: wrong category"
+        })
     }
     
 
     return res.status(200).json({
        perfumes: perfumes,
        query: query,
-       test
+    //    test
     });
 
 
