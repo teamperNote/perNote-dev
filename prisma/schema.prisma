@@ -146,6 +146,23 @@ model Algorithm {
 
 model Brand {
   id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
+  name_eng      String
+  name_kor      String
   imgUrl        String?
+}
+
+model Note {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  scent         String
+  wild          Int
+  aquatic       Int
+  woody         Int
+  aromatic      Int
+  citrus        Int
+  floral        Int
+  fruity        Int
+  green         Int
+  spicy         Int
+  musk          Int
+  cotton_soap   Int
 }

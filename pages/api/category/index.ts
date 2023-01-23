@@ -63,6 +63,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // == 단일 선택 ==
         const selected = query["selected"] as string
+
+        const note = await prisma.note.findMany()
+        if(!note) {
+            return res.status(404).json({
+                message: "Error: category - algorithm"
+            })
+        }
+        const scents = note.filter((row) => row[selected] === -1)
+        const findManyOrCondition = []
+        for(const row of scents){
+            findManyOrCondition.push(
+                {first: row['scent']},
+                {second: row['scent']},
+                {third: row['scent']},
+                {fourth: row['scent']},
+                {fifth: row['scent']} 
+            )
+        }
+
         perfumes = await prisma.perfume.findMany({
             where: {
                 note: selected,
