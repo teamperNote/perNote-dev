@@ -166,3 +166,15 @@ model Note {
   musk          Int
   cotton_soap   Int
 }
+
+model PerfumeDetail {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  perfume       Perfume @relation(fields: [perfumeId, brand, name], references: [id, brand, name])
+  perfumeId     String  @db.ObjectId
+  brand         String  
+  name          String  
+  ml            Int?    
+  price         String? 
+  url           String? 
+  description   String? 
+}

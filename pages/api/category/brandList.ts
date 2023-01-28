@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     for(const brand of brands){
-        const head = brand.name[0].toUpperCase() // 추후 upperCase 제거
+        const head = brand.name_eng[0].toUpperCase() // 추후 upperCase 제거
         if(!dict[head]){
             return res.status(404).json({
                 message: "Error: /category/brand - wrong data"
