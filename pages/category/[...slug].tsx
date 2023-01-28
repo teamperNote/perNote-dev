@@ -5,7 +5,7 @@ import Link from "next/link";
 import axios from "axios";
 import CategoryCard from "components/category/CategoryCard";
 import CategorySelect from "components/category/CategorySelect";
-import SortDropDown from "components/SortDropDown";
+import SortDropDown from "components/category/SortDropDown";
 import {
   alphabetArray,
   categoryArray,
