@@ -425,7 +425,7 @@ export const categoryArray: ICategory[] = [
   {
     id: 1,
     value: "brand",
-    url: `brand/0`,
+    url: `brand`,
     text: "브랜드",
   },
   {

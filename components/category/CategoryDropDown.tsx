@@ -5,9 +5,9 @@ import { categoryArray } from "lib/modules";
 export default function CategoryDropDown({ openDropDown, closeDropDown }: any) {
   return (
     <DropDownContainer onMouseOver={openDropDown} onMouseLeave={closeDropDown}>
-      {categoryArray.map((data) => (
-        <Div key={data.id} onClick={closeDropDown}>
-          <Link href={`/category/${data.url}`}>{data.text}</Link>
+      {categoryArray.map((category) => (
+        <Div key={category.id} onClick={closeDropDown}>
+          <Link href={`/category/${category.url}`}>{category.text}</Link>
         </Div>
       ))}
     </DropDownContainer>
@@ -16,22 +16,25 @@ export default function CategoryDropDown({ openDropDown, closeDropDown }: any) {
 
 const DropDownContainer = styled.div`
   width: 184px;
-  height: 266px;
   background-color: #ffffff;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  padding: 10px;
 `;
 
 const Div = styled.div`
+  width: 100%;
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
   text-align: center;
-  color: #000000; ;
+  color: #000000;
+  padding: 5px 0;
+  margin: 10px 0;
+  cursor: pointer;
 `;
