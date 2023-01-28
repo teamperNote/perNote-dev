@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 type Props = {
   alphabet?: string;
@@ -28,10 +29,11 @@ export default function CategoryCard({ alphabet, data, from }: Props) {
       }
     >
       <CategoryCardContainer
-        background={data.imgUrl}
+        // background={data.imgUrl}
         onMouseOver={() => setIsShow(true)}
         onMouseLeave={() => setIsShow(false)}
       >
+        <CategoryCardImg src={data.imgUrl} />
         {isShow && (
           <Filter>
             {from == "Category" && (
@@ -63,13 +65,21 @@ export default function CategoryCard({ alphabet, data, from }: Props) {
   );
 }
 
-const CategoryCardContainer = styled.div<{ background: string }>`
+const CategoryCardContainer = styled.div`
   position: relative;
   width: 460px;
   height: 460px;
-  background-image: url(${({ background }) => background});
-  background-size: cover;
-  background-position: center;
+  cursor: pointer;
+  overflow: hidden;
+`;
+
+const CategoryCardImg = styled.img`
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const Filter = styled.div`
