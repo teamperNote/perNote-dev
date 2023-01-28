@@ -136,64 +136,59 @@ export const colorArray: ICategory[] = [
 export const personalityArray: ICategory[] = [
   {
     id: 0,
-    value: "vivid",
-    text: "생동감있는",
-  },
-  {
-    id: 1,
-    value: "delicate",
-    text: "섬세한",
-  },
-  {
-    id: 2,
     value: "sensual",
     text: "관능적인",
   },
   {
-    id: 3,
-    value: "comfortable",
-    text: "편안한",
-  },
-  {
-    id: 4,
-    value: "calm",
-    text: "차분한",
-  },
-  {
-    id: 5,
+    id: 1,
     value: "adventurous",
     text: "모험적인",
   },
   {
-    id: 6,
-    value: "masculine",
-    text: "남성적인",
+    id: 2,
+    value: "vivid",
+    text: "생동감있는",
   },
   {
-    id: 7,
-    value: "feminine",
-    text: "여성적인",
+    id: 3,
+    value: "delicate",
+    text: "섬세한",
   },
   {
-    id: 8,
-    value: "pure",
-    text: "순수한",
-  },
-  {
-    id: 9,
+    id: 4,
     value: "mature",
     text: "성숙한",
   },
   {
-    id: 10,
+    id: 5,
+    value: "pure",
+    text: "순수한",
+  },
+  {
+    id: 6,
+    value: "calm",
+    text: "차분한",
+  },
+  {
+    id: 7,
     value: "purehearted",
     text: "청순한",
   },
-  // {
-  //   id: 11,
-  //   value: "cotton",
-  //   text: "활기찬",
-  // },
+  {
+    id: 8,
+    value: "comfortable",
+    text: "편안한",
+  },
+  {
+    id: 9,
+    value: "masculine",
+    text: "남성적인",
+  },
+  {
+    id: 10,
+    value: "feminine",
+    text: "여성적인",
+  },
 ];
 
 export const charArray: ICategory[] = [
@@ -204,116 +199,86 @@ export const charArray: ICategory[] = [
   },
   {
     id: 1,
-    value: "fresh",
-    text: "신선한",
-  },
-  {
-    id: 2,
-    value: "deep",
-    text: "깊은",
-  },
-  {
-    id: 3,
-    value: "rich",
-    text: "풍부한",
-  },
-  {
-    id: 4,
     value: "light",
     text: "경쾌한",
   },
   {
-    id: 5,
+    id: 2,
+    value: "luxurious",
+    text: "고급스러운",
+  },
+  {
+    id: 3,
+    value: "deep",
+    text: "깊은",
+  },
+  {
+    id: 4,
     value: "clean",
     text: "깨끗한",
   },
   {
-    id: 6,
-    value: "luxurious",
-    text: "고급스러운",
+    id: 5,
+    value: "fresh",
+    text: "신선한",
   },
-  // {
-  //   id: 7,
-  //   value: "",
-  //   text: "모던한",
-  // },
-  // {
-  //   id: 8,
-  //   value: "",
-  //   text: "산뜻한",
-  // },
+  {
+    id: 6,
+    value: "rich",
+    text: "풍부한",
+  },
 ];
 
 export const noteArray: ICategory[] = [
   {
     id: 0,
-    value: "amber",
-    text: "AMBER",
-  },
-  {
-    id: 1,
     value: "aquatic",
     text: "AQUATIC",
   },
   {
-    id: 2,
-    value: "woody",
-    text: "WOODY",
-  },
-  {
-    id: 3,
+    id: 1,
     value: "aromatic",
     text: "AROMATIC",
   },
   {
-    id: 4,
-    value: "chypre",
-    text: "CHYPRE",
-  },
-  {
-    id: 5,
+    id: 2,
     value: "citrus",
     text: "CITRUS",
   },
   {
-    id: 6,
+    id: 3,
     value: "floral",
     text: "FLORAL",
   },
   {
-    id: 7,
+    id: 4,
     value: "frutiy",
     text: "FRUTIY",
   },
   {
-    id: 8,
+    id: 5,
     value: "green",
     text: "GREEN",
   },
   {
-    id: 9,
-    value: "animalic",
-    text: "ANIMALIC",
+    id: 6,
+    value: "musk",
+    text: "MUSK",
   },
   {
-    id: 10,
+    id: 7,
     value: "spicy",
     text: "SPICY",
   },
   {
-    id: 11,
-    value: "cotton",
-    text: "COTTON",
+    id: 8,
+    value: "wild",
+    text: "WILD",
   },
   {
-    id: 12,
-    value: "flourere",
-    text: "FOURERE",
-  },
-  {
-    id: 13,
-    value: "etc",
-    text: "E.T.C",
+    id: 9,
+    value: "woody",
+    text: "WOODY",
   },
 ];
 
@@ -467,13 +432,13 @@ export const categoryArray: ICategory[] = [
     id: 2,
     value: "personality",
     url: `personality/${personalityArray[0].value}`,
-    text: "성격",
+    text: "나의 성격",
   },
   {
     id: 3,
-    value: "characteristics",
-    url: `characteristics/${charArray[0].value}`,
-    text: "특징",
+    value: "feature",
+    url: `feature/${charArray[0].value}`,
+    text: "향수의 특징",
   },
 ];
 
