@@ -24,12 +24,12 @@ const fetcher = (url: string) => axios
         // brand: "gucci"  
 
         // TEST SECTION - category
-        // category: "note",
-        // selected: "woody",
+        category: "note",
+        selected: "fruity",
         // category: "brand",
         // selected: "Dior",
-        category: "feature",
-        selected: "deep"
+        // category: "feature",
+        // selected: "deep"
         // orderOpt: 'name'
     }})
     .then(res => res.data);
