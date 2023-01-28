@@ -20,17 +20,17 @@ const fetcher = (url: string) => axios
 
 
         // TEST SECTION - detail
-        id: "63466058b57dcd767a0f0553",
+        // id: "63466058b57dcd767a0f0553",
         // brand: "gucci"  
 
         // TEST SECTION - category
-        category: "note",
-        selected: "fruity",
+        // category: "note",
+        // selected: "fruity",
         // category: "brand",
         // selected: "Dior",
         // category: "feature",
         // selected: "deep"
-        // orderOpt: 'name'
+        orderOpt: 'view'
     }})
     .then(res => res.data);
     // axios.get의 params에 array를 입력하면 property 뒤에 []이 붙는다. ex) sex => sex[]
