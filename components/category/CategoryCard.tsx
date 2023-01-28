@@ -6,8 +6,10 @@ import Link from "next/link";
 type Props = {
   alphabet?: string;
   data: {
+    id: string;
     name: string;
-    imgUrl?: string;
+    name_eng: string;
+    imgUrl: string;
   };
   from: string;
 };
@@ -20,9 +22,9 @@ export default function CategoryCard({ alphabet, data, from }: Props) {
   return (
     <Link
       href={
-        slug[0] === "brand"
-          ? `brand/${alphabet}/${data.name}`
-          : "/product-detail"
+        slug[0] === "brand" && slug[2] === undefined
+          ? `brand/${alphabet}/${data.name_eng}`
+          : `/product-detail/${data.id}`
       }
     >
       <CategoryCardContainer
@@ -41,7 +43,11 @@ export default function CategoryCard({ alphabet, data, from }: Props) {
                 <HeartCount>108</HeartCount>
               </HeartBox>
             )}
-            <PurfumeName>{data.name}</PurfumeName>
+            <PurfumeName>
+              {slug[0] === "brand" && slug[2] === undefined
+                ? data.name_eng
+                : data.name}
+            </PurfumeName>
             {/* TODO 서지수 향수 설명 추가되면 수정 */}
             {/* TODO 서지수 브랜드 카드 디자인 확저오디면 수정하기 */}
             {from == "Category" && (
