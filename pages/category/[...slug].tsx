@@ -192,7 +192,7 @@ export const SelectBox = styled.div<{ category: string }>`
       : category === "brand"
       ? "1450px"
       : category === "personality"
-      ? "1415px"
+      ? "750px"
       : "880px"};
   display: flex;
   flex-wrap: wrap;
