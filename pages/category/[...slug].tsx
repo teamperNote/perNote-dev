@@ -54,11 +54,19 @@ export default function Category() {
     axios
       .get("/api/category/brandList")
       .then((res) => {
-        setBrandList({
-          ...brandList,
-          isLoading: true,
-          data: Object.entries(res.data.dict),
-        });
+        if (alphabetArray.find((x) => x.value === selected)) {
+          setBrandList({
+            ...brandList,
+            isLoading: true,
+            data: [[selected, [res.data.dict[selected]][0]]],
+          });
+        } else {
+          setBrandList({
+            ...brandList,
+            isLoading: true,
+            data: Object.entries(res.data.dict),
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -81,7 +89,7 @@ export default function Category() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, selected, sort]);
+  }, [category, selected, brandName, sort]);
 
   return (
     <CategoryContainer>
