@@ -21,12 +21,12 @@ export default function Category() {
 
   const [category, setCategory] = useState("");
   const [selected, setSelected] = useState("");
-  const [name, setName] = useState("");
+  const [brandName, setBrandName] = useState("");
   useEffect(() => {
     if (slug) {
       setCategory(slug[0]);
       setSelected(slug[1]);
-      setName(slug[2]);
+      setBrandName(slug[2]);
     }
   }, [slug]);
 
@@ -68,11 +68,11 @@ export default function Category() {
     setBrandList({ ...brandList, isLoading: false, data: [] });
     setPurfume({ ...purfume, isLoading: false, data: [] });
     if (category === "brand") {
-      if (name === undefined) {
+      if (brandName === undefined) {
         getBrand();
       } else {
-        if (name) {
-          getCategoryPerfume(category, name);
+        if (brandName) {
+          getCategoryPerfume(category, brandName);
         }
       }
     } else {
@@ -111,7 +111,7 @@ export default function Category() {
           />
         ))}
       </SelectBox>
-      {(category !== "brand" || name !== undefined) && (
+      {(category !== "brand" || brandName !== undefined) && (
         <SortBox>
           <SortDropDown sort={sort} setSort={setSort} />
         </SortBox>
@@ -122,7 +122,7 @@ export default function Category() {
             <CategoryCard key={data.id} data={data} from={"Category"} />
           ))}
         </CardBox>
-      ) : name === undefined ? (
+      ) : brandName === undefined ? (
         <CategoryBrandBox>
           {brandList.data.map((alphabet) => (
             <BrandBox key={alphabet[0]}>
@@ -142,7 +142,7 @@ export default function Category() {
         </CategoryBrandBox>
       ) : (
         <>
-          <BrandSpan>{name}</BrandSpan>
+          <BrandSpan>{brandName}</BrandSpan>
           <CardBox>
             {purfume.data.map((data) => (
               <CategoryCard key={data.id} data={data} from={"Category"} />
