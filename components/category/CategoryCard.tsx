@@ -2,9 +2,8 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Image from "next/image";
 
-type Props = {
+interface Props {
   alphabet?: string;
   data: {
     id: string;
@@ -13,7 +12,7 @@ type Props = {
     imgUrl: string;
   };
   from: string;
-};
+}
 
 export default function CategoryCard({ alphabet, data, from }: Props) {
   const router = useRouter();

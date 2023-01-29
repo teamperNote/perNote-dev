@@ -196,7 +196,7 @@ export const CategoryTitle = styled.div`
 export const SelectBox = styled.div<{ category: string }>`
   width: ${({ category }) =>
     category === "note"
-      ? "650px"
+      ? "720px"
       : category === "brand"
       ? "1450px"
       : category === "personality"

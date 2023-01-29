@@ -1,18 +1,20 @@
-import React from "react";
 import styled from "styled-components";
-const NoteTag = ({ children }: any) => {
-  return <TagContainer>{children}</TagContainer>;
-};
 
-export default NoteTag;
+export default function NoteTag({ text }) {
+  return <TagContainer>{text}</TagContainer>;
+}
 
 const TagContainer = styled.span`
-  height: 40px;
-  background: #dfdfdf;
-  border-radius: 100px;
+  background: var(--secondary-color);
   padding: 3px 15px;
+  border-radius: 100px;
+  margin-right: 25px;
+
+  font-family: "Noto Sans KR";
+  font-style: normal;
   font-weight: 400;
   font-size: 20px;
-  margin-right: 25px;
-  line-height: 200%;
+  line-height: 40px;
+  text-align: center;
+  color: #ffffff;
 `;
