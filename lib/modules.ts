@@ -247,8 +247,8 @@ export const noteArray: ICategory[] = [
   },
   {
     id: 3,
-    value: "floral",
-    text: "FLORAL",
+    value: "floral fruity",
+    text: "FLORAL / FRUITY",
   },
   {
     id: 4,
