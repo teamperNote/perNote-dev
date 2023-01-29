@@ -1,32 +1,27 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import NoteTag from "components/NoteTag";
 import { AiTwotoneHeart } from "react-icons/ai";
 import axios from "axios";
-
-type PurfumeProps = {
-  imgUrl: string;
-  brand: string;
-  // name_kor: string;
-  // name_eng: string;
-  name: string;
-  // price: number;
-  note: string;
-};
-
-type SimilarsProps = {
-  id: string;
-  imgUrl: string;
-  name: string;
-};
 
 export default function ProductDetailPage() {
   const router = useRouter();
   const { productId } = router.query;
 
-  const [purfumeData, setPurfumeData] = useState<PurfumeProps | null>();
-  const [similarsData, setSimilarsData] = useState<SimilarsProps[] | null>();
+  const [purfumeData, setPurfumeData] = useState<Perfume>({
+    isLoading: false,
+    perfume: {
+      imgUrl: "",
+      brand: "",
+      // name_kor: "",
+      name_eng: "",
+      // price: 0,
+      notes: [],
+    },
+    similars: [],
+  });
 
   const getPurfumeInfo = async () => {
     await axios
@@ -36,9 +31,20 @@ export default function ProductDetailPage() {
         },
       })
       .then(({ data }) => {
-        console.log(data);
-        setPurfumeData(data.perfume);
-        setSimilarsData(data.similars.perfumes);
+        setPurfumeData({
+          ...purfumeData,
+          isLoading: true,
+          perfume: {
+            ...purfumeData.perfume,
+            imgUrl: data.perfume.imgUrl,
+            brand: data.perfume.brand,
+            // name_kor: data.perfume.name_kor,
+            name_eng: data.perfume.name,
+            // price: number,
+            notes: data.perfume.note.split(" "),
+          },
+          similars: data.similars.perfumes,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -49,16 +55,19 @@ export default function ProductDetailPage() {
     if (productId) {
       getPurfumeInfo();
     }
+    return () => {
+      setPurfumeData({ ...purfumeData, isLoading: false });
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
   return (
     <>
-      {purfumeData && (
+      {purfumeData.isLoading && (
         <ProductDetailContainer>
           <AboutProduct>
             <ImageContainer>
-              <MainImage src={purfumeData.imgUrl} />
+              <MainImage src={purfumeData.perfume.imgUrl} />
               <SubImageContainer>
                 <SubImage />
                 <SubImage />
@@ -66,7 +75,7 @@ export default function ProductDetailPage() {
             </ImageContainer>
             <InformationContainer>
               <ProductInfo>
-                <BrandName>{purfumeData.brand}</BrandName>
+                <BrandName>{purfumeData.perfume.brand}</BrandName>
                 <NameBox>
                   <NameIconContainer>
                     <KorName>
@@ -76,7 +85,7 @@ export default function ProductDetailPage() {
                     <AiTwotoneHeart size="50px" fill={"#6E7C65"} />
                   </NameIconContainer>
                   <EngName>
-                    {purfumeData.name}
+                    {purfumeData.perfume.name_eng}
                     {/* {purfumeData.name_eng} */}
                   </EngName>
                 </NameBox>
@@ -89,7 +98,9 @@ export default function ProductDetailPage() {
                 <PerfumeInfoBox>
                   <CategoryTitle>노트</CategoryTitle>
                   <TagBox>
-                    <NoteTag text={purfumeData.note.toUpperCase()} />
+                    {purfumeData.perfume.notes.map((note, idx) => (
+                      <NoteTag key={idx} text={note.toUpperCase()} />
+                    ))}
                   </TagBox>
                 </PerfumeInfoBox>
                 {/* <PerfumeInfoBox>
@@ -148,18 +159,44 @@ export default function ProductDetailPage() {
           <SimilarsContainer>
             <SimilarsTitle>비슷한 향수를 추천합니다</SimilarsTitle>
             <SimilarsCardBox>
-              {similarsData.map((similar) => (
-                <SimilarsCard key={similar.id}>
-                  <SimilarImg src={similar.imgUrl} />
-                  <Span>{similar.name}</Span>
-                </SimilarsCard>
+              {purfumeData.similars.map((similar) => (
+                <Link href={similar.id} key={similar.id}>
+                  <SimilarsCard>
+                    <SimilarImg src={similar.imgUrl} />
+                    <Span>{similar.name}</Span>
+                  </SimilarsCard>
+                </Link>
               ))}
             </SimilarsCardBox>
+            {/* TODO 서지수 스크롤 기능 구현 해야 함 */}
+            <RowScroll>
+              <ScrollDot className={"focus"} />
+              <ScrollDot />
+              <ScrollDot />
+              <ScrollDot />
+            </RowScroll>
           </SimilarsContainer>
         </ProductDetailContainer>
       )}
     </>
   );
+}
+
+interface Perfume {
+  isLoading: boolean;
+  perfume: {
+    imgUrl: string;
+    brand: string;
+    // name_kor: string;
+    name_eng: string;
+    // price: number;
+    notes: string[];
+  };
+  similars: {
+    id: string;
+    imgUrl: string;
+    name: string;
+  }[];
 }
 
 const ProductDetailContainer = styled.div`
@@ -328,6 +365,9 @@ const SimilarsTitle = styled(Span)`
 const SimilarsCardBox = styled.div`
   display: flex;
   align-items: center;
+  width: 1420px;
+  overflow: hidden;
+  margin-bottom: 70px;
 `;
 
 const SimilarsCard = styled.div`
@@ -335,6 +375,7 @@ const SimilarsCard = styled.div`
   flex-direction: column;
   align-items: center;
   margin-right: 21px;
+  cursor: pointer;
   :last-child {
     margin-right: 0;
   }
@@ -345,4 +386,24 @@ const SimilarImg = styled.img`
   height: 339px;
   border-radius: 30px;
   margin-bottom: 25px;
+`;
+
+const RowScroll = styled.div`
+  width: 155px;
+  display: flex;
+`;
+
+const ScrollDot = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  margin-right: 25px;
+  background-color: var(--light-gray-color);
+  cursor: pointer;
+  :last-child {
+    margin-right: 0;
+  }
+  &.focus {
+    background-color: var(--secondary-color);
+  }
 `;
