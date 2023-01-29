@@ -1,123 +1,174 @@
-import NoteTag from "components/NoteTag";
-import React from "react";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import NoteTag from "components/NoteTag";
 import { AiTwotoneHeart } from "react-icons/ai";
-const ProductDetailPage = () => {
-  return (
-    <ProductDetailContainer>
-      {/* 임시 작성 */}
-      <Path>{"Home > Category > 노트 > 제품명"}</Path>
-      <AboutProduct>
-        <ImageContainer>
-          <MainImage></MainImage>
-          <SubImageContainer>
-            <SubImage></SubImage>
-            <SubImage></SubImage>
-          </SubImageContainer>
-        </ImageContainer>
-        <InformationContainer>
-          <ProductInfo>
-            <BrandName>BrandName</BrandName>
-            <Name>
-              <NameIconContainer>
-                <KorName>제품명</KorName>
-                <AiTwotoneHeart size="50px" />
-              </NameIconContainer>
-              <EngName>Product name</EngName>
-            </Name>
-            <Price>
-              <PriceText>공식 홈페이지 가격</PriceText>
-              <PriceNumber>215,000 원</PriceNumber>
-            </Price>
-          </ProductInfo>
-          <PerfumeInfo>
-            <Note>
-              <PerfumeTitle>노트</PerfumeTitle>
-              <NoteContainer>
-                <NoteTag>AQUATIC</NoteTag>
-                <NoteTag>WOODY</NoteTag>
-                <NoteTag>AQUATIC</NoteTag>
-              </NoteContainer>
-            </Note>
-            <Character>
-              <PerfumeTitle>성격</PerfumeTitle>
-              <NoteContainer>
-                <NoteTag>AQUATIC</NoteTag>
-                <NoteTag>WOODY</NoteTag>
-              </NoteContainer>
-            </Character>
-            <Characteristic>
-              <PerfumeTitle>특징</PerfumeTitle>
-              <NoteContainer>
-                <NoteTag>AQUATIC</NoteTag>
-                <NoteTag>WOODY</NoteTag>
-                <NoteTag>AQUATIC</NoteTag>
-                <NoteTag>WOODY</NoteTag>
-              </NoteContainer>
-            </Characteristic>
-          </PerfumeInfo>
-          <PriceInfo>
-            <div>최저가비교</div>
-            <PriceTable></PriceTable>
-          </PriceInfo>
-        </InformationContainer>
-      </AboutProduct>
-      <DescriptionContainer>
-        <Description>
-          <DescriptionTitle>상세설명</DescriptionTitle>
-          <DescriptionContent>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui, cras
-            <br />
-            tempus, facilisi diam vel in duis dictum nec.
-          </DescriptionContent>
-        </Description>
+import axios from "axios";
 
-        <Description>
-          <DescriptionTitle>탑노트</DescriptionTitle>
-          <DescriptionContent>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui, cras
-            <br />
-            tempus, facilisi diam vel in duis dictum nec.
-          </DescriptionContent>
-        </Description>
-
-        <Description>
-          <DescriptionTitle>미들노트</DescriptionTitle>
-          <DescriptionContent>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui, cras
-            <br />
-            tempus, facilisi diam vel in duis dictum nec.
-          </DescriptionContent>
-        </Description>
-
-        <Description>
-          <DescriptionTitle>베이스노트</DescriptionTitle>
-          <DescriptionContent>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui, cras
-            <br />
-            tempus, facilisi diam vel in duis dictum nec.
-          </DescriptionContent>
-        </Description>
-      </DescriptionContainer>
-    </ProductDetailContainer>
-  );
+type PurfumeProps = {
+  imgUrl: string;
+  brand: string;
+  // name_kor: string;
+  // name_eng: string;
+  name: string;
+  // price: number;
+  note: string;
 };
 
-export default ProductDetailPage;
+type SimilarsProps = {
+  id: string;
+  imgUrl: string;
+  name: string;
+};
+
+export default function ProductDetailPage() {
+  const router = useRouter();
+  const { index } = router.query;
+
+  const [purfumeData, setPurfumeData] = useState<PurfumeProps | null>();
+  const [similarsData, setSimilarsData] = useState<SimilarsProps[] | null>();
+
+  const getPurfumeInfo = async () => {
+    await axios
+      .get("/api/detail", {
+        params: {
+          id: index,
+        },
+      })
+      .then(({ data }) => {
+        console.log(data);
+        setPurfumeData(data.perfume);
+        setSimilarsData(data.similars.perfumes);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (index) {
+      getPurfumeInfo();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
+
+  return (
+    <>
+      {purfumeData && (
+        <ProductDetailContainer>
+          <AboutProduct>
+            <ImageContainer>
+              <MainImage src={purfumeData.imgUrl} />
+              <SubImageContainer>
+                <SubImage />
+                <SubImage />
+              </SubImageContainer>
+            </ImageContainer>
+            <InformationContainer>
+              <ProductInfo>
+                <BrandName>{purfumeData.brand}</BrandName>
+                <NameBox>
+                  <NameIconContainer>
+                    <KorName>
+                      제품명
+                      {/* {purfumeData.name_kor} */}
+                    </KorName>
+                    <AiTwotoneHeart size="50px" fill={"#6E7C65"} />
+                  </NameIconContainer>
+                  <EngName>
+                    {purfumeData.name}
+                    {/* {purfumeData.name_eng} */}
+                  </EngName>
+                </NameBox>
+                <PriceBox>
+                  <PriceText>공식 홈페이지 가격</PriceText>
+                  <Price>215,000 원{/* {purfumeData.price} */}</Price>
+                </PriceBox>
+              </ProductInfo>
+              <PerfumeInfo>
+                <PerfumeInfoBox>
+                  <CategoryTitle>노트</CategoryTitle>
+                  <TagBox>
+                    <NoteTag text={purfumeData.note.toUpperCase()} />
+                  </TagBox>
+                </PerfumeInfoBox>
+                {/* <PerfumeInfoBox>
+                  <CategoryTitle>성격</CategoryTitle>
+                  <TagBox>
+                    <NoteTag text={"AQUATIC"} />
+                    <NoteTag text={"WOODY"} />
+                  </TagBox>
+                </PerfumeInfoBox>
+                <PerfumeInfoBox>
+                  <CategoryTitle>특징</CategoryTitle>
+                  <TagBox>
+                    <NoteTag text={"AQUATIC"} />
+                    <NoteTag text={"WOODY"} />
+                    <NoteTag text={"AQUATIC"} />
+                    <NoteTag text={"WOODY"} />
+                  </TagBox>
+                </PerfumeInfoBox> */}
+              </PerfumeInfo>
+              <PriceInfo>
+                <div>최저가비교</div>
+                <PriceTable></PriceTable>
+              </PriceInfo>
+            </InformationContainer>
+          </AboutProduct>
+          <DescriptionContainer>
+            <DescriptionBox>
+              <DescriptionTitle>상세설명</DescriptionTitle>
+              <DescriptionContent>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
+                crastempus, facilisi diam vel in duis dictum nec.
+              </DescriptionContent>
+            </DescriptionBox>
+            <DescriptionBox>
+              <DescriptionTitle>탑노트</DescriptionTitle>
+              <DescriptionContent>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
+                crastempus, facilisi diam vel in duis dictum nec.
+              </DescriptionContent>
+            </DescriptionBox>
+            <DescriptionBox>
+              <DescriptionTitle>미들노트</DescriptionTitle>
+              <DescriptionContent>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
+                crastempus, facilisi diam vel in duis dictum nec.
+              </DescriptionContent>
+            </DescriptionBox>
+            <DescriptionBox>
+              <DescriptionTitle>베이스노트</DescriptionTitle>
+              <DescriptionContent>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
+                crastempus, facilisi diam vel in duis dictum nec.
+              </DescriptionContent>
+            </DescriptionBox>
+          </DescriptionContainer>
+          <SimilarsContainer>
+            <SimilarsTitle>비슷한 향수를 추천합니다</SimilarsTitle>
+            <SimilarsCardBox>
+              {similarsData.map((similar) => (
+                <SimilarsCard key={similar.id}>
+                  <SimilarImg src={similar.imgUrl} />
+                  <Span>{similar.name}</Span>
+                </SimilarsCard>
+              ))}
+            </SimilarsCardBox>
+          </SimilarsContainer>
+        </ProductDetailContainer>
+      )}
+    </>
+  );
+}
 
 const ProductDetailContainer = styled.div`
-  margin-top: 100px;
-`;
-
-const Path = styled.div`
-  padding-left: 250px;
-  margin-bottom: 35px;
-  font-weight: 400;
-  font-size: 20px;
+  padding-top: 199px;
+  width: 1420px;
+  margin: 0 auto;
 `;
 
 const AboutProduct = styled.div`
-  padding-left: 250px;
   display: flex;
   border-bottom: 2px solid #b2b2b2;
   padding-bottom: 60px;
@@ -137,6 +188,7 @@ const MainImage = styled.img`
 const SubImageContainer = styled.div`
   margin-top: 20px;
 `;
+
 const SubImage = styled.img`
   margin-right: 30px;
   width: 220px;
@@ -147,73 +199,73 @@ const SubImage = styled.img`
 const InformationContainer = styled.div``;
 
 const ProductInfo = styled.div`
-  margin-bottom: 61.5px;
+  margin-bottom: 60px;
 `;
 
-const BrandName = styled.div`
+const Span = styled.span`
+  font-family: "Noto Sans KR";
+  font-style: normal;
   font-weight: 400;
   font-size: 30px;
-  color: #808080;
-  margin-bottom: 10px;
+  line-height: 43px;
+  text-align: left;
+  color: #000000;
 `;
 
-const Name = styled.div``;
+const BrandName = styled(Span)`
+  margin-bottom: 18px;
+`;
 
-const NameIconContainer = styled.div`
-  overflow: hidden;
-`;
-const KorName = styled.div`
-  font-weight: 700;
-  font-size: 50px;
-  float: left;
-  margin-right: 30px;
-`;
-const EngName = styled.div`
-  font-weight: 400;
-  font-size: 35px;
-  color: #808080;
+const NameBox = styled.div`
   margin-bottom: 17px;
 `;
 
-const Price = styled.div``;
+const NameIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+`;
 
-const PriceText = styled.span`
+const KorName = styled(Span)`
   font-weight: 700;
-  font-size: 30px;
-  color: #808080;
+  font-size: 50px;
+  line-height: 72px;
+  margin-right: 30px;
+`;
+
+const EngName = styled(Span)`
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 51px;
+`;
+
+const PriceBox = styled.div``;
+
+const PriceText = styled(Span)`
+  font-weight: 700;
   margin-right: 39px;
 `;
-const PriceNumber = styled.span`
-  font-weight: 700;
-  font-size: 30px;
+
+const Price = styled(PriceText)`
+  margin-right: 0;
 `;
 
 const PerfumeInfo = styled.div`
-  margin-bottom: 76.5px;
+  margin-bottom: 76px;
 `;
 
-const PerfumeTitle = styled.div`
+const PerfumeInfoBox = styled.div`
   display: flex;
   align-items: center;
-  font-weight: 700;
-  font-size: 30px;
-  color: #808080;
-  margin-right: 50px;
-`;
-const Note = styled.div`
-  display: flex;
-  margin-bottom: 48px;
-`;
-const Character = styled.div`
-  display: flex;
-  margin-bottom: 48px;
-`;
-const Characteristic = styled.div`
-  display: flex;
-  margin-bottom: 48px;
+  margin-bottom: 45px;
 `;
 
-const NoteContainer = styled.div`
+const CategoryTitle = styled(Span)`
+  font-weight: 700;
+  margin-right: 50px;
+`;
+
+const TagBox = styled.div`
   display: flex;
 `;
 
@@ -231,20 +283,66 @@ const PriceTable = styled.div`
   height: 397px;
   border: 1px solid black;
 `;
-const DescriptionContainer = styled.div``;
-const Description = styled.div`
+
+const DescriptionContainer = styled.div`
+  border-bottom: 2px solid #b2b2b2;
+`;
+
+const DescriptionBox = styled.div`
+  width: 1056px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
   margin-bottom: 120px;
+`;
+
+const DescriptionTitle = styled(Span)`
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 58px;
+  text-align: center;
+  margin-bottom: 50px;
+`;
+
+const DescriptionContent = styled(Span)`
+  font-weight: 400;
+  font-size: 35px;
+`;
+
+const SimilarsContainer = styled.div`
+  margin: 110px 0 160px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const DescriptionTitle = styled.div`
-  margin-bottom: 50px;
+const SimilarsTitle = styled(Span)`
   font-weight: 700;
   font-size: 40px;
+  line-height: 58px;
+  text-align: center;
+  margin-bottom: 113px;
 `;
-const DescriptionContent = styled.div`
-  font-weight: 400;
-  font-size: 35px;
+
+const SimilarsCardBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SimilarsCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 21px;
+  :last-child {
+    margin-right: 0;
+  }
+`;
+
+const SimilarImg = styled.img`
+  width: 339px;
+  height: 339px;
+  border-radius: 30px;
+  margin-bottom: 25px;
 `;
