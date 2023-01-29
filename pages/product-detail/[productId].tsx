@@ -23,7 +23,7 @@ type SimilarsProps = {
 
 export default function ProductDetailPage() {
   const router = useRouter();
-  const { index } = router.query;
+  const { productId } = router.query;
 
   const [purfumeData, setPurfumeData] = useState<PurfumeProps | null>();
   const [similarsData, setSimilarsData] = useState<SimilarsProps[] | null>();
@@ -32,7 +32,7 @@ export default function ProductDetailPage() {
     await axios
       .get("/api/detail", {
         params: {
-          id: index,
+          id: productId,
         },
       })
       .then(({ data }) => {
@@ -46,11 +46,11 @@ export default function ProductDetailPage() {
   };
 
   useEffect(() => {
-    if (index) {
+    if (productId) {
       getPurfumeInfo();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index]);
+  }, [productId]);
 
   return (
     <>
