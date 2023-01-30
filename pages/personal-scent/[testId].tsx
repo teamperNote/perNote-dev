@@ -162,7 +162,7 @@ export const TagText = styled(Span)`
   font-weight: 400;
   font-size: 30px;
   line-height: 43px;
-  color: #ffffff;
+  color: var(--white-color);
   ::before {
     content: "#";
   }
@@ -267,7 +267,7 @@ export const TipText = styled(TagText)`
 // `;
 
 // export const ConditionsTag = styled(RecommendationTag)`
-//   background: #ffffff;
+//   background: var(--white-color);
 // `;
 
 // export const ConditionsText = styled(TipText)`

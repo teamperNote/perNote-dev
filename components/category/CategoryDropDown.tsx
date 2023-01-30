@@ -9,12 +9,8 @@ export default function CategoryDropDown({ setIsDropDownOpen }) {
       onMouseLeave={() => setIsDropDownOpen(false)}
     >
       {categoryArray.map((category) => (
-        <Link
-          href={`/category/${category.url}`}
-          key={category.id}
-          onClick={() => setIsDropDownOpen(false)}
-        >
-          <Div>{category.text}</Div>
+        <Link href={`/category/${category.url}`} key={category.id}>
+          <Div onClick={() => setIsDropDownOpen(false)}>{category.text}</Div>
         </Link>
       ))}
     </DropDownContainer>
@@ -23,7 +19,7 @@ export default function CategoryDropDown({ setIsDropDownOpen }) {
 
 const DropDownContainer = styled.div`
   width: 184px;
-  background-color: #ffffff;
+  background-color: var(--white-color);
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   display: flex;

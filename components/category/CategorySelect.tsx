@@ -51,7 +51,7 @@ const TextSpan = styled.div<{ category: string }>`
   color: #000000;
 
   &.focus {
-    color: #ffffff;
+    color: var(--white-color);
     font-weight: ${({ category }) => (category === "brand" ? "700" : "")};
   }
 `;
