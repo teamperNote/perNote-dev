@@ -41,7 +41,7 @@ export default function NavBar() {
             <Link href="/personal-survey/start">
               <NavigatorLink>personal scent</NavigatorLink>
             </Link>
-            <Link href="/perfumeStory">
+            <Link href="/perfume-story">
               <NavigatorLink>perfume story</NavigatorLink>
             </Link>
             <NavigatorLink
