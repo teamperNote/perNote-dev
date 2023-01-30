@@ -52,7 +52,7 @@ const HeartBox = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-  color: #ffffff;
+  color: var(--white-color);
   /* mix-blend-mode: difference; */
   display: flex;
   flex-direction: column;
@@ -72,6 +72,6 @@ const HeartCount = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  color: #ffffff;
+  color: var(--white-color);
   align-items: center;
 `;

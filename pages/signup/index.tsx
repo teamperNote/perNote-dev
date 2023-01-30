@@ -445,7 +445,7 @@ const LocalTitle = styled.h3`
   top: 0;
   left: 50%;
   transform: translate(-129.205px, -22.5px);
-  background: #fff;
+  background: var(--white-color);
   font-weight: 700;
   font-size: 40px;
 `;

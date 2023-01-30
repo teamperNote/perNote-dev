@@ -248,7 +248,7 @@ export const PersonalScentText = styled.span`
 export const StartBtn = styled.div`
   width: 265px;
   height: 80px;
-  background: #ffffff;
+  background: var(--white-color);
   border-radius: 100px;
   display: flex;
   justify-content: center;
@@ -304,7 +304,7 @@ export const CardContainer = styled.div`
 export const Card = styled.div<{ margin_R?: string }>`
   width: 230px;
   height: 310px;
-  background: #ffffff;
+  background: var(--white-color);
   border-radius: 10px;
   margin-right: ${({ margin_R }) => margin_R || "63px"};
   display: flex;

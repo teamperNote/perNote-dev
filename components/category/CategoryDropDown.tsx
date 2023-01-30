@@ -23,7 +23,7 @@ export default function CategoryDropDown({ setIsDropDownOpen }) {
 
 const DropDownContainer = styled.div`
   width: 184px;
-  background-color: #ffffff;
+  background-color: var(--white-color);
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   display: flex;

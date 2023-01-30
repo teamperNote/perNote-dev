@@ -95,7 +95,7 @@ const HeartBox = styled.div`
   position: absolute;
   top: 20px;
   right: 20px;
-  color: #ffffff;
+  color: var(--white-color);
   /* mix-blend-mode: difference; */
   display: flex;
   flex-direction: column;
@@ -115,7 +115,7 @@ const HeartCount = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  color: #ffffff;
+  color: var(--white-color);
   align-items: center;
 `;
 
@@ -125,7 +125,7 @@ const PurfumeName = styled.span`
   font-weight: 700;
   font-size: 35px;
   line-height: 51px;
-  color: #ffffff;
+  color: var(--white-color);
   margin-bottom: 15px;
 `;
 
@@ -135,7 +135,7 @@ const PurfumeDesc = styled.span`
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  color: #ffffff;
+  color: var(--white-color);
 
   width: 420px;
   overflow: hidden;
