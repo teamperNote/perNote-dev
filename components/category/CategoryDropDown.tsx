@@ -2,13 +2,20 @@ import Link from "next/link";
 import styled from "styled-components";
 import { categoryArray } from "lib/modules";
 
-export default function CategoryDropDown({ openDropDown, closeDropDown }: any) {
+export default function CategoryDropDown({ setIsDropDownOpen }) {
   return (
-    <DropDownContainer onMouseOver={openDropDown} onMouseLeave={closeDropDown}>
+    <DropDownContainer
+      onMouseOver={() => setIsDropDownOpen(true)}
+      onMouseLeave={() => setIsDropDownOpen(false)}
+    >
       {categoryArray.map((category) => (
-        <Div key={category.id} onClick={closeDropDown}>
-          <Link href={`/category/${category.url}`}>{category.text}</Link>
-        </Div>
+        <Link
+          href={`/category/${category.url}`}
+          key={category.id}
+          onClick={() => setIsDropDownOpen(false)}
+        >
+          <Div>{category.text}</Div>
+        </Link>
       ))}
     </DropDownContainer>
   );
@@ -23,6 +30,12 @@ const DropDownContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 10px;
+  cursor: default;
+
+  position: absolute;
+  top: 69px;
+  left: -34.4px;
+  z-index: 1000;
 `;
 
 const Div = styled.div`
