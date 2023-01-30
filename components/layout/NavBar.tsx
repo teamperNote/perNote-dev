@@ -1,27 +1,21 @@
-/* eslint-disable react/no-unknown-property */
 import styled from "styled-components";
-// import { BiSearchAlt2 } from "react-icons/bi";
-import Link from "next/link";
-import CategoryDropDown from "../category/CategoryDropDown";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import CategoryDropDown from "../category/CategoryDropDown";
+// import { BiSearchAlt2 } from "react-icons/bi";
 
 interface NavBarProps {
   navOption: string;
 }
+
 export default function NavBar() {
   const router = useRouter();
   const pathname = router.pathname;
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isNavShow, setIsNavShow] = useState<boolean>(false);
   const [scrollY, setScrollY] = useState(0);
-  const openDropDown = () => {
-    setIsOpen(true);
-  };
-
-  const closeDropDown = () => {
-    setIsOpen(false);
-  };
 
   function logit() {
     setScrollY(window.pageYOffset);
@@ -55,15 +49,12 @@ export default function NavBar() {
           </NavigatorLink>
           <NavigatorLink>perfume story</NavigatorLink>
           <CategoryContainer
-            onMouseOver={openDropDown}
-            onMouseLeave={closeDropDown}
+            onMouseOver={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
           >
             <NavigatorLink>Category</NavigatorLink>
             <div className={isOpen ? "show-modal" : "close-modal"}>
-              <CategoryDropDown
-                openDropDown={openDropDown}
-                closeDropDown={closeDropDown}
-              />
+              <CategoryDropDown setIsOpen={setIsOpen} />
             </div>
           </CategoryContainer>
         </Navigator>
@@ -95,15 +86,12 @@ export default function NavBar() {
             <Link href="/perfumeStory">perfume story</Link>
           </NavigatorLink>
           <CategoryContainer
-            onMouseOver={openDropDown}
-            onMouseLeave={closeDropDown}
+            onMouseOver={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
           >
             <NavigatorLink>Category</NavigatorLink>
             <div className={isOpen ? "show-modal" : "close-modal"}>
-              <CategoryDropDown
-                openDropDown={openDropDown}
-                closeDropDown={closeDropDown}
-              />
+              <CategoryDropDown setIsOpen={setIsOpen} />
             </div>
           </CategoryContainer>
         </Navigator>
@@ -223,8 +211,8 @@ const Sign = styled.div`
   cursor: pointer;
 `;
 
-const ModalContainer = styled.div`
-  .close-modal {
-    display: none;
-  }
-`;
+// const ModalContainer = styled.div`
+//   .close-modal {
+//     display: none;
+//   }
+// `;
