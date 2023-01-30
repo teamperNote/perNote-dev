@@ -5,141 +5,87 @@ import Link from "next/link";
 import CategoryDropDown from "../category/CategoryDropDown";
 // import { BiSearchAlt2 } from "react-icons/bi";
 
-interface NavBarProps {
-  navOption: string;
-}
-
 export default function NavBar() {
   const router = useRouter();
   const pathname = router.pathname;
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isNavShow, setIsNavShow] = useState<boolean>(false);
-  const [scrollY, setScrollY] = useState(0);
+  // 카테고리 드랍다운 표시 여부
+  const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
 
-  function logit() {
-    setScrollY(window.pageYOffset);
-  }
-
+  // 스크롤 여부 (하단 그림자)
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const listener = () => {
+    // TODO 나중에 y값 수정
+    setIsScrolled(window.pageYOffset < 300);
+  };
   useEffect(() => {
-    function watchScroll() {
-      window.addEventListener("scroll", logit);
-    }
-    watchScroll();
-
-    if (scrollY > 45) {
-      setIsNavShow(true);
+    if (pathname === "/") {
+      setIsScrolled(true);
+      window.addEventListener("scroll", listener);
     } else {
-      setIsNavShow(false);
+      setIsScrolled(false);
     }
-
     return () => {
-      window.removeEventListener("scroll", logit);
+      window.removeEventListener("scroll", listener);
     };
-  }, [isNavShow, scrollY]);
-  return pathname === "/" ? (
-    <>
-      <ScrollNavBarContainer navOption={isNavShow ? "show" : ""}>
-        <PernoteLogo>
-          <Link href="/">per.note</Link>
-        </PernoteLogo>
-        <Navigator>
-          <NavigatorLink>
-            <Link href="/personal-survey/start">personal scent</Link>
-          </NavigatorLink>
-          <NavigatorLink>perfume story</NavigatorLink>
-          <CategoryContainer
-            onMouseOver={() => setIsOpen(true)}
-            onMouseLeave={() => setIsOpen(false)}
-          >
-            <NavigatorLink>Category</NavigatorLink>
-            <div className={isOpen ? "show-modal" : "close-modal"}>
-              <CategoryDropDown setIsOpen={setIsOpen} />
-            </div>
-          </CategoryContainer>
-        </Navigator>
-        <HeaderRight>
-          {/* <SearchInput>
+  }, [pathname]);
+
+  return (
+    <NavBarContainer className={isScrolled ? "transparent" : ""}>
+      <PernoteLogo>
+        <Link href="/">per.note</Link>
+      </PernoteLogo>
+      <Navigator>
+        <NavigatorLink>
+          <Link href="/personal-survey/start">personal scent</Link>
+        </NavigatorLink>
+        <NavigatorLink>
+          <Link href="/perfumeStory">perfume story</Link>
+        </NavigatorLink>
+        <CategoryContainer
+          onMouseOver={() => setIsDropDownOpen(true)}
+          onMouseLeave={() => setIsDropDownOpen(false)}
+        >
+          <NavigatorLink>Category</NavigatorLink>
+          <div className={isDropDownOpen ? "show-modal" : "close-modal"}>
+            <CategoryDropDown setIsDropDownOpen={setIsDropDownOpen} />
+          </div>
+        </CategoryContainer>
+      </Navigator>
+      <HeaderRight>
+        {/* <SearchInput>
           <input type="text" />
           <BiSearchAlt2 />
         </SearchInput> */}
-          <Link href="/signin">
-            <Sign>Login</Sign>
-          </Link>
-          <Link href="/signup">
-            <Sign>Signup</Sign>
-          </Link>
-        </HeaderRight>
-      </ScrollNavBarContainer>
-    </>
-  ) : (
-    <>
-      <NavBarContainer>
-        <PernoteLogo>
-          <Link href="/">per.note</Link>
-        </PernoteLogo>
-        <Navigator>
-          <NavigatorLink>
-            <Link href="/personal-survey/start">personal scent</Link>
-          </NavigatorLink>
-          <NavigatorLink>
-            <Link href="/perfumeStory">perfume story</Link>
-          </NavigatorLink>
-          <CategoryContainer
-            onMouseOver={() => setIsOpen(true)}
-            onMouseLeave={() => setIsOpen(false)}
-          >
-            <NavigatorLink>Category</NavigatorLink>
-            <div className={isOpen ? "show-modal" : "close-modal"}>
-              <CategoryDropDown setIsOpen={setIsOpen} />
-            </div>
-          </CategoryContainer>
-        </Navigator>
-        <HeaderRight>
-          {/* <SearchInput>
-          <input type="text" />
-          <BiSearchAlt2 />
-        </SearchInput> */}
-          <Link href="/signin">
-            <Sign>Login</Sign>
-          </Link>
-          <Link href="/signup">
-            <Sign>Signup</Sign>
-          </Link>
-        </HeaderRight>
-      </NavBarContainer>
-    </>
+        <Link href="/signin">
+          <Sign>Login</Sign>
+        </Link>
+        <Link href="/signup">
+          <Sign>Signup</Sign>
+        </Link>
+      </HeaderRight>
+    </NavBarContainer>
   );
 }
 
-const ScrollNavBarContainer = styled.div<NavBarProps>`
-  width: 1920px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 27px 60px 28px;
-  border: ${(props) => (props.navOption === "show" ? "" : "none")};
-  border-bottom: ${(props) =>
-    props.navOption === "show" ? "1px solid #d9d9d9" : ""};
-  position: fixed;
-  color: ${(props) => (props.navOption === "show" ? "black" : "white")};
-  background: ${(props) =>
-    props.navOption === "show" ? "white" : "transparent"};
-  z-index: 1000;
-`;
-
 const NavBarContainer = styled.div`
-  padding: 27px 60px 28px;
   width: 1920px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #d9d9d9;
+  padding: 27px 60px 28px;
   position: fixed;
   color: black;
   background: white;
   z-index: 1000;
+  border-bottom: 1px solid #d9d9d9;
+  &.transparent {
+    border-bottom: 0;
+    color: white;
+    background: transparent;
+  }
 `;
+
 // 로고 나중에 바꾸기
 const PernoteLogo = styled.div`
   margin-right: 133px;

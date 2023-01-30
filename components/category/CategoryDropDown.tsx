@@ -2,14 +2,14 @@ import Link from "next/link";
 import styled from "styled-components";
 import { categoryArray } from "lib/modules";
 
-export default function CategoryDropDown({ setIsOpen }) {
+export default function CategoryDropDown({ setIsDropDownOpen }) {
   return (
     <DropDownContainer
-      onMouseOver={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      onMouseOver={() => setIsDropDownOpen(true)}
+      onMouseLeave={() => setIsDropDownOpen(false)}
     >
       {categoryArray.map((category) => (
-        <Div key={category.id} onClick={() => setIsOpen(false)}>
+        <Div key={category.id} onClick={() => setIsDropDownOpen(false)}>
           <Link href={`/category/${category.url}`}>{category.text}</Link>
         </Div>
       ))}
