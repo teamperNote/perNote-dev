@@ -247,8 +247,8 @@ export const noteArray: ICategory[] = [
   },
   {
     id: 3,
-    value: "floral",
-    text: "FLORAL",
+    value: "floral fruity",
+    text: "FLORAL / FRUITY",
   },
   {
     id: 4,
@@ -425,7 +425,7 @@ export const categoryArray: ICategory[] = [
   {
     id: 1,
     value: "brand",
-    url: `brand/0`,
+    url: `brand`,
     text: "브랜드",
   },
   {
