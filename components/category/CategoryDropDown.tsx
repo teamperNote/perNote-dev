@@ -9,9 +9,13 @@ export default function CategoryDropDown({ setIsDropDownOpen }) {
       onMouseLeave={() => setIsDropDownOpen(false)}
     >
       {categoryArray.map((category) => (
-        <Div key={category.id} onClick={() => setIsDropDownOpen(false)}>
-          <Link href={`/category/${category.url}`}>{category.text}</Link>
-        </Div>
+        <Link
+          href={`/category/${category.url}`}
+          key={category.id}
+          onClick={() => setIsDropDownOpen(false)}
+        >
+          <Div>{category.text}</Div>
+        </Link>
       ))}
     </DropDownContainer>
   );
@@ -26,6 +30,12 @@ const DropDownContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 10px;
+  cursor: default;
+
+  position: absolute;
+  top: 69px;
+  left: -34.4px;
+  z-index: 1000;
 `;
 
 const Div = styled.div`

@@ -16,7 +16,7 @@ export default function NavBar() {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const listener = () => {
     // TODO 나중에 y값 수정
-    setIsScrolled(window.pageYOffset < 300);
+    setIsScrolled(window.pageYOffset < 50);
   };
   useEffect(() => {
     if (pathname === "/") {
@@ -31,53 +31,55 @@ export default function NavBar() {
   }, [pathname]);
 
   return (
-    <NavBarContainer className={isScrolled ? "transparent" : ""}>
-      <PernoteLogo>
-        <Link href="/">per.note</Link>
-      </PernoteLogo>
-      <Navigator>
-        <NavigatorLink>
-          <Link href="/personal-survey/start">personal scent</Link>
-        </NavigatorLink>
-        <NavigatorLink>
-          <Link href="/perfumeStory">perfume story</Link>
-        </NavigatorLink>
-        <CategoryContainer
-          onMouseOver={() => setIsDropDownOpen(true)}
-          onMouseLeave={() => setIsDropDownOpen(false)}
-        >
-          <NavigatorLink>Category</NavigatorLink>
-          <div className={isDropDownOpen ? "show-modal" : "close-modal"}>
-            <CategoryDropDown setIsDropDownOpen={setIsDropDownOpen} />
-          </div>
-        </CategoryContainer>
-      </Navigator>
-      <HeaderRight>
-        {/* <SearchInput>
-          <input type="text" />
-          <BiSearchAlt2 />
-        </SearchInput> */}
-        <Link href="/signin">
-          <Sign>Login</Sign>
+    <NavBarContainer className={isScrolled && "transparent"}>
+      <NavBarBox>
+        <Link href="/">
+          <PernoteLogo>per.note</PernoteLogo>
         </Link>
-        <Link href="/signup">
-          <Sign>Signup</Sign>
-        </Link>
-      </HeaderRight>
+        <NavigatorBox>
+          <Navigator>
+            <Link href="/personal-survey/start">
+              <NavigatorLink>personal scent</NavigatorLink>
+            </Link>
+            <Link href="/perfumeStory">
+              <NavigatorLink>perfume story</NavigatorLink>
+            </Link>
+            <NavigatorLink
+              onMouseOver={() => setIsDropDownOpen(true)}
+              onMouseLeave={() => setIsDropDownOpen(false)}
+            >
+              Category
+              {isDropDownOpen && (
+                <CategoryDropDown setIsDropDownOpen={setIsDropDownOpen} />
+              )}
+            </NavigatorLink>
+          </Navigator>
+          <HeaderRight>
+            {/* <SearchInput>
+              <input type="text" />
+              <BiSearchAlt2 />
+            </SearchInput> */}
+            <Link href="/signin">
+              <Sign>Login</Sign>
+            </Link>
+            <Link href="/signup">
+              <Sign>Signup</Sign>
+            </Link>
+          </HeaderRight>
+        </NavigatorBox>
+      </NavBarBox>
     </NavBarContainer>
   );
 }
 
 const NavBarContainer = styled.div`
-  width: 1920px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 27px 60px 28px;
+  width: 100%;
+  height: 110px;
   position: fixed;
+  z-index: 1000;
+
   color: black;
   background: white;
-  z-index: 1000;
   border-bottom: 1px solid #d9d9d9;
   &.transparent {
     border-bottom: 0;
@@ -86,43 +88,51 @@ const NavBarContainer = styled.div`
   }
 `;
 
+const NavBarBox = styled.div`
+  width: 1920px;
+  padding: 20px 50px 21px 50px;
+  display: flex;
+  align-items: center;
+`;
+
 // 로고 나중에 바꾸기
 const PernoteLogo = styled.div`
-  margin-right: 133px;
   font-weight: 700;
   font-size: 30px;
-  padding: 10px;
+  line-height: 26px;
+  margin-right: 113px;
+  padding: 20px;
+  cursor: pointer;
+`;
+
+const NavigatorBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Navigator = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const NavigatorLink = styled.div`
+  position: relative;
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  margin-right: 40px;
-  padding: 10px;
-`;
-
-const CategoryContainer = styled.div`
-  position: relative;
-
-  .show-modal {
-    position: absolute;
-    left: -44px;
-    z-index: 1000;
-  }
-  .close-modal {
-    display: none;
+  margin-right: 20px;
+  padding: 20px;
+  cursor: pointer;
+  :last-child {
+    margin-right: 0;
   }
 `;
 
 const HeaderRight = styled.div`
-  margin-left: auto;
   display: flex;
   align-items: center;
 `;
@@ -152,13 +162,7 @@ const Sign = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  padding: 10px;
+  padding: 20px;
   margin-left: 5px;
   cursor: pointer;
 `;
-
-// const ModalContainer = styled.div`
-//   .close-modal {
-//     display: none;
-//   }
-// `;
