@@ -1,72 +1,110 @@
 import axios from "axios";
 import NoteTag from "components/NoteTag";
+import { dateFormat } from "lib/numberFomat";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-export default function StoryCard({ data }) {
-  // TODO 아이콘 임시로 해둔 것 - 화질이 너무 떨어짐
+interface Props {
+  data: {
+    id: string;
+    imgUrl: string;
+    liked: boolean;
+    likeCount: number;
+    createdAt: string;
+    viewCount: string;
+    title: string;
+    body: string;
+    // notes: string[];
+  };
+}
 
-  const [isLike, setIsLike] = useState(data.liked);
-  const [likeCount, setLikeCount] = useState(data.likeCount);
+export default function StoryCard({
+  data: {
+    id,
+    imgUrl,
+    liked,
+    likeCount,
+    createdAt,
+    viewCount,
+    title,
+    body,
+    // notes,
+  },
+}: Props) {
+  const router = useRouter();
+  // TODO 아이콘 임시로 해둔 것 - 화질이 너무 떨어짐
+  const [isLike, setIsLike] = useState(liked);
+  const [likeCounts, setLikeCounts] = useState(likeCount);
+
+  const onLinkClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLDivElement).id.includes("heart")) {
+      // onLikeClick();
+    } else {
+      router.push(`story-detail/${id}`);
+    }
+  };
 
   const onLikeClick = async () => {
+    if (isLike) {
+      setIsLike(false);
+      setLikeCounts(likeCounts - 1);
+    } else {
+      setIsLike(true);
+      setLikeCounts(likeCounts + 1);
+    }
     await axios
-      .post("/api/story/user/like", {
+      .post("/api/story/like", {
         userId: "63ae968c0665ea07c7c07acb",
-        storyId: data.id,
+        storyId: id,
       })
-      .then(() => {
-        if (isLike) {
-          setIsLike(false);
-          setLikeCount(likeCount - 1);
-        } else {
-          setIsLike(true);
-          setLikeCount(likeCount + 1);
-        }
-      })
+      // .then(() => {})
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const [isShow, setIsShow] = useState(false);
+  const [isShow, setIsShow] = useState<boolean>(false);
 
   return (
-    <Link href={`story-detail/${data.id}`}>
-      <StoryCardContainer
-        onMouseOver={() => setIsShow(true)}
-        onMouseLeave={() => setIsShow(false)}
-      >
-        <StoryCardImgBox>
-          <StoryCardImg src={data.imgUrl} />
-          {isShow && (
-            <Filter>
-              <HeartBox onClick={onLikeClick}>
-                <StoryCardOutlineHeart
-                  src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
-                />
-                <HeartCount>{likeCount}</HeartCount>
-              </HeartBox>
-            </Filter>
-          )}
-        </StoryCardImgBox>
-        <InfoBox>
-          <InfoFlex>
-            <DateSpan>{data.date}</DateSpan>
-            <ViewCountSpan>{data.view}</ViewCountSpan>
-          </InfoFlex>
-          <TitleSpan>{data.title}</TitleSpan>
-          <DescSpan>{data.desc}</DescSpan>
-          <InfoFlex>
-            {data.note.map((note) => (
-              <NoteTag key={note} from={"StoryCard"} text={note} />
-            ))}
-          </InfoFlex>
-        </InfoBox>
-      </StoryCardContainer>
-    </Link>
+    // <Link href={`story-detail/${id}`}>
+    <StoryCardContainer
+      onMouseOver={() => setIsShow(true)}
+      onMouseLeave={() => setIsShow(false)}
+      onClick={onLinkClick}
+    >
+      <StoryCardImgBox>
+        <StoryCardImg src={imgUrl} />
+        {isShow && (
+          <Filter>
+            <HeartBox onClick={onLikeClick}>
+              <StoryCardOutlineHeart
+                id={"heart"}
+                src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+              />
+              <HeartCount id={"heart"}>{likeCounts}</HeartCount>
+            </HeartBox>
+          </Filter>
+        )}
+      </StoryCardImgBox>
+      <InfoBox>
+        <InfoFlex>
+          <DateSpan>{dateFormat(createdAt)}</DateSpan>
           <ViewIcon src={"viewIcon.svg"} />
+          <ViewCountSpan>{viewCount}</ViewCountSpan>
+        </InfoFlex>
+        <TitleSpan>{title}</TitleSpan>
+        <DescSpan>{body}</DescSpan>
+        <InfoFlex>
+          {/* TODO 서지수 노트 목록 추가되면 수정하기 */}
+          {["as", "asdfasd", "asdf"].map((note) => (
+            <NoteTag key={note} from={"StoryCard"} text={note} />
+          ))}
+        </InfoFlex>
+      </InfoBox>
+    </StoryCardContainer>
+    // </Link>
   );
 }
 
@@ -148,7 +186,7 @@ const DateSpan = styled(HeartCount)`
   color: var(--dark-gray-color);
   align-items: left;
   margin-right: 20px;
-  margin-bottom: 20px;
+`;
 
 const ViewIcon = styled.img`
   margin-right: 10px;
@@ -164,8 +202,10 @@ const TitleSpan = styled(HeartCount)`
   line-height: 58px;
   color: var(--black-color);
   align-items: left;
+  margin-bottom: 10px;
 `;
 
 const DescSpan = styled(DateSpan)`
   margin-right: 0;
+  margin-bottom: 20px;
 `;

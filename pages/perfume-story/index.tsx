@@ -1,27 +1,27 @@
 import styled from "styled-components";
-// import { useEffect, useState } from "react";
-// import axios from "axios";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import StoryCard from "components/story/StoryCard";
 import PopularCard from "components/story/PopularCard";
 
 export default function PerfumeStory() {
-  // const [storyList, setStoryList] = useState([]);
-  // const getStory = async () => {
-  //   await axios
-  //     .get("/api/story/user", {
-  //       params: { userId: "63ae968c0665ea07c7c07acb" },
-  //     })
-  //     .then((res) => {
-  //       setStoryList(res.data);
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-  // useEffect(() => {
-  //   getStory();
-  // }, []);
+  const [storyList, setStoryList] = useState({ isLoading: false, data: [] });
+  const getStory = async () => {
+    await axios
+      .get("/api/story/all", {
+        params: { userId: "63ae968c0665ea07c7c07acb" },
+      })
+      .then((res) => {
+        setStoryList({ ...storyList, isLoading: true, data: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getStory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <PerfumeStoryContainer>
@@ -36,9 +36,10 @@ export default function PerfumeStory() {
       <PerfumeStoryBox>
         <PurfumeTitle>퍼퓸 스토리</PurfumeTitle>
         <StoryBox>
-          {storyArray.map((data) => (
-            <StoryCard key={data.id} data={data} />
-          ))}
+          {storyList.isLoading &&
+            storyList.data.map((data) => (
+              <StoryCard key={data.id} data={data} />
+            ))}
         </StoryBox>
       </PerfumeStoryBox>
     </PerfumeStoryContainer>
