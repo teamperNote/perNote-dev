@@ -1,14 +1,17 @@
 import styled from "styled-components";
 
-export default function NoteTag({ text }) {
-  return <TagContainer>{text}</TagContainer>;
+export default function NoteTag({ from, text }) {
+  return <TagContainer from={from}>{text}</TagContainer>;
 }
 
-const TagContainer = styled.span`
-  background: var(--secondary-color);
-  padding: 3px 15px;
+const TagContainer = styled.span<{ from: string }>`
+  background-color: ${({ from }) =>
+    from === "PopularCard" ? "var(--white-color)" : "var(--secondary-color)"};
+  padding: ${({ from }) =>
+    from === "PopularCard" || from === "StoryCard" ? " 1px 15px" : " 3px 15px"};
   border-radius: 100px;
-  margin-right: 25px;
+  margin-right: ${({ from }) =>
+    from === "PopularCard" || from === "StoryCard" ? "10px" : "25px"};
 
   font-family: "Noto Sans KR";
   font-style: normal;
@@ -16,5 +19,9 @@ const TagContainer = styled.span`
   font-size: 20px;
   line-height: 40px;
   text-align: center;
-  color: #ffffff;
+  color: ${({ from }) =>
+    from === "PopularCard" ? "var(--secondary-color)" : "var(--white-color)"};
+  :last-child {
+    margin-right: 0;
+  }
 `;

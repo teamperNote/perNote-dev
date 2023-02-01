@@ -99,7 +99,11 @@ export default function ProductDetailPage() {
                   <CategoryTitle>노트</CategoryTitle>
                   <TagBox>
                     {purfumeData.perfume.notes.map((note, idx) => (
-                      <NoteTag key={idx} text={note.toUpperCase()} />
+                      <NoteTag
+                        key={idx}
+                        from={"ProductDetailPage"}
+                        text={note.toUpperCase()}
+                      />
                     ))}
                   </TagBox>
                 </PerfumeInfoBox>
