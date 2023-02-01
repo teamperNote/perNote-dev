@@ -66,6 +66,7 @@ export default function StoryCard({ data }) {
         </InfoBox>
       </StoryCardContainer>
     </Link>
+          <ViewIcon src={"viewIcon.svg"} />
   );
 }
 
@@ -148,6 +149,9 @@ const DateSpan = styled(HeartCount)`
   align-items: left;
   margin-right: 20px;
   margin-bottom: 20px;
+
+const ViewIcon = styled.img`
+  margin-right: 10px;
 `;
 
 const ViewCountSpan = styled(DateSpan)`
