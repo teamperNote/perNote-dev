@@ -1,101 +1,149 @@
-import axios from "axios";
-import StoryCard from "components/story/StoryCard";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+import StoryCard from "components/story/StoryCard";
+import PopularCard from "components/story/PopularCard";
 
 export default function PerfumeStory() {
-  const [storyList, setStoryList] = useState([]);
-  const getStory = async () => {
-    await axios
-      .get("/api/story/user", {
-        params: { userId: "63ae968c0665ea07c7c07acb" },
-      })
-      .then((res) => {
-        setStoryList(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    getStory();
-  }, []);
+  // const [storyList, setStoryList] = useState([]);
+  // const getStory = async () => {
+  //   await axios
+  //     .get("/api/story/user", {
+  //       params: { userId: "63ae968c0665ea07c7c07acb" },
+  //     })
+  //     .then((res) => {
+  //       setStoryList(res.data);
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  // useEffect(() => {
+  //   getStory();
+  // }, []);
 
   return (
     <PerfumeStoryContainer>
-      {storyList.map((data) => (
-        <StoryCard
-          key={data.id}
-          data={data}
-          url={
-            "https://post-phinf.pstatic.net/MjAxOTA5MDlfMTAz/MDAxNTY3OTk1NTUzNjE0.kRfgfTLQCUQIICJUfF045MyhGiqz3-uzyROcEcEANFcg.al06M1bjKYY1QGeFe0FwqsTVOv81vyw-as1sVB-ojdcg.JPEG/%EC%9A%B0%EB%93%9C%ED%96%A5%EC%88%98.jpg?type=w1200"
-          }
-        />
-      ))}
+      <PerfumeStoryBox>
+        <PopularTitle>인기 스토리</PopularTitle>
+        <PopularStoryBox>
+          {storyArray.map((poppular) => (
+            <PopularCard key={poppular.id} data={poppular} />
+          ))}
+        </PopularStoryBox>
+      </PerfumeStoryBox>
+      <PerfumeStoryBox>
+        <PurfumeTitle>퍼퓸 스토리</PurfumeTitle>
+        <StoryBox>
+          {storyArray.map((data) => (
+            <StoryCard key={data.id} data={data} />
+          ))}
+        </StoryBox>
+      </PerfumeStoryBox>
     </PerfumeStoryContainer>
   );
 }
+
+export const storyArray = [
+  {
+    id: "0",
+    imgUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShAKtZMoT88oF-bW7WuKaSAlbVHebgUfPEZjeQn07xA498U5R7uQSZ_OEcKthpRQUqqdI&usqp=CAU",
+    date: "2022.11.01",
+    view: "1023",
+    title: "향수의 비밀",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
+    note: ["AQUATIC", "WOODY", "AQUATIC3"],
+  },
+  {
+    id: "1",
+    imgUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrR4i932f2IX1LX84rypC6ox5pfdhFUHYo-g&usqp=CAU",
+    date: "2022.11.02",
+    view: "1023",
+    title: "향수의 비밀2",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
+    note: ["AQUATIC1", "WOODY1", "asd"],
+  },
+  {
+    id: "2",
+    imgUrl:
+      "https://image.jtbcplus.kr/data/contents/jam_photo/202002/08/36a3a416-8b2f-4ef4-81a9-e383f717a6cc.jpg",
+    date: "2022.11.03",
+    view: "1023",
+    title: "향수의 비밀3",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
+    note: ["AQUATIC2", "WOODY2", "AQUATIC"],
+  },
+  {
+    id: "3",
+    imgUrl: "https://cdn.imweb.me/thumbnail/20220511/0125284249fd1.jpg",
+    date: "2022.11.01",
+    view: "1023",
+    title: "향수의 비밀4",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
+    note: ["AQUATIC3", "WOODY3", "er"],
+  },
+  {
+    id: "4",
+    imgUrl:
+      "https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/167098330331694434.jpg?gif=1&w=480",
+    date: "2022.11.01",
+    view: "1023",
+    title: "향수의 비밀5",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
+    note: ["AQUATIC4", "WOODY4", "ggr"],
+  },
+];
 
 export const PerfumeStoryContainer = styled.div`
   width: 1920px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding-top: 110px;
 `;
 
-export const CategoryBox = styled.div`
-  margin-top: 90px;
-  margin-bottom: 80px;
+export const PerfumeStoryBox = styled.div`
+  margin-top: 130px;
+  margin-bottom: 35px;
   display: flex;
+  flex-direction: column;
+  align-content: center;
 `;
 
-export const CategoryTitle = styled.div`
+export const Span = styled.span`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 700;
-  font-size: 30px;
-  line-height: 43px;
-  color: #b2b2b2;
-  margin-right: 80px;
-  cursor: pointer;
-  &.focus {
-    color: #000000;
-  }
-  :last-child {
-    margin-right: 0;
-  }
+  font-size: 40px;
+  line-height: 58px;
+  color: #000000;
+  text-align: center;
 `;
 
-export const SelectBox = styled.div<{ page?: string | string[] }>`
-  width: ${({ page }) =>
-    page === "note"
-      ? "897px"
-      : page === "brand"
-      ? "1450px"
-      : page === "personality"
-      ? "1415px"
-      : "880px"};
+export const PopularTitle = styled(Span)`
+  margin-bottom: 70px;
+  text-align: center;
+`;
+
+export const PopularStoryBox = styled.div`
+  width: 1920px;
+  height: 590px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: ${({ page }) => (page === "brand" ? "154px" : "81px")};
+  overflow: hidden;
+  flex-wrap: nowrap;
 `;
 
-export const SortBox = styled.div`
+export const PurfumeTitle = styled(Span)`
+  margin-bottom: 106px;
+`;
+
+export const StoryBox = styled.div`
+  margin: 0 auto;
   width: 1420px;
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 30px;
-`;
-
-export const BrandBox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const CardBox = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 50px 20px;
+  margin-bottom: 180px;
 `;

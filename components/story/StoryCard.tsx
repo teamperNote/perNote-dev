@@ -1,12 +1,12 @@
 import axios from "axios";
+import NoteTag from "components/NoteTag";
+import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function StoryCard({ data, url }) {
+export default function StoryCard({ data }) {
   // TODO 아이콘 임시로 해둔 것 - 화질이 너무 떨어짐
-  // 채워진 하트 반영되게 할 것
-  // mix-blend-mode 생각한 것과 다름
-  // 배경 이미지 css 수정 해야함
+
   const [isLike, setIsLike] = useState(data.liked);
   const [likeCount, setLikeCount] = useState(data.likeCount);
 
@@ -29,23 +29,78 @@ export default function StoryCard({ data, url }) {
         console.log(err);
       });
   };
+
+  const [isShow, setIsShow] = useState(false);
+
   return (
-    <StoryCardContainer background={url}>
-      <HeartBox onClick={onLikeClick}>
-        <StoryCardOutlineHeart
-          src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
-        />
-        <HeartCount>{likeCount}</HeartCount>
-      </HeartBox>
-    </StoryCardContainer>
+    <Link href={`story-detail/${data.id}`}>
+      <StoryCardContainer
+        onMouseOver={() => setIsShow(true)}
+        onMouseLeave={() => setIsShow(false)}
+      >
+        <StoryCardImgBox>
+          <StoryCardImg src={data.imgUrl} />
+          {isShow && (
+            <Filter>
+              <HeartBox onClick={onLikeClick}>
+                <StoryCardOutlineHeart
+                  src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+                />
+                <HeartCount>{likeCount}</HeartCount>
+              </HeartBox>
+            </Filter>
+          )}
+        </StoryCardImgBox>
+        <InfoBox>
+          <InfoFlex>
+            <DateSpan>{data.date}</DateSpan>
+            <ViewCountSpan>{data.view}</ViewCountSpan>
+          </InfoFlex>
+          <TitleSpan>{data.title}</TitleSpan>
+          <DescSpan>{data.desc}</DescSpan>
+          <InfoFlex>
+            {data.note.map((note) => (
+              <NoteTag key={note} from={"StoryCard"} text={note} />
+            ))}
+          </InfoFlex>
+        </InfoBox>
+      </StoryCardContainer>
+    </Link>
   );
 }
 
-const StoryCardContainer = styled.div<{ background: string }>`
+const StoryCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 460px;
+  cursor: pointer;
+`;
+
+const StoryCardImgBox = styled.div`
   position: relative;
   width: 460px;
   height: 300px;
-  background: url(${({ background }) => background}) no-repeat center;
+  overflow: hidden;
+  margin-bottom: 30px;
+`;
+
+const StoryCardImg = styled.img`
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const Filter = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 const HeartBox = styled.div`
@@ -66,7 +121,7 @@ const StoryCardOutlineHeart = styled.img`
   margin-bottom: 5px;
 `;
 
-const HeartCount = styled.div`
+const HeartCount = styled.span`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
@@ -74,4 +129,39 @@ const HeartCount = styled.div`
   line-height: 29px;
   color: var(--white-color);
   align-items: center;
+`;
+
+const InfoBox = styled.div`
+  width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+`;
+
+const InfoFlex = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const DateSpan = styled(HeartCount)`
+  color: var(--dark-gray-color);
+  align-items: left;
+  margin-right: 20px;
+  margin-bottom: 20px;
+`;
+
+const ViewCountSpan = styled(DateSpan)`
+  color: var(--third-color);
+`;
+
+const TitleSpan = styled(HeartCount)`
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 58px;
+  color: var(--black-color);
+  align-items: left;
+`;
+
+const DescSpan = styled(DateSpan)`
+  margin-right: 0;
 `;
