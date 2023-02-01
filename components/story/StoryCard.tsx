@@ -1,10 +1,9 @@
-import axios from "axios";
-import NoteTag from "components/NoteTag";
-import { dateFormat } from "lib/numberFomat";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { dateFormat } from "lib/numberFomat";
+import NoteTag from "components/NoteTag";
 
 interface Props {
   data: {
@@ -40,7 +39,7 @@ export default function StoryCard({
 
   const onLinkClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLDivElement).id.includes("heart")) {
-      // onLikeClick();
+      onLikeClick();
     } else {
       router.push(`story-detail/${id}`);
     }
@@ -59,7 +58,6 @@ export default function StoryCard({
         userId: "63ae968c0665ea07c7c07acb",
         storyId: id,
       })
-      // .then(() => {})
       .catch((err) => {
         console.log(err);
       });
@@ -68,7 +66,6 @@ export default function StoryCard({
   const [isShow, setIsShow] = useState<boolean>(false);
 
   return (
-    // <Link href={`story-detail/${id}`}>
     <StoryCardContainer
       onMouseOver={() => setIsShow(true)}
       onMouseLeave={() => setIsShow(false)}
@@ -78,7 +75,7 @@ export default function StoryCard({
         <StoryCardImg src={imgUrl} />
         {isShow && (
           <Filter>
-            <HeartBox onClick={onLikeClick}>
+            <HeartBox>
               <StoryCardOutlineHeart
                 id={"heart"}
                 src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
@@ -104,7 +101,6 @@ export default function StoryCard({
         </InfoFlex>
       </InfoBox>
     </StoryCardContainer>
-    // </Link>
   );
 }
 
