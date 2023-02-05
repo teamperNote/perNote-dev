@@ -6,7 +6,7 @@ import PopularCard from "components/story/PopularCard";
 
 export default function PerfumeStory() {
   const [storyList, setStoryList] = useState({ isLoading: false, data: [] });
-  const getStory = async () => {
+  const getStoryList = async () => {
     await axios
       .get("/api/story/all", {
         params: { userId: "63ae968c0665ea07c7c07acb" },
@@ -19,7 +19,7 @@ export default function PerfumeStory() {
       });
   };
   useEffect(() => {
-    getStory();
+    getStoryList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
