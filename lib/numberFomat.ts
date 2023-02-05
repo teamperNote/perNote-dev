@@ -13,7 +13,6 @@ export const overThousand = (num) => {
 };
 
 // 날짜 데이터 포맷
-export const dateFormat = (num: string) => {
-  return `${num.substr(0, 4)}.${num.substr(5, 2)}.
-  ${num.substr(8, 2)}`;
+export const dateFormat = (date: string) => {
+  return `${date.substr(0, 4)}.${date.substr(5, 2)}.${date.substr(8, 2)}`;
 };
