@@ -151,20 +151,20 @@ export default async function handler(
     }
   }
 
-    top4 = top4.sort((a, b) => b.score - a.score);
-    const perfumeIDs = []
-    for(const perfume of top4){
-        perfumeIDs.push({id: perfume.id})
-    }
+  top4 = top4.sort((a, b) => b.score - a.score);
+  const perfumeIDs = []
+  for(const perfume of top4){
+      perfumeIDs.push({id: perfume.id})
+  }
 
-    const test = await prisma.test.create({
-        data: {
-            userId: userId,
-            perfumes: {
-                connect: perfumeIDs
-            }
-        }
-    })
+  const test = await prisma.test.create({
+      data: {
+          userId: userId,
+          perfumes: {
+              connect: perfumeIDs
+          }
+      }
+  })
 
 
   // Test Result to test.tsx

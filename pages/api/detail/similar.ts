@@ -52,7 +52,6 @@ export default async function similar(perfume){
             concentration: concen
         })
     }
-
     
     // ========
     const perfumes = await prisma.perfume.findMany({

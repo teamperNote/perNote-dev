@@ -17,15 +17,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
     })
     if(!perfume) {
-        return res.status(200).json({
-            message: "Error: perfume"
+        return res.status(404).json({
+            message: "Error: detail - DB perfume"
         });
+    }
+
+    const perfume_detail = await prisma.perfumeDetail.findMany({
+        where: {
+            name: perfume.name
+        }
+    })
+    if(!perfume_detail) {
+        return res.status(404).json({
+            message: "Error: detail - DB perfume_detail",
+        })
     }
 
     const similars = await similar(perfume)
 
     return res.status(200).json({
         perfume: perfume,
+        perfume_detail: perfume_detail,
         similars: similars,
         query: id,
     });
