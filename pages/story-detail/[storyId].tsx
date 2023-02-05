@@ -137,14 +137,7 @@ export default function StoryDetail() {
               )
             )}
             <ShareBox>
-              <ShareIconBox
-                ref={ModalRef}
-                onClick={() => {
-                  setIsShowModal(true);
-                  console.log("asdfasfas");
-                  return false;
-                }}
-              >
+              <ShareIconBox ref={ModalRef} onClick={() => setIsShowModal(true)}>
                 <ShareIcon src={"/shareIcon.svg"} />
                 {isShowModal && (
                   <BubbleBox>
