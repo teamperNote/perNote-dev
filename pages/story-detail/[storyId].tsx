@@ -73,9 +73,6 @@ export default function StoryDetail() {
       window.removeEventListener("click", handleCloseModal);
     };
   }, []);
-  useEffect(() => {
-    console.log(isShowModal);
-  }, [isShowModal]);
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [isNoti, setIsNoti] = useState<boolean>(false);
