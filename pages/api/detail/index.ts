@@ -14,7 +14,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const perfume = await prisma.perfume.findFirst({
         where: {
             id: id
-        }
+        },
+        select: {
+          id: true,
+          brand: true,
+          name: true,
+          imgUrl: true,
+
+          note: true,
+          gender: true,
+          concentration: true,
+
+          first: true,
+          second: true,
+          third: true,
+          fourth: true,
+          fifth: true,  
+
+          top: true,
+          middle: true,
+          bottom: true,
+
+          likeCount: true,
+
+        },
     })
     if(!perfume) {
         return res.status(404).json({
@@ -25,6 +48,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const perfume_detail = await prisma.perfumeDetail.findMany({
         where: {
             name: perfume.name
+        },
+        orderBy: {
+            ml: "asc"
         }
     })
     if(!perfume_detail) {
@@ -32,13 +58,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             message: "Error: detail - DB perfume_detail",
         })
     }
+    
+    if(perfume_detail.length > 0){
+        const ml = {}
+
+        for(const key in perfume_detail){
+            const loop = perfume_detail[key]
+
+            ml[loop.ml] = loop.price
+        }
+
+        perfume["ml"] = ml
+        perfume["originUrl"] = perfume_detail[0].originUrl
+        perfume["description"] = perfume_detail[0].description
+        
+    }
 
     const similars = await similar(perfume)
+    perfume["similars"] = similars
 
     return res.status(200).json({
         perfume: perfume,
-        perfume_detail: perfume_detail,
-        similars: similars,
         query: id,
     });
 }

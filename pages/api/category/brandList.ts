@@ -10,7 +10,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         dict[String.fromCharCode(i)] = []
     }
 
-    const brands = await prisma.brand.findMany()
+    const brands = await prisma.brand.findMany({
+        orderBy: {
+            name_eng: 'asc'
+        }
+    })
     if(!brands) {
         return res.status(200).json({
             message: "Error: /category/brand"
