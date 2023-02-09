@@ -4,18 +4,33 @@ import type { NextApiRequest, NextApiResponse } from "next";
 const prisma = new PrismaClient();
 
 // request되는 카테고리(노트, 브랜드, 성격, 특징)에 따라 해당하는 데이터 서치.
-// 다중 태그 선택
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   const query = req.query;
-  // let test
 
   const category = query.category as string;
-  // const orderOpt = query.orderOpt as string
+
+  // SORT OPTION
+  const sortOpt = query.orderOpt as string
+  let sortColumn, sortDirection = "asc"
+  if(sortOpt === "latest") sortColumn = "createdAt"
+  else if(sortOpt === "lowPrice") sortColumn = "price"
+  else if(sortOpt === "view") sortColumn = "viewCnt"
+  else if(sortOpt === "highPrice") {
+    sortColumn = "price"
+    sortDirection = "desc"
+  }
+  else {
+    return res.status(404).json({
+      message: "Error: wrong sortOpt"
+    })
+  }
+   
   let perfumes;
 
+  // Category 첫 페이지 (모든 향수 출력)
   if (category === "default") {
     perfumes = prisma.perfume.findMany();
     if (!perfumes) {
@@ -24,18 +39,25 @@ export default async function handler(
       });
     }
   }
+
+  // Category brand 선택
   if (category === "brand") {
     const selected = query["selected"] as string;
     perfumes = await prisma.perfume.findMany({
       where: {
         brand: selected,
       },
+      orderBy: {
+        [sortColumn]: sortDirection
+      }
     });
     if (!perfumes) {
       return res.status(404).json({
         message: "Error: /category",
       });
     }
+    
+    // Category note 선택
   } else if (category === "note") {
     // == 다중 선택 가능 ==
     // const selected: Array<string> = query["selected[]"] as string[];
@@ -88,6 +110,9 @@ export default async function handler(
           where: {
             NOT: findManyOrCondition,
           },
+          // orderBy: {
+          //   [sortColumn]: sortDirection
+          // },
         })
         if(!perfumes) {
             return res.status(404).json({
@@ -127,6 +152,7 @@ export default async function handler(
 
         perfumes = perfumes.filter(perfume => perfume.score !== 0).sort((a, b) => b.score - a.score)
 
+        //Category 나의 성격 or 특징 선택
   } else if (category === "personality" || category === "feature") {
     // == 단일 선택 ==
     const selected = query["selected"] as string;
@@ -153,6 +179,9 @@ export default async function handler(
       where: {
         NOT: findManyOrCondition,
       },
+      orderBy: {
+        [sortColumn]: sortDirection
+      }
     });
     if (!perfumes) {
       return res.status(404).json({

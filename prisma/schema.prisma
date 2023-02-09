@@ -64,6 +64,8 @@ model Perfume {
   imgUrl        String 
   score         Int           @default(0)
   likeCount     Int           @default(0)
+  viewCnt       Int         
+  createdAt     DateTime      @default(now())  
   tests         Test[]        @relation(fields: [testIDs], references: [id])
   testIDs       String[]      @db.ObjectId
   perfumeLikes  PerfumeLike[]
@@ -172,6 +174,6 @@ model PerfumeDetail {
   brand         String
   ml            Int?
   price         Int?
-  url           String?
+  originUrl     String?
   description   String?
 }

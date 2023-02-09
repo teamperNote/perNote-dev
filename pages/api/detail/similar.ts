@@ -62,7 +62,5 @@ export default async function similar(perfume){
         take: 15
     })
 
-    return {
-        perfumes: perfumes,
-    }
+    return perfumes
 }
