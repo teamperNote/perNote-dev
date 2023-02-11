@@ -8,6 +8,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
+import axiosInstance from "../../lib/api/config";
 
 const cookies = new Cookies();
 function Login() {
@@ -39,12 +40,14 @@ function Login() {
           return;
         }
         const { user, accessToken, refreshToken } = response.data;
+        console.log(accessToken);
         localStorage.setItem("user", JSON.stringify(user));
-        cookies.set("accessToken", accessToken, {
-          path: "/",
-          secure: true,
-          sameSite: "none",
-        });
+        axiosInstance.defaults.headers.Authorization = "Bearer " + accessToken;
+        // cookies.set("access_Token", accessToken, {
+        //   path: "/",
+        //   secure: true,
+        //   sameSite: "none",
+        // });
         cookies.set("refreshToken", refreshToken, {
           path: "/",
           secure: true,
