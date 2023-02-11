@@ -7,6 +7,7 @@ import AgreeItem from "components/form/AgreeItem";
 import RadioItem from "components/form/RadioButton";
 import Input from "../../components/form/Input";
 import ValidationButton from "components/form/ValidationButton";
+import axiosInstance from "../../lib/api/config";
 
 interface SignupProps {
   isActive: string;
@@ -104,11 +105,14 @@ function Signup() {
     setBirth(e.target.value);
   };
 
+  //이메일 중복 확인
   const checkEmailDuplication = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`/api/users/checkEmail?email=${email}`);
-      console.log(response);
+      const response = await axiosInstance.get(
+        `/api/users/checkEmail?email=${email}`,
+      );
+
       if (response.status === 200) {
         setIsInvalidEmail(false);
         setIsValidEmail(true);
@@ -117,8 +121,9 @@ function Signup() {
       // console.log(e);
       // 400에러일 때만 이미 존재하는 아이디 문구 띄우기
       // api 에러 해결 후 처리
-      setIsValidEmail(false);
+      console.log(e);
       setIsInvalidEmail(true);
+      setIsValidEmail(false);
     }
   };
 
@@ -199,7 +204,8 @@ function Signup() {
     // 모든 값 필수 조건 만족시 버튼 활성화
     if (checkRequired()) {
       const response = await axios.post("/api/users/signup", data);
-      if (response.data.status === 200) {
+      console.log(response);
+      if (response.status === 200) {
         router.push("/");
       }
     }
