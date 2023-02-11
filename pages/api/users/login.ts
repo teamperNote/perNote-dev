@@ -35,7 +35,7 @@ export default async function handler(
     const accessToken = await new SignJWT({ "urn:example:claim": true })
       .setProtectedHeader({ alg })
       .setIssuer(user.email)
-      .setExpirationTime("1h")
+      .setExpirationTime("1s")
       .sign(secretKey);
 
     const refreshToken = await new SignJWT({ "urn:example:claim": true })

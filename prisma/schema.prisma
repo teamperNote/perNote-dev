@@ -28,7 +28,8 @@ model Story {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   body        String
-  tags        String
+  tags        String[]
+  imgUrl      String[]
   likeCount   Int         @default(0)
   viewCount   Int         @default(0)
   storyLikes  StoryLike[]

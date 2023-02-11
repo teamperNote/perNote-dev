@@ -12,6 +12,7 @@ export async function middleware(req: NextRequest) {
   }
 
   const accessToken = role.split("Bearer ")[1];
+  console.log(accessToken);
 
   try {
     const { payload } = await jwtVerify(accessToken, secretKey);
@@ -26,5 +27,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/users/:path*"],
+  matcher: ["/api/users/checkEmail"],
 };
