@@ -65,11 +65,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         for(const key in perfume_detail){
             const loop = perfume_detail[key]
 
-            ml[loop.ml] = loop.price
+            ml[loop.ml] = {
+                price: loop.price,
+                url: loop.originUrl
         }
 
         perfume["ml"] = ml
-        perfume["originUrl"] = perfume_detail[0].originUrl
         perfume["description"] = perfume_detail[0].description
         
     }
