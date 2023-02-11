@@ -68,6 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             ml[loop.ml] = {
                 price: loop.price,
                 url: loop.originUrl
+            }
         }
 
         perfume["ml"] = ml
@@ -83,4 +84,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         query: id,
     });
 }
-
