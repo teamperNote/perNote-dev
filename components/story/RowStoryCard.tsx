@@ -1,51 +1,42 @@
 import styled from "styled-components";
+import Link from "next/link";
+import { dateFormat } from "lib/numberFomat";
+import { IStory } from "lib/types";
 
-// interface Props {
-//   data: {
-//     id: string;
-//     imgUrl: string;
-//     liked: boolean;
-//     likeCount: number;
-//     createdAt: string;
-//     viewCount: string;
-//     title: string;
-//     body: string;
-//     // notes: string[];
-//   };
-// }
+interface IProps {
+  data: IStory;
+}
 
-export default function RowStoryCard() {
+export default function RowStoryCard({
+  data: { id, imgUrl, createdAt, title, liked, likeCount, viewCount, body },
+}: IProps) {
   return (
-    <RowStoryCardContainer>
-      <ImgBox>
-        <Img
-          src={
-            "https://tumblbug-pci.imgix.net/dfd6741e6221c177ba50d064c6f64cbc6f8edc53/fc0ce9d607a91d2b3fbe5a0334a1cd87ad9aa4db/361db07e56e0ffc1c06081d5166649a68f0f1a6e/24d66be1-6dc9-47a8-92aa-74ce3d7829eb.jpg?ixlib=rb-1.1.0&w=1240&h=930&auto=format%2Ccompress&lossless=true&fit=crop&s=6e24176c21e4e69cd76c678ffc470397"
-          }
-        />
-      </ImgBox>
-      <InfoBox>
-        <DateSpan>2022.11.01</DateSpan>
-        <TitleSpan>Lorem Ipsum</TitleSpan>
-        <TextSpan>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed justo
-          donec elit, lectus arcu. Pellentesque quis sit nec magna nibh. Neque,
-          orci sagittis, vel, vulputate leo aliquam vitae. Fringilla mauris
-          molestie iaculis erat commodo scelerisque. Tincidunt platea pretium
-          ipsum euismod amet ultrices purus in tempus.
-        </TextSpan>
-        <IconContainer>
-          <IconBox>
-            <IconImg src={"/heartIcon_green.svg"} />
-            <IconSpan>108</IconSpan>
-          </IconBox>
-          <IconBox>
-            <IconImg src={"/viewIcon.svg"} />
-            <IconSpan>108</IconSpan>
-          </IconBox>
-        </IconContainer>
-      </InfoBox>
-    </RowStoryCardContainer>
+    <Link href={`${id}`}>
+      <RowStoryCardContainer>
+        <ImgBox>
+          <Img src={imgUrl[0]} />
+        </ImgBox>
+        <InfoBox>
+          <DateSpan>{dateFormat(createdAt)}</DateSpan>
+          <TitleSpan>{title}</TitleSpan>
+          <TextSpan>{body}</TextSpan>
+          <IconContainer>
+            <IconBox>
+              <IconImg
+                src={
+                  liked ? "/heartFillIcon_green.svg" : "/heartIcon_green.svg"
+                }
+              />
+              <IconSpan>{likeCount}</IconSpan>
+            </IconBox>
+            <IconBox>
+              <IconImg src={"/viewIcon.svg"} />
+              <IconSpan>{viewCount}</IconSpan>
+            </IconBox>
+          </IconContainer>
+        </InfoBox>
+      </RowStoryCardContainer>
+    </Link>
   );
 }
 
@@ -58,6 +49,7 @@ const RowStoryCardContainer = styled.div`
   align-items: center;
   overflow: hidden;
   padding-right: 47px;
+  cursor: pointer;
 `;
 
 const ImgBox = styled.div`

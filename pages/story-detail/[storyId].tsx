@@ -6,60 +6,23 @@ import axios from "axios";
 import NoteTag from "components/NoteTag";
 import RowStoryCard from "components/story/RowStoryCard";
 import { dateFormat } from "lib/numberFomat";
+import { IStory } from "lib/types";
 
-interface IStory {
+interface IStoryList {
   isLoading: boolean;
   data: {
-    body: string;
-    createdAt: string;
-    id: string;
-    liked: boolean;
-    likeCount: number;
-    tags: string[];
-    title: string;
-    viewCount: number;
-  };
+    targetStory: IStory;
+    prev?: IStory;
+    next?: IStory;
+  } | null;
 }
 
 export default function StoryDetail() {
   const router = useRouter();
   const { storyId } = router.query;
 
-  const [story, setStory] = useState<IStory>({
-    isLoading: false,
-    data: {
-      body: "",
-      createdAt: "",
-      id: "",
-      liked: false,
-      likeCount: 0,
-      tags: [],
-      title: "",
-      viewCount: 0,
-    },
-  });
-  const getStory = async () => {
-    await axios
-      .get("/api/story", {
-        params: { storyId: storyId },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setStory({ ...story, isLoading: true, data: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    if (storyId) {
-      getStory();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storyId]);
-
+  // 스토리 정렬 모달
   const [isShowModal, setIsShowModal] = useState(false);
-
   const ModalRef = useRef<HTMLDivElement>();
   useEffect(() => {
     // 모달 영역 외 클릭 시 종료
@@ -74,7 +37,57 @@ export default function StoryDetail() {
     };
   }, []);
 
+  // 스토리 데이터 조회 api
+  const [story, setStory] = useState<IStoryList>({
+    isLoading: false,
+    data: null,
+  });
+  const getStory = async () => {
+    await axios
+      .get("/api/story", {
+        // TODO 서지수 로그인 구현 후 userId 빼기
+        params: { userId: "63ae968c0665ea07c7c07acb", storyId: storyId },
+      })
+      .then(({ data }) => {
+        setStory({ ...story, isLoading: true, data: data });
+        setIsLike(data.targetStory.liked);
+        setLikeCounts(data.targetStory.likeCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    if (storyId) {
+      getStory();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storyId]);
+
+  // 좋아요 기능
+  const [isLike, setIsLike] = useState<boolean>(false);
+  const [likeCounts, setLikeCounts] = useState<number>(0);
+  const onLikeClick = async () => {
+    if (isLike) {
+      setIsLike(false);
+      setLikeCounts(likeCounts - 1);
+    } else {
+      setIsLike(true);
+      setLikeCounts(likeCounts + 1);
+    }
+    await axios
+      .post("/api/story/like", {
+        userId: "63ae968c0665ea07c7c07acb",
+        storyId: story.data.targetStory.id,
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // TODO 서지수 로그인 기능 구현 후 삭제
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  // TODO 서지수 유저 정보 저장 있으면 삭제
   const [isNoti, setIsNoti] = useState<boolean>(false);
 
   return (
@@ -82,22 +95,22 @@ export default function StoryDetail() {
       {story.isLoading && (
         <>
           <StoryDetailHeader>
-            <HeaderImg
-              src={
-                "https://www.idaegu.co.kr/news/photo/202112/2021123101001036600063001.jpg"
-              }
-            />
+            <HeaderImg src={story.data.targetStory.imgUrl[0]} />
             <HeaderBox>
-              <HeaderDate>{dateFormat(story.data.createdAt)}</HeaderDate>
+              <HeaderDate>
+                {dateFormat(story.data.targetStory.createdAt)}
+              </HeaderDate>
               <RowFlex>
-                <HeaderTitle>{story.data.title}</HeaderTitle>
-                <IconBox>
-                  <IconImg src={"/heatIcon.png"} />
-                  <IconSpan>{story.data.likeCount}</IconSpan>
+                <HeaderTitle>{story.data.targetStory.title}</HeaderTitle>
+                <IconBox onClick={onLikeClick}>
+                  <IconImg
+                    src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+                  />
+                  <IconSpan>{likeCounts}</IconSpan>
                 </IconBox>
                 <IconBox>
                   <IconImg src={"/viewIcon_white.svg"} />
-                  <IconSpan>{story.data.viewCount}</IconSpan>
+                  <IconSpan>{story.data.targetStory.viewCount}</IconSpan>
                 </IconBox>
               </RowFlex>
             </HeaderBox>
@@ -105,12 +118,11 @@ export default function StoryDetail() {
           <ContentContainer>
             <ContentBox>
               <SubTitle>subtitle</SubTitle>
-              <ContentText>{story.data.body}</ContentText>
+              <ContentText>{story.data.targetStory.body}</ContentText>
               <TagBox>
-                {/* {story.data.tags.map((tag, idx) => (
+                {story.data.targetStory.tags.map((tag, idx) => (
                   <NoteTag key={idx} from={"StoryDetail"} text={tag} />
-                  ))} */}
-                <NoteTag from={"StoryDetail"} text={story.data.tags} />
+                ))}
               </TagBox>
             </ContentBox>
             {!isLogin ? (
@@ -151,20 +163,26 @@ export default function StoryDetail() {
                   </BubbleBox>
                 )}
               </ShareIconBox>
-              <ShareIconBox>
-                <ShareIcon src={"/heatIcon.png"} />
+              <ShareIconBox onClick={onLikeClick}>
+                <ShareIcon
+                  src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+                />
               </ShareIconBox>
             </ShareBox>
           </ContentContainer>
           <OrderStoryContainer>
-            <OrderStoryBox>
-              <OrderStoryTitle>이전 게시물</OrderStoryTitle>
-              <RowStoryCard />
-            </OrderStoryBox>
-            <OrderStoryBox>
-              <OrderStoryTitle>다음 게시물</OrderStoryTitle>
-              <RowStoryCard />
-            </OrderStoryBox>
+            {story.data.prev && (
+              <OrderStoryBox>
+                <OrderStoryTitle>이전 게시물</OrderStoryTitle>
+                <RowStoryCard data={story.data.prev} />
+              </OrderStoryBox>
+            )}
+            {story.data.next && (
+              <OrderStoryBox>
+                <OrderStoryTitle>다음 게시물</OrderStoryTitle>
+                <RowStoryCard data={story.data.next} />
+              </OrderStoryBox>
+            )}
           </OrderStoryContainer>
         </>
       )}
