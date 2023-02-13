@@ -122,7 +122,8 @@ export default Login;
 
 const Container = styled.div`
   padding-top: 110px;
-  height: 100vh;
+  /* 임시 고정 */
+  height: 1080px;
   background: url("/perNoteBackImg.png") no-repeat left top/100% 100%;
 `;
 
