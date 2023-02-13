@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { sortArray } from "lib/arrays";
 
 export default function SortDropDown({ sort, setSort }) {
-  const [isShowDropDown, SetIsShowDropDown] = useState(false);
+  const router = useRouter();
+  const { pathname } = router;
 
+  // 드랍다운 표시 여부
+  const [isShowDropDown, SetIsShowDropDown] = useState(false);
   const DropDownRef = useRef<HTMLDivElement>();
   useEffect(() => {
     // 모달 영역 외 클릭 시 종료
@@ -26,7 +30,10 @@ export default function SortDropDown({ sort, setSort }) {
       </SortBox>
       {isShowDropDown && (
         <DropDownContainer>
-          {sortArray.map((data) => (
+          {(pathname == "/perfume-story"
+            ? sortArray.slice(0, 3)
+            : sortArray
+          ).map((data) => (
             <DropDownBox
               key={data.id}
               onClick={() => {
