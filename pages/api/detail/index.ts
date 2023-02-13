@@ -79,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const similars = await similar(perfume)
-    perfume["similars"] = similars
+    perfume["similars"] = similars 
 
     return res.status(200).json({
         perfume: perfume,
