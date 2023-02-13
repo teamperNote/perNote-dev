@@ -45,7 +45,7 @@ export default async function handler(
     const selected = query["selected"] as string;
     perfumes = await prisma.perfume.findMany({
       where: {
-        brand: selected,
+        brand_eng: selected,
       },
       orderBy: {
         [sortColumn]: sortDirection

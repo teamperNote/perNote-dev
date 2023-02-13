@@ -17,8 +17,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         select: {
           id: true,
-          brand: true,
-          name: true,
+          brand_eng: true,
+          brand_kor: true,
+          name_eng: true,
+          name_kor: true,
           imgUrl: true,
 
           note: true,
@@ -36,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           bottom: true,
 
           likeCount: true,
-
+          viewCount: true,
         },
     })
     if(!perfume) {
@@ -47,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const perfume_detail = await prisma.perfumeDetail.findMany({
         where: {
-            name: perfume.name
+            name: perfume.name_eng
         },
         orderBy: {
             ml: "asc"
