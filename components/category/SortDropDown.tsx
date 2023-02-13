@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { sortArray } from "lib/modules";
+import { sortArray } from "lib/arrays";
 
 export default function SortDropDown({ sort, setSort }) {
   const [isShowDropDown, SetIsShowDropDown] = useState(false);

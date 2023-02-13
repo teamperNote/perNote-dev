@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
-import { categoryArray } from "lib/modules";
+import { categoryArray } from "lib/arrays";
 
 export default function CategoryDropDown({ setIsDropDownOpen }) {
   return (
