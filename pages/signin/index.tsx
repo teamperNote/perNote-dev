@@ -102,20 +102,17 @@ function Login() {
         <SocialLogin>
           <div>소셜로그인</div>
           <SocialLoginList>
-            <KaKaoLogin />
-            <GoogleLogin />
-            <NaverLogin />
+            <SocialLoginItemContainer>
+              <KaKaoLogin />
+            </SocialLoginItemContainer>
+            <SocialLoginItemContainer>
+              <NaverLogin />
+            </SocialLoginItemContainer>
+            <SocialLoginItemContainer>
+              <GoogleLogin />
+            </SocialLoginItemContainer>
           </SocialLoginList>
         </SocialLogin>
-        {/* <div>
-          <div>소셜로그인</div>
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div> */}
       </LoginBox>
     </Container>
   );
@@ -221,7 +218,7 @@ const SocialLoginList = styled.ul`
   padding: 0;
   display: flex;
   justify-content: space-between;
-  margin-top: 28.66px;
+  margin-top: 30px;
 
   div {
     width: 90px;
@@ -229,8 +226,14 @@ const SocialLoginList = styled.ul`
     background-color: #d9d9d9;
     border-radius: 70px;
   }
+`;
 
-  div:not(:last-child) {
+const SocialLoginItemContainer = styled.li`
+  list-style-type: none;
+  width: 90px;
+  height: 90px;
+
+  &:not(:last-child) {
     margin-right: 27px;
   }
 `;
