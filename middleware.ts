@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 export async function middleware(req: NextRequest) {
-  const role = req.headers.get("authorization");
+  const role = req.headers.get("Authorization");
   if (!role) {
     return NextResponse.redirect(
       new URL("/api/middleware/unauthorized", req.url),

@@ -43,24 +43,32 @@ export default async function handler(
       },
     });
 
-    // 스토리 좋아요 여부 계산 로직
-    const storyLikesForUser = await prisma.storyLike.findMany({
-      where: { userId },
-      include: {
-        story: true,
-      },
-    });
-    storyLikesForUser.forEach((data) => {
-      allStoryIdForUser.push(data.story.id);
-    });
-
-    perfumeStories.forEach((value) => {
-      if (allStoryIdForUser.includes(value.id)) {
-        isLiked.push(Object.assign(value, { liked: true }));
-      } else {
+    // 1. 비로그인 유저
+    if (!userId) {
+      perfumeStories.forEach((value) => {
         isLiked.push(Object.assign(value, { liked: false }));
-      }
-    });
+      });
+    }
+    // 2. 로그인 유저
+    else {
+      const storyLikesForUser = await prisma.storyLike.findMany({
+        where: { userId },
+        include: {
+          story: true,
+        },
+      });
+      storyLikesForUser.forEach((data) => {
+        allStoryIdForUser.push(data.story.id);
+      });
+
+      perfumeStories.forEach((value) => {
+        if (allStoryIdForUser.includes(value.id)) {
+          isLiked.push(Object.assign(value, { liked: true }));
+        } else {
+          isLiked.push(Object.assign(value, { liked: false }));
+        }
+      });
+    }
 
     let targetIndex = 0;
     isLiked.forEach((value, index) => {
