@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { IoIosCheckboxOutline } from "react-icons/io";
+import { BsFillCheckSquareFill } from "react-icons/bs";
+import { AiFillCheckSquare } from "react-icons/ai";
+import { RiCheckboxFill } from "react-icons/ri";
 import { useCallback } from "react";
 
 interface agreeProps {
@@ -42,7 +45,7 @@ function AgreeItem({
         <CheckItem>
           <label htmlFor="agree_all">
             <CheckIcon>
-              <IoIosCheckboxOutline
+              <RiCheckboxFill
                 className={
                   checkAll() && ischecked[index]
                     ? "check-icon is-active"
@@ -64,7 +67,7 @@ function AgreeItem({
         <CheckItem>
           <label htmlFor="agree"></label>
           <CheckIcon>
-            <IoIosCheckboxOutline
+            <RiCheckboxFill
               className={
                 ischecked[index] ? "check-icon is-active" : "check-icon"
               }
@@ -106,7 +109,7 @@ const CheckIcon = styled.div`
   }
 
   .is-active {
-    color: #9fac9a;
+    color: var(--primary-color);
   }
 `;
 
