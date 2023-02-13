@@ -221,10 +221,19 @@ function Signup() {
         <SnsTitle>SNS 회원가입</SnsTitle>
         <SnsList>
           <SnsItem>
-            <SnsLink href="#">카카오로 시작하기</SnsLink>
+            <SnsLink className="kakao-link" href="#">
+              카카오로 시작하기
+            </SnsLink>
           </SnsItem>
           <SnsItem>
-            <SnsLink href="#">000으로 시작하기</SnsLink>
+            <SnsLink className="naver-link" href="#">
+              네이버로 시작하기
+            </SnsLink>
+          </SnsItem>
+          <SnsItem>
+            <SnsLink className="google-link" href="#">
+              구글로 시작하기
+            </SnsLink>
           </SnsItem>
         </SnsList>
       </SnsSection>
@@ -409,11 +418,8 @@ const SnsList = styled.ul`
 const SnsItem = styled.li`
   width: 940px;
   height: 120px;
-  background: #fee500;
   padding: 1rem 2rem;
-  /* margin-bottom 둘 중 하나만  */
   margin-bottom: 35px;
-  border-radius: 10px;
 `;
 
 const SnsLink = styled.a`
@@ -425,6 +431,18 @@ const SnsLink = styled.a`
   text-align: center;
   vertical-align: middle;
   padding: 26.5px 0;
+  border-radius: 10px;
+  &.kakao-link {
+    background-color: #fee500;
+  }
+  &.naver-link {
+    background-color: #03c75a;
+    color: white;
+  }
+  &.google-link {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
 `;
 
 const LocalSection = styled.section`
