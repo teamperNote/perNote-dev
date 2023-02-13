@@ -8,13 +8,14 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { title, body, tags } = req.body;
+    const { title, body, tags, imgUrl } = req.body;
 
     const createdPost = await prisma.story.create({
       data: {
         title,
         body,
         tags,
+        imgUrl,
       },
     });
 
