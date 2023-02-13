@@ -9,6 +9,7 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
 import axiosInstance from "../../lib/api/config";
+import LoginModal from "components/login/LoginModal";
 
 const cookies = new Cookies();
 function Login() {
@@ -114,6 +115,11 @@ function Login() {
           </SocialLoginList>
         </SocialLogin>
       </LoginBox>
+      {/* 클릭이벤트 이벤트 위임으로 처리 */}
+      {/* 모달 열려있는 경우 스크롤 이벤트 막기 */}
+      <ModalSection>
+        <LoginModal />
+      </ModalSection>
     </Container>
   );
 }
@@ -237,4 +243,14 @@ const SocialLoginItemContainer = styled.li`
   &:not(:last-child) {
     margin-right: 27px;
   }
+`;
+
+const ModalSection = styled.section`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
 `;
