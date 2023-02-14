@@ -36,7 +36,20 @@ export default function NavBar() {
     <NavBarContainer className={isScrolled && "transparent"}>
       <NavBarBox>
         <Link href="/">
-          <PernoteLogo>per.note</PernoteLogo>
+          {isScrolled ? (
+            <PernoteLogo>
+              <img
+                src="/pernote_logo.svg"
+                alt="pernote"
+                width="145"
+                height="26"
+              />
+            </PernoteLogo>
+          ) : (
+            <PernoteLogo>
+              <img src="/pernote_black_logo.svg" alt="pernote" />
+            </PernoteLogo>
+          )}
         </Link>
         <NavigatorBox>
           <Navigator>
@@ -106,11 +119,7 @@ const NavBarBox = styled.div`
   align-items: center;
 `;
 
-// 로고 나중에 바꾸기
 const PernoteLogo = styled.div`
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 26px;
   margin-right: 113px;
   padding: 20px;
   cursor: pointer;
