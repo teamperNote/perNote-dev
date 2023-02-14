@@ -1,96 +1,59 @@
-/* eslint-disable react/no-unknown-property */
-import { BsInstagram } from "react-icons/bs";
-import { FaFacebookF } from "react-icons/fa";
-export default function Footer() {
+import React from "react";
+import styled from "styled-components";
+
+function Footer() {
   return (
-    <div className="container">
-      <img className="image" src="/homeimg1.png" />
-      <div className="info">
-        <div className="info-item">
-          <h1>CONTACT</h1>
-          <dl>
-            <dt>EMAIL</dt>
-            <dd>alp1009@naver.com</dd>
-
-            <dt>NUMBER</dt>
-            <dd>010-1234-5678</dd>
-
-            <dt>ADDRESS</dt>
-            <dd>허리도 가늘군 만지면 부러지리</dd>
-          </dl>
-        </div>
-        <div className="info-item">
-          <h1>INFO</h1>
-          <dl>
-            <dt>COMPANY</dt>
-            <dd>ALP</dd>
-
-            <dt>CEO</dt>
-            <dd>장진우</dd>
-
-            <dt className="owner-info">사업자 정보 확인</dt>
-
-            <dt className="question">문의사항</dt>
-            <dd>alp1009@naver.com</dd>
-          </dl>
-        </div>
-        <div className="info-item">
-          <h1>SNS</h1>
-          <span className="icon">
-            <BsInstagram />
-          </span>
-          <span className="icon">
-            <FaFacebookF />
-          </span>
-        </div>
-      </div>
-      <style jsx>{`
-        .container {
-          display: flex;
-          margin-bottom: 30rem;
-        }
-        h1 {
-          font-size: 2.4rem;
-          font-weight: 300;
-          margin-bottom: 2rem;
-        }
-        .image {
-          width: 8%;
-          /* height: 8rem; */
-          height: 9rem;
-        }
-        .info {
-          flex: 1;
-          /* width: 90%; */
-          border: 1px solid black;
-          display: flex;
-          margin-left: 2rem;
-          padding: 2rem 6rem;
-        }
-        .info-item {
-          margin-right: 10rem;
-        }
-        dt {
-          font-size: 1.3rem;
-        }
-        dd {
-          margin-bottom: 1.8rem;
-          font-size: 1.1rem;
-        }
-        .owner-info {
-          font-weight: 500;
-          margin-bottom: 1rem;
-          font-size: 1.5rem;
-        }
-        .question {
-          font-weight: 500;
-          font-size: 1.5rem;
-        }
-        .icon {
-          font-size: 2rem;
-          margin-right: 1rem;
-        }
-      `}</style>
-    </div>
+    <FooterContainer>
+      <FooterLogo>
+        <img src="/pernote_logo.svg" alt="pernote" />
+      </FooterLogo>
+      <FooterContent>
+        <InfoContainer>
+          <ContentTitle>대표명</ContentTitle> | 장진우
+        </InfoContainer>
+        <InfoContainer>
+          <ContentTitle>서비스명</ContentTitle> | Per.Note
+          <br />
+        </InfoContainer>
+        <InfoContainer>
+          <ContentTitle>사업자번호</ContentTitle> | 장진우
+        </InfoContainer>
+        <InfoContainer>
+          <ContentTitle>주소</ContentTitle> | 서울시 성동구 행당로 99
+        </InfoContainer>
+        <InfoContainer>
+          <ContentTitle>소셜페이지링크</ContentTitle> | instagram @teamalp.1009
+          <br />
+        </InfoContainer>
+        <InfoContainer>
+          <ContentTitle>신고/문의/불편사항</ContentTitle> | alp1009@naver.com
+        </InfoContainer>
+      </FooterContent>
+    </FooterContainer>
   );
 }
+
+export default Footer;
+
+const FooterContainer = styled.footer`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+`;
+
+const FooterLogo = styled.h2`
+  margin: 0;
+  margin-top: 65px;
+`;
+
+const FooterContent = styled.p`
+  text-align: center;
+`;
+
+const InfoContainer = styled.span``;
+
+const ContentTitle = styled.b`
+  margin-left: 20px;
+`;
