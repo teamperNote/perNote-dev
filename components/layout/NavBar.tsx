@@ -10,7 +10,7 @@ export default function NavBar() {
   const pathname = router.pathname;
 
   // 로그인 상태 확인
-  const user = localStorage.getItem("user");
+  // const user = localStorage.getItem("user");
   // 카테고리 드랍다운 표시 여부
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
 
@@ -69,27 +69,27 @@ export default function NavBar() {
               )}
             </NavigatorLink>
           </Navigator>
-          {user ? (
+          {/* {user ? (
             <HeaderRight>
               <Sign>Logout</Sign>
               <Link href="/mypage">
                 <Sign>MyPage</Sign>
               </Link>
             </HeaderRight>
-          ) : (
-            <HeaderRight>
-              {/* <SearchInput>
+          ) : ( */}
+          <HeaderRight>
+            {/* <SearchInput>
               <input type="text" />
               <BiSearchAlt2 />
             </SearchInput> */}
-              <Link href="/signin">
-                <Sign>Login</Sign>
-              </Link>
-              <Link href="/signup">
-                <Sign>Signup</Sign>
-              </Link>
-            </HeaderRight>
-          )}
+            <Link href="/signin">
+              <Sign>Login</Sign>
+            </Link>
+            <Link href="/signup">
+              <Sign>Signup</Sign>
+            </Link>
+          </HeaderRight>
+          {/* )} */}
         </NavigatorBox>
       </NavBarBox>
     </NavBarContainer>
