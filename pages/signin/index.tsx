@@ -18,6 +18,7 @@ function Login() {
   const [password, setPassword] = useState<string>("");
   const [userError, setUserError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
+  const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
 
   const inputEmail = (e: any) => {
     setEmail(e.target.value);
@@ -27,7 +28,14 @@ function Login() {
     setPassword(e.target.value);
   };
 
+  const clickOuterModal = (e: any) => {
+    if (e.target.type) {
+      setShowErrorModal(false);
+    }
+  };
   const submitLogin = async (e: any) => {
+    setUserError("");
+    setPasswordError("");
     e.preventDefault();
     const userInfo = {
       email,
@@ -38,6 +46,7 @@ function Login() {
       .then((response) => {
         if (response.data.message) {
           setUserError("존재하지 않는 사용자입니다.");
+          setShowErrorModal(true);
           return;
         }
         const { user, accessToken, refreshToken } = response.data;
@@ -58,6 +67,7 @@ function Login() {
       })
       .catch((e) => {
         setPasswordError(e.response.data.message);
+        setShowErrorModal(true);
       });
   };
 
@@ -117,9 +127,11 @@ function Login() {
       </LoginBox>
       {/* 클릭이벤트 이벤트 위임으로 처리 */}
       {/* 모달 열려있는 경우 스크롤 이벤트 막기 */}
-      <ModalSection>
-        <LoginModal />
-      </ModalSection>
+      {showErrorModal && (
+        <ModalSection onClick={clickOuterModal}>
+          <LoginModal />
+        </ModalSection>
+      )}
     </Container>
   );
 }

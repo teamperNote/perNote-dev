@@ -32,8 +32,9 @@ const Home: NextPage = () => {
         <PersonalScentContent>
           <ScentTitle>Personal Scent </ScentTitle>
           <ScentContent>
-            {`향수를 모르더라도 걱정하지 마세요 간단한 설문조사로
-          당신의 향수를 찾아드려요
+            {`      향수를 모르더라도 걱정하지 마세요.
+계절, 색깔, 자신의 성격 등의 간단한 설문조사로 
+        당신의 향수를 찾아드려요.
               `}
           </ScentContent>
           <ScentButton>
