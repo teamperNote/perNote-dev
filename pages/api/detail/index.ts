@@ -6,10 +6,10 @@ import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import similar from "./similar"
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-    const id: string = req.query.id as string;
+    const id: string = req.query.id as string
 
     const perfume = await prisma.perfume.findFirst({
         where: {
@@ -39,12 +39,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
           likeCount: true,
           viewCount: true,
+          createdAt: true,
         },
     })
     if(!perfume) {
         return res.status(404).json({
             message: "Error: detail - DB perfume"
-        });
+        })
     }
 
     const perfume_detail = await prisma.perfumeDetail.findMany({
@@ -84,5 +85,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json({
         perfume: perfume,
         query: id,
-    });
+    })
 }

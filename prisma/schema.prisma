@@ -146,6 +146,16 @@ model Algorithm {
   light         Int
   clean         Int
   luxurious     Int
+  wild          Int
+  aquatic       Int
+  woody         Int
+  aromatic      Int
+  citrus        Int
+  floral        Int
+  fruity        Int
+  spicy         Int
+  musk          Int
+  cotton_soap   Int
 }
 
 model Brand {
