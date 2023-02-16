@@ -9,6 +9,8 @@ export default function NavBar() {
   const router = useRouter();
   const pathname = router.pathname;
 
+  // 로그인 상태 확인
+  // const user = localStorage.getItem("user");
   // 카테고리 드랍다운 표시 여부
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
 
@@ -34,7 +36,20 @@ export default function NavBar() {
     <NavBarContainer className={isScrolled && "transparent"}>
       <NavBarBox>
         <Link href="/">
-          <PernoteLogo>per.note</PernoteLogo>
+          {isScrolled ? (
+            <PernoteLogo>
+              <img
+                src="/pernote_logo.svg"
+                alt="pernote"
+                width="145"
+                height="26"
+              />
+            </PernoteLogo>
+          ) : (
+            <PernoteLogo>
+              <img src="/pernote_black_logo.svg" alt="pernote" />
+            </PernoteLogo>
+          )}
         </Link>
         <NavigatorBox>
           <Navigator>
@@ -54,6 +69,14 @@ export default function NavBar() {
               )}
             </NavigatorLink>
           </Navigator>
+          {/* {user ? (
+            <HeaderRight>
+              <Sign>Logout</Sign>
+              <Link href="/mypage">
+                <Sign>MyPage</Sign>
+              </Link>
+            </HeaderRight>
+          ) : ( */}
           <HeaderRight>
             {/* <SearchInput>
               <input type="text" />
@@ -66,6 +89,7 @@ export default function NavBar() {
               <Sign>Signup</Sign>
             </Link>
           </HeaderRight>
+          {/* )} */}
         </NavigatorBox>
       </NavBarBox>
     </NavBarContainer>
@@ -95,11 +119,7 @@ const NavBarBox = styled.div`
   align-items: center;
 `;
 
-// 로고 나중에 바꾸기
 const PernoteLogo = styled.div`
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 26px;
   margin-right: 113px;
   padding: 20px;
   cursor: pointer;

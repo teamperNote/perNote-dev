@@ -7,7 +7,7 @@ function GoogleLogin() {
 
   return (
     <>
-      <a href={request_url}>Google</a>
+      <a href={request_url}>구글로그인</a>
     </>
   );
 }
