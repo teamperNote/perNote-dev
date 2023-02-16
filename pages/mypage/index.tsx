@@ -14,7 +14,7 @@ function MyPage() {
       <UserName>김아무개님 </UserName>
       <LinkList>
         <LinkItem>
-          <Link href="#">
+          <Link href="/mypage/test-result">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>테스트 결과</LinkTitle>
@@ -23,7 +23,7 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link href="#">
+          <Link href="/mypage/wish-list">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>찜한 향수</LinkTitle>
@@ -32,7 +32,7 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link href="#">
+          <Link href="/mypage/story">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>스토리</LinkTitle>
@@ -41,7 +41,7 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link href="#">
+          <Link href="/mypage/edit-info">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>개인정보 수정</LinkTitle>
