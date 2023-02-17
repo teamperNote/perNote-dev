@@ -63,7 +63,8 @@ const RadioContainer = styled.li`
 
 const FormLabel = styled.label<MarginProps>`
   display: inline-block;
-  width: ${(props) => (props.marginProps === "/mypage" ? "248px" : "300px")};
+  width: ${(props) =>
+    props.marginProps === "/mypage/edit-info" ? "248px" : "300px"};
   text-align: right;
   font-weight: 400;
   font-size: 35px;
