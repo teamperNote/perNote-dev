@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PerfumeInfo from "../../components/mypage/PerfumeInfo";
+import SortDropDown from "components/category/SortDropDown";
+import { sortArray } from "lib/modules";
 
 function TestResult() {
+  const [sort, setSort] = useState(sortArray[0].value);
+
   return (
     <TestResultContainer>
       <TestResultTitle>테스트 결과</TestResultTitle>
-      {/* 드롭다운 메뉴 추가 */}
+      <SortBox>
+        <SortDropDown sort={sort} setSort={setSort} />
+      </SortBox>
       <ResultList>
         <PerfumeInfo />
         <PerfumeInfo />
@@ -35,9 +41,14 @@ const TestResultTitle = styled.h2`
   font-size: 50px;
 `;
 
+const SortBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 const ResultList = styled.ul`
   padding: 0;
   list-style-type: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 20px;
 `;
