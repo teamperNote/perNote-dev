@@ -8,43 +8,42 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-
   // QUERY OPTION
   const query = req.query;
-  const category = query.category as string
+  const category = query.category as string;
 
   // SORT OPTION
-  const sortOpt = query.sortOpt as string
-  let sortColumn, sortDirection = "asc"
-  
-  if(sortOpt === "default") sortColumn = "name_eng"
-  else if(sortOpt === "latest") sortColumn = "createdAt"
-  else if(sortOpt === "lowPrice") sortColumn = "price"
-  else if(sortOpt === "view") sortColumn = "viewCnt"
-  else if(sortOpt === "highPrice") {
-    sortColumn = "price"
-    sortDirection = "desc"
-  }
-  else {
+  const sortOpt = query.sortOpt as string;
+  let sortColumn,
+    sortDirection = "asc";
+
+  if (sortOpt === "default") sortColumn = "name_eng";
+  else if (sortOpt === "latest") sortColumn = "createdAt";
+  else if (sortOpt === "lowPrice") sortColumn = "price";
+  else if (sortOpt === "view") sortColumn = "viewCnt";
+  else if (sortOpt === "highPrice") {
+    sortColumn = "price";
+    sortDirection = "desc";
+  } else {
     return res.status(404).json({
-      message: "Error: wrong sortOpt"
-    })
+      message: "Error: wrong sortOpt",
+    });
   }
-   
-  let perfumes
-  let perfumeDetail
+
+  let perfumes;
+  let perfumeDetail;
 
   // Category 첫 페이지 (모든 향수 출력)
   if (category === "default") {
     perfumes = prisma.perfume.findMany({
       orderBy: {
-        [sortColumn]: sortDirection
-      }
-    })
+        [sortColumn]: sortDirection,
+      },
+    });
     if (!perfumes) {
       return res.status(404).json({
         message: "Error: /category",
-      })
+      });
     }
   }
 
@@ -56,16 +55,19 @@ export default async function handler(
         brand_eng: selected,
       },
       orderBy: {
-        [sortColumn]: sortDirection
-      }
-    })
+        [sortColumn]: sortDirection,
+      },
+    });
     if (!perfumes) {
       return res.status(404).json({
         message: "Error: /category",
-      })
+      });
     }
-  }
-  else if (category === "note" || category === "personality" || category === "feature") {
+  } else if (
+    category === "note" ||
+    category === "personality" ||
+    category === "feature"
+  ) {
     // == 다중 선택 가능 ==
     // const selected: Array<string> = query["selected[]"] as string[];
     // const findManyOrCondition = [];
@@ -91,7 +93,7 @@ export default async function handler(
     //         message: "Error: /category"
     //     })
     // }
-    
+
     // == 단일 선택 ==
     const selected = query["selected"] as string;
 
@@ -99,10 +101,10 @@ export default async function handler(
     if (!algorithm) {
       return res.status(404).json({
         message: "Error: category - algorithm",
-      })
+      });
     }
     const areMinus = algorithm.filter((row) => row[selected] === -1);
-    const findManyOrCondition = []
+    const findManyOrCondition = [];
     for (const row of areMinus) {
       findManyOrCondition.push(
         { first: row["scent"] },
@@ -118,8 +120,8 @@ export default async function handler(
         NOT: findManyOrCondition,
       },
       orderBy: {
-        [sortColumn]: sortDirection
-      }
+        [sortColumn]: sortDirection,
+      },
     });
     if (!perfumes) {
       return res.status(404).json({
@@ -128,37 +130,38 @@ export default async function handler(
     }
 
     // 선택된 personality/feature column 값에 따라 향수를 scoring.
-    const areNotMinus = algorithm.filter((row) => row[selected] !== -1)
-    const notMinusDict = {} // note dictionary
-    areNotMinus.map(row => {
-      if(!notMinusDict[row.scent]){
-        notMinusDict[row.scent] = row[selected]
+    const areNotMinus = algorithm.filter((row) => row[selected] !== -1);
+    const notMinusDict = {}; // note dictionary
+    areNotMinus.map((row) => {
+      if (!notMinusDict[row.scent]) {
+        notMinusDict[row.scent] = row[selected];
       } else {
         return res.status(400).json({
-          message: "Error: Note DB has duplicate scent value."
-        })
+          message: "Error: Note DB has duplicate scent value.",
+        });
       }
-    })
-    for(let i=0; i<perfumes.length; i++){
-      if(notMinusDict[perfumes[i].first]){
-        perfumes[i].score += notMinusDict[perfumes[i].first]
+    });
+    for (let i = 0; i < perfumes.length; i++) {
+      if (notMinusDict[perfumes[i].first]) {
+        perfumes[i].score += notMinusDict[perfumes[i].first];
       }
-      if(notMinusDict[perfumes[i].second]){
-        perfumes[i].score += notMinusDict[perfumes[i].second]
+      if (notMinusDict[perfumes[i].second]) {
+        perfumes[i].score += notMinusDict[perfumes[i].second];
       }
-      if(notMinusDict[perfumes[i].third]){
-        perfumes[i].score += notMinusDict[perfumes[i].third]
+      if (notMinusDict[perfumes[i].third]) {
+        perfumes[i].score += notMinusDict[perfumes[i].third];
       }
-      if(notMinusDict[perfumes[i].fourth]){
-        perfumes[i].score += notMinusDict[perfumes[i].fourth]
+      if (notMinusDict[perfumes[i].fourth]) {
+        perfumes[i].score += notMinusDict[perfumes[i].fourth];
       }
-      if(notMinusDict[perfumes[i].fifth]){
-        perfumes[i].score += notMinusDict[perfumes[i].fifth]
+      if (notMinusDict[perfumes[i].fifth]) {
+        perfumes[i].score += notMinusDict[perfumes[i].fifth];
       }
     }
 
-    perfumes = perfumes.filter(perfume => perfume.score !== 0).sort((a, b) => b.score - a.score)
-
+    perfumes = perfumes
+      .filter((perfume) => perfume.score !== 0)
+      .sort((a, b) => b.score - a.score);
   } else {
     return res.status(404).json({
       message: "Error: wrong category",
