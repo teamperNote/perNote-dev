@@ -1,53 +1,46 @@
+import RowStoryCard from "components/story/RowStoryCard";
 import React, { useState } from "react";
 import styled from "styled-components";
-import PerfumeInfo from "../../components/mypage/PerfumeInfo";
 import SortDropDown from "components/category/SortDropDown";
 import { sortArray } from "lib/modules";
-
-function WishList() {
+function Story() {
   const [sort, setSort] = useState(sortArray[0].value);
+
   return (
-    <WishListContainer>
-      <WishListTitle>찜한 향수</WishListTitle>
+    <StoryContainer>
+      <StoryTitle>찜한 스토리</StoryTitle>
+
       <SortBox>
         <SortDropDown sort={sort} setSort={setSort} />
       </SortBox>
-      <ResultList>
-        <PerfumeInfo />
-        <PerfumeInfo />
-        <PerfumeInfo />
-        <PerfumeInfo />
-        <PerfumeInfo />
-        <PerfumeInfo />
-        <PerfumeInfo />
-      </ResultList>
-    </WishListContainer>
+      <StoryList>
+        <StoryItem></StoryItem>
+      </StoryList>
+    </StoryContainer>
   );
 }
 
-export default WishList;
+export default Story;
 
-const WishListContainer = styled.div`
+const StoryContainer = styled.main`
   padding-top: 290px;
   max-width: 1420px;
   margin: 0 auto;
 `;
 
-const WishListTitle = styled.h2`
+const StoryTitle = styled.h2`
   margin: 0;
   margin-bottom: 110px;
   font-weight: 700;
   font-size: 50px;
 `;
-
 const SortBox = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
-const ResultList = styled.ul`
+const StoryList = styled.ul`
   padding: 0;
   list-style-type: none;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 20px;
 `;
+
+const StoryItem = styled.li``;
