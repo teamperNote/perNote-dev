@@ -190,3 +190,11 @@ model PerfumeDetail {
   originUrl     String?
   description   String?
 }
+
+model Perfume_CategoryInfo {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  name_eng      String
+  note          String[]
+  feature       String[]
+  personality   String[]
+}
