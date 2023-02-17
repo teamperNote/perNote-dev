@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import ValidationButton from "components/form/ValidationButton";
 import RadioItem from "components/form/RadioButton";
+import { IoToggle } from "react-icons/io5";
 
 const radioList = [
   {
@@ -26,11 +27,11 @@ function EditInfo() {
         <NotificationTitle>스토리 알림 설정</NotificationTitle>
         <SettingNoti>
           <NotiTitle>카톡 알림 설정</NotiTitle>
-          {/* 아이콘 */}
+          <IoToggle className="icon" />
         </SettingNoti>
         <SettingNoti>
           <NotiTitle>이메일 알림 설정</NotiTitle>
-          {/* 아이콘 */}
+          <IoToggle className="reverse-icon" />
         </SettingNoti>
       </NotificationSection>
       <PersonalInfo>
@@ -179,6 +180,18 @@ const NotificationTitle = styled.h2`
 
 const SettingNoti = styled.div`
   margin-bottom: 35px;
+  display: flex;
+  align-items: center;
+  font-size: 64px;
+
+  .icon {
+    color: var(--primary-color);
+  }
+
+  .reverse-icon {
+    transform: rotate(180deg);
+    color: var(--primary-color);
+  }
 `;
 
 const NotiTitle = styled.h3`

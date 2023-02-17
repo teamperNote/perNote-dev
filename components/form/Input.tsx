@@ -43,7 +43,8 @@ export default Input;
 const FormLabel = styled.label<MarginProps>`
   display: inline-block;
   /* 248px 이상이면 레이아웃 깨짐  */
-  width: ${(props) => (props.marginProps === "/mypage" ? "248px" : "300px")};
+  width: ${(props) =>
+    props.marginProps === "/mypage/edit-info" ? "248px" : "300px"};
   text-align: right;
   font-weight: 400;
   font-size: 35px;
