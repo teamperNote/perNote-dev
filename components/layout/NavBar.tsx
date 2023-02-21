@@ -1,16 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import CategoryDropDown from "../category/CategoryDropDown";
-// import { BiSearchAlt2 } from "react-icons/bi";
+import axiosInstance from "../../lib/api/config";
 
 export default function NavBar() {
   const router = useRouter();
   const pathname = router.pathname;
+  // 로그인 상태
+  const [user, setUser] = useState(null);
 
-  // 로그인 상태 확인
-  // const user = localStorage.getItem("user");
+  //로그아웃 기능
+  const handleClickLogout = () => {
+    localStorage.removeItem("user");
+    setUser(localStorage.getItem("user"));
+    axiosInstance.defaults.headers.Authorization = "";
+  };
   // 카테고리 드랍다운 표시 여부
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
 
@@ -21,6 +28,7 @@ export default function NavBar() {
     setIsScrolled(window.pageYOffset < 50);
   };
   useEffect(() => {
+    setUser(localStorage.getItem("user"));
     if (pathname === "/") {
       setIsScrolled(true);
       window.addEventListener("scroll", listener);
@@ -69,27 +77,27 @@ export default function NavBar() {
               )}
             </NavigatorLink>
           </Navigator>
-          {/* {user ? (
+          {user ? (
             <HeaderRight>
-              <Sign>Logout</Sign>
+              <LogoutButton onClick={handleClickLogout}>Logout</LogoutButton>
               <Link href="/mypage">
                 <Sign>MyPage</Sign>
               </Link>
             </HeaderRight>
-          ) : ( */}
-          <HeaderRight>
-            {/* <SearchInput>
+          ) : (
+            <HeaderRight>
+              {/* <SearchInput>
               <input type="text" />
               <BiSearchAlt2 />
             </SearchInput> */}
-            <Link href="/signin">
-              <Sign>Login</Sign>
-            </Link>
-            <Link href="/signup">
-              <Sign>Signup</Sign>
-            </Link>
-          </HeaderRight>
-          {/* )} */}
+              <Link href="/signin">
+                <Sign>Login</Sign>
+              </Link>
+              <Link href="/signup">
+                <Sign>Signup</Sign>
+              </Link>
+            </HeaderRight>
+          )}
         </NavigatorBox>
       </NavBarBox>
     </NavBarContainer>
@@ -101,14 +109,17 @@ const NavBarContainer = styled.div`
   height: 110px;
   position: fixed;
   z-index: 1000;
-
   color: black;
   background: white;
   border-bottom: 1px solid #d9d9d9;
   &.transparent {
     border-bottom: 0;
-    color: white;
+    color: var(--white-color);
     background: transparent;
+  }
+
+  &.transparent button {
+    color: var(--white-color);
   }
 `;
 
@@ -184,5 +195,15 @@ const Sign = styled.div`
   line-height: 29px;
   padding: 20px;
   margin-left: 5px;
+  cursor: pointer;
+`;
+
+const LogoutButton = styled.button`
+  font-family: "Noto Sans KR";
+  font-weight: 400;
+  font-size: 20px;
+  background-color: transparent;
+  border: none;
+  padding: 20px;
   cursor: pointer;
 `;
