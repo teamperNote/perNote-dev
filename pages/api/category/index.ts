@@ -41,10 +41,9 @@ export default async function handler(
     select: {
       id: true,
       name_eng: true,
-      name_kor: true,
+      brand_eng: true,
       imgUrl: true,
       likeCount: true,
-      viewCount: true,
     },
   });
   if (!perfumes) {
