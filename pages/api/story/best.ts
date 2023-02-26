@@ -1,5 +1,4 @@
 // 인기 스토리 반환 기능 - 좋아요 개수로 선정
-// 좋아요 개수가 동일한 경우 2차 기준은?
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
@@ -15,7 +14,7 @@ export default async function handler(
       likeCount: "desc",
     },
   });
-  const bestStory = allStories[0];
+  const bestStories = allStories.slice(0, 4);
 
-  return res.status(200).json(bestStory);
+  return res.status(200).json(bestStories);
 }
