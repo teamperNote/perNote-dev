@@ -8,7 +8,7 @@ import {
   colorArray,
   personalityArray,
   charArray,
-} from "lib/modules";
+} from "lib/arrays";
 import axios from "axios";
 // import { IoChevronBackSharp } from "react-icons/io5";
 

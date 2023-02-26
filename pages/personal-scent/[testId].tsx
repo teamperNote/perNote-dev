@@ -6,7 +6,7 @@ import {
   concentrationArray,
   personalityArray,
   charArray,
-} from "lib/modules";
+} from "lib/arrays";
 import styled from "styled-components";
 import Link from "next/link";
 

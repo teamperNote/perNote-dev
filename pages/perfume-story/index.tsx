@@ -1,10 +1,14 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import StoryCard from "components/story/StoryCard";
+import { sortArray } from "lib/arrays";
 import PopularCard from "components/story/PopularCard";
+import SortDropDown from "components/category/SortDropDown";
+import StoryCard from "components/story/StoryCard";
 
 export default function PerfumeStory() {
+  // TODO 서지수 스토리 정렬 기능 추가하기
+  const [sort, setSort] = useState(sortArray[0].value);
   const [storyList, setStoryList] = useState({ isLoading: false, data: [] });
   const getStoryList = async () => {
     await axios
@@ -28,17 +32,20 @@ export default function PerfumeStory() {
       <PerfumeStoryBox>
         <PopularTitle>인기 스토리</PopularTitle>
         <PopularStoryBox>
-          {storyArray.map((poppular) => (
-            <PopularCard key={poppular.id} data={poppular} />
+          {storyArray.map((story) => (
+            <PopularCard key={story.id} data={story} />
           ))}
         </PopularStoryBox>
       </PerfumeStoryBox>
       <PerfumeStoryBox>
         <PurfumeTitle>퍼퓸 스토리</PurfumeTitle>
+        <SortBox>
+          <SortDropDown sort={sort} setSort={setSort} />
+        </SortBox>
         <StoryBox>
           {storyList.isLoading &&
-            storyList.data.map((data) => (
-              <StoryCard key={data.id} data={data} />
+            storyList.data.map((story) => (
+              <StoryCard key={story.id} data={story} />
             ))}
         </StoryBox>
       </PerfumeStoryBox>
@@ -106,6 +113,7 @@ export const PerfumeStoryContainer = styled.div`
 `;
 
 export const PerfumeStoryBox = styled.div`
+  margin: 0 auto;
   margin-top: 130px;
   margin-bottom: 35px;
   display: flex;
@@ -138,6 +146,13 @@ export const PopularStoryBox = styled.div`
 
 export const PurfumeTitle = styled(Span)`
   margin-bottom: 106px;
+`;
+
+export const SortBox = styled.div`
+  width: 1420px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 30px;
 `;
 
 export const StoryBox = styled.div`

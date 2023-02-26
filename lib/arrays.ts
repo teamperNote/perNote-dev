@@ -450,22 +450,22 @@ export const sortArray: ICategory[] = [
   },
   {
     id: 1,
-    value: "lowPrice",
-    text: "낮은 가격순",
-  },
-  {
-    id: 2,
-    value: "highPrice",
-    text: "높은 가격순",
-  },
-  {
-    id: 3,
     value: "view",
     text: "조회순",
   },
   {
-    id: 4,
+    id: 2,
     value: "like",
     text: "좋아요순",
+  },
+  {
+    id: 3,
+    value: "lowPrice",
+    text: "낮은 가격순",
+  },
+  {
+    id: 4,
+    value: "highPrice",
+    text: "높은 가격순",
   },
 ];
