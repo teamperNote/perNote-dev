@@ -247,18 +247,18 @@ export const noteArray: ICategory[] = [
   },
   {
     id: 3,
-    value: "floral fruity",
-    text: "FLORAL / FRUITY",
+    value: "cotton_soap",
+    text: "COTTON_SOAP",
   },
   {
     id: 4,
-    value: "frutiy",
-    text: "FRUTIY",
+    value: "floral",
+    text: "FLORAL",
   },
   {
     id: 5,
-    value: "green",
-    text: "GREEN",
+    value: "frutiy",
+    text: "FRUTIY",
   },
   {
     id: 6,
