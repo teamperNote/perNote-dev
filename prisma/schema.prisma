@@ -49,8 +49,10 @@ model StoryLike {
 
 model Perfume {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  name          String        @unique
-  brand         String
+  name_eng      String        @unique
+  name_kor      String?
+  brand_eng     String
+  brand_kor     String?
   note          String
   top           String
   middle        String
@@ -62,11 +64,11 @@ model Perfume {
   fourth        String
   fifth         String
   gender        String
-  imgUrl        String 
-  score         Int           @default(0)
-  likeCount     Int           @default(0)
-  viewCnt       Int         
-  createdAt     DateTime      @default(now())  
+  imgUrl        String? 
+  score         Int?          @default(0)
+  likeCount     Int?          @default(0)
+  viewCount     Int?          @default(0)
+  createdAt     DateTime?     @default(now())  
   tests         Test[]        @relation(fields: [testIDs], references: [id])
   testIDs       String[]      @db.ObjectId
   perfumeLikes  PerfumeLike[]
@@ -144,6 +146,16 @@ model Algorithm {
   light         Int
   clean         Int
   luxurious     Int
+  wild          Int
+  aquatic       Int
+  woody         Int
+  aromatic      Int
+  citrus        Int
+  floral        Int
+  fruity        Int
+  spicy         Int
+  musk          Int
+  cotton_soap   Int
 }
 
 model Brand {
@@ -177,4 +189,12 @@ model PerfumeDetail {
   price         Int?
   originUrl     String?
   description   String?
+}
+
+model Perfume_CategoryInfo {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  name_eng      String
+  note          String[]
+  feature       String[]
+  personality   String[]
 }

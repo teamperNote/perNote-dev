@@ -7,7 +7,9 @@ function NaverLogin() {
   console.log(api_url);
   return (
     <>
-      <a href={api_url}>Naver</a>
+      <a href={api_url}>
+        <img src="/login_naver.svg" alt="네이버로 로그인" />
+      </a>
     </>
   );
 }

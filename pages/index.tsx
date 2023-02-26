@@ -32,8 +32,9 @@ const Home: NextPage = () => {
         <PersonalScentContent>
           <ScentTitle>Personal Scent </ScentTitle>
           <ScentContent>
-            {`향수를 모르더라도 걱정하지 마세요 간단한 설문조사로
-          당신의 향수를 찾아드려요
+            {`      향수를 모르더라도 걱정하지 마세요.
+계절, 색깔, 자신의 성격 등의 간단한 설문조사로 
+        당신의 향수를 찾아드려요.
               `}
           </ScentContent>
           <ScentButton>
@@ -72,13 +73,11 @@ const Home: NextPage = () => {
         </FourthFirst>
         <FourthSecond>
           <CategoryIntro>
-            <CategoryIntroTitle>노트,성격,특징,브랜드 통합</CategoryIntroTitle>
+            <CategoryIntroTitle>Category</CategoryIntroTitle>
             <CategoryIntroContent>
-              Lorem ipsum dolor sit amet, consectetur <br />
-              adipiscing elit. Massa gravida sit facilisis
-              <br /> cras. In blandit mi id est luctus. Non <br />
-              turpis non risus purus. Eget vel commodo <br />
-              ac purus, laoreet sollicitudin.
+              나의 성격에 따른 향수, 향수의 특징의 따른
+              <br /> 분류 등의 새로운 향수 분류를 통해
+              <br /> 자신에게 어울리는 향수를 찾아보세요.
             </CategoryIntroContent>
             <CategoryButton>
               <Link href="/category/note">바로가기 &nbsp; &#62;</Link>
@@ -287,6 +286,7 @@ const CategoryIntroContent = styled.div`
   font-weight: normal;
   font-size: 30px;
   margin-bottom: 35px;
+  line-height: 43px;
 `;
 
 const CategoryButton = styled.button`

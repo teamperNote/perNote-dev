@@ -9,6 +9,7 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
 import axiosInstance from "../../lib/api/config";
+import LoginModal from "components/login/LoginModal";
 
 const cookies = new Cookies();
 function Login() {
@@ -17,6 +18,7 @@ function Login() {
   const [password, setPassword] = useState<string>("");
   const [userError, setUserError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
+  const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
 
   const inputEmail = (e: any) => {
     setEmail(e.target.value);
@@ -26,7 +28,14 @@ function Login() {
     setPassword(e.target.value);
   };
 
+  const clickOuterModal = (e: any) => {
+    if (e.target.type) {
+      setShowErrorModal(false);
+    }
+  };
   const submitLogin = async (e: any) => {
+    setUserError("");
+    setPasswordError("");
     e.preventDefault();
     const userInfo = {
       email,
@@ -37,6 +46,7 @@ function Login() {
       .then((response) => {
         if (response.data.message) {
           setUserError("존재하지 않는 사용자입니다.");
+          setShowErrorModal(true);
           return;
         }
         const { user, accessToken, refreshToken } = response.data;
@@ -57,6 +67,7 @@ function Login() {
       })
       .catch((e) => {
         setPasswordError(e.response.data.message);
+        setShowErrorModal(true);
       });
   };
 
@@ -102,21 +113,25 @@ function Login() {
         <SocialLogin>
           <div>소셜로그인</div>
           <SocialLoginList>
-            <KaKaoLogin />
-            <GoogleLogin />
-            <NaverLogin />
+            <SocialLoginItemContainer>
+              <KaKaoLogin />
+            </SocialLoginItemContainer>
+            <SocialLoginItemContainer>
+              <NaverLogin />
+            </SocialLoginItemContainer>
+            <SocialLoginItemContainer>
+              <GoogleLogin />
+            </SocialLoginItemContainer>
           </SocialLoginList>
         </SocialLogin>
-        {/* <div>
-          <div>소셜로그인</div>
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div> */}
       </LoginBox>
+      {/* 클릭이벤트 이벤트 위임으로 처리 */}
+      {/* 모달 열려있는 경우 스크롤 이벤트 막기 */}
+      {showErrorModal && (
+        <ModalSection onClick={clickOuterModal}>
+          <LoginModal />
+        </ModalSection>
+      )}
     </Container>
   );
 }
@@ -125,7 +140,8 @@ export default Login;
 
 const Container = styled.div`
   padding-top: 110px;
-  height: 100vh;
+  /* 임시 고정 */
+  height: 1080px;
   background: url("/perNoteBackImg.png") no-repeat left top/100% 100%;
 `;
 
@@ -221,7 +237,7 @@ const SocialLoginList = styled.ul`
   padding: 0;
   display: flex;
   justify-content: space-between;
-  margin-top: 28.66px;
+  margin-top: 30px;
 
   div {
     width: 90px;
@@ -229,8 +245,24 @@ const SocialLoginList = styled.ul`
     background-color: #d9d9d9;
     border-radius: 70px;
   }
+`;
 
-  div:not(:last-child) {
+const SocialLoginItemContainer = styled.li`
+  list-style-type: none;
+  width: 90px;
+  height: 90px;
+
+  &:not(:last-child) {
     margin-right: 27px;
   }
+`;
+
+const ModalSection = styled.section`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
 `;

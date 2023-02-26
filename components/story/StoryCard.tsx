@@ -3,20 +3,11 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { dateFormat } from "lib/numberFomat";
+import { IStory } from "lib/types";
 import NoteTag from "components/NoteTag";
 
 interface Props {
-  data: {
-    id: string;
-    imgUrl: string;
-    liked: boolean;
-    likeCount: number;
-    createdAt: string;
-    viewCount: string;
-    title: string;
-    body: string;
-    // notes: string[];
-  };
+  data: IStory;
 }
 
 export default function StoryCard({
@@ -29,7 +20,7 @@ export default function StoryCard({
     viewCount,
     title,
     body,
-    // notes,
+    tags,
   },
 }: Props) {
   const router = useRouter();
@@ -72,7 +63,7 @@ export default function StoryCard({
       onClick={onLinkClick}
     >
       <StoryCardImgBox>
-        <StoryCardImg src={imgUrl} />
+        <StoryCardImg src={imgUrl[0]} />
         {isShow && (
           <Filter>
             <HeartBox>
@@ -94,9 +85,8 @@ export default function StoryCard({
         <TitleSpan>{title}</TitleSpan>
         <DescSpan>{body}</DescSpan>
         <InfoFlex>
-          {/* TODO 서지수 노트 목록 추가되면 수정하기 */}
-          {["as", "asdfasd", "asdf"].map((note) => (
-            <NoteTag key={note} from={"StoryCard"} text={note} />
+          {tags.map((tag, idx) => (
+            <NoteTag key={idx} from={"StoryDetail"} text={tag} />
           ))}
         </InfoFlex>
       </InfoBox>

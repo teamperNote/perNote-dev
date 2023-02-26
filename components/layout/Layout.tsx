@@ -1,5 +1,6 @@
 import NavBar from "./NavBar";
 import { useEffect } from "react";
+import Footer from "./Footer";
 
 export default function Layout({ children }: any) {
   useEffect(() => {
@@ -11,6 +12,7 @@ export default function Layout({ children }: any) {
     <>
       <NavBar />
       <div>{children}</div>
+      <Footer />
     </>
   );
 }

@@ -3,63 +3,61 @@ import styled from "styled-components";
 
 function Custom404() {
   return (
-    <>
-      <Header>
-        <h2>per.note</h2>
-      </Header>
-      <main>
-        <NotFound>페이지를 찾을 수 없습니다.</NotFound>
-        <Section>
-          <SectionParagraph>원하시는 결과를 찾을 수 없습니다.</SectionParagraph>
-          <SectionParagraph>
-            올바른 URL을 입력하였는지 확인하세요.
-          </SectionParagraph>
-        </Section>
-        <LinkButton>
-          <Link href="/">
-            <Button>메인으로 돌아가기</Button>
-          </Link>
-        </LinkButton>
-      </main>
-    </>
+    <NotFoundContainer>
+      <NotFoundTitle>per.note</NotFoundTitle>
+      <NotFoundSubTitle>페이지를 찾을 수 없습니다.</NotFoundSubTitle>
+      <NotFoundContent>
+        {`
+  원하시는 결과를 찾을 수 없습니다.
+올바른 URL을 입력하였는지 확인하세요.
+            `}
+      </NotFoundContent>
+      <NotFoundLink>
+        <Link href="/">메인으로 돌아가기</Link>
+      </NotFoundLink>
+    </NotFoundContainer>
   );
 }
 
 export default Custom404;
 
-const Header = styled.header`
+const NotFoundContainer = styled.div`
+  font-family: "Noto Sans KR";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding-top: 212px;
-  text-align: center;
+`;
+const NotFoundTitle = styled.h2`
+  margin: 0;
   font-size: 80px;
 `;
 
-const NotFound = styled.main`
-  text-align: center;
+const NotFoundSubTitle = styled.h3`
+  margin: 0;
+  margin-top: 95px;
   font-weight: 700;
   font-size: 40px;
 `;
 
-const Section = styled.section`
-  text-align: center;
-  margin: 30px 0 60px 0;
+const NotFoundContent = styled.pre`
+  margin: 0;
+  margin-top: 30px;
   font-weight: 400;
   font-size: 30px;
-`;
-
-const SectionParagraph = styled.p`
-  margin: 0;
   line-height: 43px;
 `;
 
-const LinkButton = styled.div`
-  text-align: center;
-`;
-const Button = styled.button`
+const NotFoundLink = styled.a`
+  margin-top: 60px;
   border: none;
-  background: #d9d9d9;
+  background: var(--primary-color);
+  color: var(--white-color);
   border-radius: 10px;
   width: 500px;
   height: 100px;
   font-weight: 400;
   font-size: 35px;
+  text-align: center;
+  line-height: 100px;
 `;

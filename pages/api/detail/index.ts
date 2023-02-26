@@ -6,10 +6,10 @@ import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import similar from "./similar"
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-    const id: string = req.query.id as string;
+    const id: string = req.query.id as string
 
     const perfume = await prisma.perfume.findFirst({
         where: {
@@ -17,8 +17,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         select: {
           id: true,
-          brand: true,
-          name: true,
+          brand_eng: true,
+          brand_kor: true,
+          name_eng: true,
+          name_kor: true,
           imgUrl: true,
 
           note: true,
@@ -36,18 +38,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           bottom: true,
 
           likeCount: true,
-
+          viewCount: true,
+          createdAt: true,
         },
     })
     if(!perfume) {
         return res.status(404).json({
             message: "Error: detail - DB perfume"
-        });
+        })
     }
 
     const perfume_detail = await prisma.perfumeDetail.findMany({
         where: {
-            name: perfume.name
+            name: perfume.name_eng
         },
         orderBy: {
             ml: "asc"
@@ -77,10 +80,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const similars = await similar(perfume)
-    perfume["similars"] = similars
+    perfume["similars"] = similars 
 
     return res.status(200).json({
         perfume: perfume,
         query: id,
-    });
+    })
 }

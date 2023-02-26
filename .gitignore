@@ -5,7 +5,6 @@
 
 # testing
 /coverage
-/pages/backend
 
 # next.js
 /.next/
@@ -34,3 +33,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 사용자 추가
+/pages/backend
+/pages/api/category/olderIndex.ts
