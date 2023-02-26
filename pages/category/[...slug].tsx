@@ -13,7 +13,7 @@ import {
   noteArray,
   personalityArray,
   sortArray,
-} from "lib/modules";
+} from "lib/arrays";
 
 export default function Category() {
   const router = useRouter();
