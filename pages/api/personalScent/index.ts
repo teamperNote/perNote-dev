@@ -137,23 +137,23 @@ export default async function handler(
     }
   }
 
-  let top4 = [];
+  let top5 = [];
 
   for (const perfume of perfumes) {
-    if (top4.length < 4) top4.push(perfume);
+    if (top5.length < 5) top5.push(perfume);
     else {
-      for (let i = 0; i < 4; i++) {
-        if (top4[i].score < perfume.score) {
-          top4[i] = perfume;
+      for (let i = 0; i < 5; i++) {
+        if (top5[i].score < perfume.score) {
+          top5[i] = perfume;
           break;
         }
       }
     }
   }
 
-  top4 = top4.sort((a, b) => b.score - a.score);
+  top5 = top5.sort((a, b) => b.score - a.score);
   const perfumeIDs = []
-  for(const perfume of top4){
+  for(const perfume of top5){
       perfumeIDs.push({id: perfume.id})
   }
 
