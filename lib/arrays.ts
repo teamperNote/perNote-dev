@@ -115,21 +115,21 @@ export const colorArray: ICategory[] = [
   },
   {
     id: 7,
+    value: "brown",
+    text: "갈 색",
+    color: "#964b00",
+  },
+  {
+    id: 8,
     value: "black",
     text: "검은색",
     color: "#000000",
   },
   {
-    id: 8,
+    id: 9,
     value: "white",
     text: "흰 색",
-    color: "#000000",
-  },
-  {
-    id: 9,
-    value: "brown",
-    text: "갈 색",
-    color: "#D9D9D9",
+    color: "#FFFFFF",
   },
 ];
 
