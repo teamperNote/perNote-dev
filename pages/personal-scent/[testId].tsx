@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { BsLink45Deg } from "react-icons/bs";
 import {
   genderArray,
   concentrationArray,
@@ -97,11 +99,21 @@ export default function PersonalScent() {
           </ConditionsBox> */}
           <ShareContainer>
             <ShareBox>
-              <ShareCircle />
+              <ShareCircle>
+                <BsLink45Deg size={"120px"} />
+              </ShareCircle>
               <ShareText>링크 복사</ShareText>
             </ShareBox>
             <ShareBox>
-              <ShareCircle />
+              {/* TODO 서지수 카카오톡 공유 기능 구현 */}
+              <ShareCircle>
+                <Image
+                  src={"/login_kakao.svg"}
+                  alt={`카카오톡 공유`}
+                  width={150}
+                  height={150}
+                />
+              </ShareCircle>
               <ShareText>카카오톡</ShareText>
             </ShareBox>
           </ShareContainer>
@@ -223,7 +235,10 @@ export const ShareBox = styled.div`
 export const ShareCircle = styled.div`
   width: 150px;
   height: 150px;
-  background: #d9d9d9;
+  background: var(--third-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 10px;
   border-radius: 100%;
 `;
