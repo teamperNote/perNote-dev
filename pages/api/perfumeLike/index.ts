@@ -59,5 +59,9 @@ export default async function handler(
         message: "좋아요 취소 성공",
       });
     }
+  } else {
+    return res.status(400).json({
+      message: "Error: Wrong HTTP method. (Not POST)",
+    });
   }
 }
