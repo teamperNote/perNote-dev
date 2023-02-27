@@ -10,7 +10,6 @@ import {
   charArray,
 } from "lib/arrays";
 import axios from "axios";
-// import { IoChevronBackSharp } from "react-icons/io5";
 
 export default function PersonalSurvey() {
   const router = useRouter();
@@ -39,7 +38,7 @@ export default function PersonalSurvey() {
         },
       })
       .then(({ data }) => {
-        router.push(`/personal-scent/${data.testId}`);
+        router.replace(`/personal-scent/${data.testId}`);
       })
       .catch((err) => {
         console.log(err);
@@ -84,7 +83,7 @@ export default function PersonalSurvey() {
                     margin_R={"30px"}
                     onClick={() => {
                       setScentData({ ...scentData, gender: data.value });
-                      router.push("concentration");
+                      router.replace("concentration");
                     }}
                   >
                     <CardContent>{data.text}</CardContent>
@@ -102,7 +101,7 @@ export default function PersonalSurvey() {
                     key={data.id}
                     onClick={() => {
                       setScentData({ ...scentData, concentration: data.value });
-                      router.push("season");
+                      router.replace("season");
                     }}
                   >
                     <CardContent>{data.text}</CardContent>
@@ -120,7 +119,7 @@ export default function PersonalSurvey() {
                     key={data.id}
                     onClick={() => {
                       setScentData({ ...scentData, season: data.value });
-                      router.push("color");
+                      router.replace("color");
                     }}
                   >
                     <CardContent>{data.text}</CardContent>
@@ -140,7 +139,7 @@ export default function PersonalSurvey() {
                     key={data.id}
                     onClick={() => {
                       setScentData({ ...scentData, color: data.value });
-                      router.push("personality");
+                      router.replace("personality");
                     }}
                   >
                     <Color background={data.color} />
@@ -161,7 +160,7 @@ export default function PersonalSurvey() {
                     key={data.id}
                     onClick={() => {
                       setScentData({ ...scentData, personality: data.value });
-                      router.push("feature");
+                      router.replace("feature");
                     }}
                   >
                     <TextCardContent>{data.text}</TextCardContent>
