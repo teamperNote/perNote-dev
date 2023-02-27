@@ -1,14 +1,16 @@
-import axios from "axios";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import axios from "axios";
+import { BsLink45Deg } from "react-icons/bs";
 import {
   genderArray,
   concentrationArray,
   personalityArray,
   charArray,
 } from "lib/arrays";
-import styled from "styled-components";
-import Link from "next/link";
 
 export default function PersonalScent() {
   const router = useRouter();
@@ -37,19 +39,29 @@ export default function PersonalScent() {
   }, [testId]);
 
   // 향수 설명 길면 줄이기
-  const contentRef = useRef(null);
-  const [isHidden, setIsHidden] = useState(false);
-  useEffect(() => {
-    if (contentRef.current?.clientHeight > 461) {
-      setIsHidden(true);
+  // const contentRef = useRef(null);
+  // const [isHidden, setIsHidden] = useState(false);
+  // useEffect(() => {
+  //   if (contentRef.current?.clientHeight > 461) {
+  //     setIsHidden(true);
+  //   }
+  // }, []);
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("링크가 클립보드에 복사되었습니다.");
+    } catch (e) {
+      alert("링크 복사를 실패하였습니다. 다시 시도해주세요");
     }
-  }, []);
+  };
 
   return (
     <RecommendationContainer>
       {isLoading && (
         <>
           <Title>당신에게 이 향수를 추천합니다</Title>
+          {/* TODO 서지수 범석님 api 수정되면 추가하기 */}
           {/* <TagBox>
             <RecommendationTag>
               <TagText>
@@ -68,20 +80,23 @@ export default function PersonalScent() {
             </RecommendationTag>
             <RecommendationTag>
               <TagText>
-                {featureArray.find((x) => x.value === feature).text}
+                {charArray.find((x) => x.value === feature).text}
               </TagText>
             </RecommendationTag>
           </TagBox> */}
-          <PerfumeImage src={top5[0].imgUrl} />
-          <SubTitle margin_B={"60px"}>{top5[0].name}</SubTitle>
-          <PerfumeDesc
+          <PerfumeImage
+            src={top5[0].imgUrl ? top5[0].imgUrl : "/noImage.png"}
+          />
+          <SubTitle margin_B={"60px"}>{top5[0].name_eng}</SubTitle>
+          {/* TODO 서지수 향수 설명 없음 */}
+          {/* <PerfumeDesc
             ref={contentRef}
             className={isHidden ? "hidden" : ""}
             margin_B={"35px"}
           >
             {top5[0].description}
-          </PerfumeDesc>
-          <ShowDetail onClick={() => setIsHidden(!isHidden)}>
+          </PerfumeDesc> */}
+          <ShowDetail>
             <Link href={`/product-detail/${top5[0].id}`}>Show detail &gt;</Link>
           </ShowDetail>
           {/* TODO 나중에 주석 제거 */}
@@ -96,22 +111,34 @@ export default function PersonalScent() {
             ))}
           </ConditionsBox> */}
           <ShareContainer>
-            <ShareBox>
-              <ShareCircle />
+            <ShareBox onClick={copyLink}>
+              <ShareCircle>
+                <BsLink45Deg size={"120px"} />
+              </ShareCircle>
               <ShareText>링크 복사</ShareText>
             </ShareBox>
             <ShareBox>
-              <ShareCircle />
+              {/* TODO 서지수 카카오톡 공유 기능 구현 */}
+              <ShareCircle>
+                <Image
+                  src={"/login_kakao.svg"}
+                  alt={`카카오톡 공유`}
+                  width={150}
+                  height={150}
+                />
+              </ShareCircle>
               <ShareText>카카오톡</ShareText>
             </ShareBox>
           </ShareContainer>
           <SubTitle margin_B={"90px"}>비슷한 향수를 추천합니다</SubTitle>
           <SubRecommendationBox>
-            {top5.slice(0, 4).map((data) => (
+            {top5.slice(1, 5).map((data) => (
               <Link href={`/product-detail/${data.id}`} key={data.id}>
                 <SubRecommendationCard>
-                  <SubRecommendationImg src={data.imgUrl} />
-                  <SubPerfumeName>{data.name}</SubPerfumeName>
+                  <SubRecommendationImg
+                    src={data.imgUrl ? data.imgUrl : "/noImage.png"}
+                  />
+                  <SubPerfumeName>{data.name_eng}</SubPerfumeName>
                 </SubRecommendationCard>
               </Link>
             ))}
@@ -212,18 +239,21 @@ export const ShareContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   column-gap: 45px;
   margin-bottom: 220px;
-  cursor: pointer;
 `;
 
 export const ShareBox = styled.div`
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 `;
 
 export const ShareCircle = styled.div`
   width: 150px;
   height: 150px;
-  background: #d9d9d9;
+  background: var(--third-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 10px;
   border-radius: 100%;
 `;

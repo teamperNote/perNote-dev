@@ -7,22 +7,12 @@ import { AiTwotoneHeart } from "react-icons/ai";
 import axios from "axios";
 
 export default function ProductDetailPage() {
-  const router = useRouter();
-  const { productId } = router.query;
+  const {
+    query: { productId },
+  } = useRouter();
 
-  const [purfumeData, setPurfumeData] = useState<Perfume>({
-    isLoading: false,
-    perfume: {
-      imgUrl: "",
-      brand: "",
-      // name_kor: "",
-      name_eng: "",
-      // price: 0,
-      notes: [],
-    },
-    similars: [],
-  });
-
+  const [isLoading, setIsLoading] = useState<boolean>();
+  const [purfumeData, setPurfumeData] = useState(null);
   const getPurfumeInfo = async () => {
     await axios
       .get("/api/detail", {
@@ -30,21 +20,10 @@ export default function ProductDetailPage() {
           id: productId,
         },
       })
-      .then(({ data }) => {
-        setPurfumeData({
-          ...purfumeData,
-          isLoading: true,
-          perfume: {
-            ...purfumeData.perfume,
-            imgUrl: data.perfume.imgUrl,
-            brand: data.perfume.brand,
-            // name_kor: data.perfume.name_kor,
-            name_eng: data.perfume.name,
-            // price: number,
-            notes: data.perfume.note.split(" "),
-          },
-          similars: data.similars.perfumes,
-        });
+      .then(({ data: { perfume } }) => {
+        console.log(perfume);
+        setIsLoading(true);
+        setPurfumeData(perfume);
       })
       .catch((err) => {
         console.log(err);
@@ -56,55 +35,63 @@ export default function ProductDetailPage() {
       getPurfumeInfo();
     }
     return () => {
-      setPurfumeData({ ...purfumeData, isLoading: false });
+      setPurfumeData(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
   return (
     <>
-      {purfumeData.isLoading && (
+      {isLoading && (
         <ProductDetailContainer>
           <AboutProduct>
             <ImageContainer>
-              <MainImage src={purfumeData.perfume.imgUrl} />
-              <SubImageContainer>
+              <MainImage
+                src={
+                  purfumeData.imgUrl == "" ? "/noImage.png" : purfumeData.imgUrl
+                }
+              />
+              {/* <SubImageContainer>
                 <SubImage />
                 <SubImage />
-              </SubImageContainer>
+              </SubImageContainer> */}
             </ImageContainer>
             <InformationContainer>
               <ProductInfo>
-                <BrandName>{purfumeData.perfume.brand}</BrandName>
+                <BrandName>{purfumeData.brand_eng}</BrandName>
                 <NameBox>
                   <NameIconContainer>
-                    <KorName>
-                      제품명
-                      {/* {purfumeData.name_kor} */}
-                    </KorName>
+                    <KorName>제품명</KorName>
+                    {/* TODO 서지수 liked 추가되면 수정하기 */}
                     <AiTwotoneHeart size="50px" fill={"#6E7C65"} />
                   </NameIconContainer>
-                  <EngName>
-                    {purfumeData.perfume.name_eng}
-                    {/* {purfumeData.name_eng} */}
-                  </EngName>
+                  <EngName>{purfumeData.name_eng}</EngName>
                 </NameBox>
-                <PriceBox>
+                {/* <PriceBox>
                   <PriceText>공식 홈페이지 가격</PriceText>
-                  <Price>215,000 원{/* {purfumeData.price} */}</Price>
-                </PriceBox>
+                  <Price>
+                    {purfumeData.price === ""
+                      ? "가격 미표기"
+                      : `${purfumeData.price}원`}
+                  </Price>
+                </PriceBox> */}
               </ProductInfo>
               <PerfumeInfo>
                 <PerfumeInfoBox>
                   <CategoryTitle>노트</CategoryTitle>
                   <TagBox>
-                    {purfumeData.perfume.notes.map((note, idx) => (
+                    {/* TODO 서지수 note 배열로 수정되면 수정하기 */}
+                    {/* {purfumeData.notes.map((note, idx) => (
                       <NoteTag
                         key={idx}
                         from={"ProductDetailPage"}
                         text={note.toUpperCase()}
                       />
-                    ))}
+                    ))} */}
+                    <NoteTag
+                      from={"ProductDetailPage"}
+                      text={purfumeData.note.toUpperCase()}
+                    />
                   </TagBox>
                 </PerfumeInfoBox>
                 {/* <PerfumeInfoBox>
@@ -124,40 +111,32 @@ export default function ProductDetailPage() {
                   </TagBox>
                 </PerfumeInfoBox> */}
               </PerfumeInfo>
-              <PriceInfo>
+              {/* <PriceInfo>
                 <div>최저가비교</div>
                 <PriceTable></PriceTable>
-              </PriceInfo>
+              </PriceInfo> */}
             </InformationContainer>
           </AboutProduct>
           <DescriptionContainer>
-            <DescriptionBox>
+            {/* TODO 서지수 향수 설명 추가되면 수정 */}
+            {/* <DescriptionBox>
               <DescriptionTitle>상세설명</DescriptionTitle>
               <DescriptionContent>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
                 crastempus, facilisi diam vel in duis dictum nec.
               </DescriptionContent>
-            </DescriptionBox>
+            </DescriptionBox> */}
             <DescriptionBox>
               <DescriptionTitle>탑노트</DescriptionTitle>
-              <DescriptionContent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
-                crastempus, facilisi diam vel in duis dictum nec.
-              </DescriptionContent>
+              <DescriptionContent>{purfumeData.top}</DescriptionContent>
             </DescriptionBox>
             <DescriptionBox>
               <DescriptionTitle>미들노트</DescriptionTitle>
-              <DescriptionContent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
-                crastempus, facilisi diam vel in duis dictum nec.
-              </DescriptionContent>
+              <DescriptionContent>{purfumeData.middle}</DescriptionContent>
             </DescriptionBox>
             <DescriptionBox>
               <DescriptionTitle>베이스노트</DescriptionTitle>
-              <DescriptionContent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
-                crastempus, facilisi diam vel in duis dictum nec.
-              </DescriptionContent>
+              <DescriptionContent>{purfumeData.bottom}</DescriptionContent>
             </DescriptionBox>
           </DescriptionContainer>
           <SimilarsContainer>
@@ -166,41 +145,21 @@ export default function ProductDetailPage() {
               {purfumeData.similars.map((similar) => (
                 <Link href={similar.id} key={similar.id}>
                   <SimilarsCard>
-                    <SimilarImg src={similar.imgUrl} />
-                    <Span>{similar.name}</Span>
+                    <SimilarImg
+                      src={
+                        similar.imgUrl === "" ? "/noImage.png" : similar.imgUrl
+                      }
+                    />
+                    <Span>{similar.name_eng}</Span>
                   </SimilarsCard>
                 </Link>
               ))}
             </SimilarsCardBox>
-            {/* TODO 서지수 스크롤 기능 구현 해야 함 */}
-            <RowScroll>
-              <ScrollDot className={"focus"} />
-              <ScrollDot />
-              <ScrollDot />
-              <ScrollDot />
-            </RowScroll>
           </SimilarsContainer>
         </ProductDetailContainer>
       )}
     </>
   );
-}
-
-interface Perfume {
-  isLoading: boolean;
-  perfume: {
-    imgUrl: string;
-    brand: string;
-    // name_kor: string;
-    name_eng: string;
-    // price: number;
-    notes: string[];
-  };
-  similars: {
-    id: string;
-    imgUrl: string;
-    name: string;
-  }[];
 }
 
 const ProductDetailContainer = styled.div`
@@ -226,16 +185,16 @@ const MainImage = styled.img`
   background-color: #d9d9d9;
 `;
 
-const SubImageContainer = styled.div`
-  margin-top: 20px;
-`;
+// const SubImageContainer = styled.div`
+//   margin-top: 20px;
+// `;
 
-const SubImage = styled.img`
-  margin-right: 30px;
-  width: 220px;
-  height: 220px;
-  background-color: #d9d9d9;
-`;
+// const SubImage = styled.img`
+//   margin-right: 30px;
+//   width: 220px;
+//   height: 220px;
+//   background-color: #d9d9d9;
+// `;
 
 const InformationContainer = styled.div``;
 
@@ -280,16 +239,16 @@ const EngName = styled(Span)`
   line-height: 51px;
 `;
 
-const PriceBox = styled.div``;
+// const PriceBox = styled.div``;
 
-const PriceText = styled(Span)`
-  font-weight: 700;
-  margin-right: 39px;
-`;
+// const PriceText = styled(Span)`
+//   font-weight: 700;
+//   margin-right: 39px;
+// `;
 
-const Price = styled(PriceText)`
-  margin-right: 0;
-`;
+// const Price = styled(PriceText)`
+//   margin-right: 0;
+// `;
 
 const PerfumeInfo = styled.div`
   margin-bottom: 76px;
@@ -310,20 +269,20 @@ const TagBox = styled.div`
   display: flex;
 `;
 
-const PriceInfo = styled.div`
-  div {
-    font-weight: 700;
-    font-size: 30px;
-    color: #808080;
-  }
-`;
+// const PriceInfo = styled.div`
+//   div {
+//     font-weight: 700;
+//     font-size: 30px;
+//     color: #808080;
+//   }
+// `;
 
-const PriceTable = styled.div`
-  margin-top: 20px;
-  width: 700px;
-  height: 397px;
-  border: 1px solid black;
-`;
+// const PriceTable = styled.div`
+//   margin-top: 20px;
+//   width: 700px;
+//   height: 397px;
+//   border: 1px solid black;
+// `;
 
 const DescriptionContainer = styled.div`
   border-bottom: 2px solid #b2b2b2;
@@ -390,24 +349,4 @@ const SimilarImg = styled.img`
   height: 339px;
   border-radius: 30px;
   margin-bottom: 25px;
-`;
-
-const RowScroll = styled.div`
-  width: 155px;
-  display: flex;
-`;
-
-const ScrollDot = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  margin-right: 25px;
-  background-color: var(--light-gray-color);
-  cursor: pointer;
-  :last-child {
-    margin-right: 0;
-  }
-  &.focus {
-    background-color: var(--secondary-color);
-  }
 `;
