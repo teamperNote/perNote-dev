@@ -46,7 +46,8 @@ export default function StoryCard({
     }
     await axios
       .post("/api/story/like", {
-        userId: "63ae968c0665ea07c7c07acb",
+        // TODO api 수정되면 삭제하기
+        userId: "63b3de201f11b89b53489d7d",
         storyId: id,
       })
       .catch((err) => {
