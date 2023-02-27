@@ -7,6 +7,21 @@ import SortDropDown from "components/category/SortDropDown";
 import StoryCard from "components/story/StoryCard";
 
 export default function PerfumeStory() {
+  const [bestStoryList, setBestStoryList] = useState({
+    isLoading: false,
+    data: [],
+  });
+  const getBestStoryList = async () => {
+    await axios
+      .get("/api/story/best")
+      .then(({ data }) => {
+        setBestStoryList({ ...bestStoryList, isLoading: true, data: data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   // TODO 서지수 스토리 정렬 기능 추가하기
   const [sort, setSort] = useState(sortArray[0].value);
   const [storyList, setStoryList] = useState({ isLoading: false, data: [] });
@@ -24,6 +39,7 @@ export default function PerfumeStory() {
   };
   useEffect(() => {
     getStoryList();
+    getBestStoryList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -32,7 +48,7 @@ export default function PerfumeStory() {
       <PerfumeStoryBox>
         <PopularTitle>인기 스토리</PopularTitle>
         <PopularStoryBox>
-          {storyArray.map((story) => (
+          {bestStoryList.data.map((story) => (
             <PopularCard key={story.id} data={story} />
           ))}
         </PopularStoryBox>
@@ -52,58 +68,6 @@ export default function PerfumeStory() {
     </PerfumeStoryContainer>
   );
 }
-
-export const storyArray = [
-  {
-    id: "0",
-    imgUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShAKtZMoT88oF-bW7WuKaSAlbVHebgUfPEZjeQn07xA498U5R7uQSZ_OEcKthpRQUqqdI&usqp=CAU",
-    date: "2022.11.01",
-    view: "1023",
-    title: "향수의 비밀",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
-    note: ["AQUATIC", "WOODY", "AQUATIC3"],
-  },
-  {
-    id: "1",
-    imgUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrR4i932f2IX1LX84rypC6ox5pfdhFUHYo-g&usqp=CAU",
-    date: "2022.11.02",
-    view: "1023",
-    title: "향수의 비밀2",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
-    note: ["AQUATIC1", "WOODY1", "asd"],
-  },
-  {
-    id: "2",
-    imgUrl:
-      "https://image.jtbcplus.kr/data/contents/jam_photo/202002/08/36a3a416-8b2f-4ef4-81a9-e383f717a6cc.jpg",
-    date: "2022.11.03",
-    view: "1023",
-    title: "향수의 비밀3",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
-    note: ["AQUATIC2", "WOODY2", "AQUATIC"],
-  },
-  {
-    id: "3",
-    imgUrl: "https://cdn.imweb.me/thumbnail/20220511/0125284249fd1.jpg",
-    date: "2022.11.01",
-    view: "1023",
-    title: "향수의 비밀4",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
-    note: ["AQUATIC3", "WOODY3", "er"],
-  },
-  {
-    id: "4",
-    imgUrl:
-      "https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/167098330331694434.jpg?gif=1&w=480",
-    date: "2022.11.01",
-    view: "1023",
-    title: "향수의 비밀5",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt sit malesuada pulvinar in nulla.",
-    note: ["AQUATIC4", "WOODY4", "ggr"],
-  },
-];
 
 export const PerfumeStoryContainer = styled.div`
   width: 1920px;
