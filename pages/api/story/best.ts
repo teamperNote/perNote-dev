@@ -14,7 +14,7 @@ export default async function handler(
       likeCount: "desc",
     },
   });
-  const bestStories = allStories.slice(0, 4);
+  const bestStories = allStories.slice(0, 5);
 
   return res.status(200).json(bestStories);
 }
