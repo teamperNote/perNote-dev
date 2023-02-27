@@ -47,6 +47,15 @@ export default function PersonalScent() {
     }
   }, []);
 
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("링크가 클립보드에 복사되었습니다.");
+    } catch (e) {
+      alert("링크 복사를 실패하였습니다. 다시 시도해주세요");
+    }
+  };
+
   return (
     <RecommendationContainer>
       {isLoading && (
@@ -98,7 +107,7 @@ export default function PersonalScent() {
             ))}
           </ConditionsBox> */}
           <ShareContainer>
-            <ShareBox>
+            <ShareBox onClick={copyLink}>
               <ShareCircle>
                 <BsLink45Deg size={"120px"} />
               </ShareCircle>
