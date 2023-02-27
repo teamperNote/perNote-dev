@@ -10,7 +10,6 @@ import {
   charArray,
 } from "lib/arrays";
 import axios from "axios";
-// import { IoChevronBackSharp } from "react-icons/io5";
 
 export default function PersonalSurvey() {
   const router = useRouter();
@@ -39,7 +38,7 @@ export default function PersonalSurvey() {
         },
       })
       .then(({ data }) => {
-        router.push(`/personal-scent/${data.testId}`);
+        router.replace(`/personal-scent/${data.testId}`);
       })
       .catch((err) => {
         console.log(err);
@@ -84,7 +83,7 @@ export default function PersonalSurvey() {
                     margin_R={"30px"}
                     onClick={() => {
                       setScentData({ ...scentData, gender: data.value });
-                      router.push("concentration");
+                      router.replace("concentration");
                     }}
                   >
                     <CardContent>{data.text}</CardContent>
@@ -102,7 +101,7 @@ export default function PersonalSurvey() {
                     key={data.id}
                     onClick={() => {
                       setScentData({ ...scentData, concentration: data.value });
-                      router.push("season");
+                      router.replace("season");
                     }}
                   >
                     <CardContent>{data.text}</CardContent>
@@ -120,7 +119,7 @@ export default function PersonalSurvey() {
                     key={data.id}
                     onClick={() => {
                       setScentData({ ...scentData, season: data.value });
-                      router.push("color");
+                      router.replace("color");
                     }}
                   >
                     <CardContent>{data.text}</CardContent>
@@ -140,7 +139,7 @@ export default function PersonalSurvey() {
                     key={data.id}
                     onClick={() => {
                       setScentData({ ...scentData, color: data.value });
-                      router.push("personality");
+                      router.replace("personality");
                     }}
                   >
                     <Color background={data.color} />
@@ -161,7 +160,7 @@ export default function PersonalSurvey() {
                     key={data.id}
                     onClick={() => {
                       setScentData({ ...scentData, personality: data.value });
-                      router.push("feature");
+                      router.replace("feature");
                     }}
                   >
                     <TextCardContent>{data.text}</TextCardContent>
@@ -202,7 +201,7 @@ export const PersonalScentContainer = styled.div`
 export const Background = styled.div`
   width: 1920px;
   height: 970px;
-  background: #eaeaea;
+  background-image: url("/green.jpg");
   display: flex;
   justify-content: center;
   align-items: center;
@@ -212,20 +211,12 @@ export const Background = styled.div`
 export const PersonalScentBox = styled.div`
   width: 1420px;
   height: 738px;
-  background: #d9d9d9;
+  background: var(--white-color);
   border-radius: 20px;
   display: flex;
-  /* position: relative; */
   align-items: center;
   flex-direction: column;
 `;
-
-// export const BackIcon = styled(IoChevronBackSharp)`
-//   position: absolute;
-//   top: 90px;
-//   left: 100px;
-//   font-size: 39px;
-// `;
 
 export const PersonalScentTitle = styled.span`
   font-family: "Noto Sans KR";
@@ -248,7 +239,7 @@ export const PersonalScentText = styled.span`
 export const StartBtn = styled.div`
   width: 265px;
   height: 80px;
-  background: var(--white-color);
+  background: var(--primary-color);
   border-radius: 100px;
   display: flex;
   justify-content: center;
@@ -262,6 +253,7 @@ export const StartSpan = styled.span`
   font-weight: 700;
   font-size: 40px;
   line-height: 58px;
+  color: var(--white-color);
 `;
 
 export const SubTitle = styled.span<{ margin_T?: string; margin_B?: string }>`
@@ -310,6 +302,7 @@ export const Card = styled.div<{ margin_R?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 2px solid var(--primary-color);
   cursor: pointer;
   :last-child {
     margin-right: 0;
@@ -350,6 +343,7 @@ export const Color = styled.div<{ background: string }>`
   height: 66px;
   border-radius: 100%;
   background: ${({ background }) => background};
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 `;
 
 export const ColorCardContent = styled(CardContent)`
