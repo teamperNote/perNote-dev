@@ -7,9 +7,9 @@ interface Props {
   alphabet?: string;
   data: {
     id: string;
-    name: string;
-    name_eng: string;
     imgUrl: string;
+    brand_eng: string;
+    name_eng: string;
   };
   from: string;
 }
@@ -28,7 +28,6 @@ export default function CategoryCard({ alphabet, data, from }: Props) {
       }
     >
       <CategoryCardContainer
-        // background={data.imgUrl}
         onMouseOver={() => setIsShow(true)}
         onMouseLeave={() => setIsShow(false)}
       >
@@ -44,19 +43,13 @@ export default function CategoryCard({ alphabet, data, from }: Props) {
                 <HeartCount>108</HeartCount>
               </HeartBox>
             )}
-            <PurfumeName>
+            <BrandName>
+              {/* TODO 서지수 브랜드 name_eng -> brand_eng으로 수정되면 수정하기 */}
               {slug[0] === "brand" && slug[2] === undefined
                 ? data.name_eng
-                : data.name}
-            </PurfumeName>
-            {/* TODO 서지수 향수 설명 추가되면 수정 */}
-            {/* TODO 서지수 브랜드 카드 디자인 확저오디면 수정하기 */}
-            {from == "Category" && (
-              <PurfumeDesc>
-                뭐라뭐라 뭐라뭐라 블라블라해서 어쩌고 저쩌고한 향수입니다. 이런
-                저런 이런 저런 향이 나고 어쩌고 저쩌고 쨌든 냄새 좋음
-              </PurfumeDesc>
-            )}
+                : data.brand_eng}
+            </BrandName>
+            {from == "Category" && <PurfumeName>{data.name_eng}</PurfumeName>}
           </Filter>
         )}
       </CategoryCardContainer>
@@ -119,7 +112,7 @@ const HeartCount = styled.div`
   align-items: center;
 `;
 
-const PurfumeName = styled.span`
+const BrandName = styled.span`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 700;
@@ -129,7 +122,7 @@ const PurfumeName = styled.span`
   margin-bottom: 15px;
 `;
 
-const PurfumeDesc = styled.span`
+const PurfumeName = styled.span`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
