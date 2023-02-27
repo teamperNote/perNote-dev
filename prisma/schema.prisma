@@ -88,6 +88,7 @@ model Test {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String     @db.ObjectId
+  chosen       String[]   
   perfumes     Perfume[]  @relation(fields: [perfumeIDs], references: [id])
   perfumeIDs   String[]   @db.ObjectId
   createdAt    DateTime   @default(now())
@@ -163,22 +164,6 @@ model Brand {
   name_eng      String
   name_kor      String
   imgUrl        String?
-}
-
-model Note {
-  id            String  @id @default(auto()) @map("_id") @db.ObjectId
-  scent         String
-  wild          Int
-  aquatic       Int
-  woody         Int
-  aromatic      Int
-  citrus        Int
-  floral        Int
-  fruity        Int
-  green         Int
-  spicy         Int
-  musk          Int
-  cotton_soap   Int
 }
 
 model PerfumeDetail {

@@ -34,6 +34,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# 사용자 추가
+# 김범석
 /pages/backend
 /pages/api/category/olderIndex.ts
+/pages/api/categoryInfo

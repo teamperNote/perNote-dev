@@ -16,15 +16,15 @@ export default async function handler(
     4. algoIndex, concenIndex를 참조하여 scoring.
     5. 내림차순으로 정렬한 후 top 5 추출. 
     */
-    
-    const query = req.query; // 유저가 선택한 쿼리들. ex) 봄, 깊은 등
-    const userId = query.userId as string
-    let userGender = query.gender as string;
-    const userSeason = query.season as string;
-    const userColor = query.color as string;
-    const userPersonal = query.personality as string;
-    const userFeature = query.feature as string;
-    const userConcen = query.concentration as string;
+
+  const query = req.query; // 유저가 선택한 쿼리들. ex) 봄, 깊은 등
+  const userId = query.userId as string;
+  let userGender = query.gender as string;
+  const userSeason = query.season as string;
+  const userColor = query.color as string;
+  const userPersonal = query.personality as string;
+  const userFeature = query.feature as string;
+  const userConcen = query.concentration as string;
 
   // // 1. sex에 대한 1차 query.
   if (userGender === "mUni") userGender = "m, uni";
@@ -152,23 +152,33 @@ export default async function handler(
   }
 
   top5 = top5.sort((a, b) => b.score - a.score);
-  const perfumeIDs = []
-  for(const perfume of top5){
-      perfumeIDs.push({id: perfume.id})
+  const perfumeIDs = [];
+  for (const perfume of top5) {
+    perfumeIDs.push({ id: perfume.id });
   }
 
+  // CREATE CHOSEN COLUMN
+  const chosen = [
+    userGender,
+    userSeason,
+    userColor,
+    userPersonal,
+    userFeature,
+    userConcen,
+  ];
+  // CREATE TEST DATA
   const test = await prisma.test.create({
-      data: {
-          userId: userId,
-          perfumes: {
-              connect: perfumeIDs
-          }
-      }
-  })
-
+    data: {
+      userId: userId,
+      chosen: chosen,
+      perfumes: {
+        connect: perfumeIDs,
+      },
+    },
+  });
 
   // Test Result to test.tsx
   return res.status(200).json({
-    testId: test.id
+    testId: test.id,
   });
 }
