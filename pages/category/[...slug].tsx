@@ -35,7 +35,12 @@ export default function Category() {
   const getCategoryPerfume = (category: string, selected: string) => {
     axios
       .get("/api/category", {
-        params: { category: category, selected: selected, orderOpt: sort },
+        params: {
+          userId: "63ae968c0665ea07c7c07acb",
+          category: category,
+          selected: selected,
+          orderOpt: sort,
+        },
       })
       .then((res) => {
         setPurfume({
