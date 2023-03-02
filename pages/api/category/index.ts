@@ -9,11 +9,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  // QUERY OPTION
+  // OPTIONS FROM QUERY
   const query = req.query;
   const category = query.category as string;
   const selected = query["selected"] as string;
   const userId = query.userId;
+  const orderOpt = query.orderOpt as string;
 
   // PERFUME OPTION
   const names = [];
@@ -23,6 +24,9 @@ export default async function handler(
       [category]: {
         has: selected,
       },
+    },
+    orderBy: {
+      [orderOpt]: "desc",
     },
   });
   if (!categoryInfo) {
