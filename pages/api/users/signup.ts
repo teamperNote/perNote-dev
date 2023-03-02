@@ -12,7 +12,7 @@ export default async function handler(
     const { name, email, password, phoneNumber, birth, gender } = req.body;
 
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { phoneNumber },
     });
     if (existingUser)
       return res.status(400).json({
