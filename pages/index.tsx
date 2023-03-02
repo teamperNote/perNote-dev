@@ -98,7 +98,7 @@ export default Home;
 const FirstMain = styled.div`
   position: relative;
   color: white;
-  height: 100vh;
+  height: 1080px;
   background-image: url("/perNoteBackImg.png");
   background-size: cover;
 `;
@@ -185,6 +185,7 @@ const ScentContent = styled.pre`
 `;
 
 const ScentButton = styled.button`
+  cursor: pointer;
   display: block;
   margin: 0 auto;
   background: white;
@@ -246,6 +247,7 @@ const GuidText = styled.div`
   margin-bottom: 39px;
 `;
 const SubscribeButton = styled.button`
+  cursor: pointer;
   width: 269px;
   height: 69px;
   background: #9fac9a;
@@ -290,6 +292,7 @@ const CategoryIntroContent = styled.div`
 `;
 
 const CategoryButton = styled.button`
+  cursor: pointer;
   width: 166px;
   height: 53px;
   padding: 12px 25px;
