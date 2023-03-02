@@ -17,6 +17,7 @@ export default function ProductDetailPage() {
     await axios
       .get("/api/detail", {
         params: {
+          userId: "63ae968c0665ea07c7c07acb",
           id: productId,
         },
       })
