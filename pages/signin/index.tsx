@@ -192,6 +192,8 @@ const Input = styled.input`
   padding: 10px 0 10px 4px;
   border: none;
   border-bottom: 1px solid #707070;
+  font-weight: 400;
+  font-size: 20px;
   &::placeholder {
     font-weight: 400;
     font-size: 20px;
