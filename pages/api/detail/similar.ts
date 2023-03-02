@@ -70,6 +70,7 @@ export default async function similar(perfume) {
       AND: findManyAndCondition,
     },
     select: {
+      id: true,
       name_eng: true,
       imgUrl: true,
     },

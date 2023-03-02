@@ -97,6 +97,9 @@ export default async function handler(
     perfume[key] = val;
   }
 
+  delete perfume.concentration;
+  delete perfume.gender;
+
   const similars = await similar(perfume);
   perfume["similars"] = similars;
 
