@@ -25,9 +25,6 @@ export default async function handler(
         has: selected,
       },
     },
-    orderBy: {
-      [orderOpt]: "desc",
-    },
   });
   if (!categoryInfo) {
     return res.status(404).json({
@@ -50,6 +47,9 @@ export default async function handler(
       brand_eng: true,
       imgUrl: true,
       likeCount: true,
+    },
+    orderBy: {
+      [orderOpt]: "desc",
     },
   });
   if (!perfumes) {
