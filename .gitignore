@@ -37,4 +37,4 @@ next-env.d.ts
 # 김범석
 /pages/backend
 /pages/api/category/olderIndex.ts
-/pages/api/categoryInfo
+/pages/api/backendFeatures

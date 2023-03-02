@@ -60,6 +60,8 @@ export default async function handler(
 
   const perfumeAfterLike = like(perfumes, userId);
 
+  await prisma.$disconnect();
+
   return res.status(200).json({
     perfumes: perfumeAfterLike,
     query: query,

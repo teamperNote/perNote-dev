@@ -21,5 +21,7 @@ export default async function like(perfumeId, userId) {
     isLiked = likeCheck ? true : false;
   }
 
+  await prisma.$disconnect();
+
   return isLiked;
 }

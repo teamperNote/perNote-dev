@@ -77,5 +77,7 @@ export default async function similar(perfume) {
     take: 4,
   });
 
+  await prisma.$disconnect();
+
   return perfumes;
 }

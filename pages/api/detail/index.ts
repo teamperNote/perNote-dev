@@ -113,6 +113,8 @@ export default async function handler(
   delete perfume.concentration;
   delete perfume.gender;
 
+  await prisma.$disconnect();
+
   return res.status(200).json({
     perfume: perfume,
     query: perfumeId,

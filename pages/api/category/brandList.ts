@@ -39,6 +39,8 @@ export default async function handler(
     dict[head].push(brand);
   }
 
+  await prisma.$disconnect();
+
   return res.status(200).json({
     dict,
   });

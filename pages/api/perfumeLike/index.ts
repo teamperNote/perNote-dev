@@ -36,11 +36,13 @@ export default async function handler(
           },
         });
       } catch (e) {
+        await prisma.$disconnect();
         return res.status(400).json({
           message: "잘못된 id 접근",
         });
       }
 
+      await prisma.$disconnect();
       return res.status(200).json({
         message: "좋아요 요청 성공",
       });
@@ -55,11 +57,13 @@ export default async function handler(
         },
       });
 
+      await prisma.$disconnect();
       return res.status(200).json({
         message: "좋아요 취소 성공",
       });
     }
   } else {
+    await prisma.$disconnect();
     return res.status(400).json({
       message: "Error: Wrong HTTP method. (Not POST)",
     });
