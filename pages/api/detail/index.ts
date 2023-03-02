@@ -32,20 +32,11 @@ export default async function handler(
     select: {
       id: true,
       brand_eng: true,
-      brand_kor: true,
       name_eng: true,
-      name_kor: true,
       imgUrl: true,
 
-      note: true,
-      gender: true,
       concentration: true,
-
-      first: true,
-      second: true,
-      third: true,
-      fourth: true,
-      fifth: true,
+      gender: true,
 
       top: true,
       middle: true,
@@ -53,7 +44,6 @@ export default async function handler(
 
       likeCount: true,
       viewCount: true,
-      createdAt: true,
     },
   });
   if (!perfume) {
@@ -90,6 +80,21 @@ export default async function handler(
 
     perfume["ml"] = ml;
     perfume["description"] = perfume_detail[0].description;
+  }
+
+  const categoryInfo = await prisma.perfume_CategoryInfo.findFirst({
+    where: {
+      name_eng: perfume.name_eng,
+    },
+    select: {
+      note: true,
+      feature: true,
+      personality: true,
+    },
+  });
+
+  for (const [key, val] of Object.entries(categoryInfo)) {
+    perfume[key] = val;
   }
 
   const similars = await similar(perfume);
