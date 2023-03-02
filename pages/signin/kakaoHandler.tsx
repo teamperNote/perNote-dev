@@ -11,7 +11,10 @@ function KakaoHandler(props: any) {
     axios.post("/api/auth/kakao/login", data).then((res) => {
       console.log(res);
       if (res.data.message === "가입되지 않은 사용자입니다") {
-        router.push("/signup");
+        router.push(
+          "/sns-signup/kakao",
+          `/sns-signup/kakao/${res.data.userId}`,
+        );
       }
     });
   }, [props.code, router]);

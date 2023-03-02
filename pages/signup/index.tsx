@@ -7,7 +7,9 @@ import AgreeItem from "components/form/AgreeItem";
 import RadioItem from "components/form/RadioButton";
 import Input from "../../components/form/Input";
 import ValidationButton from "components/form/ValidationButton";
-import axiosInstance from "../../lib/api/config";
+
+const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
+const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
 
 interface SignupProps {
   isActive: string;
@@ -46,13 +48,14 @@ const radioList = [
     text: ["동의", "비동의"],
   },
 ];
+const api_url = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=talk_message`;
 function Signup() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
 
   const [email, setEmail] = useState<string>("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
-  const [isInvalidEmail, setIsInvalidEmail] = useState<boolean>(false);
+  const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
   const [checkPassword, setCheckPassword] = useState<string>("");
@@ -108,22 +111,17 @@ function Signup() {
   //이메일 중복 확인
   const checkEmailDuplication = async (e: any) => {
     e.preventDefault();
+    setIsValidEmail(false);
+    setIsInValidEmail(false);
+
     try {
-      const response = await axiosInstance.get(
-        `/api/users/checkEmail?email=${email}`,
-      );
+      const response = await axios.get(`/api/users/checkEmail?email=${email}`);
 
       if (response.status === 200) {
-        setIsInvalidEmail(false);
         setIsValidEmail(true);
       }
-    } catch (e) {
-      // console.log(e);
-      // 400에러일 때만 이미 존재하는 아이디 문구 띄우기
-      // api 에러 해결 후 처리
-      console.log(e);
-      setIsInvalidEmail(true);
-      setIsValidEmail(false);
+    } catch (error) {
+      setIsInValidEmail(true);
     }
   };
 
@@ -173,17 +171,16 @@ function Signup() {
     }
   };
   const checkRequired = () => {
-    // successAuth &&
     if (
-      isValidEmail &&
       isPasswordSame &&
       name &&
       email &&
+      isValidEmail &&
       password &&
       phoneNumber &&
+      successAuth &&
       birth &&
-      gender &&
-      isStoryAgree
+      gender
     ) {
       return true;
     }
@@ -199,21 +196,21 @@ function Signup() {
       phoneNumber,
       birth: birthday,
       gender,
-      snsId,
     };
     // 모든 값 필수 조건 만족시 버튼 활성화
     if (checkRequired()) {
-      const response = await axios.post("/api/users/signup", data);
-      console.log(response);
-      if (response.status === 200) {
-        router.push("/");
+      try {
+        const response = await axios.post("/api/users/signup", data);
+        console.log(response);
+        if (response.status === 200) {
+          router.push("/");
+        }
+      } catch (e) {
+        console.log(e);
       }
     }
   };
-  // useEffect(() => {
-  //   console.log(gender, isStoryAgree);
-  //   console.log(isCheckMust);
-  // }, [gender, isCheckMust, isStoryAgree]);
+
   return (
     <SignupWrapper>
       <Title>회원가입</Title>
@@ -221,7 +218,7 @@ function Signup() {
         <SnsTitle>SNS 회원가입</SnsTitle>
         <SnsList>
           <SnsItem>
-            <SnsLink className="kakao-link" href="#">
+            <SnsLink className="kakao-link" href={api_url}>
               카카오로 시작하기
             </SnsLink>
           </SnsItem>
@@ -264,16 +261,8 @@ function Signup() {
                   중복확인
                 </ValidationButton>
               </FormItem>
-              {email && isValidEmail ? (
-                <Message>사용 가능한 이메일입니다.</Message>
-              ) : (
-                <> </>
-              )}
-              {email && isInvalidEmail ? (
-                <Message>이미 사용중인 이메일입니다.</Message>
-              ) : (
-                <> </>
-              )}
+              {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
+              {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
               <FormItem>
                 <Input
                   htmlFor="password"
