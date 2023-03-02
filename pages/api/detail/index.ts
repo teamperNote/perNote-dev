@@ -5,6 +5,7 @@
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import similar from "./similar";
+import like from "./like";
 
 const prisma = new PrismaClient();
 
@@ -12,11 +13,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const id: string = req.query.id as string;
+  const perfumeId: string = req.query.perfumeId as string;
+  const userId: string = req.query.userId as string;
 
+  // INCREASE VIEWCOUNT
   await prisma.perfume.updateMany({
     where: {
-      id: id,
+      id: perfumeId,
     },
     data: {
       viewCount: {
@@ -25,9 +28,10 @@ export default async function handler(
     },
   });
 
+  // FIND PERFUME WITH ID
   const perfume = await prisma.perfume.findFirst({
     where: {
-      id: id,
+      id: perfumeId,
     },
     select: {
       id: true,
@@ -52,36 +56,38 @@ export default async function handler(
     });
   }
 
-  const perfume_detail = await prisma.perfumeDetail.findMany({
-    where: {
-      name: perfume.name_eng,
-    },
-    orderBy: {
-      ml: "asc",
-    },
-  });
-  if (!perfume_detail) {
-    return res.status(404).json({
-      message: "Error: detail - DB perfume_detail",
-    });
-  }
+  // FIND PERFUME DETAIL
+  // const perfume_detail = await prisma.perfumeDetail.findMany({
+  //   where: {
+  //     name: perfume.name_eng,
+  //   },
+  //   orderBy: {
+  //     ml: "asc",
+  //   },
+  // });
+  // if (!perfume_detail) {
+  //   return res.status(404).json({
+  //     message: "Error: detail - DB perfume_detail",
+  //   });
+  // }
 
-  if (perfume_detail.length > 0) {
-    const ml = {};
+  // if (perfume_detail.length > 0) {
+  //   const ml = {};
 
-    for (const key in perfume_detail) {
-      const loop = perfume_detail[key];
+  //   for (const key in perfume_detail) {
+  //     const loop = perfume_detail[key];
 
-      ml[loop.ml] = {
-        price: loop.price,
-        url: loop.originUrl,
-      };
-    }
+  //     ml[loop.ml] = {
+  //       price: loop.price,
+  //       url: loop.originUrl,
+  //     };
+  //   }
 
-    perfume["ml"] = ml;
-    perfume["description"] = perfume_detail[0].description;
-  }
+  //   perfume["ml"] = ml;
+  //   perfume["description"] = perfume_detail[0].description;
+  // }
 
+  // ADDS NOTES, FEATURES, PERSONALITIES
   const categoryInfo = await prisma.perfume_CategoryInfo.findFirst({
     where: {
       name_eng: perfume.name_eng,
@@ -97,14 +103,18 @@ export default async function handler(
     perfume[key] = val;
   }
 
+  // ADDS SIMLIAR PERFUMES
   const similars = await similar(perfume);
   perfume["similars"] = similars;
+
+  // CALLS LIKE INFO
+  perfume["liked"] = like(perfumeId, userId);
 
   delete perfume.concentration;
   delete perfume.gender;
 
   return res.status(200).json({
     perfume: perfume,
-    query: id,
+    query: perfumeId,
   });
 }

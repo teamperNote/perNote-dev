@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import like from "./like";
 
 const prisma = new PrismaClient();
 
@@ -12,6 +13,7 @@ export default async function handler(
   const query = req.query;
   const category = query.category as string;
   const selected = query["selected"] as string;
+  const userId = query.userId;
 
   // PERFUME OPTION
   const names = [];
@@ -52,8 +54,10 @@ export default async function handler(
     });
   }
 
+  const perfumeAfterLike = like(perfumes, userId);
+
   return res.status(200).json({
-    perfumes: perfumes,
+    perfumes: perfumeAfterLike,
     query: query,
     // categoryInfo,
     //    test
