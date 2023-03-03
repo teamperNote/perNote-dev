@@ -108,7 +108,7 @@ export default async function handler(
   perfume["similars"] = similars;
 
   // CALLS LIKE INFO
-  perfume["liked"] = like(perfumeId, userId);
+  perfume["liked"] = await like(perfumeId, userId);
 
   delete perfume.concentration;
   delete perfume.gender;
