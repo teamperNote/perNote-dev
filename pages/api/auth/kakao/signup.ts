@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,12 +20,6 @@ export default async function handler(
       const updatedUser = await prisma.user.update({
         where: { phoneNumber },
         data: {
-          name,
-          email,
-          password: hashedPassword,
-          phoneNumber,
-          birth,
-          gender,
           snsId: userId,
           snsType: "kakao",
         },

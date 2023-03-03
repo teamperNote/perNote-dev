@@ -33,5 +33,7 @@ export default async function like(perfumes, userId) {
     }
   }
 
+  await prisma.$disconnect();
+
   return perfumes;
 }

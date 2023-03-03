@@ -25,9 +25,6 @@ export default async function handler(
         has: selected,
       },
     },
-    orderBy: {
-      [orderOpt]: "desc",
-    },
   });
   if (!categoryInfo) {
     return res.status(404).json({
@@ -51,6 +48,9 @@ export default async function handler(
       imgUrl: true,
       likeCount: true,
     },
+    orderBy: {
+      [orderOpt]: "desc",
+    },
   });
   if (!perfumes) {
     return res.status(404).json({
@@ -59,6 +59,8 @@ export default async function handler(
   }
 
   const perfumeAfterLike = like(perfumes, userId);
+
+  await prisma.$disconnect();
 
   return res.status(200).json({
     perfumes: perfumeAfterLike,

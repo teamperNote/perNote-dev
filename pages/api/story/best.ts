@@ -1,9 +1,7 @@
 // 인기 스토리 반환 기능 - 좋아요 개수로 선정
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,

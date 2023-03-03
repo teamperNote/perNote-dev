@@ -16,10 +16,13 @@ export default async function handler(
   } else if (query.testId) {
     whichId = "id";
     id = query.testId;
-  } else
+  } else {
+    await prisma.$disconnect();
+
     return res.status(400).json({
       message: "Error: query doesn't have correct property.",
     });
+  }
 
   const test = await prisma.test.findMany({
     where: {
@@ -32,10 +35,14 @@ export default async function handler(
     },
   });
   if (!test || test.length > 1) {
+    await prisma.$disconnect();
+
     return res.status(200).json({
       message: "Error: personalScent/result",
     });
   }
+
+  await prisma.$disconnect();
 
   return res.status(200).json({
     perfumes: test[0].perfumes,

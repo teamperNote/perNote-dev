@@ -177,6 +177,8 @@ export default async function handler(
     },
   });
 
+  await prisma.$disconnect();
+
   // Test Result to test.tsx
   return res.status(200).json({
     testId: test.id,
