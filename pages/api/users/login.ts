@@ -1,11 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { SignJWT } from "jose";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../prisma/client";
 
 const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
-
-const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,

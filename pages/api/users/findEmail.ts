@@ -1,11 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const phoneNumber = req.query.phoneNumber as string;
 

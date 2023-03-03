@@ -1,9 +1,7 @@
 // 유저의 좋아요 여부를 포함한 전체 perfumeStory 반환
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,

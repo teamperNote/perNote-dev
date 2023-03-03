@@ -1,14 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../../prisma/client";
 
 const client_id = process.env.NAVER_CLIENT_ID;
 const client_secret = process.env.NAVER_CLIENT_SECRET;
 
 const secretKey = process.env.JWT_SECRET_KEY || "";
-
-const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,

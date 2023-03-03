@@ -1,10 +1,7 @@
 // 유저의 perfumeStory 좋아요 클릭(좋아요/ 좋아요 취소 둘다 처리)
-// 예외 처리 필요? 존재하지 않는 id가 들어오는 경우는 사실상 없긴함
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,7 +15,6 @@ export default async function handler(
     });
 
     // 잘못된 userId or storyId 로 접근하면 connect에서 에러 걸림
-    // try-catch로 에러 핸들링 필요
     if (isLiked.length === 0) {
       try {
         await prisma.storyLike.create({
