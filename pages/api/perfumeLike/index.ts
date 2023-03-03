@@ -1,9 +1,7 @@
 // 유저의 perfume 좋아요 클릭(좋아요/ 좋아요 취소 둘다 처리)
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,

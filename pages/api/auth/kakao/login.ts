@@ -1,14 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import axios from "axios";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../../prisma/client";
 
 const rest_api_key = process.env.KAKAO_REST_API_KEY || "";
 const redirect_uri = process.env.KAKAO_REDIRECT_URI || "";
 
 const secretKey = process.env.JWT_SECRET_KEY || "";
-
-const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
