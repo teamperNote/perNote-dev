@@ -69,13 +69,11 @@ function Signup() {
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
   const [failAuth, setFailAuth] = useState<boolean>(false);
 
-  const [birth, setBirth] = useState<string>("");
+  const [year, setYear] = useState<string>("");
+  const [month, setMonth] = useState<string>("");
+  const [day, setDay] = useState<string>("");
 
   const [gender, setGender] = useState<string>("");
-
-  const [isStoryAgree, setIsStoryAgree] = useState<string>("false");
-
-  const [snsId, setSnsId] = useState<string>("");
 
   const [isCheckMust, setIsCheckMust] = useState<boolean[]>([
     false,
@@ -104,8 +102,14 @@ function Signup() {
     setPhoneNumber(e.target.value);
   };
 
-  const inputBirthday = (e: any) => {
-    setBirth(e.target.value);
+  const inputYear = (e: any) => {
+    setYear(e.target.value);
+  };
+  const inputMonth = (e: any) => {
+    setMonth(e.target.value);
+  };
+  const inputDay = (e: any) => {
+    setDay(e.target.value);
   };
 
   //이메일 중복 확인
@@ -152,11 +156,11 @@ function Signup() {
   const inputAuthNumber = (e: any) => {
     setInputAuthNumber(e.target.value);
   };
-  const convertBirth = (prevBirth: string) => {
-    const year = Number(prevBirth.slice(0, 4));
-    const month = Number(prevBirth.slice(4, 6));
-    const day = Number(prevBirth.slice(6, 8));
-    const birthday = new Date(year, month - 1, day + 1);
+  const convertBirth = (year: string, month: string, day: string) => {
+    const convertYear = Number(year);
+    const convertMonth = Number(month);
+    const convertDay = Number(day);
+    const birthday = new Date(convertYear, convertMonth - 1, convertDay + 1);
     return birthday;
   };
 
@@ -179,7 +183,6 @@ function Signup() {
       password &&
       phoneNumber &&
       successAuth &&
-      birth &&
       gender
     ) {
       return true;
@@ -188,7 +191,7 @@ function Signup() {
   };
   const clickLogin = async (e: any) => {
     e.preventDefault();
-    const birthday = convertBirth(birth);
+    const birthday = convertBirth(year, month, day);
     const data = {
       email,
       name,
@@ -197,6 +200,7 @@ function Signup() {
       birth: birthday,
       gender,
     };
+    console.log(birthday);
     // 모든 값 필수 조건 만족시 버튼 활성화
     if (checkRequired()) {
       try {
@@ -324,8 +328,18 @@ function Signup() {
               <BirthDayFormItem>
                 <label htmlFor="birth">생년월일</label>
                 <div>
-                  <input type="text" placeholder="년(4자)" />
-                  <select name="month" id="month">
+                  <input
+                    type="text"
+                    placeholder="년(4자)"
+                    value={year}
+                    onChange={inputYear}
+                  />
+                  <select
+                    name="month"
+                    id="month"
+                    value={month}
+                    onChange={inputMonth}
+                  >
                     <option value="" selected>
                       월
                     </option>
@@ -333,13 +347,18 @@ function Signup() {
                       .fill(null)
                       .map((item, index) => {
                         return (
-                          <option key={index} value={index}>
+                          <option key={index} value={index + 1}>
                             {index + 1}
                           </option>
                         );
                       })}
                   </select>
-                  <input type="text" placeholder="일" />
+                  <input
+                    type="text"
+                    placeholder="일"
+                    value={day}
+                    onChange={inputDay}
+                  />
                 </div>
               </BirthDayFormItem>
               <RadioItem radioData={radioList[0]} setStateValue={setGender} />
