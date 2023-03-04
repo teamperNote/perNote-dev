@@ -152,7 +152,7 @@ export default function PersonalSurvey() {
           {page == "personality" && (
             <>
               <SubTitle margin_T={"90px"} margin_B={"92px"}>
-                당신을 가장 잘 표현한 단어는 무엇인가요?
+                당신을 가장 잘 표현한 단어는 무엇인가요? (단일 선택)
               </SubTitle>
               <TextCardContainer>
                 {personalityArray.map((data) => (
@@ -172,7 +172,7 @@ export default function PersonalSurvey() {
           {page == "feature" && (
             <>
               <SubTitle margin_B="100px">
-                당신이 원하는 향수는 어떤 느낌인가요?
+                당신이 원하는 향수는 어떤 느낌인가요? (단일 선택)
               </SubTitle>
               <TextCardContainer>
                 {charArray.map((data) => (

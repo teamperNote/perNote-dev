@@ -28,7 +28,7 @@ export default function PerfumeStory() {
   const getStoryList = async () => {
     await axios
       .get("/api/story/all", {
-        params: { userId: "63ae968c0665ea07c7c07acb" },
+        params: { userId: "64023ce1c704c82c11f5df20" },
       })
       .then((res) => {
         setStoryList({ ...storyList, isLoading: true, data: res.data });
