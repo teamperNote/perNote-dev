@@ -46,7 +46,7 @@ export default function StoryDetail() {
     await axios
       .get("/api/story", {
         // TODO 서지수 로그인 구현 후 userId 빼기
-        params: { userId: "63ae968c0665ea07c7c07acb", storyId: storyId },
+        params: { userId: "64023ce1c704c82c11f5df20", storyId: storyId },
       })
       .then(({ data }) => {
         setStory({ ...story, isLoading: true, data: data });
@@ -77,7 +77,7 @@ export default function StoryDetail() {
     }
     await axios
       .post("/api/story/like", {
-        userId: "63ae968c0665ea07c7c07acb",
+        userId: "64023ce1c704c82c11f5df20",
         storyId: story.data.targetStory.id,
       })
       .catch((err) => {
