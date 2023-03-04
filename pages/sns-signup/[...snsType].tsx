@@ -34,6 +34,7 @@ function SnsSignUp(props) {
     if (snsType) {
       setSnsName(snsType[0]);
       setUserId(snsType[1]);
+      console.log(snsName);
     }
   }, [snsName, snsType, snsUserId]);
 

@@ -4,19 +4,23 @@ import React, { useEffect } from "react";
 
 function NaverHandler(props: any) {
   const router = useRouter();
-  const data = {
-    code: props.code,
-    state: props.state,
-  };
 
   useEffect(() => {
+    const data = {
+      code: props.code,
+      state: props.state,
+    };
+
     axios.post("/api/auth/naver/login", data).then((res) => {
       console.log(res);
       if (res.data.message === "가입되지 않은 사용자입니다") {
-        router.push("/signup");
+        router.push(
+          "/sns-signup/naver",
+          `/sns-signup/kakao/${res.data.userId}`,
+        );
       }
     });
-  }, [data]);
+  }, [props.code, props.state, router]);
   return <div></div>;
 }
 

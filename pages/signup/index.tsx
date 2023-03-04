@@ -9,7 +9,11 @@ import Input from "../../components/form/Input";
 import ValidationButton from "components/form/ValidationButton";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
-const REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
+const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
+const client_id = process.env.NAVER_CLIENT_ID || "";
+const redirect_uri = process.env.NAVER_CALLBACK_URI || "";
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
+const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
 
 interface SignupProps {
   isActive: string;
@@ -48,7 +52,9 @@ const radioList = [
     text: ["동의", "비동의"],
   },
 ];
-const api_url = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=talk_message`;
+const kakao_api_url = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&scope=talk_message`;
+const naver_api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=STATE_STRING&redirect_uri=${redirect_uri}`;
+const google_request_url = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
 function Signup() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
@@ -148,7 +154,6 @@ function Signup() {
       phoneNumber,
     };
     const response = await axios.post("/api/auth/sendSMS", data);
-    console.log(response);
     const authNumber = response.data.인증번호;
     setReceivedAuthNum(authNumber);
   };
@@ -222,17 +227,17 @@ function Signup() {
         <SnsTitle>SNS 회원가입</SnsTitle>
         <SnsList>
           <SnsItem>
-            <SnsLink className="kakao-link" href={api_url}>
+            <SnsLink className="kakao-link" href={kakao_api_url}>
               카카오로 시작하기
             </SnsLink>
           </SnsItem>
           <SnsItem>
-            <SnsLink className="naver-link" href="#">
+            <SnsLink className="naver-link" href={naver_api_url}>
               네이버로 시작하기
             </SnsLink>
           </SnsItem>
           <SnsItem>
-            <SnsLink className="google-link" href="#">
+            <SnsLink className="google-link" href={google_request_url}>
               구글로 시작하기
             </SnsLink>
           </SnsItem>
