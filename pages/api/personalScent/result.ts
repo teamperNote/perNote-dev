@@ -31,10 +31,11 @@ export default async function handler(
     select: {
       chosen: true,
       perfumes: true,
+      createdAt: true,
       // perfumeIDs: true // For console
     },
   });
-  if (!test || test.length > 1) {
+  if (!test) {
     await prisma.$disconnect();
 
     return res.status(200).json({
@@ -45,7 +46,7 @@ export default async function handler(
   await prisma.$disconnect();
 
   return res.status(200).json({
-    perfumes: test[0].perfumes,
+    perfumes: test,
     // elem: testResultDB[0]
   });
 }
