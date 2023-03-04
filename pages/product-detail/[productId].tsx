@@ -2,29 +2,31 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 import NoteTag from "components/NoteTag";
-import { AiTwotoneHeart } from "react-icons/ai";
 import axios from "axios";
+import { IPerfume } from "lib/types";
 
 export default function ProductDetailPage() {
   const {
     query: { productId },
   } = useRouter();
 
-  const [isLoading, setIsLoading] = useState<boolean>();
-  const [purfumeData, setPurfumeData] = useState(null);
+  const [purfumeData, setPurfumeData] = useState<IPerfume>({
+    isLoading: false,
+    data: null,
+  });
   const getPurfumeInfo = async () => {
     await axios
       .get("/api/detail", {
         params: {
-          userId: "63ae968c0665ea07c7c07acb",
+          userId: "64023ce1c704c82c11f5df20",
           id: productId,
         },
       })
       .then(({ data: { perfume } }) => {
         console.log(perfume);
-        setIsLoading(true);
-        setPurfumeData(perfume);
+        setPurfumeData({ ...purfumeData, isLoading: true, data: perfume });
       })
       .catch((err) => {
         console.log(err);
@@ -36,20 +38,25 @@ export default function ProductDetailPage() {
       getPurfumeInfo();
     }
     return () => {
-      setPurfumeData(null);
+      setPurfumeData({
+        isLoading: false,
+        data: null,
+      });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
   return (
     <>
-      {isLoading && (
+      {purfumeData.isLoading && (
         <ProductDetailContainer>
           <AboutProduct>
             <ImageContainer>
               <MainImage
                 src={
-                  purfumeData.imgUrl == "" ? "/noImage.png" : purfumeData.imgUrl
+                  purfumeData.data.imgUrl == ""
+                    ? "/noImage.png"
+                    : purfumeData.data.imgUrl
                 }
               />
               {/* <SubImageContainer>
@@ -59,21 +66,38 @@ export default function ProductDetailPage() {
             </ImageContainer>
             <InformationContainer>
               <ProductInfo>
-                <BrandName>{purfumeData.brand_eng}</BrandName>
+                <BrandName>{purfumeData.data.brand_eng}</BrandName>
                 <NameBox>
                   <NameIconContainer>
                     <KorName>제품명</KorName>
                     {/* TODO 서지수 liked 추가되면 수정하기 */}
-                    <AiTwotoneHeart size="50px" fill={"#6E7C65"} />
+                    <Image
+                      src={
+                        purfumeData.data.liked
+                          ? "/second_heartFillIcon.svg"
+                          : "/second_heartIcon.svg"
+                      }
+                      alt={purfumeData.data.liked ? "like" : "unlike"}
+                      width={40}
+                      height={36.7}
+                    />
+                    <CountSapn>{purfumeData.data.likeCount}</CountSapn>
+                    <Image
+                      src={"/second_viewIcon.svg"}
+                      alt={"조회수 아이콘"}
+                      width={40}
+                      height={36.7}
+                    />
+                    <CountSapn>{purfumeData.data.viewCount}</CountSapn>
                   </NameIconContainer>
-                  <EngName>{purfumeData.name_eng}</EngName>
+                  <EngName>{purfumeData.data.name_eng}</EngName>
                 </NameBox>
                 {/* <PriceBox>
                   <PriceText>공식 홈페이지 가격</PriceText>
                   <Price>
-                    {purfumeData.price === ""
+                    {purfumeData.data.price === ""
                       ? "가격 미표기"
-                      : `${purfumeData.price}원`}
+                      : `${purfumeData.data.price}원`}
                   </Price>
                 </PriceBox> */}
               </ProductInfo>
@@ -81,36 +105,39 @@ export default function ProductDetailPage() {
                 <PerfumeInfoBox>
                   <CategoryTitle>노트</CategoryTitle>
                   <TagBox>
-                    {/* TODO 서지수 note 배열로 수정되면 수정하기 */}
-                    {/* {purfumeData.notes.map((note, idx) => (
+                    {purfumeData.data.note.map((note, idx) => (
                       <NoteTag
                         key={idx}
                         from={"ProductDetailPage"}
                         text={note.toUpperCase()}
                       />
-                    ))} */}
-                    <NoteTag
-                      from={"ProductDetailPage"}
-                      text={purfumeData.note.toUpperCase()}
-                    />
+                    ))}
                   </TagBox>
                 </PerfumeInfoBox>
-                {/* <PerfumeInfoBox>
+                <PerfumeInfoBox>
                   <CategoryTitle>성격</CategoryTitle>
                   <TagBox>
-                    <NoteTag text={"AQUATIC"} />
-                    <NoteTag text={"WOODY"} />
+                    {purfumeData.data.personality.map((personality, idx) => (
+                      <NoteTag
+                        key={idx}
+                        from={"ProductDetailPage"}
+                        text={personality.toUpperCase()}
+                      />
+                    ))}
                   </TagBox>
                 </PerfumeInfoBox>
                 <PerfumeInfoBox>
                   <CategoryTitle>특징</CategoryTitle>
                   <TagBox>
-                    <NoteTag text={"AQUATIC"} />
-                    <NoteTag text={"WOODY"} />
-                    <NoteTag text={"AQUATIC"} />
-                    <NoteTag text={"WOODY"} />
+                    {purfumeData.data.feature.map((feature, idx) => (
+                      <NoteTag
+                        key={idx}
+                        from={"ProductDetailPage"}
+                        text={feature.toUpperCase()}
+                      />
+                    ))}
                   </TagBox>
-                </PerfumeInfoBox> */}
+                </PerfumeInfoBox>
               </PerfumeInfo>
               {/* <PriceInfo>
                 <div>최저가비교</div>
@@ -123,27 +150,36 @@ export default function ProductDetailPage() {
             {/* <DescriptionBox>
               <DescriptionTitle>상세설명</DescriptionTitle>
               <DescriptionContent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dui,
-                crastempus, facilisi diam vel in duis dictum nec.
+                향수 설명
               </DescriptionContent>
             </DescriptionBox> */}
             <DescriptionBox>
               <DescriptionTitle>탑노트</DescriptionTitle>
-              <DescriptionContent>{purfumeData.top}</DescriptionContent>
+              <DescriptionContent>
+                {purfumeData.data.top == "xxxx" ? "-" : purfumeData.data.top}
+              </DescriptionContent>
             </DescriptionBox>
             <DescriptionBox>
               <DescriptionTitle>미들노트</DescriptionTitle>
-              <DescriptionContent>{purfumeData.middle}</DescriptionContent>
+              <DescriptionContent>
+                {purfumeData.data.middle == "xxxx"
+                  ? "-"
+                  : purfumeData.data.middle}
+              </DescriptionContent>
             </DescriptionBox>
             <DescriptionBox>
               <DescriptionTitle>베이스노트</DescriptionTitle>
-              <DescriptionContent>{purfumeData.bottom}</DescriptionContent>
+              <DescriptionContent>
+                {purfumeData.data.bottom == "xxxx"
+                  ? "-"
+                  : purfumeData.data.bottom}
+              </DescriptionContent>
             </DescriptionBox>
           </DescriptionContainer>
           <SimilarsContainer>
             <SimilarsTitle>비슷한 향수를 추천합니다</SimilarsTitle>
             <SimilarsCardBox>
-              {purfumeData.similars.map((similar) => (
+              {purfumeData.data.similars.map((similar) => (
                 <Link href={similar.id} key={similar.id}>
                   <SimilarsCard>
                     <SimilarImg
@@ -240,6 +276,13 @@ const EngName = styled(Span)`
   line-height: 51px;
 `;
 
+const CountSapn = styled(Span)`
+  font-size: 36px;
+  line-height: 37px;
+  margin-left: 10px;
+  margin-right: 20px;
+`;
+
 // const PriceBox = styled.div``;
 
 // const PriceText = styled(Span)`
@@ -257,17 +300,19 @@ const PerfumeInfo = styled.div`
 
 const PerfumeInfoBox = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 45px;
 `;
 
 const CategoryTitle = styled(Span)`
   font-weight: 700;
-  margin-right: 50px;
+  margin-right: 35px;
 `;
 
 const TagBox = styled.div`
   display: flex;
+  width: 594px;
+  flex-wrap: wrap;
 `;
 
 // const PriceInfo = styled.div`
