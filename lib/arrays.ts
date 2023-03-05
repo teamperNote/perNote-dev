@@ -191,7 +191,7 @@ export const personalityArray: ICategory[] = [
   },
 ];
 
-export const charArray: ICategory[] = [
+export const featureArray: ICategory[] = [
   {
     id: 0,
     value: "intense",
@@ -437,7 +437,7 @@ export const categoryArray: ICategory[] = [
   {
     id: 3,
     value: "feature",
-    url: `feature/${charArray[0].value}`,
+    url: `feature/${featureArray[0].value}`,
     text: "향수의 특징",
   },
 ];

@@ -104,7 +104,7 @@ export default function StoryDetail() {
                 <HeaderTitle>{story.data.targetStory.title}</HeaderTitle>
                 <IconBox onClick={onLikeClick}>
                   <IconImg
-                    src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+                    src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
                   />
                   <IconSpan>{likeCounts}</IconSpan>
                 </IconBox>
@@ -117,7 +117,6 @@ export default function StoryDetail() {
           </StoryDetailHeader>
           <ContentContainer>
             <ContentBox>
-              <SubTitle>subtitle</SubTitle>
               <ContentText>{story.data.targetStory.body}</ContentText>
               <TagBox>
                 {story.data.targetStory.tags.map((tag, idx) => (
@@ -165,7 +164,7 @@ export default function StoryDetail() {
               </ShareIconBox>
               <ShareIconBox onClick={onLikeClick}>
                 <ShareIcon
-                  src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+                  src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
                 />
               </ShareIconBox>
             </ShareBox>
@@ -274,12 +273,8 @@ const ContentBox = styled.div`
   margin-bottom: 110px;
 `;
 
-const SubTitle = styled(HeaderDate)`
+const ContentText = styled(HeaderDate)`
   color: var(--black-color);
-  margin-bottom: 35px;
-`;
-
-const ContentText = styled(SubTitle)`
   font-size: 35px;
   line-height: 51px;
   margin-bottom: 100px;

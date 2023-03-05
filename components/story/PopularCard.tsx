@@ -59,7 +59,7 @@ export default function PopularCard({
           <HeartBox>
             <StoryCardOutlineHeart
               id={"heart"}
-              src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+              src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
             />
             <HeartCount id={"heart"}>{likeCounts}</HeartCount>
           </HeartBox>

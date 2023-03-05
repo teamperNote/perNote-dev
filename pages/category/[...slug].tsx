@@ -9,7 +9,7 @@ import SortDropDown from "components/category/SortDropDown";
 import {
   alphabetArray,
   categoryArray,
-  charArray,
+  featureArray,
   noteArray,
   personalityArray,
   sortArray,
@@ -30,7 +30,8 @@ export default function Category() {
     }
   }, [slug]);
 
-  const [purfume, setPurfume] = useState({ isLoading: false, data: [] });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [purfume, setPurfume] = useState([]);
   const [sort, setSort] = useState(sortArray[0].value);
   const getCategoryPerfume = (category: string, selected: string) => {
     axios
@@ -43,34 +44,25 @@ export default function Category() {
         },
       })
       .then((res) => {
-        setPurfume({
-          ...purfume,
-          isLoading: true,
-          data: res.data.perfumes,
-        });
+        setIsLoading(true);
+        setPurfume(res.data.perfumes);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const [brandList, setBrandList] = useState({ isLoading: false, data: [] });
+  const [brandList, setBrandList] = useState([]);
   const getBrand = () => {
     axios
       .get("/api/category/brandList")
       .then((res) => {
         if (alphabetArray.find((x) => x.value === selected)) {
-          setBrandList({
-            ...brandList,
-            isLoading: true,
-            data: [[selected, [res.data.dict[selected]][0]]],
-          });
+          setIsLoading(true);
+          setBrandList([[selected, [res.data.dict[selected]][0]]]);
         } else {
-          setBrandList({
-            ...brandList,
-            isLoading: true,
-            data: Object.entries(res.data.dict),
-          });
+          setIsLoading(true);
+          setBrandList(Object.entries(res.data.dict));
         }
       })
       .catch((err) => {
@@ -78,8 +70,9 @@ export default function Category() {
       });
   };
   useEffect(() => {
-    setBrandList({ ...brandList, isLoading: false, data: [] });
-    setPurfume({ ...purfume, isLoading: false, data: [] });
+    setIsLoading(false);
+    setBrandList([]);
+    setPurfume([]);
     if (category === "brand") {
       if (brandName === undefined) {
         getBrand();
@@ -98,69 +91,75 @@ export default function Category() {
 
   return (
     <CategoryContainer>
-      <CategoryBox>
-        {categoryArray.map((data) => (
-          <Link key={data.id} href={data.url}>
-            <CategoryTitle className={category === data.value ? "focus" : ""}>
-              {data.text}
-            </CategoryTitle>
-          </Link>
-        ))}
-      </CategoryBox>
-      <SelectBox category={category}>
-        {(category === "note"
-          ? noteArray
-          : category === "brand"
-          ? alphabetArray
-          : category === "personality"
-          ? personalityArray
-          : charArray
-        ).map((data) => (
-          <CategorySelect
-            key={data.id}
-            data={data}
-            category={category}
-            selected={selected}
-          />
-        ))}
-      </SelectBox>
-      {(category !== "brand" || brandName !== undefined) && (
-        <SortBox>
-          <SortDropDown sort={sort} setSort={setSort} />
-        </SortBox>
-      )}
-      {category !== "brand" ? (
-        <CardBox>
-          {purfume.data.map((data) => (
-            <CategoryCard key={data.id} data={data} from={"Category"} />
-          ))}
-        </CardBox>
-      ) : brandName === undefined ? (
-        <CategoryBrandBox>
-          {brandList.data.map((alphabet) => (
-            <BrandBox key={alphabet[0]}>
-              <BrandSpan>{alphabet[0]}</BrandSpan>
+      {isLoading && (
+        <>
+          <CategoryBox>
+            {categoryArray.map((data) => (
+              <Link key={data.id} href={data.url}>
+                <CategoryTitle
+                  className={category === data.value ? "focus" : ""}
+                >
+                  {data.text}
+                </CategoryTitle>
+              </Link>
+            ))}
+          </CategoryBox>
+          <SelectBox category={category}>
+            {(category === "note"
+              ? noteArray
+              : category === "brand"
+              ? alphabetArray
+              : category === "personality"
+              ? personalityArray
+              : featureArray
+            ).map((data) => (
+              <CategorySelect
+                key={data.id}
+                data={data}
+                category={category}
+                selected={selected}
+              />
+            ))}
+          </SelectBox>
+          {(category !== "brand" || brandName !== undefined) && (
+            <SortBox>
+              <SortDropDown sort={sort} setSort={setSort} />
+            </SortBox>
+          )}
+          {category !== "brand" ? (
+            <CardBox>
+              {purfume.map((data) => (
+                <CategoryCard key={data.id} data={data} from={"Category"} />
+              ))}
+            </CardBox>
+          ) : brandName === undefined ? (
+            <CategoryBrandBox>
+              {brandList.map((alphabet) => (
+                <BrandBox key={alphabet[0]}>
+                  <BrandSpan>{alphabet[0]}</BrandSpan>
+                  <CardBox>
+                    {alphabet[1].map((brand) => (
+                      <CategoryCard
+                        key={brand.id}
+                        alphabet={alphabet[0]}
+                        data={brand}
+                        from={"CategoryBrand"}
+                      />
+                    ))}
+                  </CardBox>
+                </BrandBox>
+              ))}
+            </CategoryBrandBox>
+          ) : (
+            <>
+              <BrandSpan>{brandName}</BrandSpan>
               <CardBox>
-                {alphabet[1].map((brand) => (
-                  <CategoryCard
-                    key={brand.id}
-                    alphabet={alphabet[0]}
-                    data={brand}
-                    from={"CategoryBrand"}
-                  />
+                {purfume.map((data) => (
+                  <CategoryCard key={data.id} data={data} from={"Category"} />
                 ))}
               </CardBox>
-            </BrandBox>
-          ))}
-        </CategoryBrandBox>
-      ) : (
-        <>
-          <BrandSpan>{brandName}</BrandSpan>
-          <CardBox>
-            {purfume.data.map((data) => (
-              <CategoryCard key={data.id} data={data} from={"Category"} />
-            ))}
-          </CardBox>
+            </>
+          )}
         </>
       )}
     </CategoryContainer>

@@ -8,23 +8,28 @@ import { BsLink45Deg } from "react-icons/bs";
 import {
   genderArray,
   concentrationArray,
+  seasonArray,
+  colorArray,
   personalityArray,
-  charArray,
+  featureArray,
 } from "lib/arrays";
+import { IChosen } from "lib/types";
 
 export default function PersonalScent() {
   const router = useRouter();
   const { testId } = router.query;
 
   const [isLoading, setIsLoading] = useState(false);
+  const [chosen, setChosen] = useState<IChosen>(null);
   const [top5, setTop5] = useState([]);
-  const getTop5 = () => {
-    axios
+  const getTop5 = async () => {
+    await axios
       .get("/api/personalScent/result", {
         params: { testId: testId },
       })
-      .then((res) => {
-        setTop5(res.data.perfumes);
+      .then(({ data: { testResult } }) => {
+        setChosen(testResult.chosen);
+        setTop5(testResult.perfumes);
         setIsLoading(true);
       })
       .catch((err) => {
@@ -32,9 +37,13 @@ export default function PersonalScent() {
       });
   };
   useEffect(() => {
-    if (testId !== undefined) {
+    if (testId) {
       getTop5();
     }
+    return () => {
+      setChosen(null);
+      setTop5([]);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testId]);
 
@@ -60,30 +69,46 @@ export default function PersonalScent() {
     <RecommendationContainer>
       {isLoading && (
         <>
-          <Title>당신에게 이 향수를 추천합니다</Title>
-          {/* TODO 서지수 범석님 api 수정되면 추가하기 */}
-          {/* <TagBox>
+          <Title>당신에게 이 향수를 추천합니다.</Title>
+          <TagBox>
             <RecommendationTag>
               <TagText>
-                {genderArray.find((x) => x.value === gender).text}
+                {genderArray.find((x) => x.value === chosen.gender).text}
               </TagText>
             </RecommendationTag>
             <RecommendationTag>
               <TagText>
-                {concentrationArray.find((x) => x.value === concentration).text}
+                {
+                  concentrationArray.find(
+                    (x) => x.value === chosen.concentration,
+                  ).text
+                }
               </TagText>
             </RecommendationTag>
             <RecommendationTag>
               <TagText>
-                {personalityArray.find((x) => x.value === personality).text}
+                {seasonArray.find((x) => x.value === chosen.season).text}
               </TagText>
             </RecommendationTag>
             <RecommendationTag>
               <TagText>
-                {charArray.find((x) => x.value === feature).text}
+                {colorArray.find((x) => x.value === chosen.color).text}
               </TagText>
             </RecommendationTag>
-          </TagBox> */}
+            <RecommendationTag>
+              <TagText>
+                {
+                  personalityArray.find((x) => x.value === chosen.personality)
+                    .text
+                }
+              </TagText>
+            </RecommendationTag>
+            <RecommendationTag>
+              <TagText>
+                {featureArray.find((x) => x.value === chosen.feature).text}
+              </TagText>
+            </RecommendationTag>
+          </TagBox>
           <PerfumeImage
             src={top5[0].imgUrl ? top5[0].imgUrl : "/noImage.png"}
           />
