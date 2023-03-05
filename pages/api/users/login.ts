@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { SignJWT } from "jose";
+import { EncryptJWT } from "jose";
 import bcrypt from "bcrypt";
 import prisma from "../../../prisma/client";
 
@@ -28,19 +28,17 @@ export default async function handler(
       });
     }
 
-    const alg = "HS256";
+    const accessToken = await new EncryptJWT({ "urn:example:claim": true })
+      .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256" })
+      .setIssuer(user.id)
+      .setExpirationTime("1h")
+      .encrypt(secretKey);
 
-    const accessToken = await new SignJWT({ "urn:example:claim": true })
-      .setProtectedHeader({ alg })
-      .setIssuer(user.email)
-      .setExpirationTime("1s")
-      .sign(secretKey);
-
-    const refreshToken = await new SignJWT({ "urn:example:claim": true })
-      .setProtectedHeader({ alg })
-      .setIssuer(user.email)
+    const refreshToken = await new EncryptJWT({ "urn:example:claim": true })
+      .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256" })
+      .setIssuer(user.id)
       .setExpirationTime("14d")
-      .sign(secretKey);
+      .encrypt(secretKey);
 
     return res.status(200).json({
       user,
