@@ -1,13 +1,19 @@
 // 인기 스토리 반환 기능 - 좋아요 개수로 선정
 
 import type { NextApiRequest, NextApiResponse } from "next";
+import { jwtDecrypt } from "jose";
 import prisma from "../../../prisma/client";
+
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { userId } = req.body;
+  const role = req.headers.authorization;
+
+  const isLiked = [];
+  const allStoryIdForUserLike = [];
 
   const allStories = await prisma.story.findMany({
     orderBy: {
@@ -16,17 +22,19 @@ export default async function handler(
   });
   const bestStories = allStories.slice(0, 5);
 
-  const isLiked = [];
-  const allStoryIdForUserLike = [];
-
   // 1. 비로그인 유저
-  if (!userId) {
+  if (!role) {
     bestStories.forEach((value: any) => {
       isLiked.push(Object.assign(value, { liked: false }));
     });
   }
   // 2. 로그인 유저
   else {
+    const accessToken = role.split("Bearer ")[1];
+
+    const { payload } = await jwtDecrypt(accessToken, secretKey, {});
+
+    const userId = payload.iss;
     const allStoryLikeForUser = await prisma.storyLike.findMany({
       where: { userId },
       include: {
@@ -36,6 +44,7 @@ export default async function handler(
     allStoryLikeForUser.forEach((value: any) => {
       allStoryIdForUserLike.push(value.story.id);
     });
+
     bestStories.forEach((value: any) => {
       if (allStoryIdForUserLike.includes(value.id)) {
         isLiked.push(Object.assign(value, { liked: true }));
