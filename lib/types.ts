@@ -33,3 +33,12 @@ export interface IPerfume {
     }[];
   } | null;
 }
+
+export interface IChosen {
+  gender: string;
+  concentration: string;
+  season: string;
+  color: string;
+  personality: string;
+  feature: string;
+}
