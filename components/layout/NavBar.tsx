@@ -17,6 +17,7 @@ export default function NavBar() {
     localStorage.removeItem("user");
     setUser(localStorage.getItem("user"));
     axiosInstance.defaults.headers.Authorization = "";
+    router.push("/");
   };
   // 카테고리 드랍다운 표시 여부
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
