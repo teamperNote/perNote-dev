@@ -30,7 +30,14 @@ export default async function handler(
     },
     select: {
       chosen: true,
-      perfumes: true,
+      perfumes: {
+        select: {
+          id: true,
+          imgUrl: true,
+          brand_eng: true,
+          name_eng: true,
+        },
+      },
       createdAt: true,
       // perfumeIDs: true // For console
     },
@@ -43,10 +50,21 @@ export default async function handler(
     });
   }
 
+  const result = {};
+  result["chosen"] = {
+    gender: test[0].chosen[0],
+    concentration: test[0].chosen[1],
+    season: test[0].chosen[2],
+    color: test[0].chosen[3],
+    personality: test[0].chosen[4],
+    feature: test[0].chosen[5],
+  };
+  result["perfumes"] = test[0].perfumes;
+
   await prisma.$disconnect();
 
   return res.status(200).json({
-    perfumes: test,
+    testResult: test[0],
     // elem: testResultDB[0]
   });
 }

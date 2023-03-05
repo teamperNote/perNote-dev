@@ -15,6 +15,15 @@ export default async function handler(
 ) {
   const perfumeId: string = req.query.perfumeId as string;
   const userId: string = req.query.userId as string;
+  if (!perfumeId) {
+    return res.status(400).json({
+      message: "Error: No perfumeId",
+    });
+  } else if (!userId) {
+    return res.status(400).json({
+      message: "Error: No userId",
+    });
+  }
 
   // INCREASE VIEWCOUNT
   await prisma.perfume.updateMany({
