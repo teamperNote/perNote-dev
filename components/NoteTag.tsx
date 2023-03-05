@@ -12,6 +12,7 @@ const TagContainer = styled.span<{ from: string }>`
   border-radius: 100px;
   margin-right: ${({ from }) =>
     from === "PopularCard" || from === "StoryCard" ? "10px" : "25px"};
+  margin-bottom: ${({ from }) => from === "ProductDetailPage" && "15px"};
 
   font-family: "Noto Sans KR";
   font-style: normal;

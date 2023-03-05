@@ -13,12 +13,11 @@ export default async function like(perfumeId, userId) {
   else {
     const likeCheck = await prisma.perfumeLike.findMany({
       where: {
-        userId: userId,
-        perfumeId: perfumeId,
+        AND: [{ userId: userId }, { perfumeId: perfumeId }],
       },
     });
 
-    isLiked = likeCheck ? true : false;
+    isLiked = likeCheck.length > 0 ? true : false;
   }
 
   await prisma.$disconnect();

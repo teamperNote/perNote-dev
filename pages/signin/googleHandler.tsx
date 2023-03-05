@@ -15,10 +15,13 @@ function GoogleHandler() {
     axios.post("/api/auth/google/login", data).then((res) => {
       console.log(res);
       if (res.data.message === "가입되지 않은 사용자입니다") {
-        router.push("/signup");
+        router.push(
+          "/sns-signup/google",
+          `/sns-signup/google/${res.data.userId}`,
+        );
       }
     });
-  }, []);
+  }, [router]);
   return <div></div>;
 }
 export default GoogleHandler;

@@ -58,7 +58,7 @@ export default async function handler(
     });
   }
 
-  const perfumeAfterLike = like(perfumes, userId);
+  const perfumeAfterLike = await like(perfumes, userId);
 
   await prisma.$disconnect();
 

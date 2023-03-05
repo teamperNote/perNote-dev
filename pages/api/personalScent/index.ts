@@ -160,11 +160,11 @@ export default async function handler(
   // CREATE CHOSEN COLUMN
   const chosen = [
     userGender,
+    userConcen,
     userSeason,
     userColor,
     userPersonal,
     userFeature,
-    userConcen,
   ];
   // CREATE TEST DATA
   const test = await prisma.test.create({

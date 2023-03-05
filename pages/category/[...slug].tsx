@@ -36,7 +36,7 @@ export default function Category() {
     axios
       .get("/api/category", {
         params: {
-          userId: "63ae968c0665ea07c7c07acb",
+          userId: "64023ce1c704c82c11f5df20",
           category: category,
           selected: selected,
           orderOpt: sort,

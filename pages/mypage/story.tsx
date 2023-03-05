@@ -2,7 +2,7 @@ import RowStoryCard from "components/story/RowStoryCard";
 import React, { useState } from "react";
 import styled from "styled-components";
 import SortDropDown from "components/category/SortDropDown";
-import { sortArray } from "lib/modules";
+import { sortArray } from "lib/arrays";
 function Story() {
   const [sort, setSort] = useState(sortArray[0].value);
 
