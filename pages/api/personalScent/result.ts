@@ -64,7 +64,7 @@ export default async function handler(
   await prisma.$disconnect();
 
   return res.status(200).json({
-    testResult: test[0],
+    testResult: result,
     // elem: testResultDB[0]
   });
 }
