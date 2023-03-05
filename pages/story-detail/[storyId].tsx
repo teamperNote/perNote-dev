@@ -104,7 +104,7 @@ export default function StoryDetail() {
                 <HeaderTitle>{story.data.targetStory.title}</HeaderTitle>
                 <IconBox onClick={onLikeClick}>
                   <IconImg
-                    src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+                    src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
                   />
                   <IconSpan>{likeCounts}</IconSpan>
                 </IconBox>
@@ -165,7 +165,7 @@ export default function StoryDetail() {
               </ShareIconBox>
               <ShareIconBox onClick={onLikeClick}>
                 <ShareIcon
-                  src={isLike ? "/heartFillIcon.png" : "/heatIcon.png"}
+                  src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
                 />
               </ShareIconBox>
             </ShareBox>
