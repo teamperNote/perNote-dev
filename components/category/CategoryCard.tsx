@@ -69,7 +69,13 @@ export default function CategoryCard({ alphabet, data, from }: Props) {
       onMouseOver={() => setIsShow(true)}
       onMouseLeave={() => setIsShow(false)}
     >
-      <CategoryCardImg src={data.imgUrl ? data.imgUrl : "/noImage.png"} />
+      <CategoryCardImg
+        src={
+          data.imgUrl == "" || data.imgUrl == "xxxx"
+            ? "/noImage.png"
+            : data.imgUrl
+        }
+      />
       {isShow && (
         <Filter>
           {from == "Category" && (
