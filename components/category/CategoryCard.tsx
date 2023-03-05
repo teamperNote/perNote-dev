@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import axios from "axios";
+import Image from "next/image";
 
 interface Props {
   alphabet?: string;
@@ -10,6 +11,8 @@ interface Props {
     imgUrl: string;
     brand_eng: string;
     name_eng: string;
+    liked: boolean;
+    likeCount: number;
   };
   from: string;
 }
@@ -19,41 +22,79 @@ export default function CategoryCard({ alphabet, data, from }: Props) {
   const { slug } = router.query;
 
   const [isShow, setIsShow] = useState(false);
-  return (
-    <Link
-      href={
+
+  // 좋아요 기능
+  const [isLike, setIsLike] = useState<boolean>(data.liked);
+  const [likeCounts, setLikeCounts] = useState<number>(data.likeCount);
+
+  const onLinkClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLDivElement).id.includes("heart")) {
+      onLikeClick();
+    } else {
+      router.push(
         slug[0] === "brand" && slug[2] === undefined
           ? `brand/${alphabet}/${data.name_eng}`
-          : `/product-detail/${data.id}`
-      }
+          : `/product-detail/${data.id}`,
+      );
+    }
+  };
+
+  const onLikeClick = async () => {
+    if (isLike) {
+      setIsLike(false);
+      setLikeCounts(likeCounts - 1);
+    } else {
+      setIsLike(true);
+      setLikeCounts(likeCounts + 1);
+    }
+    await axios
+      .post("/api/perfumeLike", {
+        perfumeId: data.id,
+        userId: "64023ce1c704c82c11f5df20",
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return (
+    // <Link
+    //   href={
+    //     slug[0] === "brand" && slug[2] === undefined
+    //       ? `brand/${alphabet}/${data.name_eng}`
+    //       : `/product-detail/${data.id}`
+    //   }
+    // >
+    <CategoryCardContainer
+      onClick={onLinkClick}
+      onMouseOver={() => setIsShow(true)}
+      onMouseLeave={() => setIsShow(false)}
     >
-      <CategoryCardContainer
-        onMouseOver={() => setIsShow(true)}
-        onMouseLeave={() => setIsShow(false)}
-      >
-        <CategoryCardImg src={data.imgUrl} />
-        {isShow && (
-          <Filter>
-            {from == "Category" && (
-              <HeartBox>
-                {/* TODO 서지수 마우스 올라가면 빨간 하트로 변경 해야함 */}
-                {/* TODO 서지수 좋아요 여부에 따라 빨간 하트 */}
-                <StoryCardOutlineHeart src="/heatIcon.png" />
-                {/* TODO 좋아요 갯수 반영 */}
-                <HeartCount>108</HeartCount>
-              </HeartBox>
-            )}
-            <BrandName>
-              {/* TODO 서지수 브랜드 name_eng -> brand_eng으로 수정되면 수정하기 */}
-              {slug[0] === "brand" && slug[2] === undefined
-                ? data.name_eng
-                : data.brand_eng}
-            </BrandName>
-            {from == "Category" && <PurfumeName>{data.name_eng}</PurfumeName>}
-          </Filter>
-        )}
-      </CategoryCardContainer>
-    </Link>
+      <CategoryCardImg src={data.imgUrl ? data.imgUrl : "/noImage.png"} />
+      {isShow && (
+        <Filter>
+          {from == "Category" && (
+            <HeartBox>
+              <Image
+                src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
+                alt={`${isLike ? "like" : "unlike"} icon`}
+                width={40}
+                height={36.7}
+                id={"heart"}
+              />
+              <HeartCount id={"heart"}>{likeCounts}</HeartCount>
+            </HeartBox>
+          )}
+          <BrandName>
+            {/* TODO 서지수 브랜드 name_eng -> brand_eng으로 수정되면 수정하기 */}
+            {slug[0] === "brand" && slug[2] === undefined
+              ? data.name_eng
+              : data.brand_eng}
+          </BrandName>
+          {from == "Category" && <PurfumeName>{data.name_eng}</PurfumeName>}
+        </Filter>
+      )}
+    </CategoryCardContainer>
+    // </Link>
   );
 }
 
@@ -82,6 +123,7 @@ const Filter = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 `;
 
 const HeartBox = styled.div`
