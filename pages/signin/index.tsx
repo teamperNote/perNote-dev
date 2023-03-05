@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import KaKaoLogin from "./kakao-login";
 import GoogleLogin from "./google-login";
@@ -14,6 +14,8 @@ import LoginModal from "components/login/LoginModal";
 const cookies = new Cookies();
 function Login() {
   const router = useRouter();
+
+  const [user, setUser] = useState({});
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [userError, setUserError] = useState<string>("");
@@ -70,7 +72,13 @@ function Login() {
         setShowErrorModal(true);
       });
   };
-
+  useEffect(() => {
+    //redirect 깜빡임 현상 해결하기
+    setUser(localStorage.getItem("user"));
+    if (user) {
+      router.push("/");
+    }
+  }, [router, user]);
   return (
     <Container>
       <LoginBox>

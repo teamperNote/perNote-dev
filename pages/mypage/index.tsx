@@ -1,11 +1,21 @@
 import Input from "components/form/Input";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ValidationButton from "components/form/ValidationButton";
 import RadioItem from "components/form/RadioButton";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function MyPage() {
+  const [user, setUser] = useState({});
+  const router = useRouter();
+  useEffect(() => {
+    setUser(localStorage.getItem("uese"));
+  }, []);
+
+  if (!user) {
+    router.push("/signin");
+  }
   return (
     <MypageContainer>
       <ProfileImageContainer>
