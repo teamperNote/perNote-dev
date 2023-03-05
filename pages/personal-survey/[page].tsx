@@ -7,7 +7,7 @@ import {
   seasonArray,
   colorArray,
   personalityArray,
-  charArray,
+  featureArray,
 } from "lib/arrays";
 import axios from "axios";
 
@@ -175,7 +175,7 @@ export default function PersonalSurvey() {
                 당신이 원하는 향수는 어떤 느낌인가요? (단일 선택)
               </SubTitle>
               <TextCardContainer>
-                {charArray.map((data) => (
+                {featureArray.map((data) => (
                   <TextCard
                     key={data.id}
                     onClick={() => {

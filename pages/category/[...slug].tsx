@@ -9,7 +9,7 @@ import SortDropDown from "components/category/SortDropDown";
 import {
   alphabetArray,
   categoryArray,
-  charArray,
+  featureArray,
   noteArray,
   personalityArray,
   sortArray,
@@ -114,7 +114,7 @@ export default function Category() {
           ? alphabetArray
           : category === "personality"
           ? personalityArray
-          : charArray
+          : featureArray
         ).map((data) => (
           <CategorySelect
             key={data.id}
