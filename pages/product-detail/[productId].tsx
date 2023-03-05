@@ -21,12 +21,14 @@ export default function ProductDetailPage() {
       .get("/api/detail", {
         params: {
           userId: "64023ce1c704c82c11f5df20",
-          id: productId,
+          perfumeId: productId,
         },
       })
       .then(({ data: { perfume } }) => {
         console.log(perfume);
         setPurfumeData({ ...purfumeData, isLoading: true, data: perfume });
+        setIsLike(perfume.liked);
+        setLikeCounts(perfume.likeCount);
       })
       .catch((err) => {
         console.log(err);
@@ -45,6 +47,27 @@ export default function ProductDetailPage() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
+
+  // 좋아요 기능
+  const [isLike, setIsLike] = useState<boolean>(false);
+  const [likeCounts, setLikeCounts] = useState<number>(0);
+  const onLikeClick = async () => {
+    if (isLike) {
+      setIsLike(false);
+      setLikeCounts(likeCounts - 1);
+    } else {
+      setIsLike(true);
+      setLikeCounts(likeCounts + 1);
+    }
+    await axios
+      .post("/api/perfumeLike", {
+        perfumeId: purfumeData.data.id,
+        userId: "64023ce1c704c82c11f5df20",
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -73,15 +96,16 @@ export default function ProductDetailPage() {
                     {/* TODO 서지수 liked 추가되면 수정하기 */}
                     <Image
                       src={
-                        purfumeData.data.liked
+                        isLike
                           ? "/second_heartFillIcon.svg"
                           : "/second_heartIcon.svg"
                       }
-                      alt={purfumeData.data.liked ? "like" : "unlike"}
+                      alt={`${isLike ? "like" : "unlike"} icon`}
                       width={40}
                       height={36.7}
+                      onClick={onLikeClick}
                     />
-                    <CountSapn>{purfumeData.data.likeCount}</CountSapn>
+                    <CountSapn>{likeCounts}</CountSapn>
                     <Image
                       src={"/second_viewIcon.svg"}
                       alt={"조회수 아이콘"}
