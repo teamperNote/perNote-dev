@@ -12,7 +12,7 @@ export default async function handler(
     const { email, refreshToken } = req.body;
 
     try {
-      await jwtVerify(refreshToken, secretKey, {});
+      await jwtVerify(refreshToken, secretKey);
 
       const user = await prisma.user.findUnique({
         where: { email },
@@ -33,7 +33,11 @@ export default async function handler(
       // refreshToken 만료
       if (error.code === "ERR_JWT_EXPIRED") {
         return res.status(400).json({
-          message: "RefreshToken Expired",
+          message: "RefreshToken expired",
+        });
+      } else {
+        return res.status(400).json({
+          message: "Not a valid refreshToken",
         });
       }
     }
