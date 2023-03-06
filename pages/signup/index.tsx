@@ -56,7 +56,6 @@ const naver_api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=co
 const google_request_url = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
 function Signup() {
   const router = useRouter();
-  const [user, setUser] = useState({});
   const [name, setName] = useState<string>("");
 
   const [email, setEmail] = useState<string>("");
@@ -219,14 +218,6 @@ function Signup() {
       }
     }
   };
-
-  useEffect(() => {
-    //redirect 깜빡임 현상 해결하기
-    setUser(localStorage.getItem("user"));
-    if (user) {
-      router.push("/");
-    }
-  }, [router, user]);
 
   return (
     <SignupWrapper>
