@@ -10,12 +10,10 @@ import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
 import axiosInstance from "../../lib/api/config";
 import LoginModal from "components/login/LoginModal";
-
 const cookies = new Cookies();
 function Login() {
   const router = useRouter();
 
-  const [user, setUser] = useState({});
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [userError, setUserError] = useState<string>("");
@@ -55,11 +53,6 @@ function Login() {
         console.log(accessToken);
         localStorage.setItem("user", JSON.stringify(user));
         axiosInstance.defaults.headers.Authorization = "Bearer " + accessToken;
-        // cookies.set("access_Token", accessToken, {
-        //   path: "/",
-        //   secure: true,
-        //   sameSite: "none",
-        // });
         cookies.set("refreshToken", refreshToken, {
           path: "/",
           secure: true,
@@ -72,13 +65,7 @@ function Login() {
         setShowErrorModal(true);
       });
   };
-  useEffect(() => {
-    //redirect 깜빡임 현상 해결하기
-    setUser(localStorage.getItem("user"));
-    if (user) {
-      router.push("/");
-    }
-  }, [router, user]);
+
   return (
     <Container>
       <LoginBox>
