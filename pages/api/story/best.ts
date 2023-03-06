@@ -1,7 +1,7 @@
 // 인기 스토리 반환 기능 - 좋아요 개수로 선정
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { jwtDecrypt } from "jose";
+import { jwtVerify } from "jose";
 import prisma from "../../../prisma/client";
 
 const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
@@ -32,7 +32,7 @@ export default async function handler(
   else {
     const accessToken = role.split("Bearer ")[1];
 
-    const { payload } = await jwtDecrypt(accessToken, secretKey, {});
+    const { payload } = await jwtVerify(accessToken, secretKey);
 
     const userId = payload.iss;
     const allStoryLikeForUser = await prisma.storyLike.findMany({
