@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { EncryptJWT, jwtVerify } from "jose";
+import { SignJWT, jwtVerify } from "jose";
 import prisma from "../../../prisma/client";
 
 const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
@@ -12,23 +12,30 @@ export default async function handler(
     const { email, refreshToken } = req.body;
 
     try {
-      await jwtVerify(refreshToken, secretKey);
-    } catch (error) {
-      return res.status(400).json({
-        error,
+      await jwtVerify(refreshToken, secretKey, {});
+
+      const user = await prisma.user.findUnique({
+        where: { email },
       });
+      if (!user) {
+        return res.status(400).json({
+          message: "존재하지 않는 사용자입니다",
+        });
+      }
+      const accessToken = await new SignJWT({ "urn:example:claim": true })
+        .setProtectedHeader({ alg: "HS256" })
+        .setIssuer(user.id)
+        .setExpirationTime("1h")
+        .sign(secretKey);
+
+      return res.status(200).json({ accessToken });
+    } catch (error) {
+      // refreshToken 만료
+      if (error.code === "ERR_JWT_EXPIRED") {
+        return res.status(400).json({
+          message: "RefreshToken Expired",
+        });
+      }
     }
-
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    const accessToken = await new EncryptJWT({ "urn:example:claim": true })
-      .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256" })
-      .setIssuer(user.id)
-      .setExpirationTime("1h")
-      .encrypt(secretKey);
-
-    return res.status(200).json(accessToken);
   }
 }
