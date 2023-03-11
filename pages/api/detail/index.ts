@@ -6,6 +6,8 @@ import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import similar from "./similar";
 import like from "./like";
+import lowest11st from "./lowestPrice/11st";
+import lowestNaver from "./lowestPrice/naver";
 
 const prisma = new PrismaClient();
 
@@ -118,6 +120,16 @@ export default async function handler(
 
   // CALLS LIKE INFO
   perfume["liked"] = await like(perfumeId, userId);
+
+  perfume["lowest"] = {};
+  perfume["lowest"]["11st"] = await lowest11st({
+    name: perfume.name_eng,
+    brand: perfume.brand_eng,
+  });
+  perfume["lowest"]["naver"] = await lowestNaver({
+    name: perfume.name_eng,
+    brand: perfume.brand_eng,
+  });
 
   delete perfume.concentration;
   delete perfume.gender;

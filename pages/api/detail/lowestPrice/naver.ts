@@ -1,28 +1,27 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import useSWR from "swr";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse){
-    const query = req.query;
-    const keyword = query.brand + " " + query.name;
-    
-    const clientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
-    const clientSecret = process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET;
-    const apiURL = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURI(keyword)}&display=10&start=1&sort=sim`;
+export default async function lowestNaver(query) {
+  const keyword = "perfume " + query.brand + " " + query.name;
 
-    const data = await axios
-        .get(apiURL, {
-            headers: {
-                'X-Naver-Client-Id':clientId, 
-                'X-Naver-Client-Secret': clientSecret
-            }
+  const clientId = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
+  const clientSecret = process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET;
+  const apiURL = `https://openapi.naver.com/v1/search/shop.json?query=${encodeURI(
+    keyword,
+  )}&display=1&start=1&sort=sim`;
+
+  const data = await axios
+    .get(apiURL, {
+      headers: {
+        "X-Naver-Client-Id": clientId,
+        "X-Naver-Client-Secret": clientSecret,
+      },
     })
-    .then(res => res.data);
+    .then((res) => res.data);
 
-    return res.status(200).json(
-        {
-            data,
-            query: query
-        }
-    );
+  return {
+    name: data["items"][0]["title"],
+    price: data["items"][0]["lprice"],
+    url: data["items"][0]["link"],
+    // query: query,
+  };
 }

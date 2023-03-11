@@ -9,12 +9,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  // OPTIONS - RETURN
+  let resStatus = 200,
+    resData;
+
   // OPTIONS FROM QUERY
   const query = req.query;
   const category = query.category as string;
   const selected = query["selected"] as string;
   const userId = query.userId;
   const orderOpt = query.orderOpt as string;
+  const sortOpt = orderOpt === "name_eng" ? "asc" : "desc";
+  const pageNum = parseInt(query.pageNum as string);
 
   // PERFUME OPTION
   const names = [];
@@ -27,45 +33,61 @@ export default async function handler(
     },
   });
   if (!categoryInfo) {
-    return res.status(404).json({
+    resStatus = 404;
+    resData = {
       message: "Error: No categoryInfo",
+    };
+  } else {
+    categoryInfo.map((data) => {
+      names.push(data.name_eng);
     });
-  }
-  categoryInfo.map((data) => {
-    names.push(data.name_eng);
-  });
 
-  const perfumes = await prisma.perfume.findMany({
-    where: {
-      name_eng: {
-        in: names,
+    const perfumeCnt = await prisma.perfume.count({
+      where: {
+        name_eng: {
+          in: names,
+        },
       },
-    },
-    select: {
-      id: true,
-      name_eng: true,
-      brand_eng: true,
-      imgUrl: true,
-      likeCount: true,
-    },
-    orderBy: {
-      [orderOpt]: "desc",
-    },
-  });
-  if (!perfumes) {
-    return res.status(404).json({
-      message: "Error: No perfumes",
     });
+    if (!categoryInfo) {
+      resStatus = 404;
+      resData = {
+        message: "Error: No perfumeNum",
+      };
+    } else {
+      const perfumes = await prisma.perfume.findMany({
+        where: {
+          name_eng: {
+            in: names,
+          },
+        },
+        select: {
+          id: true,
+          name_eng: true,
+          brand_eng: true,
+          imgUrl: true,
+          likeCount: true,
+        },
+        orderBy: {
+          [orderOpt]: sortOpt,
+        },
+        skip: (pageNum - 1) * 20,
+        take: 20,
+      });
+      if (!perfumes) {
+        resStatus = 404;
+        resData = {
+          message: "Error: No perfumes",
+        };
+      } else {
+        resData = {};
+        resData["perfumes"] = await like(perfumes, userId);
+        resData["perfumeCnt"] = perfumeCnt;
+      }
+    }
   }
-
-  const perfumeAfterLike = await like(perfumes, userId);
 
   await prisma.$disconnect();
 
-  return res.status(200).json({
-    perfumes: perfumeAfterLike,
-    query: query,
-    // categoryInfo,
-    //    test
-  });
+  return res.status(resStatus).json(resData);
 }
