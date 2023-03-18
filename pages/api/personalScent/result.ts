@@ -62,7 +62,7 @@ export default async function handler(
 
         test[i]["note"] = perfumeNote[0].note;
 
-        for (const [key, val] of Object.entries(top1)) {
+        for (const [key, val] of Object.entries(top1[0])) {
           test[i][key] = val;
         }
 
@@ -70,7 +70,7 @@ export default async function handler(
       }
 
       resStatus = 200;
-      resData = { test };
+      resData = test;
     }
 
     // testId: 방금 진행한 personalScent 결과를 return.
