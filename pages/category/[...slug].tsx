@@ -6,6 +6,7 @@ import axios from "axios";
 import CategoryCard from "components/category/CategoryCard";
 import CategorySelect from "components/category/CategorySelect";
 import SortDropDown from "components/category/SortDropDown";
+import Pagination from "@mui/material/Pagination";
 import {
   alphabetArray,
   categoryArray,
@@ -33,6 +34,8 @@ export default function Category() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [purfume, setPurfume] = useState([]);
   const [sort, setSort] = useState(sortArray[0].value);
+  const [page, setPage] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>(1);
   const getCategoryPerfume = (category: string, selected: string) => {
     axios
       .get("/api/category", {
@@ -41,11 +44,13 @@ export default function Category() {
           category: category,
           selected: selected,
           orderOpt: sort,
+          pageNum: page,
         },
       })
       .then((res) => {
-        setIsLoading(true);
+        setPageCount(res.data.perfumeCnt);
         setPurfume(res.data.perfumes);
+        setIsLoading(true);
       })
       .catch((err) => {
         console.log(err);
@@ -69,6 +74,7 @@ export default function Category() {
         console.log(err);
       });
   };
+
   useEffect(() => {
     setIsLoading(false);
     setBrandList([]);
@@ -87,7 +93,7 @@ export default function Category() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, selected, brandName, sort]);
+  }, [category, selected, brandName, sort, page]);
 
   return (
     <CategoryContainer>
@@ -162,6 +168,15 @@ export default function Category() {
           )}
         </>
       )}
+      {(category !== "brand" || brandName !== undefined) && (
+        <Pagination
+          count={pageCount}
+          size="large"
+          onChange={(_, value) => {
+            setPage(value);
+          }}
+        />
+      )}
     </CategoryContainer>
   );
 }
@@ -172,6 +187,7 @@ export const CategoryContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 110px;
+  padding-bottom: 200px;
 `;
 
 export const CategoryBox = styled.div`
@@ -223,6 +239,7 @@ export const CardBox = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  margin-bottom: 60px;
 `;
 
 export const CategoryBrandBox = styled.div`
