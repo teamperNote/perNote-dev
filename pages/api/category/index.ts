@@ -15,12 +15,13 @@ export default async function handler(
 
   // OPTIONS FROM QUERY
   const query = req.query;
-  const category = query.category as string;
   const selected = query["selected"] as string;
   const userId = query.userId;
   const orderOpt = query.orderOpt as string;
   const sortOpt = orderOpt === "name_eng" ? "asc" : "desc";
   const pageNum = parseInt(query.pageNum as string);
+  const category =
+    query.category === "brand" ? "brand_eng" : (query.category as string);
 
   // PERFUME OPTION
   const names = [];
