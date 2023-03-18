@@ -27,6 +27,7 @@ export default async function handler(
       select: {
         id: true,
         createdAt: true,
+        perfumeIDs: true,
       },
     });
 
@@ -64,6 +65,8 @@ export default async function handler(
         for (const [key, val] of Object.entries(top1)) {
           test[i][key] = val;
         }
+
+        delete test[i].perfumeIDs;
       }
 
       resStatus = 200;
