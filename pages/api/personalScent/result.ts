@@ -37,41 +37,26 @@ export default async function handler(
     } else {
       const perfumeIdDict = {};
 
-      test.forEach((row) => {
-        row.perfumeIDs.forEach((perfumeId) => {
-          if (!perfumeIdDict[perfumeId])
-            perfumeIdDict[perfumeId] = row.createdAt;
+      for (let i = 0; i < test.length; i++) {
+        const top1 = await prisma.perfume.findMany({
+          where: test[i].perfumeIDs[0],
+          select: {
+            id: true,
+            name_eng: true,
+            brand_eng: true,
+            top: true,
+            middle: true,
+            bottom: true,
+            note: true,
+            imgUrl: true,
+          },
         });
-      });
 
-      const findOrCondition = [];
-      Object.keys(perfumeIdDict).forEach((key) => {
-        findOrCondition.push({
-          id: key,
-        });
-      });
-
-      const perfumes = await prisma.perfume.findMany({
-        where: {
-          OR: findOrCondition,
-        },
-        select: {
-          id: true,
-          name_eng: true,
-          brand_eng: true,
-          top: true,
-          middle: true,
-          bottom: true,
-          imgUrl: true,
-          note: true,
-        },
-      });
-      for (let i = 0; i < perfumes.length; i++) {
-        perfumes[i]["testCreatedAt"] = perfumeIdDict[perfumes[i].id];
+        test[i]["top1"] = top1;
       }
 
       resStatus = 200;
-      resData = { perfumes };
+      resData = { test };
     }
 
     // testId: 방금 진행한 personalScent 결과를 return.

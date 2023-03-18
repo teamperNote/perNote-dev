@@ -12,6 +12,8 @@ export default async function handler(
 
   const query = req.query;
   const userId = query.userId as string;
+  const orderOpt = query.orderId as string;
+  const sortOpt = orderOpt === "name_eng" ? "asc" : "desc";
 
   if (!userId) {
     resStatus = 400;
@@ -25,6 +27,9 @@ export default async function handler(
       },
       select: {
         perfumeId: true,
+      },
+      orderBy: {
+        [orderOpt]: sortOpt,
       },
     });
 
