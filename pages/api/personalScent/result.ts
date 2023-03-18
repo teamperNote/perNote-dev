@@ -17,7 +17,7 @@ export default async function handler(
   // req.query에 전달된 값이 userId 또는 testId 인지에 따라 다른 로직 작동.
 
   // userId: 해당 유저가 실행한 모든 personalScent 결과 return.
-  if (query.userId) {
+  if (!query.testId && query.userId) {
     id = query.userId;
 
     test = await prisma.test.findMany({
@@ -28,6 +28,9 @@ export default async function handler(
         id: true,
         createdAt: true,
         perfumeIDs: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 
@@ -87,13 +90,11 @@ export default async function handler(
             id: true,
             brand_eng: true,
             name_eng: true,
+            imgUrl: true,
           },
         },
         createdAt: true,
         // perfumeIDs: true // For console
-      },
-      orderBy: {
-        createdAt: "asc",
       },
     });
     if (!test) {
