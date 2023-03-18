@@ -12,7 +12,7 @@ export default async function handler(
 
   const query = req.query;
   const userId = query.userId as string;
-  const orderOpt = query.orderId as string;
+  const orderOpt = query.orderOpt as string;
   const sortOpt = orderOpt === "name_eng" ? "asc" : "desc";
 
   if (!userId) {

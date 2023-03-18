@@ -35,11 +35,11 @@ export default async function handler(
       resStatus = 200;
       resData = { message: "Error: personalScent/result" };
     } else {
-      const perfumeIdDict = {};
-
       for (let i = 0; i < test.length; i++) {
         const top1 = await prisma.perfume.findMany({
-          where: test[i].perfumeIDs[0],
+          where: {
+            id: test[i].perfumeIDs[0],
+          },
           select: {
             id: true,
             name_eng: true,
