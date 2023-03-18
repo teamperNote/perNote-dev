@@ -28,7 +28,7 @@ export default function PersonalSurvey() {
     await axios
       .get("/api/personalScent", {
         params: {
-          userId: "63b3de201f11b89b53489d7d",
+          userId: "64023ce1c704c82c11f5df20",
           gender: scentData.gender,
           concentration: scentData.concentration,
           season: scentData.season,
