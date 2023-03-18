@@ -14,7 +14,7 @@ export const genderArray: ICategory[] = [
   },
   {
     id: 1,
-    value: "fUni",
+    value: "f, uni",
     text: "여성적인",
   },
   {
@@ -24,7 +24,7 @@ export const genderArray: ICategory[] = [
   },
   {
     id: 3,
-    value: "mUni",
+    value: "m, uni",
     text: "남성적인",
   },
   {
@@ -116,7 +116,7 @@ export const colorArray: ICategory[] = [
   {
     id: 7,
     value: "brown",
-    text: "갈 색",
+    text: "갈색",
     color: "#964b00",
   },
   {
