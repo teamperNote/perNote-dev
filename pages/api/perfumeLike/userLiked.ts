@@ -28,9 +28,6 @@ export default async function handler(
       select: {
         perfumeId: true,
       },
-      orderBy: {
-        [orderOpt]: sortOpt,
-      },
     });
 
     const findManyOrCondition = [];
@@ -50,9 +47,24 @@ export default async function handler(
         middle: true,
         bottom: true,
         imgUrl: true,
-        note: true,
+      },
+      orderBy: {
+        [orderOpt]: sortOpt,
       },
     });
+
+    for (let i = 0; i < perfumes.length; i++) {
+      const perfumeNote = await prisma.perfume_CategoryInfo.findMany({
+        where: {
+          name_eng: perfumes[i].name_eng,
+        },
+        select: {
+          note: true,
+        },
+      });
+
+      perfumes[i]["note"] = perfumeNote[0].note;
+    }
 
     resStatus = 200;
     resData = perfumes;

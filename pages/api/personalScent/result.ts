@@ -25,9 +25,8 @@ export default async function handler(
         userId: id,
       },
       select: {
-        perfumeIDs: true,
+        id: true,
         createdAt: true,
-        // perfumeIDs: true // For console
       },
     });
 
@@ -41,7 +40,6 @@ export default async function handler(
             id: test[i].perfumeIDs[0],
           },
           select: {
-            id: true,
             name_eng: true,
             brand_eng: true,
             top: true,
@@ -52,7 +50,20 @@ export default async function handler(
           },
         });
 
-        test[i]["top1"] = top1;
+        const perfumeNote = await prisma.perfume_CategoryInfo.findMany({
+          where: {
+            name_eng: top1[0].name_eng,
+          },
+          select: {
+            note: true,
+          },
+        });
+
+        test[i]["note"] = perfumeNote[0].note;
+
+        for (const [key, val] of Object.entries(top1)) {
+          test[i][key] = val;
+        }
       }
 
       resStatus = 200;
