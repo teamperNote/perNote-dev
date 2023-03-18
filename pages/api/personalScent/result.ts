@@ -62,6 +62,8 @@ export default async function handler(
           top: true,
           middle: true,
           bottom: true,
+          imgUrl: true,
+          note: true,
         },
       });
       for (let i = 0; i < perfumes.length; i++) {
@@ -85,7 +87,6 @@ export default async function handler(
         perfumes: {
           select: {
             id: true,
-            imgUrl: true,
             brand_eng: true,
             name_eng: true,
           },
