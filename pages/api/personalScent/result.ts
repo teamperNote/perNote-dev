@@ -88,12 +88,12 @@ export default async function handler(
             brand_eng: true,
             name_eng: true,
           },
-          orderBy: {
-            createdAt: "asc",
-          },
         },
         createdAt: true,
         // perfumeIDs: true // For console
+      },
+      orderBy: {
+        createdAt: "asc",
       },
     });
     if (!test) {
