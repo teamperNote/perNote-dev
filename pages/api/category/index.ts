@@ -82,7 +82,7 @@ export default async function handler(
       } else {
         resData = {};
         resData["perfumes"] = await like(perfumes, userId);
-        resData["perfumeCnt"] = perfumeCnt;
+        resData["perfumeCnt"] = Math.ceil(perfumeCnt / 20);
       }
     }
   }
