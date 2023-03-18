@@ -46,7 +46,6 @@ export default async function handler(
             top: true,
             middle: true,
             bottom: true,
-            note: true,
             imgUrl: true,
           },
         });
