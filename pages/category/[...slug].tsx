@@ -47,9 +47,9 @@ export default function Category() {
           pageNum: page,
         },
       })
-      .then((res) => {
-        setPageCount(res.data.perfumeCnt);
-        setPurfume(res.data.perfumes);
+      .then(({ data }) => {
+        setPageCount(data.pageAmount);
+        setPurfume(data.perfumes);
         setIsLoading(true);
       })
       .catch((err) => {
@@ -61,13 +61,13 @@ export default function Category() {
   const getBrand = () => {
     axios
       .get("/api/category/brandList")
-      .then((res) => {
+      .then(({ data }) => {
         if (alphabetArray.find((x) => x.value === selected)) {
           setIsLoading(true);
-          setBrandList([[selected, [res.data.dict[selected]][0]]]);
+          setBrandList([[selected, [data.dict[selected]][0]]]);
         } else {
           setIsLoading(true);
-          setBrandList(Object.entries(res.data.dict));
+          setBrandList(Object.entries(data.dict));
         }
       })
       .catch((err) => {
