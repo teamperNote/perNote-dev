@@ -35,7 +35,7 @@ export default function Category() {
   const [purfume, setPurfume] = useState([]);
   const [sort, setSort] = useState(sortArray[0].value);
   const [page, setPage] = useState<number>(1);
-  const [pageCount, setPageCount] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>(10);
   const getCategoryPerfume = (category: string, selected: string) => {
     axios
       .get("/api/category", {
@@ -79,6 +79,8 @@ export default function Category() {
     setIsLoading(false);
     setBrandList([]);
     setPurfume([]);
+    setPage(1);
+    setPageCount(10);
     if (category === "brand") {
       if (brandName === undefined) {
         getBrand();
@@ -93,7 +95,27 @@ export default function Category() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, selected, brandName, sort, page]);
+  }, [category, selected, brandName, sort]);
+
+  useEffect(() => {
+    setIsLoading(false);
+    setBrandList([]);
+    setPurfume([]);
+    if (category === "brand") {
+      if (brandName === undefined) {
+        getBrand();
+      } else {
+        if (brandName) {
+          getCategoryPerfume(category, brandName);
+        }
+      }
+    } else {
+      if (selected) {
+        getCategoryPerfume(category, selected);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <CategoryContainer>
@@ -170,6 +192,7 @@ export default function Category() {
       )}
       {(category !== "brand" || brandName !== undefined) && (
         <Pagination
+          page={page}
           count={pageCount}
           size="large"
           onChange={(_, value) => {
