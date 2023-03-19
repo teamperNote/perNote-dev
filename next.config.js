@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
+  images: {
+    domains: ["fimgs.net", "shop-phinf.pstatic.net"],
+    unoptimized: true,
+  },
   async redirects() {
     return [
       {
