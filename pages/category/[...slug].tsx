@@ -35,7 +35,7 @@ export default function Category() {
   const [purfume, setPurfume] = useState([]);
   const [sort, setSort] = useState(sortArray[0].value);
   const [page, setPage] = useState<number>(1);
-  const [pageCount, setPageCount] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>(10);
   const getCategoryPerfume = (category: string, selected: string) => {
     axios
       .get("/api/category", {
@@ -47,9 +47,9 @@ export default function Category() {
           pageNum: page,
         },
       })
-      .then((res) => {
-        setPageCount(res.data.perfumeCnt);
-        setPurfume(res.data.perfumes);
+      .then(({ data }) => {
+        setPageCount(data.pageAmount);
+        setPurfume(data.perfumes);
         setIsLoading(true);
       })
       .catch((err) => {
@@ -61,19 +61,41 @@ export default function Category() {
   const getBrand = () => {
     axios
       .get("/api/category/brandList")
-      .then((res) => {
+      .then(({ data }) => {
         if (alphabetArray.find((x) => x.value === selected)) {
           setIsLoading(true);
-          setBrandList([[selected, [res.data.dict[selected]][0]]]);
+          setBrandList([[selected, [data.dict[selected]][0]]]);
         } else {
           setIsLoading(true);
-          setBrandList(Object.entries(res.data.dict));
+          setBrandList(Object.entries(data.dict));
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+    setBrandList([]);
+    setPurfume([]);
+    setPage(1);
+    setPageCount(10);
+    if (category === "brand") {
+      if (brandName === undefined) {
+        getBrand();
+      } else {
+        if (brandName) {
+          getCategoryPerfume(category, brandName);
+        }
+      }
+    } else {
+      if (selected) {
+        getCategoryPerfume(category, selected);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, selected, brandName, sort]);
 
   useEffect(() => {
     setIsLoading(false);
@@ -93,45 +115,43 @@ export default function Category() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, selected, brandName, sort, page]);
+  }, [page]);
 
   return (
     <CategoryContainer>
+      <CategoryBox>
+        {categoryArray.map((data) => (
+          <Link key={data.id} href={data.url}>
+            <CategoryTitle className={category === data.value ? "focus" : ""}>
+              {data.text}
+            </CategoryTitle>
+          </Link>
+        ))}
+      </CategoryBox>
+      <SelectBox category={category}>
+        {(category === "note"
+          ? noteArray
+          : category === "brand"
+          ? alphabetArray
+          : category === "personality"
+          ? personalityArray
+          : featureArray
+        ).map((data) => (
+          <CategorySelect
+            key={data.id}
+            data={data}
+            category={category}
+            selected={selected}
+          />
+        ))}
+      </SelectBox>
+      {(category !== "brand" || brandName !== undefined) && (
+        <SortBox>
+          <SortDropDown sort={sort} setSort={setSort} />
+        </SortBox>
+      )}
       {isLoading && (
         <>
-          <CategoryBox>
-            {categoryArray.map((data) => (
-              <Link key={data.id} href={data.url}>
-                <CategoryTitle
-                  className={category === data.value ? "focus" : ""}
-                >
-                  {data.text}
-                </CategoryTitle>
-              </Link>
-            ))}
-          </CategoryBox>
-          <SelectBox category={category}>
-            {(category === "note"
-              ? noteArray
-              : category === "brand"
-              ? alphabetArray
-              : category === "personality"
-              ? personalityArray
-              : featureArray
-            ).map((data) => (
-              <CategorySelect
-                key={data.id}
-                data={data}
-                category={category}
-                selected={selected}
-              />
-            ))}
-          </SelectBox>
-          {(category !== "brand" || brandName !== undefined) && (
-            <SortBox>
-              <SortDropDown sort={sort} setSort={setSort} />
-            </SortBox>
-          )}
           {category !== "brand" ? (
             <CardBox>
               {purfume.map((data) => (
@@ -170,6 +190,7 @@ export default function Category() {
       )}
       {(category !== "brand" || brandName !== undefined) && (
         <Pagination
+          page={page}
           count={pageCount}
           size="large"
           onChange={(_, value) => {
@@ -181,7 +202,7 @@ export default function Category() {
   );
 }
 
-export const CategoryContainer = styled.div`
+export const CategoryContainer = styled.main`
   width: 1920px;
   display: flex;
   flex-direction: column;
@@ -190,13 +211,13 @@ export const CategoryContainer = styled.div`
   padding-bottom: 200px;
 `;
 
-export const CategoryBox = styled.div`
+export const CategoryBox = styled.ul`
   margin-top: 90px;
   margin-bottom: 80px;
   display: flex;
 `;
 
-export const CategoryTitle = styled.div`
+export const CategoryTitle = styled.li`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 700;
@@ -213,7 +234,7 @@ export const CategoryTitle = styled.div`
   }
 `;
 
-export const SelectBox = styled.div<{ category: string }>`
+export const SelectBox = styled.ul<{ category: string }>`
   width: ${({ category }) =>
     category === "note"
       ? "720px"
@@ -235,9 +256,9 @@ export const SortBox = styled.div`
   margin-bottom: 30px;
 `;
 
-export const CardBox = styled.div`
+export const CardBox = styled.ul`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-bottom: 60px;
 `;
@@ -247,13 +268,13 @@ export const CategoryBrandBox = styled.div`
   flex-direction: column;
 `;
 
-const BrandBox = styled.div`
+const BrandBox = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: 140px;
 `;
 
-const BrandSpan = styled.span`
+const BrandSpan = styled.h2`
   width: 1420px;
   font-family: "Noto Sans KR";
   font-style: normal;

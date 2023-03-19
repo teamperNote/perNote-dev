@@ -42,3 +42,15 @@ export interface IChosen {
   personality: string;
   feature: string;
 }
+
+export interface ILiked {
+  id: string;
+  imgUrl: string;
+  createdAt?: string;
+  name_eng: string;
+  brand_eng: string;
+  note: string[];
+  top: string;
+  middle: string;
+  bottom: string;
+}
