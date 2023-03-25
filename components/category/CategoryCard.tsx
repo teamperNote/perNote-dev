@@ -81,6 +81,7 @@ export default function CategoryCard({
         width={340}
         height={340}
         objectFit={"contain"}
+        unoptimized={true}
       />
       {isShow && (
         <Filter>
