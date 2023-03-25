@@ -3,8 +3,15 @@ import type { NextPage } from "next";
 import styled from "styled-components";
 import { BsBell } from "react-icons/bs";
 import Link from "next/link";
+import { loginState } from "./@store/loginState";
+import { useRecoilState } from "recoil";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
+  const [loginInfo, setLoginInfo] = useRecoilState(loginState);
+  useEffect(() => {
+    console.log("loginInfo:", loginInfo);
+  }, [loginInfo]);
   return (
     <>
       <FirstMain>

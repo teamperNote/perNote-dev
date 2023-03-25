@@ -1,9 +1,8 @@
 import type { AppProps } from "next/app";
 import Layout from "../components/layout/Layout";
 import { GlobalStyle } from "../styles/global-styles";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import "../styles/common.scss";
+import { RecoilRoot } from "recoil";
 
 declare global {
   interface Window {
@@ -11,18 +10,14 @@ declare global {
   }
 }
 
-const queryClient = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <RecoilRoot>
       <GlobalStyle />
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={true} />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </QueryClientProvider>
-    </>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </RecoilRoot>
   );
 }
 

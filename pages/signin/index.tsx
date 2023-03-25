@@ -1,25 +1,26 @@
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import KaKaoLogin from "./kakao-login";
 import GoogleLogin from "./google-login";
 import NaverLogin from "./naver-login";
-import { useState } from "react";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
 import axiosInstance from "../../lib/api/config";
 import LoginModal from "components/login/LoginModal";
+import { useRecoilState } from "recoil";
+import { loginState } from "../@store/loginState";
 const cookies = new Cookies();
 function Login() {
   const router = useRouter();
+  const [loginInfo, setLoginInfo] = useRecoilState(loginState);
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [userError, setUserError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
-
   const inputEmail = (e: any) => {
     setEmail(e.target.value);
   };
@@ -41,6 +42,7 @@ function Login() {
       email,
       password,
     };
+
     axios
       .post("/api/users/login", userInfo)
       .then((response) => {
@@ -50,8 +52,6 @@ function Login() {
           return;
         }
         const { user, accessToken, refreshToken } = response.data;
-        console.log(accessToken);
-        localStorage.setItem("user", JSON.stringify(user));
         axiosInstance.defaults.headers.Authorization = "Bearer " + accessToken;
         cookies.set("refreshToken", refreshToken, {
           path: "/",
@@ -59,6 +59,8 @@ function Login() {
           sameSite: "none",
         });
         router.push("/");
+        console.log(user);
+        setLoginInfo(user.email);
       })
       .catch((e) => {
         setPasswordError(e.response.data.message);

@@ -5,18 +5,19 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import CategoryDropDown from "../category/CategoryDropDown";
 import axiosInstance from "../../lib/api/config";
-
+import { useRecoilState } from "recoil";
+import { loginState } from "pages/@store/loginState";
 export default function NavBar() {
+  const [loginInfo, setLoginInfo] = useRecoilState(loginState);
+  const [isLoginNav, setIsLoginNav] = useState(false);
   const router = useRouter();
   const pathname = router.pathname;
-  // 로그인 상태
-  const [user, setUser] = useState(null);
 
   //로그아웃 기능
   const handleClickLogout = () => {
-    localStorage.removeItem("user");
-    setUser(localStorage.getItem("user"));
     axiosInstance.defaults.headers.Authorization = "";
+    setLoginInfo("");
+    setIsLoginNav(false);
     router.push("/");
   };
   // 카테고리 드랍다운 표시 여부
@@ -29,7 +30,6 @@ export default function NavBar() {
     setIsScrolled(window.pageYOffset < 50);
   };
   useEffect(() => {
-    setUser(localStorage.getItem("user"));
     if (pathname === "/") {
       setIsScrolled(true);
       window.addEventListener("scroll", listener);
@@ -41,6 +41,11 @@ export default function NavBar() {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    if (loginInfo) {
+      setIsLoginNav(true);
+    }
+  }, [loginInfo]);
   return (
     <NavBarContainer className={isScrolled && "transparent"}>
       <NavBarBox>
@@ -78,7 +83,7 @@ export default function NavBar() {
               )}
             </NavigatorLink>
           </Navigator>
-          {user ? (
+          {isLoginNav ? (
             <HeaderRight>
               <LogoutButton onClick={handleClickLogout}>Logout</LogoutButton>
               <Link href="/mypage">
@@ -87,10 +92,6 @@ export default function NavBar() {
             </HeaderRight>
           ) : (
             <HeaderRight>
-              {/* <SearchInput>
-              <input type="text" />
-              <BiSearchAlt2 />
-            </SearchInput> */}
               <Link href="/signin">
                 <Sign>Login</Sign>
               </Link>
