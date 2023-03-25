@@ -1,28 +1,16 @@
 import type { AppProps } from "next/app";
 import Layout from "../components/layout/Layout";
 import { GlobalStyle } from "../styles/global-styles";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import "../styles/common.scss";
-
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-}
-
-const queryClient = new QueryClient();
+import { RecoilRoot } from "recoil";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <RecoilRoot>
       <GlobalStyle />
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={true} />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </QueryClientProvider>
-    </>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </RecoilRoot>
   );
 }
 
