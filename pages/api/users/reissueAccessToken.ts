@@ -29,7 +29,7 @@ export default async function handler(
         .sign(secretKey);
 
       return res.status(200).json({ accessToken });
-    } catch (error) {
+    } catch (error: any) {
       // refreshToken 만료
       if (error.code === "ERR_JWT_EXPIRED") {
         return res.status(400).json({
