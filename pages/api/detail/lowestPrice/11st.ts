@@ -23,6 +23,7 @@ export default async function lowest11st(query) {
     url: data["ProductSearchResponse"]["Products"]["Product"]["DetailPageUrl"][
       "_cdata"
     ],
+    // data,
     // query: query,
   };
 }
