@@ -19,6 +19,7 @@ export default async function lowestNaver(query) {
     .then((res) => res.data);
 
   return {
+    domain: "naver",
     name: data["items"][0]["title"],
     price: data["items"][0]["lprice"],
     url: data["items"][0]["link"],

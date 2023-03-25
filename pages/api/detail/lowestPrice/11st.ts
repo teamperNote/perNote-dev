@@ -12,6 +12,7 @@ export default async function lowest11st(query) {
   const data = xml2js(xmlData, options);
 
   return {
+    domain: "11st",
     name: data["ProductSearchResponse"]["Products"]["Product"]["ProductName"][
       "_cdata"
     ],
