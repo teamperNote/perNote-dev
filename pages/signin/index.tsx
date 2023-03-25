@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import KaKaoLogin from "./kakao-login";
 import GoogleLogin from "./google-login";
@@ -10,8 +10,12 @@ import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
 import axiosInstance from "../../lib/api/config";
 import LoginModal from "components/login/LoginModal";
+import { useRecoilState } from "recoil";
+import { loginState } from "../@store/loginState";
+
 const cookies = new Cookies();
 function Login() {
+  const [loginInfo, setLoginInfo] = useRecoilState(loginState);
   const router = useRouter();
 
   const [email, setEmail] = useState<string>("");
@@ -50,7 +54,6 @@ function Login() {
           return;
         }
         const { user, accessToken, refreshToken } = response.data;
-        console.log(accessToken);
         localStorage.setItem("user", JSON.stringify(user));
         axiosInstance.defaults.headers.Authorization = "Bearer " + accessToken;
         cookies.set("refreshToken", refreshToken, {
@@ -58,6 +61,7 @@ function Login() {
           secure: true,
           sameSite: "none",
         });
+        setLoginInfo(user.email);
         router.push("/");
       })
       .catch((e) => {
