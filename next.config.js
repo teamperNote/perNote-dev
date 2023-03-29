@@ -9,6 +9,7 @@ const nextConfig = {
       "bananal.co.kr",
       "shopping-phinf.pstatic.net",
       "upload.wikimedia.org",
+      "encrypted-tbn0.gstatic.com",
     ],
     unoptimized: true,
   },

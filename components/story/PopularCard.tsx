@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import NoteTag from "components/NoteTag";
 import { dateFormat } from "lib/numberFomat";
@@ -53,7 +54,13 @@ export default function PopularCard({
       onMouseLeave={() => setIsShow(false)}
       onClick={onLinkClick}
     >
-      <PopularCardImg src={imgUrl[0]} />
+      <Image
+        src={imgUrl[0]}
+        alt={`인기 스토리 이미지`}
+        width={566}
+        height={590}
+        objectFit={"cover"}
+      />
       {isShow && (
         <Filter>
           <HeartBox>
@@ -84,15 +91,6 @@ const PopularCardContainer = styled.div`
   cursor: pointer;
 `;
 
-const PopularCardImg = styled.img`
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
 const Filter = styled.div`
   width: 100%;
   height: 100%;
@@ -101,6 +99,8 @@ const Filter = styled.div`
   justify-content: flex-end;
   padding: 50px 35px;
   background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
 `;
 
 const HeartBox = styled.div`
