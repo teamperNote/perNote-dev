@@ -3,7 +3,13 @@ const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
   images: {
-    domains: ["fimgs.net", "shop-phinf.pstatic.net", "bananal.co.kr"],
+    domains: [
+      "fimgs.net",
+      "shop-phinf.pstatic.net",
+      "bananal.co.kr",
+      "shopping-phinf.pstatic.net",
+      "upload.wikimedia.org",
+    ],
     unoptimized: true,
   },
   async redirects() {

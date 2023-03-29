@@ -10,6 +10,13 @@ export interface IStory {
   tags: string[];
 }
 
+export interface ILowest {
+  domain: string;
+  name: string;
+  price: string;
+  url: string;
+}
+
 export interface IPerfume {
   isLoading: boolean;
   data: {
@@ -26,6 +33,7 @@ export interface IPerfume {
     liked: boolean;
     likeCount: number;
     viewCount: number;
+    lowest: ILowest[];
     similars: {
       id: string;
       imgUrl: string;
