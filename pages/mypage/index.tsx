@@ -1,27 +1,44 @@
-import Input from "components/form/Input";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import ValidationButton from "components/form/ValidationButton";
-import RadioItem from "components/form/RadioButton";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { loginState } from "../../@store/loginState";
+import { useRecoilState } from "recoil";
+import { withAuth } from "components/HOC/withAuth";
+import axiosInstance from "../../lib/api/config";
 
+interface UserType {
+  birth: string;
+  createdAt: string;
+  email: string;
+  gender: string;
+  id: string;
+  name: string;
+  password: string;
+  phoneNumber: string;
+  snsId: string;
+  snsType: string;
+  updatedAt: string;
+}
 function MyPage() {
-  const [user, setUser] = useState({});
-  const router = useRouter();
+  const [loginInfo, setLoginInfo] = useRecoilState(loginState);
+  const [userName, setUserName] = useState<string>("");
+
   useEffect(() => {
-    setUser(localStorage.getItem("uese"));
+    async function getUserInfo() {
+      const userInfo: UserType = await axiosInstance.get("/api/users/getInfo");
+      return userInfo.name;
+    }
   }, []);
 
-  if (!user) {
-    router.push("/signin");
-  }
+  // useEffect(() => {b
+  //   console.log(userInfo);
+  // }, [userInfo]);
   return (
     <MypageContainer>
       <ProfileImageContainer>
         <img src="/perNoteBackImg.png" alt="사용자 이름" />
       </ProfileImageContainer>
-      <UserName>김아무개님 </UserName>
+      <UserName>{userName}님 </UserName>
       <LinkList>
         <LinkItem>
           <Link href="/mypage/test-result">
@@ -63,7 +80,7 @@ function MyPage() {
     </MypageContainer>
   );
 }
-export default MyPage;
+export default withAuth(MyPage);
 
 const MypageContainer = styled.div`
   padding-top: 260px;

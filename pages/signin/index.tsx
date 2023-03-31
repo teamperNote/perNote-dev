@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import axiosInstance from "../../lib/api/config";
 import LoginModal from "components/login/LoginModal";
 import { useRecoilState } from "recoil";
-import { loginState } from "../@store/loginState";
+import { loginState } from "@store/loginState";
 
 const cookies = new Cookies();
 function Login() {
