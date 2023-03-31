@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { dateFormat } from "lib/numberFomat";
 import { IStory } from "lib/types";
 import NoteTag from "components/NoteTag";
+import LikeButton from "components/LikeButton";
 
 interface Props {
   data: IStory;
@@ -24,38 +24,14 @@ export default function StoryCard({
   },
 }: Props) {
   const router = useRouter();
-  // TODO 아이콘 임시로 해둔 것 - 화질이 너무 떨어짐
-  const [isLike, setIsLike] = useState(liked);
-  const [likeCounts, setLikeCounts] = useState(likeCount);
+  const [isShow, setIsShow] = useState<boolean>(false);
 
+  const likeRef = useRef(null);
   const onLinkClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLDivElement).id.includes("heart")) {
-      onLikeClick();
-    } else {
+    if (likeRef.current && !likeRef.current.contains(e.target)) {
       router.push(`story-detail/${id}`);
     }
   };
-
-  const onLikeClick = async () => {
-    if (isLike) {
-      setIsLike(false);
-      setLikeCounts(likeCounts - 1);
-    } else {
-      setIsLike(true);
-      setLikeCounts(likeCounts + 1);
-    }
-    await axios
-      .post("/api/story/like", {
-        // TODO api 수정되면 삭제하기
-        userId: "64023ce1c704c82c11f5df20",
-        storyId: id,
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const [isShow, setIsShow] = useState<boolean>(false);
 
   return (
     <StoryCardContainer
@@ -65,17 +41,18 @@ export default function StoryCard({
     >
       <StoryCardImgBox>
         <StoryCardImg src={imgUrl[0]} />
-        {isShow && (
-          <Filter>
-            <HeartBox>
-              <StoryCardOutlineHeart
-                id={"heart"}
-                src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
-              />
-              <HeartCount id={"heart"}>{likeCounts}</HeartCount>
-            </HeartBox>
-          </Filter>
-        )}
+        <Filter className={isShow ? "show" : "hide"}>
+          <HeartBox>
+            <LikeButton
+              content={"story"}
+              id={id}
+              likeRef={likeRef}
+              direction={"column"}
+              liked={liked}
+              likeCount={likeCount}
+            />
+          </HeartBox>
+        </Filter>
       </StoryCardImgBox>
       <InfoBox>
         <InfoFlex>
@@ -127,24 +104,21 @@ const Filter = styled.div`
   justify-content: flex-end;
   padding: 20px;
   background: rgba(0, 0, 0, 0.5);
+  &.hide {
+    display: none;
+  }
 `;
 
 const HeartBox = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 14px;
+  right: 16px;
   color: var(--white-color);
   /* mix-blend-mode: difference; */
   display: flex;
   flex-direction: column;
   align-items: center;
   background-size: cover;
-`;
-
-const StoryCardOutlineHeart = styled.img`
-  width: 40px;
-  height: 36.7px;
-  margin-bottom: 5px;
 `;
 
 const HeartCount = styled.span`

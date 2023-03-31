@@ -7,6 +7,7 @@ import NoteTag from "components/NoteTag";
 import axios from "axios";
 import { IPerfume } from "lib/types";
 import { numberComma } from "lib/numberFomat";
+import LikeButton from "components/LikeButton";
 
 export default function ProductDetailPage() {
   const {
@@ -26,10 +27,7 @@ export default function ProductDetailPage() {
         },
       })
       .then(({ data: { perfume } }) => {
-        console.log(perfume);
         setPurfumeData({ ...purfumeData, isLoading: true, data: perfume });
-        setIsLike(perfume.liked);
-        setLikeCounts(perfume.likeCount);
       })
       .catch((err) => {
         console.log(err);
@@ -48,27 +46,6 @@ export default function ProductDetailPage() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
-
-  // 좋아요 기능
-  const [isLike, setIsLike] = useState<boolean>(false);
-  const [likeCounts, setLikeCounts] = useState<number>(0);
-  const onLikeClick = async () => {
-    if (isLike) {
-      setIsLike(false);
-      setLikeCounts(likeCounts - 1);
-    } else {
-      setIsLike(true);
-      setLikeCounts(likeCounts + 1);
-    }
-    await axios
-      .post("/api/perfumeLike", {
-        perfumeId: purfumeData.data.id,
-        userId: "64023ce1c704c82c11f5df20",
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <>
@@ -94,19 +71,15 @@ export default function ProductDetailPage() {
                 <NameBox>
                   <NameIconContainer>
                     <KorName>제품명</KorName>
-                    {/* TODO 서지수 liked 추가되면 수정하기 */}
-                    <Image
-                      src={
-                        isLike
-                          ? "/second_heartFillIcon.svg"
-                          : "/second_heartIcon.svg"
-                      }
-                      alt={`${isLike ? "like" : "unlike"} icon`}
-                      width={40}
-                      height={36.7}
-                      onClick={onLikeClick}
+                    <LikeButton
+                      id={purfumeData.data.id}
+                      direction={"row"}
+                      liked={purfumeData.data.liked}
+                      likeCount={purfumeData.data.likeCount}
+                      color={"#6E7C65"}
+                      countSize={36}
+                      countMargin={"0 20px 0 6px"}
                     />
-                    <CountSapn>{likeCounts}</CountSapn>
                     <Image
                       src={"/second_viewIcon.svg"}
                       alt={"조회수 아이콘"}
@@ -342,10 +315,10 @@ const EngName = styled(Span)`
 `;
 
 const CountSapn = styled(Span)`
+  color: #6e7c65;
   font-size: 36px;
   line-height: 37px;
   margin-left: 10px;
-  margin-right: 20px;
 `;
 
 // const PriceBox = styled.div``;
