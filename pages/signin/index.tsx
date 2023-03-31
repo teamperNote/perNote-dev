@@ -54,7 +54,6 @@ function Login() {
           return;
         }
         const { user, accessToken, refreshToken } = response.data;
-        localStorage.setItem("user", JSON.stringify(user));
         axiosInstance.defaults.headers.Authorization = "Bearer " + accessToken;
         cookies.set("refreshToken", refreshToken, {
           path: "/",
