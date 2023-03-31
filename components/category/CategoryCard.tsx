@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import Image from "next/image";
+import LikeButton from "components/LikeButton";
 
 interface IProps {
   alphabet?: string;
@@ -26,14 +26,9 @@ export default function CategoryCard({
   const { slug } = router.query;
   const [isShow, setIsShow] = useState(false);
 
-  // 좋아요 기능
-  const [isLike, setIsLike] = useState<boolean>(liked);
-  const [likeCounts, setLikeCounts] = useState<number>(likeCount);
-
+  const likeRef = useRef(null);
   const onLinkClick = (e: React.MouseEvent<HTMLLIElement>) => {
-    if ((e.target as HTMLLIElement).id.includes("heart")) {
-      onLikeClick();
-    } else {
+    if (likeRef.current && !likeRef.current.contains(e.target)) {
       router.push(
         slug[0] === "brand" && slug[2] === undefined
           ? `brand/${alphabet}/${name_eng}`
@@ -42,32 +37,7 @@ export default function CategoryCard({
     }
   };
 
-  const onLikeClick = async () => {
-    if (isLike) {
-      setIsLike(false);
-      setLikeCounts(likeCounts - 1);
-    } else {
-      setIsLike(true);
-      setLikeCounts(likeCounts + 1);
-    }
-    await axios
-      .post("/api/perfumeLike", {
-        perfumeId: id,
-        userId: "64023ce1c704c82c11f5df20",
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   return (
-    // <Link
-    //   href={
-    //     slug[0] === "brand" && slug[2] === undefined
-    //       ? `brand/${alphabet}/${name_eng}`
-    //       : `/product-detail/${id}`
-    //   }
-    // >
     <CategoryCardContainer
       onClick={onLinkClick}
       onMouseOver={() => setIsShow(true)}
@@ -83,31 +53,25 @@ export default function CategoryCard({
         objectFit={"contain"}
         unoptimized={true}
       />
-      {isShow && (
-        <Filter>
-          {from == "Category" && (
-            <HeartBox>
-              <Image
-                src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
-                alt={`${isLike ? "like" : "unlike"} icon`}
-                width={40}
-                height={36.7}
-                id={"heart"}
-              />
-              <HeartCount id={"heart"}>{likeCounts}</HeartCount>
-            </HeartBox>
-          )}
-          <BrandName>
-            {/* TODO 서지수 브랜드 name_eng -> brand_eng으로 수정되면 수정하기 */}
-            {slug[0] === "brand" && slug[2] === undefined
-              ? name_eng
-              : brand_eng}
-          </BrandName>
-          {from == "Category" && <PurfumeName>{name_eng}</PurfumeName>}
-        </Filter>
-      )}
+      <Filter className={isShow ? "show" : "hide"}>
+        {from == "Category" && (
+          <HeartBox>
+            <LikeButton
+              id={id}
+              likeRef={likeRef}
+              direction={"column"}
+              liked={liked}
+              likeCount={likeCount}
+            />
+          </HeartBox>
+        )}
+        <BrandName>
+          {/* TODO 서지수 브랜드 name_eng -> brand_eng으로 수정되면 수정하기 */}
+          {slug[0] === "brand" && slug[2] === undefined ? name_eng : brand_eng}
+        </BrandName>
+        {from == "Category" && <PurfumeName>{name_eng}</PurfumeName>}
+      </Filter>
     </CategoryCardContainer>
-    // </Link>
   );
 }
 
@@ -129,28 +93,20 @@ const Filter = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   background: rgba(0, 0, 0, 0.5);
+  &.hide {
+    display: none;
+  }
 `;
 
 const HeartBox = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 14px;
+  right: 16px;
   color: var(--white-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   background-size: cover;
-`;
-
-const HeartCount = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 29px;
-  color: var(--white-color);
-  align-items: center;
-  margin-top: 5px;
 `;
 
 const BrandName = styled.h3`

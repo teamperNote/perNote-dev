@@ -7,6 +7,7 @@ import NoteTag from "components/NoteTag";
 import RowStoryCard from "components/story/RowStoryCard";
 import { dateFormat } from "lib/numberFomat";
 import { IStory } from "lib/types";
+import LikeButton from "components/LikeButton";
 
 interface IStoryList {
   isLoading: boolean;
@@ -50,8 +51,6 @@ export default function StoryDetail() {
       })
       .then(({ data }) => {
         setStory({ ...story, isLoading: true, data: data });
-        setIsLike(data.targetStory.liked);
-        setLikeCounts(data.targetStory.likeCount);
       })
       .catch((err) => {
         console.log(err);
@@ -63,27 +62,6 @@ export default function StoryDetail() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storyId]);
-
-  // 좋아요 기능
-  const [isLike, setIsLike] = useState<boolean>(false);
-  const [likeCounts, setLikeCounts] = useState<number>(0);
-  const onLikeClick = async () => {
-    if (isLike) {
-      setIsLike(false);
-      setLikeCounts(likeCounts - 1);
-    } else {
-      setIsLike(true);
-      setLikeCounts(likeCounts + 1);
-    }
-    await axios
-      .post("/api/story/like", {
-        userId: "64023ce1c704c82c11f5df20",
-        storyId: story.data.targetStory.id,
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   // TODO 서지수 로그인 기능 구현 후 삭제
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -102,12 +80,15 @@ export default function StoryDetail() {
               </HeaderDate>
               <RowFlex>
                 <HeaderTitle>{story.data.targetStory.title}</HeaderTitle>
-                <IconBox onClick={onLikeClick}>
-                  <IconImg
-                    src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
-                  />
-                  <IconSpan>{likeCounts}</IconSpan>
-                </IconBox>
+                <LikeButton
+                  content={"story"}
+                  id={story.data.targetStory.id}
+                  liked={story.data.targetStory.liked}
+                  likeCount={story.data.targetStory.likeCount}
+                  size={60}
+                  countSize={30}
+                  countMargin={"0 25px 0 15px"}
+                />
                 <IconBox>
                   <IconImg src={"/viewIcon_white.svg"} />
                   <IconSpan>{story.data.targetStory.viewCount}</IconSpan>
@@ -162,9 +143,14 @@ export default function StoryDetail() {
                   </BubbleBox>
                 )}
               </ShareIconBox>
-              <ShareIconBox onClick={onLikeClick}>
-                <ShareIcon
-                  src={isLike ? "/heartFillIcon.png" : "/heartIcon.png"}
+              <ShareIconBox>
+                <LikeButton
+                  content={"story"}
+                  id={story.data.targetStory.id}
+                  liked={story.data.targetStory.liked}
+                  likeCount={story.data.targetStory.likeCount}
+                  size={74}
+                  isCount={false}
                 />
               </ShareIconBox>
             </ShareBox>
@@ -248,6 +234,7 @@ const IconBox = styled.div`
   margin-right: 25px;
   display: flex;
   align-items: center;
+  margin-bottom: 7px;
 `;
 
 const IconImg = styled.img`
