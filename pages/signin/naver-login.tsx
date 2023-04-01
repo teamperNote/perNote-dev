@@ -1,6 +1,6 @@
-import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import styled from "styled-components";
 
 const client_id = process.env.NAVER_CLIENT_ID || "";
 const redirect_uri = process.env.NAVER_CALLBACK_URI || "";
@@ -10,7 +10,7 @@ function NaverLogin() {
     <>
       <Link href={api_url}>
         <a>
-          <Image
+          <NaverIcon
             src="/login_naver.svg"
             alt="네이버로 로그인"
             width={90}
@@ -23,3 +23,12 @@ function NaverLogin() {
 }
 
 export default NaverLogin;
+
+const NaverIcon = styled.img`
+  width: 90px;
+  height: 90px;
+  @media screen and (max-width: 1440px) {
+    width: 70px;
+    height: 70px;
+  }
+`;
