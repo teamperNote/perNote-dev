@@ -3,10 +3,18 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
     html,
     body {
-    width: 1920px;
+    width: 100%; 
+    height: 100%; 
     padding: 0;
     margin: 0;
     font-family: 'NanumSquare', sans-serif;
+    font-size: 16px; 
+    @media screen and (max-width: 1440px) {
+        font-size: 14px;
+    }
+    @media screen and (max-width: 480px) {
+        font-size: 12px;
+    }
     }
     .normal		{ font-weight: 400 }
     .bold		{ font-weight: 700 }
@@ -36,13 +44,5 @@ export const GlobalStyle = createGlobalStyle`
         overflow: hidden;
         clip-path: inset(50%);
     }
-    /* @media (prefers-color-scheme: dark) {
-    html {
-        color-scheme: dark;
-    }
-    body {
-        color: white;
-        background: black;
-    }
-    } */
+
 `;
