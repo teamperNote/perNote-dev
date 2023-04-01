@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import { dateFormat } from "lib/numberFomat";
 import { IStory } from "lib/types";
 import NoteTag from "components/NoteTag";
@@ -40,7 +41,14 @@ export default function StoryCard({
       onClick={onLinkClick}
     >
       <StoryCardImgBox>
-        <StoryCardImg src={imgUrl[0]} />
+        {/* <StoryCardImg src={imgUrl[0]} /> */}
+        <Image
+          src={imgUrl[0]}
+          alt={`${title} 대표 이미지`}
+          width={460}
+          height={300}
+          objectFit={"cover"}
+        />
         <Filter className={isShow ? "show" : "hide"}>
           <HeartBox>
             <LikeButton
@@ -57,7 +65,12 @@ export default function StoryCard({
       <InfoBox>
         <InfoFlex>
           <DateSpan>{dateFormat(createdAt)}</DateSpan>
-          <ViewIcon src={"viewIcon.svg"} />
+          <Image
+            src={"/viewIcon.svg"}
+            alt={"조회수 아이콘"}
+            width={31}
+            height={21}
+          />
           <ViewCountSpan>{viewCount}</ViewCountSpan>
         </InfoFlex>
         <TitleSpan>{title}</TitleSpan>
@@ -87,17 +100,9 @@ const StoryCardImgBox = styled.div`
   margin-bottom: 30px;
 `;
 
-const StoryCardImg = styled.img`
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
 const Filter = styled.div`
   position: absolute;
+  top: 0;
   width: 100%;
   height: 100%;
   display: flex;
@@ -149,11 +154,8 @@ const DateSpan = styled(HeartCount)`
   margin-right: 20px;
 `;
 
-const ViewIcon = styled.img`
-  margin-right: 10px;
-`;
-
 const ViewCountSpan = styled(DateSpan)`
+  margin-left: 10px;
   color: var(--third-color);
 `;
 

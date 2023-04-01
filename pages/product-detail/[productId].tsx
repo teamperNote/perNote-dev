@@ -53,12 +53,16 @@ export default function ProductDetailPage() {
         <ProductDetailContainer>
           <AboutProduct>
             <ImageContainer>
-              <MainImage
+              <Image
                 src={
                   purfumeData.data.imgUrl == ""
                     ? "/noImage.png"
                     : purfumeData.data.imgUrl
                 }
+                alt={`${purfumeData.data.name_eng} 이미지`}
+                width={580}
+                height={580}
+                objectFit={"contain"}
               />
               {/* <SubImageContainer>
                 <SubImage />
@@ -220,10 +224,15 @@ export default function ProductDetailPage() {
               {purfumeData.data.similars.map((similar) => (
                 <Link href={similar.id} key={similar.id}>
                   <SimilarsCard>
-                    <SimilarImg
+                    <Image
                       src={
                         similar.imgUrl === "" ? "/noImage.png" : similar.imgUrl
                       }
+                      alt={`${similar.name_eng} 이미지`}
+                      width={339}
+                      height={339}
+                      objectFit={"contain"}
+                      style={{ borderRadius: "30px", marginBottom: "25px" }}
                     />
                     <Span>{similar.name_eng}</Span>
                   </SimilarsCard>
@@ -252,12 +261,6 @@ const AboutProduct = styled.div`
 
 const ImageContainer = styled.div`
   margin-right: 140px;
-`;
-
-const MainImage = styled.img`
-  width: 580px;
-  height: 580px;
-  background-color: #d9d9d9;
 `;
 
 // const SubImageContainer = styled.div`
@@ -489,11 +492,4 @@ const SimilarsCard = styled.div`
   :last-child {
     margin-right: 0;
   }
-`;
-
-const SimilarImg = styled.img`
-  width: 339px;
-  height: 339px;
-  border-radius: 30px;
-  margin-bottom: 25px;
 `;

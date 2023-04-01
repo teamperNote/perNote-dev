@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import { sortArray } from "lib/arrays";
 
 export default function SortDropDown({ sort, setSort }) {
@@ -26,7 +27,12 @@ export default function SortDropDown({ sort, setSort }) {
     <SortDropDownContainer ref={DropDownRef}>
       <SortBox onClick={() => SetIsShowDropDown(!isShowDropDown)}>
         <SortName>{sortArray.find((x) => x.value === sort).text}</SortName>
-        <SortButton src={"/sortBtn.svg"} />
+        <Image
+          src={"/sortBtn.svg"}
+          alt={"정렬 아이콘"}
+          width={20}
+          height={20}
+        />
       </SortBox>
       {isShowDropDown && (
         <DropDownContainer>
@@ -71,11 +77,6 @@ const SortName = styled.div`
   color: #000000;
   margin-right: 26px;
   width: 100px;
-`;
-
-const SortButton = styled.img`
-  width: 20px;
-  height: 20px;
 `;
 
 const DropDownContainer = styled.div`

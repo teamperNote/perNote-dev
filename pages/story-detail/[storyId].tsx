@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 import axios from "axios";
 import NoteTag from "components/NoteTag";
 import RowStoryCard from "components/story/RowStoryCard";
@@ -73,7 +74,14 @@ export default function StoryDetail() {
       {story.isLoading && (
         <>
           <StoryDetailHeader>
-            <HeaderImg src={story.data.targetStory.imgUrl[0]} />
+            <Image
+              src={story.data.targetStory.imgUrl[0]}
+              alt={"스토리 메인 이미지"}
+              width={1920}
+              height={855}
+              objectFit={"cover"}
+              style={{ zIndex: "-1" }}
+            />
             <HeaderBox>
               <HeaderDate>
                 {dateFormat(story.data.targetStory.createdAt)}
@@ -90,7 +98,13 @@ export default function StoryDetail() {
                   countMargin={"0 25px 0 15px"}
                 />
                 <IconBox>
-                  <IconImg src={"/viewIcon_white.svg"} />
+                  <Image
+                    src={"/viewIcon_white.svg"}
+                    alt={"조회수 아이콘"}
+                    width={61}
+                    height={42}
+                    style={{ marginRight: "20px" }}
+                  />
                   <IconSpan>{story.data.targetStory.viewCount}</IconSpan>
                 </IconBox>
               </RowFlex>
@@ -130,7 +144,12 @@ export default function StoryDetail() {
             )}
             <ShareBox>
               <ShareIconBox ref={ModalRef} onClick={() => setIsShowModal(true)}>
-                <ShareIcon src={"/shareIcon.svg"} />
+                <Image
+                  src={"/shareIcon.svg"}
+                  alt={"공유 아이콘"}
+                  width={61}
+                  height={61}
+                />
                 {isShowModal && (
                   <BubbleBox>
                     <BubbleTitle>스토리를 SNS에 공유해보세요.</BubbleTitle>
@@ -185,7 +204,6 @@ const StoryDetailHeader = styled.div`
   width: 100%;
   height: 855px;
   background: rgba(0, 0, 0, 0.4);
-  padding: 65px 250px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -193,19 +211,12 @@ const StoryDetailHeader = styled.div`
   margin-bottom: 120px;
 `;
 
-const HeaderImg = styled.img`
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
 const HeaderBox = styled.div`
+  position: absolute;
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 65px 250px;
 `;
 
 const HeaderDate = styled.span`
@@ -235,10 +246,6 @@ const IconBox = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 7px;
-`;
-
-const IconImg = styled.img`
-  margin-right: 20px;
 `;
 
 const IconSpan = styled(HeaderDate)`
@@ -320,10 +327,6 @@ const ShareIconBox = styled.div`
   }
   margin-bottom: 110px;
   position: relative;
-`;
-
-const ShareIcon = styled.img`
-  width: 61px;
 `;
 
 const BubbleBox = styled.div`
