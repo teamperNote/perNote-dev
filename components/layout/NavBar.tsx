@@ -192,7 +192,7 @@ const Sign = styled.div`
 const LogoutButton = styled.button`
   font-family: "Noto Sans KR";
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   background-color: transparent;
   border: none;
   padding: 20px;
