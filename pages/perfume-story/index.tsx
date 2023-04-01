@@ -102,10 +102,15 @@ export const PopularTitle = styled(Span)`
 
 export const PopularStoryBox = styled.div`
   width: 1920px;
-  height: 590px;
-  display: flex;
-  overflow: hidden;
-  flex-wrap: nowrap;
+  height: 595px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  overflow-x: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 export const PurfumeTitle = styled(Span)`

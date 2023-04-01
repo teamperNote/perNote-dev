@@ -6,6 +6,8 @@ import Image from "next/image";
 import NoteTag from "components/NoteTag";
 import axios from "axios";
 import { IPerfume } from "lib/types";
+import { numberComma } from "lib/numberFomat";
+import LikeButton from "components/LikeButton";
 
 export default function ProductDetailPage() {
   const {
@@ -25,10 +27,7 @@ export default function ProductDetailPage() {
         },
       })
       .then(({ data: { perfume } }) => {
-        console.log(perfume);
         setPurfumeData({ ...purfumeData, isLoading: true, data: perfume });
-        setIsLike(perfume.liked);
-        setLikeCounts(perfume.likeCount);
       })
       .catch((err) => {
         console.log(err);
@@ -47,27 +46,6 @@ export default function ProductDetailPage() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
-
-  // 좋아요 기능
-  const [isLike, setIsLike] = useState<boolean>(false);
-  const [likeCounts, setLikeCounts] = useState<number>(0);
-  const onLikeClick = async () => {
-    if (isLike) {
-      setIsLike(false);
-      setLikeCounts(likeCounts - 1);
-    } else {
-      setIsLike(true);
-      setLikeCounts(likeCounts + 1);
-    }
-    await axios
-      .post("/api/perfumeLike", {
-        perfumeId: purfumeData.data.id,
-        userId: "64023ce1c704c82c11f5df20",
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <>
@@ -93,19 +71,15 @@ export default function ProductDetailPage() {
                 <NameBox>
                   <NameIconContainer>
                     <KorName>제품명</KorName>
-                    {/* TODO 서지수 liked 추가되면 수정하기 */}
-                    <Image
-                      src={
-                        isLike
-                          ? "/second_heartFillIcon.svg"
-                          : "/second_heartIcon.svg"
-                      }
-                      alt={`${isLike ? "like" : "unlike"} icon`}
-                      width={40}
-                      height={36.7}
-                      onClick={onLikeClick}
+                    <LikeButton
+                      id={purfumeData.data.id}
+                      direction={"row"}
+                      liked={purfumeData.data.liked}
+                      likeCount={purfumeData.data.likeCount}
+                      color={"#6E7C65"}
+                      countSize={36}
+                      countMargin={"0 20px 0 6px"}
                     />
-                    <CountSapn>{likeCounts}</CountSapn>
                     <Image
                       src={"/second_viewIcon.svg"}
                       alt={"조회수 아이콘"}
@@ -163,10 +137,50 @@ export default function ProductDetailPage() {
                   </TagBox>
                 </PerfumeInfoBox>
               </PerfumeInfo>
-              {/* <PriceInfo>
-                <div>최저가비교</div>
-                <PriceTable></PriceTable>
-              </PriceInfo> */}
+              <PriceInfo>
+                <PriceInfoTitle>최저가 비교</PriceInfoTitle>
+                <PriceTable>
+                  <PriceTableTitle>
+                    <PriceTableTitleDomain>판매처</PriceTableTitleDomain>
+                    <PriceTableTitlePrice>판매가</PriceTableTitlePrice>
+                    <PriceTableTitleLink>URL</PriceTableTitleLink>
+                  </PriceTableTitle>
+                  <ul>
+                    {purfumeData.data.lowest.map((price, idx) => (
+                      <PriceLi key={idx}>
+                        <PriceDomain>
+                          {price.domain === "11st" ||
+                          price.domain === "naver" ? (
+                            <Image
+                              src={
+                                price.domain === "11st"
+                                  ? "https://shopping-phinf.pstatic.net/20220906_14/a11d3777-7190-44e6-8bd8-8ceb36bf76b8.jpg"
+                                  : price.domain === "naver" &&
+                                    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Naver_Logotype.svg/1280px-Naver_Logotype.svg.png"
+                              }
+                              alt={`${price.domain} 이미지`}
+                              width={100}
+                              height={15}
+                              objectFit={"contain"}
+                              objectPosition={"left"}
+                            />
+                          ) : (
+                            price.domain
+                          )}
+                        </PriceDomain>
+                        <PricePrice>{numberComma(price.price)}원</PricePrice>
+                        <PriceLink
+                          href={price.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          사러가기
+                        </PriceLink>
+                      </PriceLi>
+                    ))}
+                  </ul>
+                </PriceTable>
+              </PriceInfo>
             </InformationContainer>
           </AboutProduct>
           <DescriptionContainer>
@@ -301,10 +315,10 @@ const EngName = styled(Span)`
 `;
 
 const CountSapn = styled(Span)`
+  color: #6e7c65;
   font-size: 36px;
   line-height: 37px;
   margin-left: 10px;
-  margin-right: 20px;
 `;
 
 // const PriceBox = styled.div``;
@@ -339,20 +353,83 @@ const TagBox = styled.div`
   flex-wrap: wrap;
 `;
 
-// const PriceInfo = styled.div`
-//   div {
-//     font-weight: 700;
-//     font-size: 30px;
-//     color: #808080;
-//   }
-// `;
+const PriceInfo = styled.div``;
 
-// const PriceTable = styled.div`
-//   margin-top: 20px;
-//   width: 700px;
-//   height: 397px;
-//   border: 1px solid black;
-// `;
+const PriceInfoTitle = styled.span`
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 43px;
+`;
+
+const PriceTable = styled.div`
+  margin-top: 20px;
+  width: 700px;
+  border: 2px solid var(--medium-gray-color);
+
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 25px;
+`;
+
+const PriceTableTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 55px;
+  border-bottom: 2px solid var(--medium-gray-color);
+`;
+
+const PriceTableTitleDomain = styled.div`
+  text-align: left;
+  width: 400px;
+  padding: 10px 20px;
+`;
+
+const PriceTableTitlePrice = styled(PriceTableTitleDomain)`
+  text-align: center;
+  width: 150px;
+`;
+
+const PriceTableTitleLink = styled(PriceTableTitlePrice)`
+  width: 150px;
+`;
+
+const PriceLi = styled.div`
+  display: flex;
+  height: 45px;
+  border-bottom: 1px solid var(--medium-gray-color);
+  :last-child {
+    border-bottom: 0;
+  }
+`;
+
+const PriceDomain = styled.div`
+  text-align: left;
+  width: 400px;
+  padding: 10px 20px;
+  font-weight: 500;
+`;
+
+const PricePrice = styled(PriceDomain)`
+  text-align: right;
+  width: 150px;
+`;
+
+const PriceLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  font-weight: 500;
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
 
 const DescriptionContainer = styled.div`
   border-bottom: 2px solid #b2b2b2;

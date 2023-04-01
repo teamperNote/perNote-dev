@@ -6,7 +6,7 @@ import Link from "next/link";
 import CategoryDropDown from "../category/CategoryDropDown";
 import axiosInstance from "../../lib/api/config";
 import { useRecoilState } from "recoil";
-import { loginState } from "pages/@store/loginState";
+import { loginState } from "@store/loginState";
 export default function NavBar() {
   const [loginInfo, setLoginInfo] = useRecoilState(loginState);
   const [isLoginNav, setIsLoginNav] = useState(false);
