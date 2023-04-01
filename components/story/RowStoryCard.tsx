@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 import { dateFormat } from "lib/numberFomat";
 import { IStory } from "lib/types";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 interface IProps {
   data: IStory;
@@ -14,7 +16,14 @@ export default function RowStoryCard({
     <Link href={`${id}`}>
       <RowStoryCardContainer>
         <ImgBox>
-          <Img src={imgUrl[0]} />
+          <Image
+            src={imgUrl[0]}
+            alt={`${title} 대표 이미지`}
+            width={650}
+            height={505}
+            objectFit={"cover"}
+            style={{ borderRadius: "20px" }}
+          />
         </ImgBox>
         <InfoBox>
           <DateSpan>{dateFormat(createdAt)}</DateSpan>
@@ -30,7 +39,12 @@ export default function RowStoryCard({
               <IconSpan>{likeCount}</IconSpan>
             </IconBox>
             <IconBox>
-              <IconImg src={"/viewIcon.svg"} />
+              <Image
+                src={"/viewIcon.svg"}
+                alt={"조회수 아이콘"}
+                width={49}
+                height={33}
+              />
               <IconSpan>{viewCount}</IconSpan>
             </IconBox>
           </IconContainer>
@@ -56,14 +70,6 @@ const ImgBox = styled.div`
   width: 650px;
   height: 100%;
   margin-right: 67px;
-`;
-
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  object-fit: cover;
 `;
 
 const InfoBox = styled.div`
@@ -114,13 +120,9 @@ const IconBox = styled.div`
   }
 `;
 
-const IconImg = styled.img`
-  margin-right: 13px;
-  height: 100%;
-`;
-
 const IconSpan = styled(DateSpan)`
   font-size: 25px;
-  line-height: 36px;
+  line-height: 48px;
+  margin-left: 13px;
   color: var(--third-color);
 `;

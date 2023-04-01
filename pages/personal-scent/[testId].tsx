@@ -109,10 +109,17 @@ export default function PersonalScent() {
               </TagText>
             </RecommendationTag>
           </TagBox>
-          <PerfumeImage
+          <Image
             src={top5[0].imgUrl ? top5[0].imgUrl : "/noImage.png"}
+            alt={`${top5[0].name_eng} 이미지`}
+            width={730}
+            height={730}
+            objectFit={"contain"}
+            style={{ borderRadius: "30px" }}
           />
-          <SubTitle margin_B={"60px"}>{top5[0].name_eng}</SubTitle>
+          <SubTitle margin_T={"60px"} margin_B={"60px"}>
+            {top5[0].name_eng}
+          </SubTitle>
           {/* TODO 서지수 향수 설명 없음 */}
           {/* <PerfumeDesc
             ref={contentRef}
@@ -160,8 +167,15 @@ export default function PersonalScent() {
             {top5.slice(1, 5).map((data) => (
               <Link href={`/product-detail/${data.id}`} key={data.id}>
                 <SubRecommendationCard>
-                  <SubRecommendationImg
+                  <Image
                     src={data.imgUrl ? data.imgUrl : "/noImage.png"}
+                    alt={`${data.name_eng}`}
+                    width={339}
+                    height={339}
+                    objectFit={"contain"}
+                    style={{
+                      borderRadius: "30px",
+                    }}
                   />
                   <SubPerfumeName>{data.name_eng}</SubPerfumeName>
                 </SubRecommendationCard>
@@ -220,16 +234,10 @@ export const TagText = styled(Span)`
   }
 `;
 
-export const PerfumeImage = styled.img`
-  width: 730px;
-  height: 730px;
-  border-radius: 30px;
-  margin-bottom: 60px;
-`;
-
-export const SubTitle = styled(Span)<{ margin_B: string }>`
+export const SubTitle = styled(Span)<{ margin_B: string; margin_T?: string }>`
   font-size: 40px;
   line-height: 58px;
+  margin-top: ${({ margin_T }) => margin_T};
   margin-bottom: ${({ margin_B }) => margin_B};
 `;
 
@@ -343,14 +351,6 @@ export const SubRecommendationCard = styled.div`
   cursor: pointer;
 `;
 
-export const SubRecommendationImg = styled.img`
-  width: 339px;
-  height: 339px;
-  background: #d9d9d9;
-  border-radius: 30px;
-  margin-bottom: 25px;
-`;
-
 export const SubPerfumeName = styled.span`
   font-family: "Noto Sans KR";
   font-style: normal;
@@ -360,23 +360,5 @@ export const SubPerfumeName = styled.span`
   text-align: center;
   color: #000000;
   width: 339px;
+  margin-top: 25px;
 `;
-
-// const conditions = [
-//   {
-//     id: 0,
-//     text: "눈이 내리는 겨울",
-//   },
-//   {
-//     id: 1,
-//     text: "데이트 할 때",
-//   },
-//   {
-//     id: 2,
-//     text: "파티에 갈 때",
-//   },
-//   {
-//     id: 3,
-//     text: "꾸안꾸 데일리로",
-//   },
-// ];
