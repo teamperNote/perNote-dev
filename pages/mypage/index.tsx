@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { loginState } from "../../@store/loginState";
 import { useRecoilState } from "recoil";
 import { withAuth } from "components/HOC/withAuth";
 import axiosInstance from "../../lib/api/config";
+import { loginState } from "@store/loginState";
 
 interface UserType {
   birth: string;
@@ -26,13 +26,11 @@ function MyPage() {
   useEffect(() => {
     async function getUserInfo() {
       const userInfo: UserType = await axiosInstance.get("/api/users/getInfo");
-      return userInfo.name;
+      setUserName(userInfo.name);
     }
+    getUserInfo();
   }, []);
 
-  // useEffect(() => {b
-  //   console.log(userInfo);
-  // }, [userInfo]);
   return (
     <MypageContainer>
       <ProfileImageContainer>
