@@ -9,6 +9,8 @@ import RowStoryCard from "components/story/RowStoryCard";
 import { dateFormat } from "lib/numberFomat";
 import { IStory } from "lib/types";
 import LikeButton from "components/LikeButton";
+import { useRecoilValue } from "recoil";
+import { loginState } from "@store/loginState";
 
 interface IStoryList {
   isLoading: boolean;
@@ -65,7 +67,8 @@ export default function StoryDetail() {
   }, [storyId]);
 
   // TODO 서지수 로그인 기능 구현 후 삭제
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const loginInfo = useRecoilValue<string>(loginState);
+
   // TODO 서지수 유저 정보 저장 있으면 삭제
   const [isNoti, setIsNoti] = useState<boolean>(false);
 
@@ -119,7 +122,7 @@ export default function StoryDetail() {
                 ))}
               </TagBox>
             </ContentBox>
-            {!isLogin ? (
+            {!loginInfo ? (
               <NotiBox>
                 <NotiText>
                   새로운 메거진이 궁금하신가요? <br />
