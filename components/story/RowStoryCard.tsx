@@ -22,11 +22,11 @@ export default function RowStoryCard({
           <TextSpan>{body}</TextSpan>
           <IconContainer>
             <IconBox>
-              <IconImg
-                src={
-                  liked ? "/heartFillIcon_green.svg" : "/heartIcon_green.svg"
-                }
-              />
+              {liked ? (
+                <AiFillHeart size={48} color={"#9FAC9A"} />
+              ) : (
+                <AiOutlineHeart size={48} color={"#9FAC9A"} />
+              )}
               <IconSpan>{likeCount}</IconSpan>
             </IconBox>
             <IconBox>
