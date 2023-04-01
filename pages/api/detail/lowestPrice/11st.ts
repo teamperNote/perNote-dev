@@ -14,6 +14,7 @@ export default async function lowest11st(query) {
     price = 0,
     url = "";
   if (
+    data["ProductSearchResponse"] &&
     data["ProductSearchResponse"]["Products"]["TotalCount"]["_text"] !== "0"
   ) {
     name =
@@ -35,7 +36,7 @@ export default async function lowest11st(query) {
     name: name,
     price: price,
     url: url,
-    // data,
+    data,
     // query: query,
   };
 }
