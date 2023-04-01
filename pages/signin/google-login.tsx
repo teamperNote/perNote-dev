@@ -1,4 +1,6 @@
+import Image from "next/image";
 import React from "react";
+import Link from "next/link";
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
@@ -7,7 +9,16 @@ function GoogleLogin() {
 
   return (
     <>
-      <a href={request_url}>구글로그인</a>
+      <Link href={request_url}>
+        <a>
+          <Image
+            src="/login_goggle.png"
+            alt="구글 로그인"
+            width={90}
+            height={90}
+          />
+        </a>
+      </Link>
     </>
   );
 }
