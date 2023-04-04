@@ -63,23 +63,22 @@ const RadioContainer = styled.li`
 
 const FormLabel = styled.label<MarginProps>`
   display: inline-block;
-  width: ${(props) =>
-    props.marginProps === "/mypage/edit-info" ? "248px" : "300px"};
-  text-align: right;
+  width: 120px;
+  text-align: left;
   font-weight: 400;
-  font-size: 35px;
+  font-size: 1.25rem;
   margin-right: 63px;
 `;
 const RadioButton = styled.div`
   font-weight: 400;
-  font-size: 30px;
+  font-size: 1.25rem;
   margin-right: 35px;
   display: flex;
   align-items: center;
   input {
-    width: 30px;
-    height: 30px;
-    margin-right: 26px;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
     accent-color: #525d4d;
   }
 
