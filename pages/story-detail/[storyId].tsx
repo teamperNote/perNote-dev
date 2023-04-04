@@ -66,7 +66,6 @@ export default function StoryDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storyId]);
 
-  // TODO 서지수 로그인 기능 구현 후 삭제
   const loginInfo = useRecoilValue<string>(loginState);
 
   // TODO 서지수 유저 정보 저장 있으면 삭제
