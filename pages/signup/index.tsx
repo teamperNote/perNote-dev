@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -164,7 +164,7 @@ function Signup() {
     const convertYear = Number(year);
     const convertMonth = Number(month);
     const convertDay = Number(day);
-    const birthday = new Date(convertYear, convertMonth - 1, convertDay + 1);
+    const birthday = new Date(convertYear, convertMonth - 1, convertDay);
     return birthday;
   };
 
@@ -221,27 +221,42 @@ function Signup() {
 
   return (
     <SignupWrapper>
-      <Title>회원가입</Title>
-      <SnsSection>
+      <h2 className="read-only">회원가입</h2>
+      <section>
         <SnsTitle>SNS 회원가입</SnsTitle>
         <SnsList>
-          <SnsItem>
-            <SnsLink className="kakao-link" href={kakao_api_url}>
-              카카오로 시작하기
+          <li>
+            <SnsLink href={kakao_api_url}>
+              <SnsIcon
+                src="/login_kakao.svg"
+                alt="카카오로 로그인"
+                width={90}
+                height={90}
+              />
             </SnsLink>
-          </SnsItem>
-          <SnsItem>
-            <SnsLink className="naver-link" href={naver_api_url}>
-              네이버로 시작하기
+          </li>
+          <li>
+            <SnsLink href={naver_api_url}>
+              <SnsIcon
+                src="/login_naver.svg"
+                alt="네이버로 로그인"
+                width={90}
+                height={90}
+              />
             </SnsLink>
-          </SnsItem>
-          <SnsItem>
+          </li>
+          <li>
             <SnsLink className="google-link" href={google_request_url}>
-              구글로 시작하기
+              <SnsIcon
+                src="/login_goggle.png"
+                alt="구글 로그인"
+                width={90}
+                height={90}
+              />
             </SnsLink>
-          </SnsItem>
+          </li>
         </SnsList>
-      </SnsSection>
+      </section>
       <LocalSection>
         <SignupForm>
           <Field>
@@ -332,12 +347,25 @@ function Signup() {
               <BirthDayFormItem>
                 <label htmlFor="birth">생년월일</label>
                 <div>
-                  <input
-                    type="text"
-                    placeholder="년(4자)"
+                  <select
+                    name="year"
+                    id="year"
                     value={year}
                     onChange={inputYear}
-                  />
+                  >
+                    <option value="" selected>
+                      년도
+                    </option>
+                    {Array(84)
+                      .fill(null)
+                      .map((item, index) => {
+                        return (
+                          <option key={index} value={index + 1940}>
+                            {index + 1940}
+                          </option>
+                        );
+                      })}
+                  </select>
                   <select
                     name="month"
                     id="month"
@@ -357,17 +385,25 @@ function Signup() {
                         );
                       })}
                   </select>
-                  <input
-                    type="text"
-                    placeholder="일"
-                    value={day}
-                    onChange={inputDay}
-                  />
+                  <select name="day" id="day" value={day} onChange={inputDay}>
+                    <option value="" selected>
+                      일
+                    </option>
+                    {Array(31)
+                      .fill(null)
+                      .map((item, index) => {
+                        return (
+                          <option key={index} value={index + 1}>
+                            {index + 1}
+                          </option>
+                        );
+                      })}
+                  </select>
                 </div>
               </BirthDayFormItem>
               <RadioItem radioData={radioList[0]} setStateValue={setGender} />
             </FormList>
-            <CheckList>
+            {/* <CheckList>
               {agreeList.map((item: any, index: any) => (
                 <AgreeItem
                   key={index}
@@ -378,7 +414,7 @@ function Signup() {
                   setStateValue={setIsCheckMust}
                 />
               ))}
-            </CheckList>
+            </CheckList> */}
           </Field>
           <SignupButton
             isActive={checkRequired() ? "isActive" : ""}
@@ -398,70 +434,55 @@ const SignupWrapper = styled.div`
   ul {
     list-style-type: none;
     padding: 0;
-    padding-top: 70px;
+    padding-top: 50px;
   }
 
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding-top: 290px;
+  padding-top: 180px;
   padding-bottom: 200px;
-`;
-
-const Title = styled.h2`
-  font-weight: 700;
-  font-size: 50px;
-`;
-
-const SnsSection = styled.section`
-  margin-top: 110px;
 `;
 
 const SnsTitle = styled.h3`
   text-align: center;
   margin: 0;
   font-weight: 700;
-  font-size: 40px;
+  font-size: 1.75rem;
 `;
 
 const SnsList = styled.ul`
+  display: flex;
+  gap: 50px;
   margin: 0;
   padding: 0;
-  margin-top: 70px;
-`;
-
-const SnsItem = styled.li`
-  width: 940px;
-  height: 120px;
-  padding: 1rem 2rem;
-  margin-bottom: 35px;
 `;
 
 const SnsLink = styled.a`
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   font-weight: 400;
-  font-size: 35px;
-  text-align: center;
-  vertical-align: middle;
-  padding: 26.5px 0;
-  border-radius: 10px;
-  &.kakao-link {
-    background-color: #fee500;
-  }
-  &.naver-link {
-    background-color: #03c75a;
-    color: white;
-  }
+  font-size: 1.25rem;
+  border-radius: 14px;
   &.google-link {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
+    border-radius: 50%;
   }
 `;
 
+const SnsIcon = styled.img`
+  width: 90px;
+  height: 90px;
+  @media screen and (max-width: 1440px) {
+    width: 70px;
+    height: 70px;
+  }
+`;
 const LocalSection = styled.section`
-  margin-top: 130px;
+  margin-top: 90px;
 `;
 
 const SignupForm = styled.form`
@@ -469,24 +490,20 @@ const SignupForm = styled.form`
   flex-flow: column nowrap;
   align-items: center;
   position: relative;
-  width: 1180px;
 `;
 
 const Field = styled.fieldset`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: none;
-  border-top: 3px solid #d9d9d9;
+  padding: 0 50px;
 `;
 
 const LocalTitle = styled.h3`
-  position: absolute;
-  margin: 0;
-  padding: 0 15px;
-  top: 0;
-  left: 50%;
-  transform: translate(-129.205px, -22.5px);
-  background: var(--white-color);
   font-weight: 700;
-  font-size: 40px;
+  font-size: 1.75rem;
 `;
 
 const FormList = styled.ul`
@@ -497,16 +514,16 @@ const FormList = styled.ul`
 const FormItem = styled.li`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
-  margin-top: 35px;
+  margin-top: 20px;
 `;
 
 const Message = styled.div`
   margin-top: 20px;
   font-weight: 400;
-  font-size: 20px;
-  /* label 너비 300px + label margin-right 더한 값으로 위치 잡기 */
-  padding-left: 360px;
+  font-size: 1rem;
+  padding-left: 184px;
 `;
 const CheckList = styled.ul`
   margin-top: 100px;
@@ -517,15 +534,15 @@ const CheckList = styled.ul`
 const SignupButton = styled.button<SignupProps>`
   cursor: ${(props) =>
     props.isActive === "isActive" ? "pointer" : "not-allowed"};
-  width: 800px;
-  height: 120px;
+  width: 333px;
+  height: 60px;
   border: none;
   background: ${(props) =>
     props.isActive === "isActive" ? "#525d4d" : "#d9d9d9"};
-  border-radius: 20px;
+  border-radius: 10px;
   color: ${(props) => (props.isActive === "isActive" ? "white" : "#616161")};
   font-weight: 400;
-  font-size: 40px;
+  font-size: 1.5rem;
   margin-top: 93px;
 `;
 
@@ -538,10 +555,10 @@ const BirthDayFormItem = styled.li`
   label {
     display: inline-block;
     /* 248px 이상이면 레이아웃 깨짐  */
-    width: 300px;
-    text-align: right;
+    width: 120px;
+    text-align: left;
     font-weight: 400;
-    font-size: 35px;
+    font-size: 1.25rem;
     margin-right: 63px;
   }
 
@@ -549,11 +566,11 @@ const BirthDayFormItem = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 460px;
+    width: 330px;
   }
   input {
-    width: 140px;
-    height: 70px;
+    width: 90px;
+    height: 46px;
     padding: 10px 14px;
     font-size: 1rem;
     border: 2px solid #d9d9d9;
@@ -565,11 +582,14 @@ const BirthDayFormItem = styled.li`
   }
 
   select {
-    width: 140px;
-    height: 70px;
+    width: 90px;
+    height: 46px;
     padding: 10px 14px;
     font-size: 1rem;
     border: 2px solid #d9d9d9;
     appearance: none;
+    background: url("/down_arrow.svg") no-repeat;
+    background-position: 60px 16px;
+    background-size: 14px 10px;
   }
 `;

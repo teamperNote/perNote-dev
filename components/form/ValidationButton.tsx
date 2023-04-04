@@ -11,11 +11,11 @@ function ValidationButton({ click, children }: ButtonProps) {
 
 export default ValidationButton;
 const FormButton = styled.button`
-  width: 150px;
-  height: 70px;
+  width: 120px;
+  height: 44px;
   background: transparent;
   border: 2px solid #d9d9d9;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 1rem;
   margin-left: 47px;
 `;

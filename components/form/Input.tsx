@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
@@ -42,19 +42,17 @@ export default Input;
 
 const FormLabel = styled.label<MarginProps>`
   display: inline-block;
-  /* 248px 이상이면 레이아웃 깨짐  */
-  width: ${(props) =>
-    props.marginProps === "/mypage/edit-info" ? "248px" : "300px"};
-  text-align: right;
+  width: 120px;
+  text-align: left;
   font-weight: 400;
-  font-size: 35px;
+  font-size: 1.25rem;
   margin-right: 63px;
 `;
 
 const FormInput = styled.input`
   border: 2px solid #d9d9d9;
-  width: 460px;
-  height: 70px;
+  width: 333px;
+  height: 46px;
   padding: 8px 0 8px 4px;
-  font-size: 30px;
+  font-size: 1.25rem;
 `;

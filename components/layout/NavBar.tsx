@@ -122,19 +122,28 @@ const NavBarContainer = styled.div`
   &.transparent button {
     color: var(--white-color);
   }
+  @media screen and (max-width: 1440px) {
+    height: 80px;
+  }
 `;
 
 const NavBarBox = styled.div`
-  width: 1920px;
+  width: 100%;
   padding: 20px 50px 21px 50px;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 1440px) {
+    padding: 10px 40px 11px 40px;
+  }
 `;
 
 const PernoteLogo = styled.div`
   margin-right: 113px;
   padding: 20px;
   cursor: pointer;
+  @media screen and (max-width: 1440px) {
+    margin-right: 50px;
+  }
 `;
 
 const NavigatorBox = styled.div`
@@ -154,7 +163,7 @@ const NavigatorLink = styled.div`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 29px;
   margin-right: 20px;
   padding: 20px;
@@ -173,7 +182,7 @@ const Sign = styled.div`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 29px;
   padding: 20px;
   margin-left: 5px;
@@ -183,7 +192,7 @@ const Sign = styled.div`
 const LogoutButton = styled.button`
   font-family: "Noto Sans KR";
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   background-color: transparent;
   border: none;
   padding: 20px;

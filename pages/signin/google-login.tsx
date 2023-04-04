@@ -1,6 +1,6 @@
-import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import styled from "styled-components";
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
@@ -11,7 +11,7 @@ function GoogleLogin() {
     <>
       <Link href={request_url}>
         <a>
-          <Image
+          <GoogleIcon
             src="/login_goggle.png"
             alt="구글 로그인"
             width={90}
@@ -24,3 +24,11 @@ function GoogleLogin() {
 }
 
 export default GoogleLogin;
+const GoogleIcon = styled.img`
+  width: 90px;
+  height: 90px;
+  @media screen and (max-width: 1440px) {
+    width: 70px;
+    height: 70px;
+  }
+`;

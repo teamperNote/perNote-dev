@@ -101,6 +101,9 @@ const FirstMain = styled.div`
   height: 1080px;
   background-image: url("/perNoteBackImg.png");
   background-size: cover;
+  @media screen and (max-width: 1440px) {
+    height: 789px;
+  }
 `;
 
 const MainText = styled.div`
@@ -114,12 +117,12 @@ const MainText = styled.div`
 const MainTitle = styled.div`
   margin-bottom: 30px;
   font-weight: bold;
-  font-size: 50px;
+  font-size: 3.125rem;
 `;
 
 const MainContent = styled.div`
   font-weight: normal;
-  font-size: 30px;
+  font-size: 1.875rem;
 `;
 const SecondMain = styled.div`
   margin-top: 196px;
@@ -134,11 +137,15 @@ const PerNoteImage = styled.img`
   height: 392px;
   margin-bottom: 90px;
   border-radius: 30px;
+  @media screen and (max-width: 1440px) {
+    width: 1188px;
+    height: 280px;
+  }
 `;
 
 const PerNoteIntroContent = styled.pre`
   font-weight: 400;
-  font-size: 30px;
+  font-size: 1.875rem;
   white-space: pre;
   word-break: break-all;
   overflow: auto;
@@ -155,6 +162,9 @@ const ThirdMain = styled.div`
   height: 1080px;
   margin-bottom: 200px;
   position: relative;
+  @media screen and (max-width: 1440px) {
+    height: 789px;
+  }
 `;
 
 const PersonalScentContent = styled.div`
@@ -167,7 +177,7 @@ const PersonalScentContent = styled.div`
 const ScentTitle = styled.h2`
   margin: 0;
   font-weight: 700;
-  font-size: 50px;
+  font-size: 3.125rem;
   text-align: center;
   color: white;
   margin-bottom: 25px;
@@ -175,7 +185,7 @@ const ScentTitle = styled.h2`
 
 const ScentContent = styled.pre`
   font-weight: 400;
-  font-size: 30px;
+  font-size: 1.875rem;
   color: white;
   margin-bottom: 65px;
   white-space: pre;
@@ -194,7 +204,7 @@ const ScentButton = styled.button`
   width: 166px;
   height: 53px;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   padding: 12px 25px;
 `;
 // 네번째
@@ -221,46 +231,51 @@ const PerfumeImage = styled.img`
   height: 530px;
   border-radius: 30px;
   margin-bottom: 30px;
+  @media screen and (max-width: 1440px) {
+    width: 370px;
+    height: 370px;
+  }
 `;
 
 const PerfumeName = styled.div`
   font-weight: normal;
-  font-size: 30px;
+  font-size: 1.875rem;
 `;
 
 const PerfumeStoryIntroTitle = styled.div`
   margin-bottom: 25px;
   font-weight: bold;
-  font-size: 50px;
+  font-size: 3.125rem;
 `;
 const PerfumeStoryIntroContent = styled.div`
   margin-bottom: 35px;
   font-weight: normal;
-  font-size: 30px;
+  font-size: 1.875rem;
   margin-bottom: 45px;
 `;
 
 const GuidText = styled.div`
   font-weight: 400;
-  font-size: 30px;
+  font-size: 1.875rem;
   color: #656565;
   margin-bottom: 39px;
 `;
 const SubscribeButton = styled.button`
   cursor: pointer;
-  width: 269px;
-  height: 69px;
+  width: 166px;
+  height: 53px;
   background: #9fac9a;
   border: none;
   border-radius: 100px;
   font-weight: 400;
-  font-size: 30px;
+  /* font-size: 1.875rem; */
+  font-size: 1.5rem;
   color: white;
-  padding-left: 49px;
+  padding-left: 24px;
   padding-top: 4px;
   .subscribe-icon {
     float: left;
-    margin-right: 22px;
+    margin-right: 18px;
   }
   .subscribe-text {
     float: left;
@@ -281,12 +296,12 @@ const CategoryIntro = styled.div`
 
 const CategoryIntroTitle = styled.div`
   font-weight: bold;
-  font-size: 50px;
+  font-size: 3.125rem;
   margin-bottom: 30px;
 `;
 const CategoryIntroContent = styled.div`
   font-weight: normal;
-  font-size: 30px;
+  font-size: 1.875rem;
   margin-bottom: 35px;
   line-height: 43px;
 `;
@@ -300,7 +315,7 @@ const CategoryButton = styled.button`
   border-radius: 100px;
   background: #9fac9a;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   color: white;
 `;
 
@@ -309,4 +324,8 @@ const CategoryImage = styled.img`
   height: 642px;
   margin-right: 74px;
   border-radius: 30px;
+  @media screen and (max-width: 1440px) {
+    width: 270px;
+    height: 390px;
+  }
 `;
