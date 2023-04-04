@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import styled from "styled-components";
 import {
   genderArray,
@@ -10,6 +11,8 @@ import {
   featureArray,
 } from "lib/arrays";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { loginState } from "@store/loginState";
 
 export default function PersonalSurvey() {
   const router = useRouter();
@@ -52,8 +55,29 @@ export default function PersonalSurvey() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scentData.feature]);
 
+  const loginInfo = useRecoilValue<string>(loginState);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  useEffect(() => {
+    setIsLogin(Boolean(loginInfo));
+  }, [loginInfo]);
+
   return (
     <PersonalScentContainer>
+      {!isLogin && (
+        <NotLoginContainer>
+          <NotLoginBox>
+            <NotLoginTitle className={"bold f50"}>Personal Scent</NotLoginTitle>
+            <NotLoginSpan className={"regular f30"}>
+              Personal scent는 나만의 향수를 찾는 여정입니다.
+              <br />
+              해당 기능은 로그인이 필요한 서비스입니다.
+            </NotLoginSpan>
+            <Link href={"/signin"}>
+              <LoginButton className={"regular f40"}>로그인</LoginButton>
+            </Link>
+          </NotLoginBox>
+        </NotLoginContainer>
+      )}
       <Background>
         <PersonalScentBox>
           {page == "start" && (
@@ -64,7 +88,7 @@ export default function PersonalSurvey() {
                 <br />
                 간단한 질문으로 여러분의 향을 찾아드립니다.
               </PersonalScentText>
-              <StartBtn onClick={() => router.push("gender")}>
+              <StartBtn onClick={() => isLogin && router.push("gender")}>
                 <StartSpan>START</StartSpan>
               </StartBtn>
             </>
@@ -196,6 +220,7 @@ export default function PersonalSurvey() {
 
 export const PersonalScentContainer = styled.div`
   padding-top: 110px;
+  position: relative;
 `;
 
 export const Background = styled.div`
@@ -371,4 +396,47 @@ export const TextCard = styled(Card)`
 
 export const TextCardContent = styled(CardContent)`
   margin-top: 0;
+`;
+
+export const NotLoginContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const NotLoginBox = styled.div`
+  width: 940px;
+  height: 552px;
+  background: var(--white-color);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px;
+  margin-top: 80px;
+`;
+
+export const NotLoginTitle = styled.span`
+  margin-bottom: 50px;
+`;
+
+export const NotLoginSpan = styled.span`
+  margin-bottom: 72px;
+  text-align: center;
+  font-size: 30px;
+  line-height: 43px;
+`;
+
+export const LoginButton = styled.button`
+  width: 387px;
+  height: 90px;
+  background: var(--primary-color);
+  border-radius: 100px;
+  color: var(--white-color);
+  cursor: pointer;
 `;
