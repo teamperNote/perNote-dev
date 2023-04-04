@@ -15,10 +15,7 @@ export const GlobalStyle = createGlobalStyle`
     @media screen and (max-width: 480px) {
         font-size: 12px;
     }
-    }
-    .normal		{ font-weight: 400 }
-    .bold		{ font-weight: 700 }
-    
+    }    
 
     a {
         color: inherit;
@@ -29,12 +26,14 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         list-style-type: none;
     }
-    h1, h2,h3, h4{
+    h1, h2, h3, h4{
         margin: 0
     }
 
     * {
-    box-sizing: border-box;
+        box-sizing: border-box;
+        font-family: 'Noto Sans KR';
+        font-style: normal;
     }
 
     .read-only{
@@ -45,4 +44,43 @@ export const GlobalStyle = createGlobalStyle`
         clip-path: inset(50%);
     }
 
+    .bold { 
+        font-weight: 700
+    }
+    .medium { 
+        font-weight: 500 
+    }
+    .regular { 
+        font-weight: 400 
+    }
+
+    .f80{
+        font-size: 5rem;
+        line-height: 7.25rem;
+    }
+
+    .f50 {
+        font-size: 3.125rem;
+        line-height: 4.5rem;
+    }
+
+    .f40 {
+        font-size: 2.5rem;
+        line-height: 3.625rem;
+    }
+
+    .f35 {
+        font-size: 2.1875rem;
+        line-height: 3.1875rem;
+    }
+
+    .f30 {
+        font-size: 1.875rem;
+        line-height: 2.6875rem;
+    }
+
+    .f20 {
+        font-size: 1.25rem;
+        line-height: 1.8125rem;
+    }
 `;
