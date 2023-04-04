@@ -82,26 +82,29 @@ export default function PersonalSurvey() {
         <PersonalScentBox>
           {page == "start" && (
             <>
-              <PersonalScentTitle>Personal Scent</PersonalScentTitle>
-              <PersonalScentText>
+              <PersonalScentTitle className={"bold f80"}>
+                Personal Scent
+              </PersonalScentTitle>
+              <PersonalScentText className={"regular f35"}>
                 자신만의 향을 찾기 어려우셨나요?
                 <br />
                 간단한 질문으로 여러분의 향을 찾아드립니다.
               </PersonalScentText>
-              <StartBtn onClick={() => isLogin && router.push("gender")}>
-                <StartSpan>START</StartSpan>
+              <StartBtn
+                className={"bold f40"}
+                onClick={() => isLogin && router.push("gender")}
+              >
+                START
               </StartBtn>
             </>
           )}
           {page == "gender" && (
             <>
-              <SubTitle>어느 성별의 향을 원하시나요?</SubTitle>
+              <SubTitle className={"bold f35"}>
+                어느 성별의 향을 원하시나요?
+              </SubTitle>
               <CardContainer>
                 {genderArray.map((data) => (
-                  // <DotBox key={data.id}>
-                  //   <GenderDot></GenderDot>
-                  //   <DotText>{data.content}</DotText>
-                  // </DotBox>
                   <Card
                     key={data.id}
                     margin_R={"30px"}
@@ -110,7 +113,9 @@ export default function PersonalSurvey() {
                       router.replace("concentration");
                     }}
                   >
-                    <CardContent>{data.text}</CardContent>
+                    <CardContent className={"regular f25"}>
+                      {data.text}
+                    </CardContent>
                   </Card>
                 ))}
               </CardContainer>
@@ -118,7 +123,9 @@ export default function PersonalSurvey() {
           )}
           {page == "concentration" && (
             <>
-              <SubTitle>어느 때에 향수를 뿌리고 싶으신가요?</SubTitle>
+              <SubTitle className={"bold f35"}>
+                어느 때에 향수를 뿌리고 싶으신가요?
+              </SubTitle>
               <CardContainer>
                 {concentrationArray.map((data) => (
                   <Card
@@ -128,7 +135,9 @@ export default function PersonalSurvey() {
                       router.replace("season");
                     }}
                   >
-                    <CardContent>{data.text}</CardContent>
+                    <CardContent className={"regular f25"}>
+                      {data.text}
+                    </CardContent>
                   </Card>
                 ))}
               </CardContainer>
@@ -136,7 +145,9 @@ export default function PersonalSurvey() {
           )}
           {page == "season" && (
             <>
-              <SubTitle>당신이 좋아하는 계절은 무엇인가요?</SubTitle>
+              <SubTitle className={"bold f35"}>
+                당신이 좋아하는 계절은 무엇인가요?
+              </SubTitle>
               <CardContainer>
                 {seasonArray.map((data) => (
                   <Card
@@ -146,7 +157,9 @@ export default function PersonalSurvey() {
                       router.replace("color");
                     }}
                   >
-                    <CardContent>{data.text}</CardContent>
+                    <CardContent className={"regular f25"}>
+                      {data.text}
+                    </CardContent>
                   </Card>
                 ))}
               </CardContainer>
@@ -154,7 +167,11 @@ export default function PersonalSurvey() {
           )}
           {page == "color" && (
             <>
-              <SubTitle margin_T={"90px"} margin_B={"67px"}>
+              <SubTitle
+                className={"bold f35"}
+                margin_T={"90px"}
+                margin_B={"67px"}
+              >
                 당신이 좋아하는 색은 무엇인가요?
               </SubTitle>
               <ColorCardContainer>
@@ -167,7 +184,9 @@ export default function PersonalSurvey() {
                     }}
                   >
                     <Color background={data.color} />
-                    <ColorCardContent>{data.text}</ColorCardContent>
+                    <ColorCardContent className={"regular f20"}>
+                      {data.text}
+                    </ColorCardContent>
                   </ColorCard>
                 ))}
               </ColorCardContainer>
@@ -175,7 +194,11 @@ export default function PersonalSurvey() {
           )}
           {page == "personality" && (
             <>
-              <SubTitle margin_T={"90px"} margin_B={"92px"}>
+              <SubTitle
+                className={"bold f35"}
+                margin_T={"90px"}
+                margin_B={"92px"}
+              >
                 당신을 가장 잘 표현한 단어는 무엇인가요? (단일 선택)
               </SubTitle>
               <TextCardContainer>
@@ -187,7 +210,9 @@ export default function PersonalSurvey() {
                       router.replace("feature");
                     }}
                   >
-                    <TextCardContent>{data.text}</TextCardContent>
+                    <TextCardContent className={"regular f25"}>
+                      {data.text}
+                    </TextCardContent>
                   </TextCard>
                 ))}
               </TextCardContainer>
@@ -195,7 +220,7 @@ export default function PersonalSurvey() {
           )}
           {page == "feature" && (
             <>
-              <SubTitle margin_B="100px">
+              <SubTitle className={"bold f35"} margin_B="100px">
                 당신이 원하는 향수는 어떤 느낌인가요? (단일 선택)
               </SubTitle>
               <TextCardContainer>
@@ -206,7 +231,9 @@ export default function PersonalSurvey() {
                       setScentData({ ...scentData, feature: data.value });
                     }}
                   >
-                    <TextCardContent>{data.text}</TextCardContent>
+                    <TextCardContent className={"regular f25"}>
+                      {data.text}
+                    </TextCardContent>
                   </TextCard>
                 ))}
               </TextCardContainer>
@@ -221,16 +248,22 @@ export default function PersonalSurvey() {
 export const PersonalScentContainer = styled.div`
   padding-top: 110px;
   position: relative;
+  @media screen and (max-width: 1440px) {
+    padding-top: 80px;
+  }
 `;
 
 export const Background = styled.div`
-  width: 1920px;
+  width: 100%;
   height: 970px;
   background-image: url("/green.jpg");
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 79px;
+  margin-bottom: 4.9375rem;
+  @media screen and (max-width: 1440px) {
+    height: calc(100vh - 80px);
+  }
 `;
 
 export const PersonalScentBox = styled.div`
@@ -241,105 +274,74 @@ export const PersonalScentBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 1440px) {
+    width: 74%;
+    height: 76%;
+  }
+  @media screen and (max-width: 480px) {
+    width: 100vw;
+    height: 100vh;
+  }
 `;
 
 export const PersonalScentTitle = styled.span`
-  font-family: "Noto Sans KR";
-  font-weight: 700;
-  font-size: 80px;
-  line-height: 116px;
   margin-top: 148.05px;
   margin-bottom: 30.57px;
+  @media screen and (max-width: 1440px) {
+    margin-top: calc(100vh * 0.1);
+    margin-bottom: calc(100vh * 0.03);
+  }
 `;
 
 export const PersonalScentText = styled.span`
-  font-family: "Noto Sans KR";
-  font-weight: 400;
-  font-size: 35px;
-  line-height: 51px;
   text-align: center;
-  margin-bottom: 127.88px;
+  margin-bottom: 128px;
+  @media screen and (max-width: 1440px) {
+    margin-bottom: calc(100vh * 0.11);
+  }
 `;
 
-export const StartBtn = styled.div`
+export const StartBtn = styled.button`
   width: 265px;
   height: 80px;
   background: var(--primary-color);
   border-radius: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: none;
   cursor: pointer;
-`;
-
-export const StartSpan = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 58px;
   color: var(--white-color);
 `;
 
 export const SubTitle = styled.span<{ margin_T?: string; margin_B?: string }>`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 35px;
-  line-height: 51px;
   margin-top: ${({ margin_T }) => margin_T || "130px"};
   margin-bottom: ${({ margin_B }) => margin_B || "75px"};
+  @media screen and (max-width: 1440px) {
+    margin-top: ${({ margin_T }) => margin_T || "90px"};
+    margin-bottom: ${({ margin_B }) => margin_B || "55px"};
+  }
 `;
-
-// export const GenderContainer = styled.div`
-//   display: flex;
-// `;
-
-// export const DotBox = styled.div``;
-
-// export const GenderDot = styled.div`
-//   width: 50px;
-//   height: 50px;
-//   background: #d9d9d9;
-//   border-radius: 20px;
-// `;
-
-// export const DotText = styled.div`
-//   font-family: "Noto Sans KR";
-//   font-style: normal;
-//   font-weight: 400;
-//   font-size: 25px;
-//   line-height: 36px;
-//   text-align: center;
-//   color: #000000;
-// `;
 
 export const CardContainer = styled.div`
   display: flex;
 `;
 
-export const Card = styled.div<{ margin_R?: string }>`
+export const Card = styled.button<{ margin_R?: string }>`
   width: 230px;
   height: 310px;
   background: var(--white-color);
   border-radius: 10px;
-  margin-right: ${({ margin_R }) => margin_R || "63px"};
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-right: ${({ margin_R }) => margin_R || "3.9375rem"};
   border: 2px solid var(--primary-color);
   cursor: pointer;
   :last-child {
     margin-right: 0;
   }
+  @media screen and (max-width: 1440px) {
+    width: 11vw;
+    height: 250px;
+  }
 `;
 
 export const CardContent = styled.div`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 36px;
   text-align: center;
   color: #000000;
 `;
@@ -347,7 +349,7 @@ export const CardContent = styled.div`
 export const ColorCardContainer = styled(CardContainer)`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 30px;
+  gap: 1.875rem;
 `;
 
 export const ColorCard = styled(Card)`
@@ -361,6 +363,10 @@ export const ColorCard = styled(Card)`
   justify-content: center;
   align-items: center;
   margin-right: 0;
+  @media screen and (max-width: 1440px) {
+    width: 10vw;
+    height: 10vw;
+  }
 `;
 
 export const Color = styled.div<{ background: string }>`
@@ -369,14 +375,21 @@ export const Color = styled.div<{ background: string }>`
   border-radius: 100%;
   background: ${({ background }) => background};
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  @media screen and (max-width: 1440px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 export const ColorCardContent = styled(CardContent)`
   margin-top: 28px;
+  @media screen and (max-width: 1440px) {
+    margin-top: 20px;
+  }
 `;
 
 export const TextCardContainer = styled(CardContainer)`
-  width: 1320px;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: center;
 `;
@@ -391,6 +404,12 @@ export const TextCard = styled(Card)`
   margin-bottom: 45px;
   :last-child {
     margin-right: 15px;
+  }
+  @media screen and (max-width: 1440px) {
+    width: 200px;
+    height: 80px;
+    margin: 0 10px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -419,6 +438,9 @@ export const NotLoginBox = styled.div`
   align-items: center;
   padding: 80px;
   margin-top: 80px;
+  @media screen and (max-width: 1440px) {
+    width: 60vw;
+  }
 `;
 
 export const NotLoginTitle = styled.span`
@@ -439,4 +461,5 @@ export const LoginButton = styled.button`
   border-radius: 100px;
   color: var(--white-color);
   cursor: pointer;
+  border: none;
 `;

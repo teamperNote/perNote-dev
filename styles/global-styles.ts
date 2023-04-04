@@ -79,6 +79,11 @@ export const GlobalStyle = createGlobalStyle`
         line-height: 2.6875rem;
     }
 
+    .f25 {
+        font-size: 1.5625rem;
+        line-height: 2.25rem;
+    }
+
     .f20 {
         font-size: 1.25rem;
         line-height: 1.8125rem;
