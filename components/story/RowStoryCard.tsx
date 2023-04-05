@@ -19,16 +19,15 @@ export default function RowStoryCard({
           <Image
             src={imgUrl[0]}
             alt={`${title} 대표 이미지`}
-            width={650}
-            height={505}
+            layout="fill"
             objectFit={"cover"}
             style={{ borderRadius: "20px" }}
           />
         </ImgBox>
         <InfoBox>
-          <DateSpan>{dateFormat(createdAt)}</DateSpan>
-          <TitleSpan>{title}</TitleSpan>
-          <TextSpan>{body}</TextSpan>
+          <DateSpan className="regular f20">{dateFormat(createdAt)}</DateSpan>
+          <TitleSpan className="bold f40">{title}</TitleSpan>
+          <TextSpan className="regular f30">{body}</TextSpan>
           <IconContainer>
             <IconBox>
               {liked ? (
@@ -36,7 +35,7 @@ export default function RowStoryCard({
               ) : (
                 <AiOutlineHeart size={48} color={"#9FAC9A"} />
               )}
-              <IconSpan>{likeCount}</IconSpan>
+              <IconSpan className="regular f25">{likeCount}</IconSpan>
             </IconBox>
             <IconBox>
               <Image
@@ -45,7 +44,7 @@ export default function RowStoryCard({
                 width={49}
                 height={33}
               />
-              <IconSpan>{viewCount}</IconSpan>
+              <IconSpan className="regular f25">{viewCount}</IconSpan>
             </IconBox>
           </IconContainer>
         </InfoBox>
@@ -56,50 +55,61 @@ export default function RowStoryCard({
 
 const RowStoryCardContainer = styled.div`
   width: 1420px;
-  height: 505px;
   border: 3px solid var(--secondary-color);
   border-radius: 20px;
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding-right: 47px;
+  padding-right: 2.9375rem;
   cursor: pointer;
+  @media screen and (max-width: 1440px) {
+    width: 80vw;
+  }
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+    width: 80vw;
+    padding-right: 0;
+  }
 `;
 
 const ImgBox = styled.div`
-  width: 650px;
-  height: 100%;
-  margin-right: 67px;
+  position: relative;
+  width: 40.625rem;
+  height: 31.5625rem;
+  margin-right: 4.1875rem;
+  border-radius: 20px;
+  @media screen and (max-width: 480px) {
+    width: 80vw;
+    height: 200px;
+    margin-right: 0;
+  }
 `;
 
 const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 650px;
+  @media screen and (max-width: 480px) {
+    padding: 20px;
+    width: 80vw;
+  }
 `;
 
-const DateSpan = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 29px;
+const DateSpan = styled.time`
   color: var(--dark-gray-color);
 `;
 
-const TitleSpan = styled(DateSpan)`
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 58px;
+const TitleSpan = styled.h4`
   color: var(--black-color);
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
+  @media screen and (max-width: 480px) {
+    margin-bottom: 5px;
+  }
 `;
 
-const TextSpan = styled(DateSpan)`
-  font-size: 30px;
-  line-height: 43px;
+const TextSpan = styled.h5`
   color: var(--black-color);
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,6 +117,12 @@ const TextSpan = styled(DateSpan)`
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
   white-space: pre-line;
+  @media screen and (max-width: 1440px) {
+    -webkit-line-clamp: 4;
+  }
+  @media screen and (max-width: 480px) {
+    -webkit-line-clamp: 2;
+  }
 `;
 
 const IconContainer = styled.div`
@@ -115,14 +131,13 @@ const IconContainer = styled.div`
 
 const IconBox = styled.div`
   display: flex;
+  align-items: center;
   :first-child {
     margin-right: 13px;
   }
 `;
 
-const IconSpan = styled(DateSpan)`
-  font-size: 25px;
-  line-height: 48px;
-  margin-left: 13px;
+const IconSpan = styled.span`
+  margin-left: 0.8125rem;
   color: var(--third-color);
 `;

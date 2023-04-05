@@ -23,7 +23,10 @@ const TagContainer = styled.li<{ from: string }>`
       ? "1.875rem"
       : "1.5625rem"};
   margin-bottom: ${({ from }) =>
-    (from === "ProductDetailPage" || from === "PersonalScent") && "0.9375rem"};
+    (from === "ProductDetailPage" ||
+      from === "PersonalScent" ||
+      from === "StoryDetail") &&
+    "0.9375rem"};
 
   text-align: center;
   color: ${({ from }) =>
