@@ -9,9 +9,10 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
 import axiosInstance from "../../lib/api/config";
-import LoginModal from "components/login/LoginModal";
+import LoginModal from "components/WarningModal/LoginModal";
 import { useRecoilState } from "recoil";
 import { loginState } from "@store/loginState";
+import ModalWrapper from "components/WarningModal/Portal";
 
 const cookies = new Cookies();
 function Login() {
@@ -125,9 +126,9 @@ function Login() {
       {/* 클릭이벤트 이벤트 위임으로 처리 */}
       {/* 모달 열려있는 경우 스크롤 이벤트 막기 */}
       {showErrorModal && (
-        <ModalSection onClick={clickOuterModal}>
-          <LoginModal />
-        </ModalSection>
+        <ModalWrapper>
+          <LoginModal onClick={clickOuterModal} />
+        </ModalWrapper>
       )}
     </Container>
   );
@@ -210,6 +211,7 @@ const SignupLink = styled.span`
   cursor: pointer;
 `;
 const LoginButton = styled.button`
+  cursor: pointer;
   width: 100%;
   height: 90px;
   margin-bottom: 50px;
