@@ -88,6 +88,7 @@ const HeartContainer = styled.div<{ direction: string; color?: string }>`
   justify-content: center;
   align-items: center;
   color: ${({ color }) => (color ? color : "var(--white-color)")};
+  cursor: pointer;
 `;
 
 const HeartCount = styled.span<{ countSize: number; countMargin: string }>`
