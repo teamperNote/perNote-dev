@@ -379,10 +379,14 @@ export const SubRecommendationBox = styled.ul`
   grid-template-columns: repeat(4, 1fr);
   column-gap: 1.3125rem;
   margin-bottom: 15.625rem;
+  @media screen and (max-width: 1440px) {
+    margin-bottom: 12.5rem;
+  }
   @media screen and (max-width: 480px) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(4, 1fr);
     row-gap: 1.3125rem;
+    margin-bottom: 6.25rem;
   }
 `;
 
