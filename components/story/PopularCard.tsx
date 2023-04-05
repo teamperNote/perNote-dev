@@ -53,7 +53,7 @@ export default function PopularCard({
         <DateSpan>{dateFormat(createdAt)}</DateSpan>
         <TitleSpan>{title}</TitleSpan>
         <DescSpan>{body}</DescSpan>
-        <NoteBox>
+        <NoteBox className={"regular f20"}>
           {tags.map((tag) => (
             <NoteTag key={tag} from={"PopularCard"} text={tag} />
           ))}
@@ -126,6 +126,6 @@ export const DescSpan = styled(DateSpan)`
   white-space: normal;
 `;
 
-export const NoteBox = styled.div`
+export const NoteBox = styled.ul`
   display: flex;
 `;

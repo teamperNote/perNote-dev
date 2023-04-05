@@ -14,6 +14,7 @@ import {
   featureArray,
 } from "lib/arrays";
 import { IChosen } from "lib/types";
+import NoteTag from "components/NoteTag";
 
 export default function PersonalScent() {
   const router = useRouter();
@@ -70,44 +71,43 @@ export default function PersonalScent() {
       {isLoading && (
         <>
           <Title>당신에게 이 향수를 추천합니다.</Title>
-          <TagBox>
-            <RecommendationTag>
-              <TagText>
-                {genderArray.find((x) => x.value === chosen.gender).text}
-              </TagText>
-            </RecommendationTag>
-            <RecommendationTag>
-              <TagText>
-                {
-                  concentrationArray.find(
-                    (x) => x.value === chosen.concentration,
-                  ).text
-                }
-              </TagText>
-            </RecommendationTag>
-            <RecommendationTag>
-              <TagText>
-                {seasonArray.find((x) => x.value === chosen.season).text}
-              </TagText>
-            </RecommendationTag>
-            <RecommendationTag>
-              <TagText>
-                {colorArray.find((x) => x.value === chosen.color).text}
-              </TagText>
-            </RecommendationTag>
-            <RecommendationTag>
-              <TagText>
-                {
-                  personalityArray.find((x) => x.value === chosen.personality)
-                    .text
-                }
-              </TagText>
-            </RecommendationTag>
-            <RecommendationTag>
-              <TagText>
-                {featureArray.find((x) => x.value === chosen.feature).text}
-              </TagText>
-            </RecommendationTag>
+          <TagBox className={"regular f30"}>
+            <NoteTag
+              from={"PersonalScent"}
+              text={`#${
+                genderArray.find((x) => x.value === chosen.gender).text
+              }`}
+            />
+            <NoteTag
+              from={"PersonalScent"}
+              text={`#${
+                concentrationArray.find((x) => x.value === chosen.concentration)
+                  .text
+              }`}
+            />
+            <NoteTag
+              from={"PersonalScent"}
+              text={`#${
+                seasonArray.find((x) => x.value === chosen.season).text
+              }`}
+            />
+            <NoteTag
+              from={"PersonalScent"}
+              text={`#${colorArray.find((x) => x.value === chosen.color).text}`}
+            />
+            <NoteTag
+              from={"PersonalScent"}
+              text={`#${
+                personalityArray.find((x) => x.value === chosen.personality)
+                  .text
+              }`}
+            />
+            <NoteTag
+              from={"PersonalScent"}
+              text={`#${
+                featureArray.find((x) => x.value === chosen.feature).text
+              }`}
+            />
           </TagBox>
           <Image
             src={top5[0].imgUrl ? top5[0].imgUrl : "/noImage.png"}
@@ -209,7 +209,7 @@ export const Title = styled(Span)`
   margin-bottom: 55px;
 `;
 
-export const TagBox = styled.div`
+export const TagBox = styled.ul`
   display: flex;
   margin-bottom: 120px;
 `;

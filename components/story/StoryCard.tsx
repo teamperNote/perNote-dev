@@ -75,9 +75,9 @@ export default function StoryCard({
         </InfoFlex>
         <TitleSpan>{title}</TitleSpan>
         <DescSpan>{body}</DescSpan>
-        <InfoFlex>
+        <InfoFlex className={"regular f20"}>
           {tags.map((tag, idx) => (
-            <NoteTag key={idx} from={"StoryDetail"} text={tag} />
+            <NoteTag key={idx} from={"StoryCard"} text={tag} />
           ))}
         </InfoFlex>
       </InfoBox>
@@ -143,7 +143,7 @@ const InfoBox = styled.div`
   flex-direction: column;
 `;
 
-const InfoFlex = styled.div`
+const InfoFlex = styled.ul`
   display: flex;
   align-items: center;
 `;

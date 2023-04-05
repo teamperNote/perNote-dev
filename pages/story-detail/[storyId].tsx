@@ -115,7 +115,7 @@ export default function StoryDetail() {
           <ContentContainer>
             <ContentBox>
               <ContentText>{story.data.targetStory.body}</ContentText>
-              <TagBox>
+              <TagBox className={"regular f30"}>
                 {story.data.targetStory.tags.map((tag, idx) => (
                   <NoteTag key={idx} from={"StoryDetail"} text={tag} />
                 ))}
@@ -276,7 +276,7 @@ const ContentText = styled(HeaderDate)`
   margin-bottom: 100px;
 `;
 
-const TagBox = styled.div`
+const TagBox = styled.ul`
   display: flex;
 `;
 
