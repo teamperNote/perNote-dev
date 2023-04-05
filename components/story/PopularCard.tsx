@@ -30,13 +30,14 @@ export default function PopularCard({
       onMouseLeave={() => setIsShow(false)}
       onClick={onLinkClick}
     >
-      <Image
-        src={imgUrl[0]}
-        alt={`인기 스토리 이미지`}
-        width={566}
-        height={590}
-        objectFit={"cover"}
-      />
+      <ImageBox>
+        <Image
+          src={imgUrl[0]}
+          alt={`인기 스토리 이미지`}
+          layout="fill"
+          objectFit={"cover"}
+        />
+      </ImageBox>
       <Filter className={isShow ? "show" : "hide"}>
         <HeartBox>
           <LikeButton
@@ -50,9 +51,9 @@ export default function PopularCard({
             countSize={30}
           />
         </HeartBox>
-        <DateSpan>{dateFormat(createdAt)}</DateSpan>
-        <TitleSpan>{title}</TitleSpan>
-        <DescSpan>{body}</DescSpan>
+        <DateSpan className="regular f20">{dateFormat(createdAt)}</DateSpan>
+        <TitleSpan className="bold f40">{title}</TitleSpan>
+        <DescSpan className={"regular f30"}>{body}</DescSpan>
         <NoteBox className={"regular f20"}>
           {tags.map((tag) => (
             <NoteTag key={tag} from={"PopularCard"} text={tag} />
@@ -68,6 +69,28 @@ const PopularCardContainer = styled.div`
   width: 566px;
   height: 590px;
   cursor: pointer;
+  @media screen and (max-width: 1440px) {
+    width: 350px;
+    height: 350px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 300px;
+    height: 300px;
+  }
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 566px;
+  height: 590px;
+  @media screen and (max-width: 1440px) {
+    width: 350px;
+    height: 350px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 300px;
+    height: 300px;
+  }
 `;
 
 const Filter = styled.div`
@@ -76,46 +99,40 @@ const Filter = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 50px 35px;
+  padding: 3.125rem 2.1875rem;
   background: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
   &.hide {
     display: none;
   }
+  @media screen and (max-width: 1440px) {
+    padding: 2.1875rem 1.25rem;
+  }
 `;
 
 const HeartBox = styled.div`
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 1.25rem;
+  right: 1.25rem;
   color: var(--white-color);
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-size: cover;
 `;
 
-export const DateSpan = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 29px;
+export const DateSpan = styled.time`
   color: var(--white-color);
 `;
 
-export const TitleSpan = styled(DateSpan)`
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 58px;
-  margin-bottom: 10px;
+export const TitleSpan = styled.h3`
+  color: var(--white-color);
+  margin-bottom: 0.625rem;
 `;
 
-export const DescSpan = styled(DateSpan)`
-  font-size: 30px;
-  line-height: 43px;
-  margin-bottom: 10px;
+export const DescSpan = styled.h4`
+  color: var(--white-color);
+  margin-bottom: 0.625rem;
 
   width: 100%;
   overflow: hidden;

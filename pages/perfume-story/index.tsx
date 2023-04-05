@@ -37,6 +37,7 @@ export default function PerfumeStory() {
         console.log(err);
       });
   };
+
   useEffect(() => {
     getStoryList();
     getBestStoryList();
@@ -46,7 +47,7 @@ export default function PerfumeStory() {
   return (
     <PerfumeStoryContainer>
       <PerfumeStoryBox>
-        <PopularTitle>인기 스토리</PopularTitle>
+        <PopularTitle className="bold f40">인기 스토리</PopularTitle>
         <PopularStoryBox>
           {bestStoryList.data.map((story) => (
             <PopularCard key={story.id} data={story} />
@@ -54,7 +55,7 @@ export default function PerfumeStory() {
         </PopularStoryBox>
       </PerfumeStoryBox>
       <PerfumeStoryBox>
-        <PurfumeTitle>퍼퓸 스토리</PurfumeTitle>
+        <PurfumeTitle className="bold f40">퍼퓸 스토리</PurfumeTitle>
         <SortBox>
           <SortDropDown sort={sort} setSort={setSort} />
         </SortBox>
@@ -69,34 +70,30 @@ export default function PerfumeStory() {
   );
 }
 
-export const PerfumeStoryContainer = styled.div`
-  width: 1920px;
+export const PerfumeStoryContainer = styled.main`
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding-top: 110px;
+  @media screen and (max-width: 1440px) {
+    padding-top: 80px;
+  }
 `;
 
-export const PerfumeStoryBox = styled.div`
+export const PerfumeStoryBox = styled.section`
   margin: 0 auto;
-  margin-top: 130px;
-  margin-bottom: 35px;
+  margin-top: 8.125rem;
+  margin-bottom: 2.1875rem;
   display: flex;
   flex-direction: column;
   align-content: center;
+  @media screen and (max-width: 1440px) {
+    width: 100%;
+  }
 `;
 
-export const Span = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 58px;
-  color: #000000;
-  text-align: center;
-`;
-
-export const PopularTitle = styled(Span)`
-  margin-bottom: 70px;
+export const PopularTitle = styled.h2`
+  margin-bottom: 4.375rem;
   text-align: center;
 `;
 
@@ -111,10 +108,20 @@ export const PopularStoryBox = styled.div`
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
+  @media screen and (max-width: 1920px) {
+    width: 100vw;
+  }
+  @media screen and (max-width: 1440px) {
+    height: 350px;
+  }
+  @media screen and (max-width: 480px) {
+    height: 300px;
+  }
 `;
 
-export const PurfumeTitle = styled(Span)`
-  margin-bottom: 106px;
+export const PurfumeTitle = styled.h2`
+  margin-bottom: 6.625rem;
+  text-align: center;
 `;
 
 export const SortBox = styled.div`
@@ -122,6 +129,10 @@ export const SortBox = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 30px;
+  @media screen and (max-width: 1440px) {
+    width: 100%;
+    padding-right: 2.5rem;
+  }
 `;
 
 export const StoryBox = styled.div`
@@ -129,6 +140,17 @@ export const StoryBox = styled.div`
   width: 1420px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 50px 20px;
-  margin-bottom: 180px;
+  gap: 3.125rem 1.25rem;
+  margin-bottom: 11.25rem;
+  @media screen and (max-width: 1440px) {
+    width: auto;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 1242px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 823px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
 `;

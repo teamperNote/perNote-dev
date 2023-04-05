@@ -42,13 +42,14 @@ export default function StoryCard({
     >
       <StoryCardImgBox>
         {/* <StoryCardImg src={imgUrl[0]} /> */}
-        <Image
-          src={imgUrl[0]}
-          alt={`${title} 대표 이미지`}
-          width={460}
-          height={300}
-          objectFit={"cover"}
-        />
+        <ImageBox>
+          <Image
+            src={imgUrl[0]}
+            alt={`${title} 대표 이미지`}
+            layout="fill"
+            objectFit={"cover"}
+          />
+        </ImageBox>
         <Filter className={isShow ? "show" : "hide"}>
           <HeartBox>
             <LikeButton
@@ -64,17 +65,14 @@ export default function StoryCard({
       </StoryCardImgBox>
       <InfoBox>
         <InfoFlex>
-          <DateSpan>{dateFormat(createdAt)}</DateSpan>
-          <Image
-            src={"/viewIcon.svg"}
-            alt={"조회수 아이콘"}
-            width={31}
-            height={21}
-          />
-          <ViewCountSpan>{viewCount}</ViewCountSpan>
+          <DateSpan className="regular f20">{dateFormat(createdAt)}</DateSpan>
+          <ViewImageBox>
+            <Image src={"/viewIcon.svg"} alt={"조회수 아이콘"} layout="fill" />
+          </ViewImageBox>
+          <ViewCountSpan className={"regular f20"}>{viewCount}</ViewCountSpan>
         </InfoFlex>
-        <TitleSpan>{title}</TitleSpan>
-        <DescSpan>{body}</DescSpan>
+        <TitleSpan className="bold f40">{title}</TitleSpan>
+        <DescSpan className={"regular f20"}>{body}</DescSpan>
         <InfoFlex className={"regular f20"}>
           {tags.map((tag, idx) => (
             <NoteTag key={idx} from={"StoryCard"} text={tag} />
@@ -88,16 +86,22 @@ export default function StoryCard({
 const StoryCardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 460px;
+  width: 28.75rem;
   cursor: pointer;
 `;
 
 const StoryCardImgBox = styled.div`
   position: relative;
-  width: 460px;
-  height: 300px;
+  width: 28.75rem;
+  height: 18.75rem;
   overflow: hidden;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 28.75rem;
+  height: 18.75rem;
 `;
 
 const Filter = styled.div`
@@ -107,7 +111,7 @@ const Filter = styled.div`
   height: 100%;
   display: flex;
   justify-content: flex-end;
-  padding: 20px;
+  padding: 1.25rem;
   background: rgba(0, 0, 0, 0.5);
   &.hide {
     display: none;
@@ -116,28 +120,17 @@ const Filter = styled.div`
 
 const HeartBox = styled.div`
   position: absolute;
-  top: 14px;
-  right: 16px;
+  top: 0.875rem;
+  right: 1rem;
   color: var(--white-color);
-  /* mix-blend-mode: difference; */
   display: flex;
   flex-direction: column;
   align-items: center;
   background-size: cover;
 `;
 
-const HeartCount = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 29px;
-  color: var(--white-color);
-  align-items: center;
-`;
-
 const InfoBox = styled.div`
-  width: 420px;
+  width: 26.25rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -148,27 +141,29 @@ const InfoFlex = styled.ul`
   align-items: center;
 `;
 
-const DateSpan = styled(HeartCount)`
+const DateSpan = styled.time`
   color: var(--dark-gray-color);
   align-items: left;
-  margin-right: 20px;
+  margin-right: 1.25rem;
 `;
 
-const ViewCountSpan = styled(DateSpan)`
-  margin-left: 10px;
+const ViewImageBox = styled.div`
+  position: relative;
+  width: 1.9375rem;
+  height: 1.3125rem;
+`;
+
+const ViewCountSpan = styled.span`
+  margin-left: 0.625rem;
   color: var(--third-color);
 `;
 
-const TitleSpan = styled(HeartCount)`
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 58px;
-  color: var(--black-color);
+const TitleSpan = styled.h3`
   align-items: left;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 `;
 
-const DescSpan = styled(DateSpan)`
+const DescSpan = styled.h4`
   margin-right: 0;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
