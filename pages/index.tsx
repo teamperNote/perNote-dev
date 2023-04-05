@@ -4,8 +4,20 @@ import styled from "styled-components";
 import { BsBell } from "react-icons/bs";
 import Link from "next/link";
 import Image from "next/image";
+import { loginState } from "@store/loginState";
+import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
+  const login = useRecoilValue(loginState);
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    if (login) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [login]);
   return (
     <>
       <FirstMain>
@@ -61,7 +73,9 @@ const Home: NextPage = () => {
               향수에 대한 모든 이야기, 여러분들을 위한 향수 이야기 Per.note 에서
               들려드려요
             </PerfumeStoryIntroContent>
-            <GuidText>*다음 기능은 로그인이 필요한 기능입니다.</GuidText>
+            {!isLogin && (
+              <GuidText>*다음 기능은 로그인이 필요한 기능입니다.</GuidText>
+            )}
           </div>
           <SubscribeButton>
             <BsBell className="subscribe-icon" />
