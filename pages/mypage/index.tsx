@@ -45,7 +45,7 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link href="/mypage/wish-perfume">
+          <Link href="/mypage/like-perfume">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>찜한 향수</LinkTitle>
