@@ -7,6 +7,7 @@ import CategoryDropDown from "../category/CategoryDropDown";
 import axiosInstance from "../../lib/api/config";
 import { useRecoilState } from "recoil";
 import { loginState } from "@store/loginState";
+import Image from "next/image";
 export default function NavBar() {
   const [loginInfo, setLoginInfo] = useRecoilState(loginState);
   const [isLoginNav, setIsLoginNav] = useState(false);
@@ -52,16 +53,21 @@ export default function NavBar() {
         <Link href="/">
           {isScrolled ? (
             <PernoteLogo>
-              <img
-                src="/pernote_logo.svg"
+              <Image
+                src="/logo_white.png"
                 alt="pernote"
-                width="145"
-                height="26"
+                width={134}
+                height={30}
               />
             </PernoteLogo>
           ) : (
             <PernoteLogo>
-              <img src="/pernote_black_logo.svg" alt="pernote" />
+              <Image
+                src="/logo_black.png"
+                alt="pernote"
+                width={134}
+                height={30}
+              />
             </PernoteLogo>
           )}
         </Link>
