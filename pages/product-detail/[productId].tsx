@@ -106,7 +106,7 @@ export default function ProductDetailPage() {
               <PerfumeInfo>
                 <PerfumeInfoBox>
                   <CategoryTitle>노트</CategoryTitle>
-                  <TagBox>
+                  <TagBox className={"regular f20"}>
                     {purfumeData.data.note.map((note, idx) => (
                       <NoteTag
                         key={idx}
@@ -118,7 +118,7 @@ export default function ProductDetailPage() {
                 </PerfumeInfoBox>
                 <PerfumeInfoBox>
                   <CategoryTitle>성격</CategoryTitle>
-                  <TagBox>
+                  <TagBox className={"regular f20"}>
                     {purfumeData.data.personality.map((personality, idx) => (
                       <NoteTag
                         key={idx}
@@ -130,7 +130,7 @@ export default function ProductDetailPage() {
                 </PerfumeInfoBox>
                 <PerfumeInfoBox>
                   <CategoryTitle>특징</CategoryTitle>
-                  <TagBox>
+                  <TagBox className={"regular f20"}>
                     {purfumeData.data.feature.map((feature, idx) => (
                       <NoteTag
                         key={idx}
@@ -350,7 +350,7 @@ const CategoryTitle = styled(Span)`
   margin-right: 35px;
 `;
 
-const TagBox = styled.div`
+const TagBox = styled.ul`
   display: flex;
   width: 594px;
   flex-wrap: wrap;
