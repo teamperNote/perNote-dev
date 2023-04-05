@@ -54,7 +54,7 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link href="/mypage/story">
+          <Link href="/mypage/like-story">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>스토리</LinkTitle>
