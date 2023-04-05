@@ -20,7 +20,6 @@ export default function PersonalScent() {
   const router = useRouter();
   const { testId } = router.query;
 
-  const [isLoading, setIsLoading] = useState(false);
   const [chosen, setChosen] = useState<IChosen>(null);
   const [top5, setTop5] = useState([]);
   const getTop5 = async () => {
@@ -31,7 +30,6 @@ export default function PersonalScent() {
       .then(({ data: { testResult } }) => {
         setChosen(testResult.chosen);
         setTop5(testResult.perfumes);
-        setIsLoading(true);
       })
       .catch((err) => {
         console.log(err);
@@ -69,7 +67,7 @@ export default function PersonalScent() {
 
   return (
     <RecommendationContainer>
-      {isLoading && (
+      {chosen && (
         <>
           <Title className={"bold f50"}>당신에게 이 향수를 추천합니다.</Title>
           <Section>
