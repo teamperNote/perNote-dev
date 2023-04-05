@@ -57,6 +57,7 @@ export default function PersonalScent() {
   //   }
   // }, []);
 
+  // url 복사 기능
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
