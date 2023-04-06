@@ -6,7 +6,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 interface IProps {
   content?: string;
   id: string;
-  likeRef?: React.RefObject<HTMLDivElement>;
+  likeRef?: React.RefObject<HTMLButtonElement>;
   direction?: string;
   liked: boolean;
   likeCount: number;
@@ -82,7 +82,7 @@ export default function LikeButton({
   );
 }
 
-const HeartContainer = styled.div<{ direction: string; color?: string }>`
+const HeartContainer = styled.button<{ direction: string; color?: string }>`
   display: flex;
   flex-direction: ${({ direction }) => direction};
   justify-content: center;
