@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
 import { withAuth } from "components/HOC/withAuth";
 import axiosInstance from "../../lib/api/config";
-import { loginState } from "@store/loginState";
 
 interface UserType {
   birth: string;
@@ -20,7 +18,6 @@ interface UserType {
   updatedAt: string;
 }
 function MyPage() {
-  const [loginInfo, setLoginInfo] = useRecoilState(loginState);
   const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
@@ -106,7 +103,7 @@ const UserName = styled.h2`
   margin: 0;
   margin-bottom: 80px;
   font-weight: 700;
-  font-size: 50px;
+  font-size: 3.125rem;
 `;
 const LinkList = styled.ul`
   display: flex;
@@ -123,6 +120,10 @@ const LinkItem = styled.li`
   &:not(:last-child) {
     margin-right: 20px;
   }
+  @media screen and (max-width: 1440px) {
+    width: 280px;
+    height: 360px;
+  }
 `;
 
 const PageLink = styled.a`
@@ -137,13 +138,13 @@ const PageLink = styled.a`
 `;
 const LinkTitle = styled.h3`
   font-weight: 700;
-  font-size: 30px;
+  font-size: 1.875rem;
   margin: 0;
   margin-bottom: 14px;
 `;
 
 const ListContent = styled.p`
   font-weight: 400;
-  font-size: 30px;
+  font-size: 1.875rem;
   margin: 0;
 `;
