@@ -8,7 +8,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
-import LoginModal from "components/WarningModal/LoginModal";
+import WarningModal from "components/WarningModal/WarningModal";
 import { useRecoilState } from "recoil";
 import { loginState } from "@store/loginState";
 import ModalWrapper from "components/WarningModal/Portal";
@@ -122,11 +122,13 @@ function Login() {
           </SocialLoginList>
         </SocialLogin>
       </LoginBox>
-      {/* 클릭이벤트 이벤트 위임으로 처리 */}
-      {/* 모달 열려있는 경우 스크롤 이벤트 막기 */}
       {showErrorModal && (
         <ModalWrapper>
-          <LoginModal onClick={clickOuterModal} />
+          <WarningModal
+            title={"로그인 실패"}
+            content={userError ? userError : passwordError ? passwordError : ""}
+            onClick={clickOuterModal}
+          />
         </ModalWrapper>
       )}
     </Container>

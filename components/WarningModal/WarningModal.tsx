@@ -1,15 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-function LoginModal({ onClick }) {
+function WarningModal({ title, content, onClick }) {
   return (
     <Wrapper>
       <ModalContainer>
-        <ModalTitle>로그인 실패</ModalTitle>
-        <ModalContent>
-          {`            존재하지 않는 회원 정보입니다. 
-  아이디와 비밀번호를 확인 후 다시 시도해주세요.`}
-        </ModalContent>
+        <ModalTitle>{title}</ModalTitle>
+        <ModalContent>{content}</ModalContent>
         <ModalButton type="button" onClick={onClick}>
           확인
         </ModalButton>
@@ -18,7 +15,7 @@ function LoginModal({ onClick }) {
   );
 }
 
-export default LoginModal;
+export default WarningModal;
 
 const Wrapper = styled.div`
   width: 100%;
