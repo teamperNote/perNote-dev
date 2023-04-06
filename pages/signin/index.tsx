@@ -8,7 +8,6 @@ import { useState } from "react";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
-import axiosInstance from "../../lib/api/config";
 import LoginModal from "components/WarningModal/LoginModal";
 import { useRecoilState } from "recoil";
 import { loginState } from "@store/loginState";
@@ -55,7 +54,7 @@ function Login() {
           return;
         }
         const { user, accessToken, refreshToken } = response.data;
-        axiosInstance.defaults.headers.Authorization = "Bearer " + accessToken;
+        localStorage.setItem("accessToken", accessToken);
         cookies.set("refreshToken", refreshToken, {
           path: "/",
           secure: true,
