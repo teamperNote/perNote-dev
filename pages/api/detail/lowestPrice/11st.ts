@@ -10,20 +10,33 @@ export default async function lowest11st(query) {
   const xmlData = await axios.get(apiURL).then((res) => res.data);
   const options = { compact: true, ignoreComment: true, spaces: 4 };
   const data = xml2js(xmlData, options);
+  let name = "",
+    price = 0,
+    url = "";
+  if (
+    data["ProductSearchResponse"] &&
+    data["ProductSearchResponse"]["Products"]["TotalCount"]["_text"] !== "0"
+  ) {
+    name =
+      data["ProductSearchResponse"]["Products"]["Product"]["ProductName"][
+        "_cdata"
+      ];
+    (price =
+      data["ProductSearchResponse"]["Products"]["Product"]["SalePrice"][
+        "_text"
+      ]),
+      (url =
+        data["ProductSearchResponse"]["Products"]["Product"]["DetailPageUrl"][
+          "_cdata"
+        ]);
+  }
 
   return {
     domain: "11st",
-    name: data["ProductSearchResponse"]["Products"]["Product"]["ProductName"][
-      "_cdata"
-    ],
-    price:
-      data["ProductSearchResponse"]["Products"]["Product"]["SalePrice"][
-        "_text"
-      ],
-    url: data["ProductSearchResponse"]["Products"]["Product"]["DetailPageUrl"][
-      "_cdata"
-    ],
-    // data,
+    name: name,
+    price: price,
+    url: url,
+    data,
     // query: query,
   };
 }

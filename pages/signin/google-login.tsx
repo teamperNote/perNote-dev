@@ -1,4 +1,6 @@
 import React from "react";
+import Link from "next/link";
+import styled from "styled-components";
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
@@ -7,9 +9,26 @@ function GoogleLogin() {
 
   return (
     <>
-      <a href={request_url}>구글로그인</a>
+      <Link href={request_url}>
+        <a>
+          <GoogleIcon
+            src="/login_goggle.png"
+            alt="구글 로그인"
+            width={90}
+            height={90}
+          />
+        </a>
+      </Link>
     </>
   );
 }
 
 export default GoogleLogin;
+const GoogleIcon = styled.img`
+  width: 90px;
+  height: 90px;
+  @media screen and (max-width: 1440px) {
+    width: 70px;
+    height: 70px;
+  }
+`;

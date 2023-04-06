@@ -52,45 +52,49 @@ export default function ProductDetailPage() {
       {purfumeData.isLoading && (
         <ProductDetailContainer>
           <AboutProduct>
-            <ImageContainer>
-              <MainImage
+            <ImageBox>
+              <Image
                 src={
                   purfumeData.data.imgUrl == ""
                     ? "/noImage.png"
                     : purfumeData.data.imgUrl
                 }
+                alt={`${purfumeData.data.name_eng} 이미지`}
+                layout="fill"
+                objectFit={"contain"}
+                priority
               />
-              {/* <SubImageContainer>
-                <SubImage />
-                <SubImage />
-              </SubImageContainer> */}
-            </ImageContainer>
-            <InformationContainer>
-              <ProductInfo>
-                <BrandName>{purfumeData.data.brand_eng}</BrandName>
-                <NameBox>
-                  <NameIconContainer>
-                    <KorName>제품명</KorName>
-                    <LikeButton
-                      id={purfumeData.data.id}
-                      direction={"row"}
-                      liked={purfumeData.data.liked}
-                      likeCount={purfumeData.data.likeCount}
-                      color={"#6E7C65"}
-                      countSize={36}
-                      countMargin={"0 20px 0 6px"}
-                    />
-                    <Image
-                      src={"/second_viewIcon.svg"}
-                      alt={"조회수 아이콘"}
-                      width={40}
-                      height={36.7}
-                    />
-                    <CountSapn>{purfumeData.data.viewCount}</CountSapn>
-                  </NameIconContainer>
-                  <EngName>{purfumeData.data.name_eng}</EngName>
-                </NameBox>
-                {/* <PriceBox>
+            </ImageBox>
+            <InfoSection>
+              <NameBox>
+                <BrandName className="regular f30">
+                  {purfumeData.data.brand_eng}
+                </BrandName>
+                <EngName className="bold f50">
+                  {purfumeData.data.name_eng}
+                </EngName>
+                <NameIconBox>
+                  <LikeButton
+                    id={purfumeData.data.id}
+                    direction={"row"}
+                    liked={purfumeData.data.liked}
+                    likeCount={purfumeData.data.likeCount}
+                    color={"#6E7C65"}
+                    countSize={35}
+                    countMargin={"0rem 1.25rem 0rem 0.375rem"}
+                  />
+                  <Image
+                    src={"/second_viewIcon.svg"}
+                    alt={"조회수 아이콘"}
+                    width={40}
+                    height={36.7}
+                  />
+                  <CountSapn className="regular f35">
+                    {purfumeData.data.viewCount}
+                  </CountSapn>
+                </NameIconBox>
+              </NameBox>
+              {/* <PriceBox>
                   <PriceText>공식 홈페이지 가격</PriceText>
                   <Price>
                     {purfumeData.data.price === ""
@@ -98,11 +102,10 @@ export default function ProductDetailPage() {
                       : `${purfumeData.data.price}원`}
                   </Price>
                 </PriceBox> */}
-              </ProductInfo>
               <PerfumeInfo>
                 <PerfumeInfoBox>
-                  <CategoryTitle>노트</CategoryTitle>
-                  <TagBox>
+                  <CategoryTitle className="bold f30">노트</CategoryTitle>
+                  <TagBox className={"regular f20"}>
                     {purfumeData.data.note.map((note, idx) => (
                       <NoteTag
                         key={idx}
@@ -113,8 +116,8 @@ export default function ProductDetailPage() {
                   </TagBox>
                 </PerfumeInfoBox>
                 <PerfumeInfoBox>
-                  <CategoryTitle>성격</CategoryTitle>
-                  <TagBox>
+                  <CategoryTitle className="bold f30">성격</CategoryTitle>
+                  <TagBox className={"regular f20"}>
                     {purfumeData.data.personality.map((personality, idx) => (
                       <NoteTag
                         key={idx}
@@ -125,8 +128,8 @@ export default function ProductDetailPage() {
                   </TagBox>
                 </PerfumeInfoBox>
                 <PerfumeInfoBox>
-                  <CategoryTitle>특징</CategoryTitle>
-                  <TagBox>
+                  <CategoryTitle className="bold f30">특징</CategoryTitle>
+                  <TagBox className={"regular f20"}>
                     {purfumeData.data.feature.map((feature, idx) => (
                       <NoteTag
                         key={idx}
@@ -138,32 +141,35 @@ export default function ProductDetailPage() {
                 </PerfumeInfoBox>
               </PerfumeInfo>
               <PriceInfo>
-                <PriceInfoTitle>최저가 비교</PriceInfoTitle>
-                <PriceTable>
+                <PriceInfoTitle className="bold f30">
+                  최저가 비교
+                </PriceInfoTitle>
+                <PriceTable className="bold f20">
                   <PriceTableTitle>
                     <PriceTableTitleDomain>판매처</PriceTableTitleDomain>
-                    <PriceTableTitlePrice>판매가</PriceTableTitlePrice>
-                    <PriceTableTitleLink>URL</PriceTableTitleLink>
+                    <PriceTableTitleSpan>판매가</PriceTableTitleSpan>
+                    <PriceTableTitleSpan>URL</PriceTableTitleSpan>
                   </PriceTableTitle>
-                  <ul>
+                  <PriceUl className="regular">
                     {purfumeData.data.lowest.map((price, idx) => (
                       <PriceLi key={idx}>
-                        <PriceDomain>
+                        <PriceDomain className="medium">
                           {price.domain === "11st" ||
                           price.domain === "naver" ? (
-                            <Image
-                              src={
-                                price.domain === "11st"
-                                  ? "https://shopping-phinf.pstatic.net/20220906_14/a11d3777-7190-44e6-8bd8-8ceb36bf76b8.jpg"
-                                  : price.domain === "naver" &&
-                                    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Naver_Logotype.svg/1280px-Naver_Logotype.svg.png"
-                              }
-                              alt={`${price.domain} 이미지`}
-                              width={100}
-                              height={15}
-                              objectFit={"contain"}
-                              objectPosition={"left"}
-                            />
+                            <DomainImage>
+                              <Image
+                                src={
+                                  price.domain === "11st"
+                                    ? "https://shopping-phinf.pstatic.net/20220906_14/a11d3777-7190-44e6-8bd8-8ceb36bf76b8.jpg"
+                                    : price.domain === "naver" &&
+                                      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Naver_Logotype.svg/1280px-Naver_Logotype.svg.png"
+                                }
+                                alt={`${price.domain} 이미지`}
+                                layout="fill"
+                                objectFit={"contain"}
+                                objectPosition={"left"}
+                              />
+                            </DomainImage>
                           ) : (
                             price.domain
                           )}
@@ -178,36 +184,38 @@ export default function ProductDetailPage() {
                         </PriceLink>
                       </PriceLi>
                     ))}
-                  </ul>
+                  </PriceUl>
                 </PriceTable>
               </PriceInfo>
-            </InformationContainer>
+            </InfoSection>
           </AboutProduct>
           <DescriptionContainer>
             {/* TODO 서지수 향수 설명 추가되면 수정 */}
             {/* <DescriptionBox>
-              <DescriptionTitle>상세설명</DescriptionTitle>
-              <DescriptionContent>
+              <DescriptionTitle className="bold f40">상세설명</DescriptionTitle>
+              <DescriptionContent className="regular f35">
                 향수 설명
               </DescriptionContent>
             </DescriptionBox> */}
             <DescriptionBox>
-              <DescriptionTitle>탑노트</DescriptionTitle>
-              <DescriptionContent>
+              <DescriptionTitle className="bold f40">탑노트</DescriptionTitle>
+              <DescriptionContent className="regular f35">
                 {purfumeData.data.top == "xxxx" ? "-" : purfumeData.data.top}
               </DescriptionContent>
             </DescriptionBox>
             <DescriptionBox>
-              <DescriptionTitle>미들노트</DescriptionTitle>
-              <DescriptionContent>
+              <DescriptionTitle className="bold f40">미들노트</DescriptionTitle>
+              <DescriptionContent className="regular f35">
                 {purfumeData.data.middle == "xxxx"
                   ? "-"
                   : purfumeData.data.middle}
               </DescriptionContent>
             </DescriptionBox>
             <DescriptionBox>
-              <DescriptionTitle>베이스노트</DescriptionTitle>
-              <DescriptionContent>
+              <DescriptionTitle className="bold f40">
+                베이스노트
+              </DescriptionTitle>
+              <DescriptionContent className="regular f35">
                 {purfumeData.data.bottom == "xxxx"
                   ? "-"
                   : purfumeData.data.bottom}
@@ -215,17 +223,29 @@ export default function ProductDetailPage() {
             </DescriptionBox>
           </DescriptionContainer>
           <SimilarsContainer>
-            <SimilarsTitle>비슷한 향수를 추천합니다</SimilarsTitle>
+            <SimilarsTitle className="bold f40">
+              비슷한 향수를 추천합니다
+            </SimilarsTitle>
             <SimilarsCardBox>
               {purfumeData.data.similars.map((similar) => (
                 <Link href={similar.id} key={similar.id}>
                   <SimilarsCard>
-                    <SimilarImg
-                      src={
-                        similar.imgUrl === "" ? "/noImage.png" : similar.imgUrl
-                      }
-                    />
-                    <Span>{similar.name_eng}</Span>
+                    <SimilarImage>
+                      <Image
+                        src={
+                          similar.imgUrl === ""
+                            ? "/noImage.png"
+                            : similar.imgUrl
+                        }
+                        alt={`${similar.name_eng} 이미지`}
+                        layout="fill"
+                        objectFit={"contain"}
+                        style={{ borderRadius: "30px", marginBottom: "25px" }}
+                      />
+                    </SimilarImage>
+                    <SimilarName className="regular f30">
+                      {similar.name_eng}
+                    </SimilarName>
                   </SimilarsCard>
                 </Link>
               ))}
@@ -237,88 +257,88 @@ export default function ProductDetailPage() {
   );
 }
 
-const ProductDetailContainer = styled.div`
-  padding-top: 199px;
-  width: 1420px;
+const ProductDetailContainer = styled.main`
+  padding-top: 12.4375rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0 auto;
+  padding-top: 169px;
+  @media screen and (max-width: 1000px) {
+    width: 80vw;
+  }
 `;
 
 const AboutProduct = styled.div`
   display: flex;
+  align-items: start;
   border-bottom: 2px solid #b2b2b2;
-  padding-bottom: 60px;
-  margin-bottom: 110px;
+  padding-bottom: 3.75rem;
+  margin-bottom: 6.875rem;
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+    flex-direction: column;
+  }
 `;
 
-const ImageContainer = styled.div`
-  margin-right: 140px;
+const ImageBox = styled.div`
+  position: relative;
+  width: 36.25rem;
+  height: 36.25rem;
+  margin-right: 8.75rem;
+  @media screen and (max-width: 1440px) {
+    width: 25rem;
+    height: 25rem;
+    margin-right: 5.625rem;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 40vw;
+    height: 40vw;
+    margin-right: 0;
+    margin: 0 auto;
+    margin-bottom: 3.125rem;
+  }
+  @media screen and (max-width: 480px) {
+    width: 80vw;
+    height: 80vw;
+    margin-right: 0;
+    margin-bottom: 3.125rem;
+  }
 `;
 
-const MainImage = styled.img`
-  width: 580px;
-  height: 580px;
-  background-color: #d9d9d9;
+const BrandName = styled.h2`
+  margin-bottom: 1.125rem;
 `;
 
-// const SubImageContainer = styled.div`
-//   margin-top: 20px;
-// `;
-
-// const SubImage = styled.img`
-//   margin-right: 30px;
-//   width: 220px;
-//   height: 220px;
-//   background-color: #d9d9d9;
-// `;
-
-const InformationContainer = styled.div``;
-
-const ProductInfo = styled.div`
-  margin-bottom: 60px;
+const InfoSection = styled.section`
+  width: 700px;
+  @media screen and (max-width: 1440px) {
+    width: 37.5rem;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
 `;
 
-const Span = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 43px;
-  text-align: left;
-  color: #000000;
+const NameBox = styled.section`
+  margin-bottom: 3.75rem;
 `;
 
-const BrandName = styled(Span)`
-  margin-bottom: 18px;
-`;
-
-const NameBox = styled.div`
-  margin-bottom: 17px;
-`;
-
-const NameIconContainer = styled.div`
+const NameIconBox = styled.div`
   display: flex;
   align-items: center;
-  overflow: hidden;
 `;
 
-const KorName = styled(Span)`
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 72px;
-  margin-right: 30px;
+const EngName = styled.h1`
+  margin-bottom: 0.625rem;
+  width: 100%;
+  white-space: wrap;
 `;
 
-const EngName = styled(Span)`
-  font-weight: 400;
-  font-size: 35px;
-  line-height: 51px;
-`;
-
-const CountSapn = styled(Span)`
-  color: #6e7c65;
-  font-size: 36px;
-  line-height: 37px;
-  margin-left: 10px;
+const CountSapn = styled.h3`
+  color: var(--secondary-color);
+  margin-left: 0.625rem;
 `;
 
 // const PriceBox = styled.div``;
@@ -332,75 +352,83 @@ const CountSapn = styled(Span)`
 //   margin-right: 0;
 // `;
 
-const PerfumeInfo = styled.div`
-  margin-bottom: 76px;
+const PerfumeInfo = styled.section`
+  margin-bottom: 4.75rem;
 `;
 
 const PerfumeInfoBox = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 45px;
+  margin-bottom: 2.8125rem;
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
 `;
 
-const CategoryTitle = styled(Span)`
-  font-weight: 700;
-  margin-right: 35px;
+const CategoryTitle = styled.h3`
+  margin-right: 2.1875rem;
+  @media screen and (max-width: 1000px) {
+    margin-right: 0;
+    margin-bottom: 0.625rem;
+  }
 `;
 
-const TagBox = styled.div`
+const TagBox = styled.ul`
   display: flex;
-  width: 594px;
+  width: 37.125rem;
   flex-wrap: wrap;
+  @media screen and (max-width: 1440px) {
+    width: 31.25rem;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
 `;
 
-const PriceInfo = styled.div``;
+const PriceInfo = styled.section``;
 
-const PriceInfoTitle = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 43px;
+const PriceInfoTitle = styled.h2`
+  margin-bottom: 1.25rem;
 `;
 
 const PriceTable = styled.div`
-  margin-top: 20px;
+  display: grid;
+  grid-template-rows: 3.4375rem 6.25rem;
   width: 700px;
   border: 2px solid var(--medium-gray-color);
-
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 25px;
+  @media screen and (max-width: 1440px) {
+    width: 37.5rem;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
 `;
 
 const PriceTableTitle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 55px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   border-bottom: 2px solid var(--medium-gray-color);
 `;
 
 const PriceTableTitleDomain = styled.div`
   text-align: left;
-  width: 400px;
-  padding: 10px 20px;
+  padding: 0.8125rem 0;
+  padding-left: 1.875rem;
 `;
 
-const PriceTableTitlePrice = styled(PriceTableTitleDomain)`
+const PriceTableTitleSpan = styled.div`
+  padding: 0.8125rem 0;
   text-align: center;
-  width: 150px;
 `;
 
-const PriceTableTitleLink = styled(PriceTableTitlePrice)`
-  width: 150px;
+const PriceUl = styled.ul`
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
 `;
 
-const PriceLi = styled.div`
-  display: flex;
-  height: 45px;
+const PriceLi = styled.li`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   border-bottom: 1px solid var(--medium-gray-color);
   :last-child {
     border-bottom: 0;
@@ -409,23 +437,26 @@ const PriceLi = styled.div`
 
 const PriceDomain = styled.div`
   text-align: left;
-  width: 400px;
-  padding: 10px 20px;
-  font-weight: 500;
+  padding: 0.625rem 0;
+  padding-left: 1.875rem;
+  display: flex;
+  align-items: center;
 `;
 
-const PricePrice = styled(PriceDomain)`
+const DomainImage = styled.div`
+  position: relative;
+  width: 6.25rem;
+  height: 0.9375rem;
+`;
+
+const PricePrice = styled.div`
+  padding: 0.625rem 0;
   text-align: right;
-  width: 150px;
 `;
 
 const PriceLink = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-  font-weight: 500;
-
+  padding: 0.625rem 0;
+  text-align: center;
   :hover {
     text-decoration: underline;
   }
@@ -441,59 +472,96 @@ const DescriptionBox = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  margin-bottom: 120px;
+  margin-bottom: 7.5rem;
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+    margin-bottom: 3.125rem;
+  }
 `;
 
-const DescriptionTitle = styled(Span)`
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 58px;
+const DescriptionTitle = styled.h3`
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 3.125rem;
+  @media screen and (max-width: 1000px) {
+    margin-bottom: 1.25rem;
+  }
 `;
 
-const DescriptionContent = styled(Span)`
-  font-weight: 400;
-  font-size: 35px;
+const DescriptionContent = styled.h4`
+  text-align: center;
 `;
 
 const SimilarsContainer = styled.div`
-  margin: 110px 0 160px 0;
+  margin: 6.875rem 0 10rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 1000px) {
+    margin-bottom: 4.375rem;
+  }
 `;
 
-const SimilarsTitle = styled(Span)`
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 58px;
+const SimilarsTitle = styled.h2`
   text-align: center;
-  margin-bottom: 113px;
+  margin-bottom: 7.0625rem;
+  @media screen and (max-width: 1000px) {
+    margin-bottom: 4.375rem;
+  }
 `;
 
 const SimilarsCardBox = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   width: 1420px;
-  overflow: hidden;
   margin-bottom: 70px;
+  @media screen and (max-width: 1440px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
 `;
 
-const SimilarsCard = styled.div`
+const SimilarsCard = styled.button`
+  width: 21.1875rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 21px;
+  margin-right: 1.3125rem;
   cursor: pointer;
   :last-child {
     margin-right: 0;
   }
+  @media screen and (max-width: 1440px) {
+    width: 15.625rem;
+  }
+  @media screen and (max-width: 1000px) {
+    margin-right: 0;
+    margin-bottom: 1.25rem;
+  }
 `;
 
-const SimilarImg = styled.img`
-  width: 339px;
-  height: 339px;
-  border-radius: 30px;
-  margin-bottom: 25px;
+const SimilarImage = styled.div`
+  position: relative;
+  width: 21.1875rem;
+  height: 21.1875rem;
+  @media screen and (max-width: 1440px) {
+    width: 12.5rem;
+    height: 12.5rem;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 30vw;
+    height: 30vw;
+  }
+  @media screen and (max-width: 480px) {
+    width: 70vw;
+    height: 70vw;
+  }
+`;
+
+const SimilarName = styled.h3`
+  margin-top: 1.5625rem;
+  text-align: center;
 `;

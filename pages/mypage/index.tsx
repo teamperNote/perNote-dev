@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { loginState } from "../../@store/loginState";
-import { useRecoilState } from "recoil";
 import { withAuth } from "components/HOC/withAuth";
 import axiosInstance from "../../lib/api/config";
 
@@ -20,19 +18,16 @@ interface UserType {
   updatedAt: string;
 }
 function MyPage() {
-  const [loginInfo, setLoginInfo] = useRecoilState(loginState);
   const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
     async function getUserInfo() {
       const userInfo: UserType = await axiosInstance.get("/api/users/getInfo");
-      return userInfo.name;
+      setUserName(userInfo.name);
     }
+    getUserInfo();
   }, []);
 
-  // useEffect(() => {b
-  //   console.log(userInfo);
-  // }, [userInfo]);
   return (
     <MypageContainer>
       <ProfileImageContainer>
@@ -50,7 +45,7 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link href="/mypage/wish-perfume">
+          <Link href="/mypage/like-perfume">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>찜한 향수</LinkTitle>
@@ -59,7 +54,7 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link href="/mypage/story">
+          <Link href="/mypage/like-story">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>스토리</LinkTitle>
@@ -108,7 +103,7 @@ const UserName = styled.h2`
   margin: 0;
   margin-bottom: 80px;
   font-weight: 700;
-  font-size: 50px;
+  font-size: 3.125rem;
 `;
 const LinkList = styled.ul`
   display: flex;
@@ -125,6 +120,10 @@ const LinkItem = styled.li`
   &:not(:last-child) {
     margin-right: 20px;
   }
+  @media screen and (max-width: 1440px) {
+    width: 280px;
+    height: 360px;
+  }
 `;
 
 const PageLink = styled.a`
@@ -139,13 +138,13 @@ const PageLink = styled.a`
 `;
 const LinkTitle = styled.h3`
   font-weight: 700;
-  font-size: 30px;
+  font-size: 1.875rem;
   margin: 0;
   margin-bottom: 14px;
 `;
 
 const ListContent = styled.p`
   font-weight: 400;
-  font-size: 30px;
+  font-size: 1.875rem;
   margin: 0;
 `;

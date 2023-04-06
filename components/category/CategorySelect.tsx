@@ -20,19 +20,19 @@ export default function CategorySelect({ data, category, selected }) {
 }
 
 const TextBox = styled.div<{ category: string }>`
-  ${({ category }) => (category === "brand" ? "" : "0 12.5px 25px 12.5px")};
   background: ${({ category }) => (category === "brand" ? "" : "#dfdfdf")};
-  border-radius: ${({ category }) => (category === "brand" ? "" : "100px")};
-  padding: ${({ category }) => (category === "brand" ? "" : "3px 15px")};
+  border-radius: ${({ category }) => (category === "brand" ? "" : "6.25rem")};
+  padding: ${({ category }) =>
+    category === "brand" ? "" : "0.1875rem 0.9375rem"};
   margin: ${({ category }) =>
-    category === "brand" ? "" : "0 12.5px 25px 12.5px"};
+    category === "brand" ? "" : "0rem 0.7813rem 1.5625rem 0.7813rem"};
   cursor: pointer;
   display: ${({ category }) => (category === "brand" ? "flex" : "")};
   justify-content: ${({ category }) => (category === "brand" ? "center" : "")};
   align-items: ${({ category }) => (category === "brand" ? "center" : "")};
-  width: ${({ category }) => (category === "brand" ? "51.16px" : "")};
-  height: ${({ category }) => (category === "brand" ? "51.16px" : "")};
-  margin-right: ${({ category }) => (category === "brand" ? "3.84px" : "")};
+  width: ${({ category }) => (category === "brand" ? "3.1975rem" : "")};
+  height: ${({ category }) => (category === "brand" ? "3.1975rem" : "")};
+  margin-right: ${({ category }) => (category === "brand" ? "0.24rem" : "")};
   &.focus {
     border-radius: ${({ category }) => (category === "brand" ? "100%" : "")};
     background: var(--primary-color);
@@ -40,14 +40,20 @@ const TextBox = styled.div<{ category: string }>`
   &:last-child {
     margin-right: ${({ category }) => (category === "brand" ? "0" : "")};
   }
+  @media screen and (max-width: 630px) {
+    margin: ${({ category }) =>
+      category === "brand" ? "" : "0rem 0.4375rem 0.9375rem 0.4375rem"};
+  }
 `;
 
 const TextSpan = styled.div<{ category: string }>`
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
-  font-size: ${({ category }) => (category === "brand" ? "30px" : "20px")};
-  line-height: ${({ category }) => (category === "brand" ? "30px" : "40px")};
+  font-size: ${({ category }) =>
+    category === "brand" ? "1.875rem" : "1.25rem"};
+  line-height: ${({ category }) =>
+    category === "brand" ? "1.875rem" : "2.5rem"};
   color: #000000;
 
   &.focus {

@@ -8,10 +8,10 @@ import { useState } from "react";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useRouter } from "next/router";
-import axiosInstance from "../../lib/api/config";
-import LoginModal from "components/login/LoginModal";
+import WarningModal from "components/WarningModal/WarningModal";
 import { useRecoilState } from "recoil";
 import { loginState } from "@store/loginState";
+import ModalWrapper from "components/WarningModal/Portal";
 
 const cookies = new Cookies();
 function Login() {
@@ -54,8 +54,7 @@ function Login() {
           return;
         }
         const { user, accessToken, refreshToken } = response.data;
-        localStorage.setItem("user", JSON.stringify(user));
-        axiosInstance.defaults.headers.Authorization = "Bearer " + accessToken;
+        localStorage.setItem("accessToken", accessToken);
         cookies.set("refreshToken", refreshToken, {
           path: "/",
           secure: true,
@@ -75,7 +74,6 @@ function Login() {
       <LoginBox>
         <h2 className="read-only">Login</h2>
         <LoginForm>
-          <FormTitle>Per.Note</FormTitle>
           <InputList>
             <InputItem>
               <InputLabel htmlFor="email">Email</InputLabel>
@@ -124,12 +122,14 @@ function Login() {
           </SocialLoginList>
         </SocialLogin>
       </LoginBox>
-      {/* 클릭이벤트 이벤트 위임으로 처리 */}
-      {/* 모달 열려있는 경우 스크롤 이벤트 막기 */}
       {showErrorModal && (
-        <ModalSection onClick={clickOuterModal}>
-          <LoginModal />
-        </ModalSection>
+        <ModalWrapper>
+          <WarningModal
+            title={"로그인 실패"}
+            content={userError ? userError : passwordError ? passwordError : ""}
+            onClick={clickOuterModal}
+          />
+        </ModalWrapper>
       )}
     </Container>
   );
@@ -138,40 +138,39 @@ function Login() {
 export default Login;
 
 const Container = styled.div`
-  padding-top: 110px;
-  /* 임시 고정 */
-  height: 1080px;
+  padding-top: 140px;
+  height: 1040px;
   background: url("/perNoteBackImg.png") no-repeat left top/100% 100%;
 `;
 
 const LoginBox = styled.div`
+  padding: 63px 0;
   width: 744px;
-  height: 832px;
   background: white;
   position: relative;
   left: 50%;
-  transform: translate(-372px, 60px);
+  transform: translate(-50%, 60px);
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-`;
-
-const FormTitle = styled.h2`
-  margin: 0;
-  margin-bottom: 63px;
-  padding-top: 72px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 50px;
+  @media screen and (max-width: 1440px) {
+    width: 500px;
+  }
 `;
 
 const LoginForm = styled.form`
   width: 600px;
   margin: 0 auto;
+  @media screen and (max-width: 1440px) {
+    width: 456px;
+  }
 `;
 const InputList = styled.ul`
   width: 600px;
   list-style-type: none;
   padding: 0;
+  @media screen and (max-width: 1440px) {
+    width: 456px;
+  }
 `;
 
 const InputItem = styled.li`
@@ -181,7 +180,7 @@ const InputItem = styled.li`
 const InputLabel = styled.label`
   display: block;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   margin-bottom: 21px;
   color: #707070;
 `;
@@ -192,10 +191,10 @@ const Input = styled.input`
   border: none;
   border-bottom: 1px solid #707070;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
   &::placeholder {
     font-weight: 400;
-    font-size: 20px;
+    font-size: 1.25rem;
     color: #b9b9b9;
   }
 `;
@@ -206,13 +205,14 @@ const GoSignup = styled.div`
   margin-bottom: 40px;
   color: #707070;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
 `;
 
 const SignupLink = styled.span`
   cursor: pointer;
 `;
 const LoginButton = styled.button`
+  cursor: pointer;
   width: 100%;
   height: 90px;
   margin-bottom: 50px;
@@ -220,8 +220,11 @@ const LoginButton = styled.button`
   border-radius: 100px;
   background: #525d4d;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 1.875rem;
   color: white;
+  @media screen and (max-width: 1440px) {
+    height: 70px;
+  }
 `;
 
 const SocialLogin = styled.div`
@@ -230,7 +233,7 @@ const SocialLogin = styled.div`
   align-items: center;
   color: #707070;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.25rem;
 `;
 
 const SocialLoginList = styled.ul`
@@ -245,6 +248,11 @@ const SocialLoginList = styled.ul`
     height: 90px;
     background-color: #d9d9d9;
     border-radius: 70px;
+
+    @media screen and (max-width: 1440px) {
+      width: 50px;
+      height: 50px;
+    }
   }
 `;
 
