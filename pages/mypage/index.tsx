@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { useRecoilState } from "recoil";
 import { withAuth } from "components/HOC/withAuth";
 import axiosInstance from "../../lib/api/config";
-import { loginState } from "@store/loginState";
 
 interface UserType {
   birth: string;
@@ -20,7 +18,6 @@ interface UserType {
   updatedAt: string;
 }
 function MyPage() {
-  const [loginInfo, setLoginInfo] = useRecoilState(loginState);
   const [userName, setUserName] = useState<string>("");
 
   useEffect(() => {
