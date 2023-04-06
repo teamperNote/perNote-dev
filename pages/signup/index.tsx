@@ -6,6 +6,8 @@ import AgreeItem from "components/form/AgreeItem";
 import RadioItem from "components/form/RadioButton";
 import Input from "../../components/form/Input";
 import ValidationButton from "components/form/ValidationButton";
+import ModalWrapper from "components/WarningModal/Portal";
+import WarningModal from "components/WarningModal/WarningModal";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -88,6 +90,7 @@ function Signup() {
     false,
   ]);
 
+  const [isExistUser, setIsExistUser] = useState("");
   const inputName = (e: any) => {
     setName(e.target.value);
   };
@@ -115,6 +118,12 @@ function Signup() {
   };
   const inputDay = (e: any) => {
     setDay(e.target.value);
+  };
+
+  const closeErrorModal = (e: any) => {
+    if (e.target.type) {
+      setIsExistUser("");
+    }
   };
 
   //이메일 중복 확인
@@ -204,17 +213,18 @@ function Signup() {
       birth: birthday,
       gender,
     };
-    console.log(birthday);
     // 모든 값 필수 조건 만족시 버튼 활성화
     if (checkRequired()) {
       try {
         const response = await axios.post("/api/users/signup", data);
-        console.log(response);
         if (response.status === 200) {
           router.push("/");
         }
-      } catch (e) {
-        console.log(e);
+      } catch (e: any) {
+        console.log(e.response.data.message);
+        if (e.response.data.message === "이미 가입된 사용자입니다") {
+          setIsExistUser(e.response.data.message);
+        }
       }
     }
   };
@@ -424,6 +434,15 @@ function Signup() {
           </SignupButton>
         </SignupForm>
       </LocalSection>
+      {isExistUser && (
+        <ModalWrapper>
+          <WarningModal
+            title={"회원가입 실패"}
+            content={isExistUser}
+            onClick={closeErrorModal}
+          />
+        </ModalWrapper>
+      )}
     </SignupWrapper>
   );
 }
