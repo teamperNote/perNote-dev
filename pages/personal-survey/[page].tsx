@@ -316,6 +316,10 @@ export const StartBtn = styled.button`
   border: none;
   cursor: pointer;
   color: var(--white-color);
+  @media screen and (max-width: 1440px) {
+    width: 90%;
+    height: 50px;
+  }
 `;
 
 export const SubTitle = styled.span<{ margin_T?: string; margin_B?: string }>`
@@ -416,6 +420,9 @@ export const TextCardContainer = styled(CardContainer)`
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
+  @media screen and (max-width: 480px) {
+    align-items: center;
+  }
 `;
 
 export const TextCard = styled(Card)`
@@ -438,8 +445,11 @@ export const TextCard = styled(Card)`
   @media screen and (max-width: 480px) {
     width: 80vw;
     height: 50px;
-    margin-right: 0;
+    margin: 0;
     margin-bottom: 10px;
+    :last-child {
+      margin-right: 0;
+    }
   }
 `;
 
@@ -471,17 +481,27 @@ export const NotLoginBox = styled.div`
   @media screen and (max-width: 1440px) {
     width: 60vw;
   }
+  @media screen and (max-width: 480px) {
+    padding: 20px;
+    width: 80vw;
+    height: 400px;
+  }
 `;
 
 export const NotLoginTitle = styled.span`
-  margin-bottom: 50px;
+  margin-bottom: 3.125rem;
+  text-align: center;
+  @media screen and (max-width: 480px) {
+    margin-bottom: 1.875rem;
+  }
 `;
 
 export const NotLoginSpan = styled.span`
-  margin-bottom: 72px;
+  margin-bottom: 4.5rem;
   text-align: center;
-  font-size: 30px;
-  line-height: 43px;
+  @media screen and (max-width: 480px) {
+    margin-bottom: 3.75rem;
+  }
 `;
 
 export const LoginButton = styled.button`
@@ -492,4 +512,8 @@ export const LoginButton = styled.button`
   color: var(--white-color);
   cursor: pointer;
   border: none;
+  @media screen and (max-width: 480px) {
+    width: 80%;
+    height: 50px;
+  }
 `;
