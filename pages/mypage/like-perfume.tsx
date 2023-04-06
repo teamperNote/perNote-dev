@@ -6,7 +6,7 @@ import { sortArray } from "lib/arrays";
 import axios from "axios";
 import { ILiked } from "lib/types";
 
-export default function WishPerfume() {
+export default function LikePerfume() {
   const [sort, setSort] = useState(sortArray[0].value);
   const [likedPerfumes, setLikedPerfumes] = useState<ILiked[]>([]);
 
