@@ -122,7 +122,9 @@ export default function Category() {
       <CategoryBox>
         {categoryArray.map((data) => (
           <Link key={data.id} href={data.url}>
-            <CategoryTitle className={category === data.value ? "focus" : ""}>
+            <CategoryTitle
+              className={`bold f30 ${category === data.value ? "focus" : ""}`}
+            >
               {data.text}
             </CategoryTitle>
           </Link>
@@ -162,7 +164,7 @@ export default function Category() {
             <CategoryBrandBox>
               {brandList.map((alphabet) => (
                 <BrandBox key={alphabet[0]}>
-                  <BrandSpan>{alphabet[0]}</BrandSpan>
+                  <BrandSpan className={"bold f50"}>{alphabet[0]}</BrandSpan>
                   <CardBox>
                     {alphabet[1].map((brand) => (
                       <CategoryCard
@@ -178,7 +180,7 @@ export default function Category() {
             </CategoryBrandBox>
           ) : (
             <>
-              <BrandSpan>{brandName}</BrandSpan>
+              <BrandSpan className={"bold f50"}>{brandName}</BrandSpan>
               <CardBox>
                 {purfume.map((data) => (
                   <CategoryCard key={data.id} data={data} from={"Category"} />
@@ -203,34 +205,43 @@ export default function Category() {
 }
 
 export const CategoryContainer = styled.main`
-  width: 1920px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
   padding-top: 110px;
-  padding-bottom: 200px;
+  padding-bottom: 12.5rem;
+  @media screen and (max-width: 1440px) {
+    width: 80vw;
+  }
+  @media screen and (max-width: 480px) {
+    padding-top: 80px;
+    padding-bottom: 4.375rem;
+  }
 `;
 
 export const CategoryBox = styled.ul`
-  margin-top: 90px;
-  margin-bottom: 80px;
+  margin-top: 5.625rem;
+  margin-bottom: 5rem;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  @media screen and (max-width: 630px) {
+    margin-top: 3.75rem;
+    margin-bottom: 3.125rem;
+  }
 `;
 
 export const CategoryTitle = styled.li`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 43px;
   color: #b2b2b2;
-  margin-right: 80px;
+  margin: 0rem 2.5rem;
   cursor: pointer;
   &.focus {
     color: #000000;
   }
-  :last-child {
-    margin-right: 0;
+  @media screen and (max-width: 630px) {
+    margin: 0rem 1.25rem;
   }
 `;
 
@@ -246,21 +257,47 @@ export const SelectBox = styled.ul<{ category: string }>`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: ${({ category }) => (category === "brand" ? "154px" : "81px")};
+  margin-bottom: ${({ category }) =>
+    category === "brand" ? "9.625rem" : "5.0625rem"};
+  @media screen and (max-width: 1440px) {
+    width: ${({ category }) => category === "brand" && "100%"};
+  }
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 630px) {
+    margin-bottom: ${({ category }) =>
+      category === "brand" ? "6.25rem" : "3.125rem"};
+  }
 `;
 
 export const SortBox = styled.div`
   width: 1420px;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
+  @media screen and (max-width: 1440px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 630px) {
+    margin-bottom: 0.625rem;
+  }
 `;
 
 export const CardBox = styled.ul`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-bottom: 60px;
+  gap: 1.25rem;
+  margin-bottom: 3.75rem;
+  @media screen and (max-width: 1440px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 1080px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 630px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 export const CategoryBrandBox = styled.div`
@@ -271,17 +308,14 @@ export const CategoryBrandBox = styled.div`
 const BrandBox = styled.section`
   display: flex;
   flex-direction: column;
-  margin-bottom: 140px;
+  margin-bottom: 8.75rem;
 `;
 
 const BrandSpan = styled.h2`
   width: 1420px;
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  text-align: left;
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 72px;
   color: #000000;
-  margin-bottom: 80px;
+  margin-bottom: 5rem;
+  @media screen and (max-width: 1440px) {
+    width: 100%;
+  }
 `;

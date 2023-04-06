@@ -48,8 +48,7 @@ export default function CategoryCard({
         alt={`${
           slug[0] === "brand" && slug[2] === undefined ? "브랜드" : "향수"
         } 이미지`}
-        width={340}
-        height={340}
+        layout="fill"
         objectFit={"contain"}
         unoptimized={true}
       />
@@ -65,11 +64,13 @@ export default function CategoryCard({
             />
           </HeartBox>
         )}
-        <BrandName>
+        <BrandName className="bold f30">
           {/* TODO 서지수 브랜드 name_eng -> brand_eng으로 수정되면 수정하기 */}
           {slug[0] === "brand" && slug[2] === undefined ? name_eng : brand_eng}
         </BrandName>
-        {from == "Category" && <PurfumeName>{name_eng}</PurfumeName>}
+        {from == "Category" && (
+          <PurfumeName className="regular f20">{name_eng}</PurfumeName>
+        )}
       </Filter>
     </CategoryCardContainer>
   );
@@ -77,8 +78,8 @@ export default function CategoryCard({
 
 const CategoryCardContainer = styled.li`
   position: relative;
-  width: 340px;
-  height: 340px;
+  width: 21.25rem;
+  height: 21.25rem;
   cursor: pointer;
   overflow: hidden;
 `;
@@ -86,9 +87,9 @@ const CategoryCardContainer = styled.li`
 const Filter = styled.div`
   position: absolute;
   top: 0;
-  width: 340px;
-  height: 340px;
-  padding: 18px 17px;
+  width: 100%;
+  height: 100%;
+  padding: 1.125rem 1.0625rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -100,37 +101,31 @@ const Filter = styled.div`
 
 const HeartBox = styled.div`
   position: absolute;
-  top: 14px;
-  right: 16px;
+  top: 0.875rem;
+  right: 1rem;
   color: var(--white-color);
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-size: cover;
 `;
 
 const BrandName = styled.h3`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 43px;
   color: var(--white-color);
-  margin-bottom: 5px;
+  margin-bottom: 0.3125rem;
 
-  width: 306px;
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const PurfumeName = styled(BrandName)`
-  font-weight: 400;
-  font-size: 21px;
-  line-height: 25px;
+const PurfumeName = styled.h4`
+  color: var(--white-color);
   margin-bottom: 0;
 
+  width: 100%;
   white-space: normal;
+  overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

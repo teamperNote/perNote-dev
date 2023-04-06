@@ -26,7 +26,9 @@ export default function SortDropDown({ sort, setSort }) {
   return (
     <SortDropDownContainer ref={DropDownRef}>
       <SortBox onClick={() => SetIsShowDropDown(!isShowDropDown)}>
-        <SortName>{sortArray.find((x) => x.value === sort).text}</SortName>
+        <SortName className="regular f20">
+          {sortArray.find((x) => x.value === sort).text}
+        </SortName>
         <Image
           src={"/sortBtn.svg"}
           alt={"정렬 아이콘"}
@@ -47,7 +49,7 @@ export default function SortDropDown({ sort, setSort }) {
                 setSort(data.value);
               }}
             >
-              <DropDownSpan>{data.text}</DropDownSpan>
+              <DropDownSpan className="regular f20">{data.text}</DropDownSpan>
             </DropDownBox>
           ))}
         </DropDownContainer>
@@ -64,46 +66,34 @@ const SortBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 15px;
+  padding-bottom: 0.9375rem;
   cursor: pointer;
 `;
 
 const SortName = styled.div`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 29px;
-  color: #000000;
-  margin-right: 26px;
-  width: 100px;
+  margin-right: 1.625rem;
+  width: 6.25rem;
 `;
 
 const DropDownContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 164px;
+  width: 10.25rem;
   background: var(--white-color);
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 0.5rem rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  padding: 10px;
+  padding: 0.625rem;
   position: absolute;
-  left: -9px;
+  left: -0.5625rem;
   z-index: 10;
 `;
 
 const DropDownBox = styled.div`
-  padding: 15px;
+  padding: 0.9375rem;
   cursor: pointer;
 `;
 
 const DropDownSpan = styled.span`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 29px;
   text-align: center;
-  color: #000000;
 `;

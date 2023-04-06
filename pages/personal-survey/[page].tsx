@@ -264,6 +264,9 @@ export const Background = styled.div`
   @media screen and (max-width: 1440px) {
     height: calc(100vh - 80px);
   }
+  @media screen and (max-width: 480px) {
+    margin-bottom: 0;
+  }
 `;
 
 export const PersonalScentBox = styled.div`
@@ -277,16 +280,20 @@ export const PersonalScentBox = styled.div`
   @media screen and (max-width: 1440px) {
     width: 74%;
     height: 76%;
+    overflow: auto;
   }
   @media screen and (max-width: 480px) {
+    border-radius: 0;
+    padding: 20px;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
   }
 `;
 
 export const PersonalScentTitle = styled.span`
   margin-top: 148.05px;
   margin-bottom: 30.57px;
+  text-align: center;
   @media screen and (max-width: 1440px) {
     margin-top: calc(100vh * 0.1);
     margin-bottom: calc(100vh * 0.03);
@@ -314,6 +321,7 @@ export const StartBtn = styled.button`
 export const SubTitle = styled.span<{ margin_T?: string; margin_B?: string }>`
   margin-top: ${({ margin_T }) => margin_T || "130px"};
   margin-bottom: ${({ margin_B }) => margin_B || "75px"};
+  text-align: center;
   @media screen and (max-width: 1440px) {
     margin-top: ${({ margin_T }) => margin_T || "90px"};
     margin-bottom: ${({ margin_B }) => margin_B || "55px"};
@@ -322,6 +330,9 @@ export const SubTitle = styled.span<{ margin_T?: string; margin_B?: string }>`
 
 export const CardContainer = styled.div`
   display: flex;
+  @media screen and (max-width: 480px) {
+    flex-direction: column;
+  }
 `;
 
 export const Card = styled.button<{ margin_R?: string }>`
@@ -339,6 +350,12 @@ export const Card = styled.button<{ margin_R?: string }>`
     width: 11vw;
     height: 250px;
   }
+  @media screen and (max-width: 480px) {
+    width: 80vw;
+    height: 50px;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 `;
 
 export const CardContent = styled.div`
@@ -350,6 +367,9 @@ export const ColorCardContainer = styled(CardContainer)`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1.875rem;
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 export const ColorCard = styled(Card)`
@@ -366,6 +386,10 @@ export const ColorCard = styled(Card)`
   @media screen and (max-width: 1440px) {
     width: 10vw;
     height: 10vw;
+  }
+  @media screen and (max-width: 480px) {
+    width: 30vw;
+    height: 30vw;
   }
 `;
 
@@ -410,6 +434,12 @@ export const TextCard = styled(Card)`
     height: 80px;
     margin: 0 10px;
     margin-bottom: 20px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 80vw;
+    height: 50px;
+    margin-right: 0;
+    margin-bottom: 10px;
   }
 `;
 
