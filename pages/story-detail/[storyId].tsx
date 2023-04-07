@@ -50,7 +50,7 @@ export default function StoryDetail() {
     await axios
       .get("/api/story", {
         // TODO 서지수 로그인 구현 후 userId 빼기
-        params: { userId: "64023ce1c704c82c11f5df20", storyId: storyId },
+        params: { userId: "6427c8c4aa6de7f827ba0fac", storyId: storyId },
       })
       .then(({ data }) => {
         setStory({ ...story, isLoading: true, data: data });
