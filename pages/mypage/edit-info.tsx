@@ -22,7 +22,6 @@ const radioList = [
 function EditInfo() {
   return (
     <MyPageContainer>
-      <MyPageTitle>개인정보 수정</MyPageTitle>
       <NotificationSection>
         <NotificationTitle>스토리 알림 설정</NotificationTitle>
         <SettingNoti>
@@ -135,12 +134,12 @@ function EditInfo() {
                   console.log("임시");
                 }}
               />
-              <RadioItem
+              {/* <RadioItem
                 radioData={radioList[1]}
                 setStateValue={() => {
                   console.log("임시");
                 }}
-              />
+              /> */}
             </div>
           </FormList>
           <StoreButton>저장하기</StoreButton>
@@ -153,36 +152,29 @@ export default EditInfo;
 
 const MyPageContainer = styled.div`
   font-family: "Noto Sans KR";
-  padding: 290px 0 200px 490px;
-`;
-
-const MyPageTitle = styled.h1`
-  width: 288px;
-  text-align: right;
-  margin: 0;
-  margin-bottom: 110px;
-  font-weight: 700;
-  font-size: 50px;
+  padding: 200px 0;
 `;
 
 const NotificationSection = styled.section`
-  margin-bottom: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 70px;
 `;
 
 const NotificationTitle = styled.h2`
-  width: 288px;
-  text-align: right;
   margin: 0;
   font-weight: 700;
-  font-size: 40px;
+  font-size: 1.75rem;
   margin-bottom: 60px;
 `;
 
 const SettingNoti = styled.div`
+  width: 683px;
   margin-bottom: 35px;
   display: flex;
   align-items: center;
-  font-size: 64px;
+  font-size: 2.5rem;
 
   .icon {
     color: var(--primary-color);
@@ -195,15 +187,21 @@ const SettingNoti = styled.div`
 `;
 
 const NotiTitle = styled.h3`
-  width: 288px;
-  text-align: right;
+  width: 150px;
   margin: 0;
   font-weight: 400;
-  font-size: 35px;
+  font-size: 1.4rem;
   margin-right: 65px;
+  @media screen and (max-width: 1440px) {
+    width: 130px;
+  }
 `;
 
-const PersonalInfo = styled.section``;
+const PersonalInfo = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const PersonalInfoForm = styled.form`
   display: flex;
@@ -225,13 +223,14 @@ const FormItem = styled.li`
 `;
 
 const StoreButton = styled.button`
-  width: 800px;
-  height: 120px;
+  width: 333px;
+  height: 60px;
   border: none;
-  background: #525d4d;
-  border-radius: 20px;
-  color: white;
+  border-radius: 10px;
   font-weight: 400;
-  font-size: 40px;
-  margin-top: 93px;
+  font-size: 1.5rem;
+  margin-top: 90px;
+  /* 버튼 활성화 비활성화 구분하기 */
+  background: #525d4d;
+  color: white;
 `;
