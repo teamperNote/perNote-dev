@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { useState } from "react";
 import axios from "axios";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useRecoilValue } from "recoil";
+import { loginState } from "@store/loginState";
+import { useRouter } from "next/router";
 
 interface IProps {
   content?: string;
@@ -32,33 +35,40 @@ export default function LikeButton({
 }: IProps) {
   const [isLike, setIsLike] = useState<boolean>(liked);
   const [likeCounts, setLikeCounts] = useState<number>(likeCount);
+  const router = useRouter();
+  const loginInfo = useRecoilValue<string>(loginState);
 
   const onLikeClick = async () => {
-    if (isLike) {
-      setIsLike(false);
-      setLikeCounts(likeCounts - 1);
+    if (loginInfo) {
+      if (isLike) {
+        setIsLike(false);
+        setLikeCounts(likeCounts - 1);
+      } else {
+        setIsLike(true);
+        setLikeCounts(likeCounts + 1);
+      }
+      if (content !== "story") {
+        await axios
+          .post("/api/perfumeLike", {
+            perfumeId: id,
+            userId: "6427c8c4aa6de7f827ba0fac",
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        await axios
+          .post("/api/story/like", {
+            storyId: id,
+            userId: "6427c8c4aa6de7f827ba0fac",
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     } else {
-      setIsLike(true);
-      setLikeCounts(likeCounts + 1);
-    }
-    if (content !== "story") {
-      await axios
-        .post("/api/perfumeLike", {
-          perfumeId: id,
-          userId: "64023ce1c704c82c11f5df20",
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      await axios
-        .post("/api/story/like", {
-          storyId: id,
-          userId: "64023ce1c704c82c11f5df20",
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      alert("로그인이 필요한 서비스입니다.");
+      router.push("/signin");
     }
   };
   return (

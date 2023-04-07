@@ -36,33 +36,40 @@ export default function PerfumeInfo({
           <Image
             src={imgUrl !== "" ? imgUrl : "/noImage.png"}
             alt={`${name_eng} 이미지`}
-            width={460}
-            height={300}
+            layout="fill"
             objectFit={"contain"}
           />
         </PerfumeImageContainer>
         <TextContainer>
           {pathname === "/mypage/test-result" && (
-            <Date>{dateFormat(createdAt)}</Date>
+            <Date className="regular f20">{dateFormat(createdAt)}</Date>
           )}
-          <PerfumeName>{name_eng}</PerfumeName>
-          <PerfumeBrand>{brand_eng}</PerfumeBrand>
+          <PerfumeName className="bold f30">{name_eng}</PerfumeName>
+          <PerfumeBrand className="regular f20">{brand_eng}</PerfumeBrand>
           <DetailInfo>
-            <DetailInfoItem>
+            <DetailInfoItem className="bold f20">
               <InfoTitle>노트</InfoTitle>
-              <InfoContent>{note.map((note) => `${note}, `)} </InfoContent>
+              <InfoContent className="regular">
+                {note.map((note) => `${note}, `)}{" "}
+              </InfoContent>
             </DetailInfoItem>
             <DetailInfoItem>
               <InfoTitle>탑</InfoTitle>
-              <InfoContent>{top !== "xxxx" ? top : "-"}</InfoContent>
+              <InfoContent className="regular">
+                {top !== "xxxx" ? top : "-"}
+              </InfoContent>
             </DetailInfoItem>
             <DetailInfoItem>
               <InfoTitle>미들</InfoTitle>
-              <InfoContent>{middle !== "xxxx" ? middle : "-"}</InfoContent>
+              <InfoContent className="regular">
+                {middle !== "xxxx" ? middle : "-"}
+              </InfoContent>
             </DetailInfoItem>
             <DetailInfoItem>
               <InfoTitle>베이스</InfoTitle>
-              <InfoContent>{bottom !== "xxxx" ? bottom : "-"}</InfoContent>
+              <InfoContent className="regular">
+                {bottom !== "xxxx" ? bottom : "-"}
+              </InfoContent>
             </DetailInfoItem>
           </DetailInfo>
         </TextContainer>
@@ -76,87 +83,62 @@ const PerfumeInfoContainer = styled.li`
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  @media screen and (max-width: 1440px) {
+    width: 360px;
+  }
+  @media screen and (max-width: 740px) {
+    width: 80vw;
+  }
 `;
 
 const PerfumeImageContainer = styled.div`
-  width: 460px;
+  position: relative;
+  width: 100%;
   height: 300px;
-  overflow: hidden;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 `;
 
 const TextContainer = styled.div`
-  padding: 0 34px;
+  padding: 0 2.125rem;
 `;
 
 const Date = styled.time`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 29px;
-  text-align: left;
   color: var(--dark-gray-color);
 `;
 
 const PerfumeName = styled.h3`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 43px;
-  text-align: left;
-  color: var(--black-color);
-  margin: 0;
-  margin-bottom: 5px;
-
-  width: 392px;
+  margin-bottom: 0.3125rem;
+  max-width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 `;
 
 const PerfumeBrand = styled.h4`
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 29px;
-  text-align: left;
   color: var(--black-color);
   margin: 0;
 `;
 
 const DetailInfo = styled.ul`
-  padding: 25px 0;
-  list-style-type: none;
+  padding: 1.5625rem 0rem;
 `;
 
 const DetailInfoItem = styled.li`
   display: flex;
-  margin-bottom: 29px;
+  margin-bottom: 1.8125rem;
   :last-child {
     margin-bottom: 0;
   }
 `;
 
-const InfoTitle = styled.span`
-  width: 56px;
-  margin-right: 30px;
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 29px;
-  text-align: left;
-  color: var(--black-color);
+const InfoTitle = styled.h5`
+  width: 3.5rem;
+  margin-right: 1.875rem;
 `;
 
-const InfoContent = styled(InfoTitle)`
-  width: 306px;
+const InfoContent = styled.span`
+  width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin-right: 0;
-  font-weight: 400;
 `;
