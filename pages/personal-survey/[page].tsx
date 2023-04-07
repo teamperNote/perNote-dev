@@ -316,7 +316,7 @@ export const StartBtn = styled.button`
   border: none;
   cursor: pointer;
   color: var(--white-color);
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 480px) {
     width: 90%;
     height: 50px;
   }
