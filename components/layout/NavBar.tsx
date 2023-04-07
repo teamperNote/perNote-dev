@@ -16,7 +16,7 @@ export default function NavBar() {
 
   //로그아웃 기능
   const handleClickLogout = () => {
-    axiosInstance.defaults.headers.Authorization = "";
+    localStorage.removeItem("accessToken");
     setLoginInfo("");
     setIsLoginNav(false);
     router.push("/");
