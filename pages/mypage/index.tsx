@@ -17,13 +17,18 @@ interface UserType {
   snsType: string;
   updatedAt: string;
 }
+interface IData {
+  data: UserType;
+}
 function MyPage() {
-  const [userName, setUserName] = useState<string>("");
+  const [userInfo, setUserInfo] = useState<UserType | null>(null);
 
   useEffect(() => {
     async function getUserInfo() {
-      const userInfo: UserType = await axiosInstance.get("/api/users/getInfo");
-      setUserName(userInfo.name);
+      const { data: user }: IData = await axiosInstance.get(
+        "/api/users/getInfo",
+      );
+      setUserInfo(user);
     }
     getUserInfo();
   }, []);
@@ -33,7 +38,7 @@ function MyPage() {
       <ProfileImageContainer>
         <img src="/perNoteBackImg.png" alt="사용자 이름" />
       </ProfileImageContainer>
-      <UserName>{userName}님 </UserName>
+      {userInfo && <UserName>{userInfo.name}님 </UserName>}
       <LinkList>
         <LinkItem>
           <Link href="/mypage/test-result">
@@ -63,7 +68,13 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link href="/mypage/edit-info">
+          <Link
+            href={{
+              pathname: "/mypage/edit-info",
+              query: { userData: JSON.stringify(userInfo) },
+            }}
+            as="/mypage/edit-info"
+          >
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>개인정보 수정</LinkTitle>
