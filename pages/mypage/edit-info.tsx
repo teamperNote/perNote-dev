@@ -6,16 +6,16 @@ import { IoToggle } from "react-icons/io5";
 import { withRouter } from "next/router";
 
 function EditInfo({ router: { query } }) {
-  const userData = JSON.parse(query.userData);
-  const [email, setEmail] = useState(userData.email);
+  const userData = query.userData ? JSON.parse(query.userData) : null;
+  const [email, setEmail] = useState(userData?.email);
   // const [password, setPassword] = useState("");
   // const [passwordCheck, setPasswordCheck] = useState("");
-  const [name, setName] = useState(userData.name);
-  const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
+  const [name, setName] = useState(userData?.name);
+  const [phoneNumber, setPhoneNumber] = useState(userData?.phoneNumber);
   const [birthday, setBirthday] = useState({
-    year: userData.birth.slice(0, 4),
-    month: userData.birth.slice(5, 7),
-    day: userData.birth.slice(8, 10),
+    year: userData?.birth.slice(0, 4),
+    month: userData?.birth.slice(5, 7),
+    day: userData?.birth.slice(8, 10),
   });
   const inputName = (e: any) => {
     setName(e.target.value);
