@@ -11,6 +11,7 @@ function Footer() {
           alt="per.per 로고"
           layout="fill"
           objectFit="contain"
+          unoptimized
         />
       </FooterLogo>
       <FooterBox>

@@ -23,7 +23,13 @@ const Home: NextPage = () => {
       <FirstMain>
         <MainText>
           <MainTitle>
-            <Image src="/main_logo.png" alt="per per" width={260} height={60} />
+            <Image
+              src="/main_logo.png"
+              alt="per per"
+              width={260}
+              height={60}
+              unoptimized
+            />
           </MainTitle>
           <MainContent>향수 여정의 시작을 편하게</MainContent>
         </MainText>
