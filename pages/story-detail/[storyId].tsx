@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import NoteTag from "components/NoteTag";
 import RowStoryCard from "components/story/RowStoryCard";
 import { dateFormat } from "lib/numberFomat";
@@ -47,7 +47,7 @@ export default function StoryDetail() {
     data: null,
   });
   const getStory = async () => {
-    await axios
+    await axiosInstance
       .get("/api/story", {
         // TODO 서지수 로그인 구현 후 userId 빼기
         params: { userId: "6427c8c4aa6de7f827ba0fac", storyId: storyId },

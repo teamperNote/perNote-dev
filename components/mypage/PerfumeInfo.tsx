@@ -46,11 +46,11 @@ export default function PerfumeInfo({
           )}
           <PerfumeName className="bold f30">{name_eng}</PerfumeName>
           <PerfumeBrand className="regular f20">{brand_eng}</PerfumeBrand>
-          <DetailInfo>
-            <DetailInfoItem className="bold f20">
+          <DetailInfo className="bold f20">
+            <DetailInfoItem>
               <InfoTitle>노트</InfoTitle>
               <InfoContent className="regular">
-                {note.map((note) => `${note}, `)}{" "}
+                {note.map((note) => `${note}, `)}
               </InfoContent>
             </DetailInfoItem>
             <DetailInfoItem>

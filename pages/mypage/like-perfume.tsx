@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PerfumeInfo from "../../components/mypage/PerfumeInfo";
 import SortDropDown from "components/category/SortDropDown";
 import { sortArray } from "lib/arrays";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import { ILiked } from "lib/types";
 
 export default function LikePerfume() {
@@ -12,7 +12,7 @@ export default function LikePerfume() {
 
   useEffect(() => {
     const getLikedPerfumes = () => {
-      axios
+      axiosInstance
         .get("/api/perfumeLike/userLiked", {
           params: {
             userId: "6427c8c4aa6de7f827ba0fac",

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import NoteTag from "components/NoteTag";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import { IPerfume } from "lib/types";
 import { numberComma } from "lib/numberFomat";
 import LikeButton from "components/LikeButton";
@@ -19,7 +19,7 @@ export default function ProductDetailPage() {
     data: null,
   });
   const getPurfumeInfo = async () => {
-    await axios
+    await axiosInstance
       .get("/api/detail", {
         params: {
           userId: "6427c8c4aa6de7f827ba0fac",
