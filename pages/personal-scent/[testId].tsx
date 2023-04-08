@@ -119,6 +119,7 @@ export default function PersonalScent() {
                 layout="fill"
                 objectFit="contain"
                 style={{ borderRadius: "30px" }}
+                unoptimized
               />
             </ImageBox>
             <SubTitle className={"bold f40"} margin_T={60} margin_B={60}>
@@ -162,6 +163,7 @@ export default function PersonalScent() {
                     src={"/login_kakao.svg"}
                     alt={`카카오톡 공유`}
                     layout="fill"
+                    unoptimized
                   />
                 </ShareCircle>
                 <ShareText className="regular f30">카카오톡</ShareText>
@@ -185,6 +187,7 @@ export default function PersonalScent() {
                         style={{
                           borderRadius: "30px",
                         }}
+                        unoptimized
                       />
                     </CardImage>
                     <SubPerfumeName className="regular f30">
