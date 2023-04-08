@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import CategoryDropDown from "../category/CategoryDropDown";
-import axiosInstance from "../../lib/api/config";
 import { useRecoilState } from "recoil";
 import { loginState } from "@store/loginState";
 import Image from "next/image";
+import { Cookies } from "react-cookie";
+
+const cookies = new Cookies();
 export default function NavBar() {
   const [loginInfo, setLoginInfo] = useRecoilState(loginState);
   const [isLoginNav, setIsLoginNav] = useState(false);
@@ -17,6 +19,7 @@ export default function NavBar() {
   //로그아웃 기능
   const handleClickLogout = () => {
     localStorage.removeItem("accessToken");
+    cookies.remove("refreshToken");
     setLoginInfo("");
     setIsLoginNav(false);
     router.push("/");

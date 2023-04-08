@@ -1,25 +1,54 @@
 import Input from "components/form/Input";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ValidationButton from "components/form/ValidationButton";
-import RadioItem from "components/form/RadioButton";
 import { IoToggle } from "react-icons/io5";
+import { withRouter } from "next/router";
 
-const radioList = [
-  {
-    label: "성별",
-    id: ["male", "female"],
-    name: "gender",
-    text: ["남성", "여성"],
-  },
-  {
-    label: "메세지 수신 동의",
-    id: ["agree", "disagee"],
-    name: "story",
-    text: ["동의", "비동의"],
-  },
-];
-function EditInfo() {
+function EditInfo({ router: { query } }) {
+  const userData = query.userData ? JSON.parse(query.userData) : null;
+  const [email, setEmail] = useState(userData?.email);
+  // const [password, setPassword] = useState("");
+  // const [passwordCheck, setPasswordCheck] = useState("");
+  const [name, setName] = useState(userData?.name);
+  const [phoneNumber, setPhoneNumber] = useState(userData?.phoneNumber);
+  const [birthday, setBirthday] = useState({
+    year: userData?.birth.slice(0, 4),
+    month: userData?.birth.slice(5, 7),
+    day: userData?.birth.slice(8, 10),
+  });
+  const inputName = (e: any) => {
+    setName(e.target.value);
+  };
+  const inputEmail = (e: any) => {
+    setEmail(e.target.value);
+  };
+
+  // const inputPassword = (e: any) => {
+  //   setPassword(e.target.value);
+  // };
+
+  // const inputPasswordCheck = (e: any) => {
+  //   setPasswordCheck(e.target.value);
+  // };
+
+  const inputPhoneNumber = (e: any) => {
+    setPhoneNumber(e.target.value);
+  };
+
+  const inputYear = (e: any) => {
+    setBirthday({ ...birthday, year: e.target.value });
+  };
+  const inputMonth = (e: any) => {
+    setBirthday({ ...birthday, month: e.target.value });
+  };
+  const inputDay = (e: any) => {
+    setBirthday({ ...birthday, day: e.target.value });
+  };
+
+  const handleStoreEditInfo = () => {
+    console.log("수정 정보 저장");
+  };
   return (
     <MyPageContainer>
       <NotificationSection>
@@ -39,61 +68,53 @@ function EditInfo() {
           <FormList>
             <FormItem>
               <Input
-                htmlFor="name"
-                labelContent="이메일 변경"
-                type="text"
-                value=""
-                setStateValue={() => {
-                  console.log("임시");
-                }}
-              />
-            </FormItem>
-            <FormItem>
-              <Input
                 htmlFor="email"
-                labelContent="비밀번호 변경"
+                labelContent="이메일"
                 type="email"
-                value=""
-                setStateValue={() => {
-                  console.log("임시");
-                }}
+                value={email}
+                setStateValue={inputEmail}
               />
               <ValidationButton
                 click={() => {
-                  console.log("");
+                  console.log("이메일 중복확인");
                 }}
               >
                 중복확인
               </ValidationButton>
             </FormItem>
+            {/* <FormItem>
+              <Input
+                htmlFor="password"
+                labelContent="비밀번호"
+                type="text"
+                value={password}
+                setStateValue={inputPassword}
+              />
+            </FormItem>
 
             <FormItem>
               <Input
-                htmlFor="password"
+                htmlFor="passwordCheck"
                 labelContent="비밀번호 확인"
-                type="passowrd"
-                value=""
-                setStateValue={() => {
-                  console.log("임시");
-                }}
+                type="text"
+                value={passwordCheck}
+                setStateValue={inputPasswordCheck}
               />
               <ValidationButton
                 click={() => {
-                  console.log("");
+                  console.log("비밀번호 일치 확인");
                 }}
               >
                 확인
               </ValidationButton>
-            </FormItem>
+            </FormItem> */}
             <FormItem>
               <Input
-                htmlFor="pwdCheck"
+                htmlFor="name"
                 labelContent="이름"
-                type="passowrd"
-                value=""
-                setStateValue={() => {
-                  console.log("임시");
-                }}
+                type="text"
+                value={name}
+                setStateValue={inputName}
               />
             </FormItem>
 
@@ -102,53 +123,88 @@ function EditInfo() {
                 htmlFor="phone"
                 labelContent="전화번호"
                 type="tel"
-                value=""
-                setStateValue={() => {
-                  console.log("임시");
-                }}
+                value={phoneNumber}
+                setStateValue={inputPhoneNumber}
               />
               <ValidationButton
                 click={() => {
-                  console.log("");
+                  console.log("전화번호 인증");
                 }}
               >
-                변경하기
+                인증하기
               </ValidationButton>
             </FormItem>
 
-            <FormItem>
-              <Input
-                htmlFor="birth"
-                labelContent="생년월일"
-                type="text"
-                value=""
-                setStateValue={() => {
-                  console.log("임시");
-                }}
-              />
-            </FormItem>
-            <div>
-              <RadioItem
-                radioData={radioList[0]}
-                setStateValue={() => {
-                  console.log("임시");
-                }}
-              />
-              {/* <RadioItem
-                radioData={radioList[1]}
-                setStateValue={() => {
-                  console.log("임시");
-                }}
-              /> */}
-            </div>
+            <BirthDayFormItem>
+              <label htmlFor="birth">생년월일</label>
+              <div>
+                <select
+                  name="year"
+                  id="year"
+                  value={birthday.year}
+                  onChange={inputYear}
+                >
+                  <option value={birthday.year} selected>
+                    {birthday.year}
+                  </option>
+                  {Array(84)
+                    .fill(null)
+                    .map((item, index) => {
+                      return (
+                        <option key={index} value={index + 1940}>
+                          {index + 1940}
+                        </option>
+                      );
+                    })}
+                </select>
+                <select
+                  name="month"
+                  id="month"
+                  value={birthday.month}
+                  onChange={inputMonth}
+                >
+                  <option value={birthday.month} selected>
+                    {birthday.month}
+                  </option>
+                  {Array(12)
+                    .fill(null)
+                    .map((item, index) => {
+                      return (
+                        <option key={index} value={index + 1}>
+                          {index + 1}
+                        </option>
+                      );
+                    })}
+                </select>
+                <select
+                  name="day"
+                  id="day"
+                  value={birthday.day}
+                  onChange={inputDay}
+                >
+                  <option value={birthday.day} selected>
+                    {birthday.day}
+                  </option>
+                  {Array(31)
+                    .fill(null)
+                    .map((item, index) => {
+                      return (
+                        <option key={index} value={index + 1}>
+                          {index + 1}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+            </BirthDayFormItem>
           </FormList>
-          <StoreButton>저장하기</StoreButton>
+          <StoreButton onClick={handleStoreEditInfo}>저장하기</StoreButton>
         </PersonalInfoForm>
       </PersonalInfo>
     </MyPageContainer>
   );
 }
-export default EditInfo;
+export default withRouter(EditInfo);
 
 const MyPageContainer = styled.div`
   font-family: "Noto Sans KR";
@@ -233,4 +289,52 @@ const StoreButton = styled.button`
   /* 버튼 활성화 비활성화 구분하기 */
   background: #525d4d;
   color: white;
+`;
+
+const BirthDayFormItem = styled.li`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 35px;
+
+  label {
+    display: inline-block;
+    /* 248px 이상이면 레이아웃 깨짐  */
+    width: 120px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 1.25rem;
+    margin-right: 63px;
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 330px;
+  }
+  input {
+    width: 90px;
+    height: 46px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 2px solid #d9d9d9;
+  }
+
+  input::placeholder {
+    color: black;
+    font-size: 1rem;
+  }
+
+  select {
+    width: 90px;
+    height: 46px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 2px solid #d9d9d9;
+    appearance: none;
+    background: url("/down_arrow.svg") no-repeat;
+    background-position: 60px 16px;
+    background-size: 14px 10px;
+  }
 `;
