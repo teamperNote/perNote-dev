@@ -10,7 +10,7 @@ import {
   personalityArray,
   featureArray,
 } from "lib/arrays";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import { useRecoilValue } from "recoil";
 import { loginState } from "@store/loginState";
 
@@ -28,7 +28,7 @@ export default function PersonalSurvey() {
   });
 
   const postSurvey = async () => {
-    await axios
+    await axiosInstance
       .get("/api/personalScent", {
         params: {
           userId: "6427c8c4aa6de7f827ba0fac",

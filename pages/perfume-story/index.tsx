@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import { sortArray } from "lib/arrays";
 import PopularCard from "components/story/PopularCard";
 import SortDropDown from "components/category/SortDropDown";
@@ -12,8 +12,10 @@ export default function PerfumeStory() {
     data: [],
   });
   const getBestStoryList = async () => {
-    await axios
-      .get("/api/story/best")
+    await axiosInstance
+      .get("/api/story/best", {
+        params: { userId: "6427c8c4aa6de7f827ba0fac" },
+      })
       .then(({ data }) => {
         setBestStoryList({ ...bestStoryList, isLoading: true, data: data });
       })
@@ -26,7 +28,7 @@ export default function PerfumeStory() {
   const [sort, setSort] = useState(sortArray[0].value);
   const [storyList, setStoryList] = useState({ isLoading: false, data: [] });
   const getStoryList = async () => {
-    await axios
+    await axiosInstance
       .get("/api/story/all", {
         params: { userId: "6427c8c4aa6de7f827ba0fac" },
       })

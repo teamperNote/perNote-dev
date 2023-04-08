@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useRecoilValue } from "recoil";
 import { loginState } from "@store/loginState";
@@ -48,7 +48,7 @@ export default function LikeButton({
         setLikeCounts(likeCounts + 1);
       }
       if (content !== "story") {
-        await axios
+        await axiosInstance
           .post("/api/perfumeLike", {
             perfumeId: id,
             userId: "6427c8c4aa6de7f827ba0fac",
@@ -57,8 +57,8 @@ export default function LikeButton({
             console.log(err);
           });
       } else {
-        await axios
-          .post("/api/story/like", {
+        await axiosInstance
+          .post("/ap  i/story/like", {
             storyId: id,
             userId: "6427c8c4aa6de7f827ba0fac",
           })
