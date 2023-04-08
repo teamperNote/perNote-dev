@@ -48,6 +48,7 @@ export default function StoryCard({
             alt={`${title} 대표 이미지`}
             layout="fill"
             objectFit={"cover"}
+            unoptimized
           />
         </ImageBox>
         <Filter className={isShow ? "show" : "hide"}>
@@ -67,7 +68,12 @@ export default function StoryCard({
         <InfoFlex>
           <DateSpan className="regular f20">{dateFormat(createdAt)}</DateSpan>
           <ViewImageBox>
-            <Image src={"/viewIcon.svg"} alt={"조회수 아이콘"} layout="fill" />
+            <Image
+              src={"/viewIcon.svg"}
+              alt={"조회수 아이콘"}
+              layout="fill"
+              unoptimized
+            />
           </ViewImageBox>
           <ViewCountSpan className={"regular f20"}>{viewCount}</ViewCountSpan>
         </InfoFlex>

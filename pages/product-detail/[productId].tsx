@@ -63,6 +63,7 @@ export default function ProductDetailPage() {
                 layout="fill"
                 objectFit={"contain"}
                 priority
+                unoptimized
               />
             </ImageBox>
             <InfoSection>
@@ -88,6 +89,7 @@ export default function ProductDetailPage() {
                     alt={"조회수 아이콘"}
                     width={40}
                     height={36.7}
+                    unoptimized
                   />
                   <CountSapn className="regular f35">
                     {purfumeData.data.viewCount}
@@ -168,6 +170,7 @@ export default function ProductDetailPage() {
                                 layout="fill"
                                 objectFit={"contain"}
                                 objectPosition={"left"}
+                                unoptimized
                               />
                             </DomainImage>
                           ) : (
@@ -241,6 +244,7 @@ export default function ProductDetailPage() {
                         layout="fill"
                         objectFit={"contain"}
                         style={{ borderRadius: "30px", marginBottom: "25px" }}
+                        unoptimized
                       />
                     </SimilarImage>
                     <SimilarName className="regular f30">

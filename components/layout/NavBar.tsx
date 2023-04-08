@@ -61,6 +61,7 @@ export default function NavBar() {
                 alt="pernote"
                 width={134}
                 height={30}
+                unoptimized
               />
             </PernoteLogo>
           ) : (
@@ -70,6 +71,7 @@ export default function NavBar() {
                 alt="pernote"
                 width={134}
                 height={30}
+                unoptimized
               />
             </PernoteLogo>
           )}
