@@ -29,12 +29,14 @@ export default function SortDropDown({ sort, setSort }) {
         <SortName className="regular f20">
           {sortArray.find((x) => x.value === sort).text}
         </SortName>
-        <Image
-          src={"/sortBtn.svg"}
-          alt={"정렬 아이콘"}
-          width={20}
-          height={20}
-        />
+        <ImageBox>
+          <Image
+            src={"/sortBtn.svg"}
+            alt={"정렬 아이콘"}
+            layout="fill"
+            unoptimized
+          />
+        </ImageBox>
       </SortBox>
       {isShowDropDown && (
         <DropDownContainer>
@@ -60,6 +62,12 @@ export default function SortDropDown({ sort, setSort }) {
 
 const SortDropDownContainer = styled.div`
   position: relative;
+`;
+
+const ImageBox = styled.div`
+  position: relative;
+  width: 1.25rem;
+  height: 1.25rem;
 `;
 
 const SortBox = styled.div`
