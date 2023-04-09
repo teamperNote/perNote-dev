@@ -15,6 +15,7 @@ import {
 } from "lib/arrays";
 import { IChosen } from "lib/types";
 import NoteTag from "components/NoteTag";
+import KakaoShare from "components/KakaoShare";
 
 export default function PersonalScent() {
   const router = useRouter();
@@ -157,13 +158,12 @@ export default function PersonalScent() {
                 <ShareText className="regular f30">링크 복사</ShareText>
               </ShareBox>
               <ShareBox>
-                {/* TODO 서지수 카카오톡 공유 기능 구현 */}
                 <ShareCircle>
-                  <Image
-                    src={"/login_kakao.svg"}
-                    alt={`카카오톡 공유`}
-                    layout="fill"
-                    unoptimized
+                  <KakaoShare
+                    id={top5[0].id}
+                    imgUrl={top5[0].imgUrl}
+                    name={top5[0].name_eng}
+                    brand={top5[0].brand_eng}
                   />
                 </ShareCircle>
                 <ShareText className="regular f30">카카오톡</ShareText>
@@ -311,10 +311,9 @@ export const ShareContainer = styled.div`
 export const ShareBox = styled.div`
   display: flex;
   flex-direction: column;
-  cursor: pointer;
 `;
 
-export const ShareCircle = styled.div`
+export const ShareCircle = styled.button`
   position: relative;
   width: 9.375rem;
   height: 9.375rem;
@@ -324,6 +323,7 @@ export const ShareCircle = styled.div`
   align-items: center;
   margin-bottom: 10px;
   border-radius: 100%;
+  cursor: pointer;
   @media screen and (max-width: 1440px) {
     width: 8.125rem;
     height: 8.125rem;
