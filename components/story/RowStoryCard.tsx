@@ -22,6 +22,7 @@ export default function RowStoryCard({
             layout="fill"
             objectFit={"cover"}
             style={{ borderRadius: "20px" }}
+            unoptimized
           />
         </ImgBox>
         <InfoBox>
@@ -43,6 +44,7 @@ export default function RowStoryCard({
                 alt={"조회수 아이콘"}
                 width={49}
                 height={33}
+                unoptimized
               />
               <IconSpan className="regular f25">{viewCount}</IconSpan>
             </IconBox>

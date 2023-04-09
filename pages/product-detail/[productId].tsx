@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import NoteTag from "components/NoteTag";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import { IPerfume } from "lib/types";
 import { numberComma } from "lib/numberFomat";
 import LikeButton from "components/LikeButton";
@@ -19,10 +19,10 @@ export default function ProductDetailPage() {
     data: null,
   });
   const getPurfumeInfo = async () => {
-    await axios
+    await axiosInstance
       .get("/api/detail", {
         params: {
-          userId: "64023ce1c704c82c11f5df20",
+          userId: "6427c8c4aa6de7f827ba0fac",
           perfumeId: productId,
         },
       })
@@ -63,6 +63,7 @@ export default function ProductDetailPage() {
                 layout="fill"
                 objectFit={"contain"}
                 priority
+                unoptimized
               />
             </ImageBox>
             <InfoSection>
@@ -88,6 +89,7 @@ export default function ProductDetailPage() {
                     alt={"조회수 아이콘"}
                     width={40}
                     height={36.7}
+                    unoptimized
                   />
                   <CountSapn className="regular f35">
                     {purfumeData.data.viewCount}
@@ -168,6 +170,7 @@ export default function ProductDetailPage() {
                                 layout="fill"
                                 objectFit={"contain"}
                                 objectPosition={"left"}
+                                unoptimized
                               />
                             </DomainImage>
                           ) : (
@@ -241,6 +244,7 @@ export default function ProductDetailPage() {
                         layout="fill"
                         objectFit={"contain"}
                         style={{ borderRadius: "30px", marginBottom: "25px" }}
+                        unoptimized
                       />
                     </SimilarImage>
                     <SimilarName className="regular f30">

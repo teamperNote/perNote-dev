@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
+import axiosInstance from "lib/api/config";
 import CategoryCard from "components/category/CategoryCard";
 import CategorySelect from "components/category/CategorySelect";
 import SortDropDown from "components/category/SortDropDown";
@@ -37,10 +38,10 @@ export default function Category() {
   const [page, setPage] = useState<number>(1);
   const [pageCount, setPageCount] = useState<number>(10);
   const getCategoryPerfume = (category: string, selected: string) => {
-    axios
+    axiosInstance
       .get("/api/category", {
         params: {
-          userId: "64023ce1c704c82c11f5df20",
+          userId: "6427c8c4aa6de7f827ba0fac",
           category: category,
           selected: selected,
           orderOpt: sort,

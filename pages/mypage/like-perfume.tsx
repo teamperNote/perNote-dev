@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PerfumeInfo from "../../components/mypage/PerfumeInfo";
 import SortDropDown from "components/category/SortDropDown";
 import { sortArray } from "lib/arrays";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import { ILiked } from "lib/types";
 
 export default function LikePerfume() {
@@ -12,10 +12,10 @@ export default function LikePerfume() {
 
   useEffect(() => {
     const getLikedPerfumes = () => {
-      axios
+      axiosInstance
         .get("/api/perfumeLike/userLiked", {
           params: {
-            userId: "64023ce1c704c82c11f5df20",
+            userId: "6427c8c4aa6de7f827ba0fac",
             orderOpt: sort,
           },
         })
@@ -32,7 +32,7 @@ export default function LikePerfume() {
 
   return (
     <WishListContainer>
-      <WishListTitle>찜한 향수</WishListTitle>
+      <WishListTitle className="bold f50">찜한 향수</WishListTitle>
       <SortBox>
         <SortDropDown sort={sort} setSort={setSort} />
       </SortBox>
@@ -49,31 +49,45 @@ const WishListContainer = styled.main`
   padding-top: 290px;
   max-width: 1420px;
   margin: 0 auto;
+  @media screen and (max-width: 1440px) {
+    padding: 0rem 1.875rem;
+    padding-top: 180px;
+    width: 100%;
+  }
+  @media screen and (max-width: 480px) {
+    padding-top: 130px;
+  }
 `;
 
-const WishListTitle = styled.h2`
-  margin: 0;
-  margin-bottom: 51px;
-
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 72px;
-  text-align: left;
-  color: var(--black-color);
+const WishListTitle = styled.h1`
+  margin-bottom: 3.1875rem;
+  @media screen and (max-width: 480px) {
+    margin-bottom: 30px;
+  }
 `;
 
 const SortBox = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
+  @media screen and (max-width: 480px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const ResultList = styled.ul`
-  padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 50px 20px;
-  margin-bottom: 230px;
+  gap: 3.125rem 1.25rem;
+  margin-bottom: 14.375rem;
+  place-items: center;
+  @media screen and (max-width: 1120px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 740px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media screen and (max-width: 480px) {
+    margin-bottom: 100px;
+  }
 `;

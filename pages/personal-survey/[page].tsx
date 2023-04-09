@@ -10,7 +10,7 @@ import {
   personalityArray,
   featureArray,
 } from "lib/arrays";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import { useRecoilValue } from "recoil";
 import { loginState } from "@store/loginState";
 
@@ -28,10 +28,10 @@ export default function PersonalSurvey() {
   });
 
   const postSurvey = async () => {
-    await axios
+    await axiosInstance
       .get("/api/personalScent", {
         params: {
-          userId: "64023ce1c704c82c11f5df20",
+          userId: "6427c8c4aa6de7f827ba0fac",
           gender: scentData.gender,
           concentration: scentData.concentration,
           season: scentData.season,
@@ -316,7 +316,7 @@ export const StartBtn = styled.button`
   border: none;
   cursor: pointer;
   color: var(--white-color);
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 480px) {
     width: 90%;
     height: 50px;
   }

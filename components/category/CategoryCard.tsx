@@ -50,7 +50,7 @@ export default function CategoryCard({
         } 이미지`}
         layout="fill"
         objectFit={"contain"}
-        unoptimized={true}
+        unoptimized
       />
       <Filter className={isShow ? "show" : "hide"}>
         {from == "Category" && (

@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useRouter } from "next/router";
 
 interface RadioDataProps {
   label: string;
@@ -13,18 +12,11 @@ interface RadioProps {
   setStateValue: (e: any) => void;
 }
 
-interface MarginProps {
-  marginProps: string;
-}
-
 function RadioItem({ radioData, setStateValue }: RadioProps) {
-  const router = useRouter();
-  const { pathname } = router;
-
   return (
     <div>
       <RadioContainer>
-        <FormLabel marginProps={pathname}>{radioData.label}</FormLabel>
+        <FormLabel>{radioData.label}</FormLabel>
         <RadioButton>
           <input
             id={radioData.id[0]}
@@ -61,7 +53,7 @@ const RadioContainer = styled.li`
   margin-top: 44px;
 `;
 
-const FormLabel = styled.label<MarginProps>`
+const FormLabel = styled.label`
   display: inline-block;
   width: 120px;
   text-align: left;

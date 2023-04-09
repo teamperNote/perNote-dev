@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import axios from "axios";
+import axiosInstance from "lib/api/config";
 import NoteTag from "components/NoteTag";
 import RowStoryCard from "components/story/RowStoryCard";
 import { dateFormat } from "lib/numberFomat";
@@ -47,10 +47,10 @@ export default function StoryDetail() {
     data: null,
   });
   const getStory = async () => {
-    await axios
+    await axiosInstance
       .get("/api/story", {
         // TODO 서지수 로그인 구현 후 userId 빼기
-        params: { userId: "64023ce1c704c82c11f5df20", storyId: storyId },
+        params: { userId: "6427c8c4aa6de7f827ba0fac", storyId: storyId },
       })
       .then(({ data }) => {
         setStory({ ...story, isLoading: true, data: data });
@@ -84,6 +84,7 @@ export default function StoryDetail() {
                 objectFit={"cover"}
                 style={{ zIndex: "-1" }}
                 priority
+                unoptimized
               />
               <HeaderBox>
                 <HeaderDate className="regular f50">
@@ -109,6 +110,7 @@ export default function StoryDetail() {
                         alt={"조회수 아이콘"}
                         width={61}
                         height={42}
+                        unoptimized
                       />
                       <IconSpan className="regular f30">
                         {story.data.targetStory.viewCount}
@@ -166,6 +168,7 @@ export default function StoryDetail() {
                     alt={"공유 아이콘"}
                     width={61}
                     height={61}
+                    unoptimized
                   />
                   {isShowModal && (
                     <BubbleBox>

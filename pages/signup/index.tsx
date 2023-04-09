@@ -173,7 +173,7 @@ function Signup() {
     const convertYear = Number(year);
     const convertMonth = Number(month);
     const convertDay = Number(day);
-    const birthday = new Date(convertYear, convertMonth - 1, convertDay);
+    const birthday = new Date(convertYear, convertMonth - 1, convertDay + 1);
     return birthday;
   };
 
