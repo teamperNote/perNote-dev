@@ -9,18 +9,14 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const role = req.headers.authorization;
+
   const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
 
-  const id = payload.iss;
-
-  // Initiate response data
-  let resStatus, resData;
+  const userId = payload.iss;
 
   const test = await prisma.test.findMany({
-    where: {
-      userId: id,
-    },
+    where: { userId },
     select: {
       id: true,
       createdAt: true,
@@ -31,46 +27,38 @@ export default async function handler(
     },
   });
 
-  if (!test) {
-    resStatus = 200;
-    resData = { message: "Error: personalScent/result" };
-  } else {
-    for (let i = 0; i < test.length; i++) {
-      const top1 = await prisma.perfume.findMany({
-        where: {
-          id: test[i].perfumeIDs[0],
-        },
-        select: {
-          name_eng: true,
-          brand_eng: true,
-          top: true,
-          middle: true,
-          bottom: true,
-          imgUrl: true,
-        },
-      });
+  for (let i = 0; i < test.length; i++) {
+    const top1 = await prisma.perfume.findMany({
+      where: {
+        id: test[i].perfumeIDs[0],
+      },
+      select: {
+        name_eng: true,
+        brand_eng: true,
+        top: true,
+        middle: true,
+        bottom: true,
+        imgUrl: true,
+      },
+    });
 
-      const perfumeNote = await prisma.perfume_CategoryInfo.findMany({
-        where: {
-          name_eng: top1[0].name_eng,
-        },
-        select: {
-          note: true,
-        },
-      });
+    const perfumeNote = await prisma.perfume_CategoryInfo.findMany({
+      where: {
+        name_eng: top1[0].name_eng,
+      },
+      select: {
+        note: true,
+      },
+    });
 
-      test[i]["note"] = perfumeNote[0].note;
+    test[i]["note"] = perfumeNote[0].note;
 
-      for (const [key, val] of Object.entries(top1[0])) {
-        test[i][key] = val;
-      }
-
-      delete test[i].perfumeIDs;
+    for (const [key, val] of Object.entries(top1[0])) {
+      test[i][key] = val;
     }
 
-    resStatus = 200;
-    resData = test;
+    delete test[i].perfumeIDs;
   }
 
-  return res.status(resStatus).send(resData);
+  return res.status(200).send(test);
 }

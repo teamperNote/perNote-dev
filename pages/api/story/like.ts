@@ -1,14 +1,22 @@
 // 유저의 perfumeStory 좋아요 클릭(좋아요/ 좋아요 취소 둘다 처리)
 
 import type { NextApiRequest, NextApiResponse } from "next";
+import { jwtVerify } from "jose";
 import prisma from "../../../prisma/client";
+
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { userId, storyId } = req.body;
+    const role = req.headers.authorization;
+    const accessToken = role.split("Bearer ")[1];
+    const { payload } = await jwtVerify(accessToken, secretKey);
+
+    const userId = payload.iss;
+    const { storyId } = req.body;
 
     const isLiked = await prisma.storyLike.findMany({
       where: { userId, storyId },

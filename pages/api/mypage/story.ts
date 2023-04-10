@@ -19,8 +19,9 @@ export default async function handler(
 
   const allStoryLikesForUser = await prisma.storyLike.findMany({
     where: { userId },
-    include: {
-      story: true,
+    include: { story: true },
+    orderBy: {
+      viewCount: "desc",
     },
   });
   allStoryLikesForUser.forEach((value: any) => {
