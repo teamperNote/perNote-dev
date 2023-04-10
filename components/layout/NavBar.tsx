@@ -134,7 +134,7 @@ const NavBarContainer = styled.div`
   @media screen and (max-width: 1440px) {
     height: 80px;
   }
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 950px) {
     height: 120px;
   }
 `;
@@ -147,7 +147,7 @@ const NavBarBox = styled.div`
   @media screen and (max-width: 1440px) {
     padding: 10px 40px 11px 40px;
   }
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 950px) {
     flex-direction: column; 
     padding: 0;
   }
@@ -158,7 +158,8 @@ const PernoteLogo = styled.div`
   padding: 20px;
   cursor: pointer;
   @media screen and (max-width: 1440px) {
-    margin-right: 50px;
+    margin-right: auto;
+    width: 160px;
   }
   @media screen and (max-width: 480px) {
     margin-right: auto;
@@ -171,7 +172,7 @@ const NavigatorBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 950px) {
     flex-direction: column;
   }
 `;
@@ -179,7 +180,7 @@ const NavigatorBox = styled.div`
 const Navigator = styled.div`
   display: flex;
   align-items: center;
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 950px) {
     width: 100%; 
     justify-content: space-between;
   }
@@ -199,7 +200,7 @@ const NavigatorLink = styled.div`
   :last-child {
     margin-right: 0;
   }
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 950px) {
     width: 100px;
   }
 `;
@@ -207,7 +208,7 @@ const NavigatorLink = styled.div`
 const HeaderRight = styled.div`
   display: flex;
   align-items: center;
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 950px) {
     position: absolute; 
     top: 0;
     right: 0; 
