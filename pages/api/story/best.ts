@@ -31,10 +31,10 @@ export default async function handler(
   // 2. 로그인 유저
   else {
     const accessToken = role.split("Bearer ")[1];
-
     const { payload } = await jwtVerify(accessToken, secretKey);
 
     const userId = payload.iss;
+
     const allStoryLikeForUser = await prisma.storyLike.findMany({
       where: { userId },
       include: {

@@ -9,18 +9,15 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const role = req.headers.authorization;
+
   const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
 
   const userId = payload.iss;
 
   const perfumeLiked = await prisma.perfumeLike.findMany({
-    where: {
-      userId: userId,
-    },
-    select: {
-      perfumeId: true,
-    },
+    where: { userId },
+    select: { perfumeId: true },
   });
 
   const findManyOrCondition = [];

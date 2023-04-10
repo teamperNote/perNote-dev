@@ -1,14 +1,21 @@
-// 유저의 perfume 좋아요 클릭(좋아요/ 좋아요 취소 둘다 처리)
-
 import type { NextApiRequest, NextApiResponse } from "next";
+import { jwtVerify } from "jose";
 import prisma from "../../../prisma/client";
+
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const { userId, perfumeId } = req.body;
+    const { perfumeId } = req.body;
+    const role = req.headers.authorization;
+
+    const accessToken = role.split("Bearer ")[1];
+    const { payload } = await jwtVerify(accessToken, secretKey);
+
+    const userId = payload.iss;
 
     const isLiked = await prisma.perfumeLike.findMany({
       where: { userId, perfumeId },
@@ -34,13 +41,11 @@ export default async function handler(
           },
         });
       } catch (e) {
-        await prisma.$disconnect();
         return res.status(400).json({
           message: "잘못된 id 접근",
         });
       }
 
-      await prisma.$disconnect();
       return res.status(200).json({
         message: "좋아요 요청 성공",
       });
@@ -55,13 +60,11 @@ export default async function handler(
         },
       });
 
-      await prisma.$disconnect();
       return res.status(200).json({
         message: "좋아요 취소 성공",
       });
     }
   } else {
-    await prisma.$disconnect();
     return res.status(400).json({
       message: "Error: Wrong HTTP method. (Not POST)",
     });
