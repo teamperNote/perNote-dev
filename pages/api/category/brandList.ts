@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -38,8 +36,6 @@ export default async function handler(
     }
     dict[head].push(brand);
   }
-
-  await prisma.$disconnect();
 
   return res.status(200).json({
     dict,

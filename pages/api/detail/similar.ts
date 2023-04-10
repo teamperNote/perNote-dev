@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma/client";
 
 export default async function similar(perfume) {
   const concen = perfume.concentration;
@@ -76,8 +74,6 @@ export default async function similar(perfume) {
     },
     take: 4,
   });
-
-  await prisma.$disconnect();
 
   return perfumes;
 }

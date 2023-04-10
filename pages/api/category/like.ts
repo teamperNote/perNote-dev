@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../prisma/client";
 
 export default async function like(perfumes, userId) {
   const isLiked = [];
@@ -32,8 +30,6 @@ export default async function like(perfumes, userId) {
       }
     }
   }
-
-  await prisma.$disconnect();
 
   return perfumes;
 }
