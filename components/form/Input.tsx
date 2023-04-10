@@ -42,11 +42,19 @@ export default Input;
 
 const FormLabel = styled.label<MarginProps>`
   display: inline-block;
-  width: 120px;
+  width: 130px;
   text-align: left;
   font-weight: 400;
   font-size: 1.25rem;
   margin-right: 63px;
+  @media screen and (max-width: 1440px) {
+    width: 120px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 50px;
+    margin-right: 10px;
+    font-size: 1rem;
+  }
 `;
 
 const FormInput = styled.input`
@@ -55,4 +63,7 @@ const FormInput = styled.input`
   height: 46px;
   padding: 8px 0 8px 4px;
   font-size: 1.25rem;
+  @media screen and (max-width: 480px) {
+   width: 160px;
+  }
 `;

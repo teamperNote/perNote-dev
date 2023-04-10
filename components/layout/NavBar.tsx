@@ -136,6 +136,9 @@ const NavBarContainer = styled.div`
   @media screen and (max-width: 1440px) {
     height: 80px;
   }
+  @media screen and (max-width: 950px) {
+    height: 120px;
+  }
 `;
 
 const NavBarBox = styled.div`
@@ -146,6 +149,10 @@ const NavBarBox = styled.div`
   @media screen and (max-width: 1440px) {
     padding: 10px 40px 11px 40px;
   }
+  @media screen and (max-width: 950px) {
+    flex-direction: column; 
+    padding: 0;
+  }
 `;
 
 const PernoteLogo = styled.div`
@@ -153,7 +160,12 @@ const PernoteLogo = styled.div`
   padding: 20px;
   cursor: pointer;
   @media screen and (max-width: 1440px) {
-    margin-right: 50px;
+    margin-right: auto;
+    width: 160px;
+  }
+  @media screen and (max-width: 480px) {
+    margin-right: auto;
+    width: 120px;
   }
 `;
 
@@ -162,11 +174,18 @@ const NavigatorBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media screen and (max-width: 950px) {
+    flex-direction: column;
+  }
 `;
 
 const Navigator = styled.div`
   display: flex;
   align-items: center;
+  @media screen and (max-width: 950px) {
+    width: 100%; 
+    justify-content: space-between;
+  }
 `;
 
 const NavigatorLink = styled.div`
@@ -178,15 +197,25 @@ const NavigatorLink = styled.div`
   line-height: 29px;
   margin-right: 20px;
   padding: 20px;
+  white-space: nowrap;
   cursor: pointer;
   :last-child {
     margin-right: 0;
+  }
+  @media screen and (max-width: 950px) {
+    width: 100px;
   }
 `;
 
 const HeaderRight = styled.div`
   display: flex;
   align-items: center;
+  @media screen and (max-width: 950px) {
+    position: absolute; 
+    top: 0;
+    right: 0; 
+    margin-right: 8px; 
+  }
 `;
 
 const Sign = styled.div`
@@ -198,6 +227,9 @@ const Sign = styled.div`
   padding: 20px;
   margin-left: 5px;
   cursor: pointer;
+  @media screen and (max-width: 480px) {
+    padding: 10px;
+  }
 `;
 
 const LogoutButton = styled.button`

@@ -84,8 +84,8 @@ const Home: NextPage = () => {
             )}
           </div>
           <SubscribeButton>
-            <BsBell className="subscribe-icon" />
-            <div className="subscribe-text">알림받기</div>
+            <BsBell  />
+            <div>알림받기</div>
           </SubscribeButton>
         </FourthFirst>
         <FourthSecond>
@@ -100,10 +100,10 @@ const Home: NextPage = () => {
               <Link href="/category/note">바로가기 &nbsp; &#62;</Link>
             </CategoryButton>
           </CategoryIntro>
-          <div>
+          <CategoryImageContainer>
             <CategoryImage src="/main_category1.png" alt="image1" />
             <CategoryImage src="/main_category2.png" alt="image2" />
-          </div>
+          </CategoryImageContainer>
         </FourthSecond>
       </FourthMain>
     </>
@@ -289,18 +289,11 @@ const SubscribeButton = styled.button`
   border: none;
   border-radius: 100px;
   font-weight: 400;
-  /* font-size: 1.875rem; */
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: white;
-  padding-left: 24px;
-  padding-top: 4px;
-  .subscribe-icon {
-    float: left;
-    margin-right: 18px;
-  }
-  .subscribe-text {
-    float: left;
-  }
+  display: flex; 
+  align-items: center;
+  justify-content: space-around;
 `;
 
 const FourthSecond = styled.div`
@@ -339,6 +332,10 @@ const CategoryButton = styled.button`
   font-size: 1.25rem;
   color: white;
 `;
+
+const CategoryImageContainer=styled.div`
+display: flex;
+`
 
 const CategoryImage = styled.img`
   width: 444px;

@@ -18,4 +18,8 @@ const FormButton = styled.button`
   font-weight: 400;
   font-size: 1rem;
   margin-left: 47px;
+  @media screen and (max-width: 480px) {
+    width: 50px;
+    margin-left: 10px;
+  }
 `;
