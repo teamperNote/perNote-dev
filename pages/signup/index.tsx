@@ -499,6 +499,10 @@ const SnsIcon = styled.img`
     width: 70px;
     height: 70px;
   }
+  @media screen and (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 const LocalSection = styled.section`
   margin-top: 90px;
@@ -528,6 +532,12 @@ const LocalTitle = styled.h3`
 const FormList = styled.ul`
   display: flex;
   flex-flow: column nowrap;
+  @media screen and (max-width: 1440px) {
+    width: 683px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 290px;
+  }
 `;
 
 const FormItem = styled.li`
@@ -543,6 +553,10 @@ const Message = styled.div`
   font-weight: 400;
   font-size: 1rem;
   padding-left: 184px;
+  @media screen and (max-width: 480px) {
+    padding-left: 60px;
+    font-size: 0.8rem;
+  }
 `;
 const CheckList = styled.ul`
   margin-top: 100px;
@@ -579,6 +593,11 @@ const BirthDayFormItem = styled.li`
     font-weight: 400;
     font-size: 1.25rem;
     margin-right: 63px;
+    @media screen and (max-width: 480px) {
+      width: 50px;
+      margin-right: 13px;
+      font-size: 1rem;
+    }
   }
 
   div {
@@ -586,6 +605,9 @@ const BirthDayFormItem = styled.li`
     justify-content: space-between;
     align-items: center;
     width: 330px;
+    @media screen and (max-width: 480px) {
+     width: 220px;
+    }
   }
   input {
     width: 90px;
@@ -610,5 +632,8 @@ const BirthDayFormItem = styled.li`
     background: url("/down_arrow.svg") no-repeat;
     background-position: 60px 16px;
     background-size: 14px 10px;
+    @media screen and (max-width: 480px) {
+      background-position: 48px 16px;
+    }
   }
 `;
