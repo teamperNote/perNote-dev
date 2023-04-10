@@ -22,6 +22,9 @@ export default async function handler(
     include: {
       story: true,
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
   allStoryLikesForUser.forEach((value: any) => {
     allStoriesForUser.push(Object.assign(value.story, { liked: true }));

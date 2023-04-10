@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { jwtVerify } from "jose";
 import prisma from "../../../prisma/client";
+
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,9 +23,11 @@ export default async function handler(
     return res.status(200).json(createdPost);
   }
   if (req.method === "GET") {
-    const userId = req.query.userId as string;
+    const role = req.headers.authorization;
+
     const storyId = req.query.storyId as string;
 
+    // 스토리 클릭 시, 조회수 증가
     await prisma.story.update({
       where: { id: storyId },
       data: {
@@ -42,13 +47,18 @@ export default async function handler(
     });
 
     // 1. 비로그인 유저
-    if (!userId) {
+    if (!role) {
       perfumeStories.forEach((value) => {
         isLiked.push(Object.assign(value, { liked: false }));
       });
     }
     // 2. 로그인 유저
     else {
+      const accessToken = role.split("Bearer ")[1];
+      const { payload } = await jwtVerify(accessToken, secretKey);
+
+      const userId = payload.iss;
+
       const storyLikesForUser = await prisma.storyLike.findMany({
         where: { userId },
         include: {

@@ -1,8 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { jwtVerify } from "jose";
+import prisma from "../../../prisma/client";
 import like from "./like";
 
-const prisma = new PrismaClient();
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 // request되는 카테고리(노트, 브랜드, 성격, 특징)에 따라 해당하는 데이터 서치.
 export default async function handler(
@@ -14,9 +15,14 @@ export default async function handler(
     resData;
 
   // OPTIONS FROM QUERY
+  const role = req.headers.authorization;
+
+  const accessToken = role.split("Bearer ")[1];
+  const { payload } = await jwtVerify(accessToken, secretKey);
+
+  const userId = payload.iss;
   const query = req.query;
   const selected = query["selected"] as string;
-  const userId = query.userId;
   const orderOpt = query.orderOpt as string;
   const sortOpt = orderOpt === "name_eng" ? "asc" : "desc";
   const pageNum = parseInt(query.pageNum as string);
@@ -123,8 +129,6 @@ export default async function handler(
       }
     }
   }
-
-  await prisma.$disconnect();
 
   return res.status(resStatus).json(resData);
 }
