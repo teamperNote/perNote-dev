@@ -12,6 +12,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const role = req.headers.authorization;
+
     const accessToken = role.split("Bearer ")[1];
     const { payload } = await jwtVerify(accessToken, secretKey);
 
@@ -22,7 +23,7 @@ export default async function handler(
       where: { userId, storyId },
     });
 
-    // 잘못된 userId or storyId 로 접근하면 connect에서 에러 걸림
+    // 1. 기록이 없으면 좋아요 요청
     if (isLiked.length === 0) {
       try {
         await prisma.storyLike.create({
@@ -51,7 +52,9 @@ export default async function handler(
       return res.status(200).json({
         message: "좋아요 요청 성공",
       });
-    } else {
+    }
+    // 2. 기록이 있으면 좋아요 취소 요청
+    else {
       await prisma.storyLike.deleteMany({
         where: { userId, storyId },
       });

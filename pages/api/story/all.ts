@@ -24,7 +24,6 @@ export default async function handler(
   // 2. 로그인 시 해당 유저의 좋아여 여부를 포함한 전체 perfumeStory 반환
   else {
     const accessToken = role.split("Bearer ")[1];
-
     const { payload } = await jwtVerify(accessToken, secretKey);
 
     const userId = payload.iss;

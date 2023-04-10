@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import { jwtVerify } from "jose";
+import prisma from "../../../prisma/client";
 
-const prisma = new PrismaClient();
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,10 +16,15 @@ export default async function handler(
     3. 선택된 concentration에 따라 concenIndex를 생성.
     4. algoIndex, concenIndex를 참조하여 scoring.
     5. 내림차순으로 정렬한 후 top 5 추출. 
-    */
+  */
+  const role = req.headers.authorization;
+
+  const accessToken = role.split("Bearer ")[1];
+  const { payload } = await jwtVerify(accessToken, secretKey);
+
+  const userId = payload.iss;
 
   const query = req.query; // 유저가 선택한 쿼리들. ex) 봄, 깊은 등
-  const userId = query.userId as string;
   let userGender = query.gender as string;
   const userSeason = query.season as string;
   const userColor = query.color as string;
@@ -176,8 +182,6 @@ export default async function handler(
       },
     },
   });
-
-  await prisma.$disconnect();
 
   // Test Result to test.tsx
   return res.status(200).json({

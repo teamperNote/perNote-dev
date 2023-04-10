@@ -2,28 +2,30 @@
 //     1. 이름으로 서치.
 //     2. 노트, 성격, 특징, 상세설명, 탑노트, 미들노트, 베이스노트 가져오기.
 
-import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { jwtVerify } from "jose";
+import prisma from "../../../prisma/client";
 import similar from "./similar";
 import like from "./like";
 import lowest11st from "./lowestPrice/11st";
 import lowestNaver from "./lowestPrice/naver";
 
-const prisma = new PrismaClient();
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const perfumeId: string = req.query.perfumeId as string;
-  const userId: string = req.query.userId as string;
+  const role = req.headers.authorization;
+
+  const accessToken = role.split("Bearer ")[1];
+  const { payload } = await jwtVerify(accessToken, secretKey);
+
+  const userId = payload.iss;
+  const perfumeId = req.query.perfumeId as string;
   if (!perfumeId) {
     return res.status(400).json({
       message: "Error: No perfumeId",
-    });
-  } else if (!userId) {
-    return res.status(400).json({
-      message: "Error: No userId",
     });
   }
 
@@ -137,8 +139,6 @@ export default async function handler(
 
   delete perfume.concentration;
   delete perfume.gender;
-
-  await prisma.$disconnect();
 
   return res.status(200).json({
     perfume: perfume,
