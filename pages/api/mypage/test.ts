@@ -23,7 +23,7 @@ export default async function handler(
       perfumeIDs: true,
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: "asc",
     },
   });
 
@@ -56,9 +56,7 @@ export default async function handler(
     for (const [key, val] of Object.entries(top1[0])) {
       test[i][key] = val;
     }
-
-    delete test[i].perfumeIDs;
   }
 
-  return res.status(200).send(test);
+  return res.status(200).json(test);
 }
