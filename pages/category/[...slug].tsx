@@ -41,7 +41,6 @@ export default function Category() {
     axiosInstance
       .get("/api/category", {
         params: {
-          userId: "6427c8c4aa6de7f827ba0fac",
           category: category,
           selected: selected,
           orderOpt: sort,

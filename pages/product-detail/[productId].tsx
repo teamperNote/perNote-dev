@@ -22,7 +22,6 @@ export default function ProductDetailPage() {
     await axiosInstance
       .get("/api/detail", {
         params: {
-          userId: "6427c8c4aa6de7f827ba0fac",
           perfumeId: productId,
         },
       })

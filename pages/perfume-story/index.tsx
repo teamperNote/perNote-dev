@@ -13,9 +13,7 @@ export default function PerfumeStory() {
   });
   const getBestStoryList = async () => {
     await axiosInstance
-      .get("/api/story/best", {
-        params: { userId: "6427c8c4aa6de7f827ba0fac" },
-      })
+      .get("/api/story/best")
       .then(({ data }) => {
         setBestStoryList({ ...bestStoryList, isLoading: true, data: data });
       })
@@ -29,9 +27,7 @@ export default function PerfumeStory() {
   const [storyList, setStoryList] = useState({ isLoading: false, data: [] });
   const getStoryList = async () => {
     await axiosInstance
-      .get("/api/story/all", {
-        params: { userId: "6427c8c4aa6de7f827ba0fac" },
-      })
+      .get("/api/story/all")
       .then((res) => {
         setStoryList({ ...storyList, isLoading: true, data: res.data });
       })
