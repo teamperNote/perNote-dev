@@ -49,8 +49,7 @@ export default function StoryDetail() {
   const getStory = async () => {
     await axiosInstance
       .get("/api/story", {
-        // TODO 서지수 로그인 구현 후 userId 빼기
-        params: { userId: "6427c8c4aa6de7f827ba0fac", storyId: storyId },
+        params: { storyId: storyId },
       })
       .then(({ data }) => {
         setStory({ ...story, isLoading: true, data: data });

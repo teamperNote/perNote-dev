@@ -13,9 +13,8 @@ export default function LikePerfume() {
   useEffect(() => {
     const getLikedPerfumes = () => {
       axiosInstance
-        .get("/api/perfumeLike/userLiked", {
+        .get("/api/mypage/perfume", {
           params: {
-            userId: "6427c8c4aa6de7f827ba0fac",
             orderOpt: sort,
           },
         })
