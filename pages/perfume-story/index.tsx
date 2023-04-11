@@ -22,12 +22,15 @@ export default function PerfumeStory() {
       });
   };
 
-  // TODO 서지수 스토리 정렬 기능 추가하기
   const [sort, setSort] = useState(sortArray[0].value);
   const [storyList, setStoryList] = useState({ isLoading: false, data: [] });
   const getStoryList = async () => {
     await axiosInstance
-      .get("/api/story/all")
+      .get("/api/story/all", {
+        params: {
+          orderOpt: sort,
+        },
+      })
       .then((res) => {
         setStoryList({ ...storyList, isLoading: true, data: res.data });
       })
