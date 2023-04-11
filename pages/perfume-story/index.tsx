@@ -13,9 +13,7 @@ export default function PerfumeStory() {
   });
   const getBestStoryList = async () => {
     await axiosInstance
-      .get("/api/story/best", {
-        params: { userId: "6427c8c4aa6de7f827ba0fac" },
-      })
+      .get("/api/story/best")
       .then(({ data }) => {
         setBestStoryList({ ...bestStoryList, isLoading: true, data: data });
       })
@@ -24,16 +22,17 @@ export default function PerfumeStory() {
       });
   };
 
-  // TODO 서지수 스토리 정렬 기능 추가하기
   const [sort, setSort] = useState(sortArray[0].value);
   const [storyList, setStoryList] = useState({ isLoading: false, data: [] });
   const getStoryList = async () => {
     await axiosInstance
       .get("/api/story/all", {
-        params: { userId: "6427c8c4aa6de7f827ba0fac" },
+        params: {
+          orderOpt: sort,
+        },
       })
-      .then((res) => {
-        setStoryList({ ...storyList, isLoading: true, data: res.data });
+      .then(({ data }) => {
+        setStoryList({ ...storyList, isLoading: true, data: data });
       })
       .catch((err) => {
         console.log(err);
