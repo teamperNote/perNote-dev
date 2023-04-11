@@ -9,7 +9,7 @@ export default function TestResult() {
   useEffect(() => {
     const getTests = () => {
       axiosInstance
-        .get("/api/personalScent/result", {
+        .get("/api/mypage/test", {
           params: {
             userId: "6427c8c4aa6de7f827ba0fac",
           },
