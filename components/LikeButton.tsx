@@ -58,7 +58,7 @@ export default function LikeButton({
           });
       } else {
         await axiosInstance
-          .post("/ap  i/story/like", {
+          .post("/api/story/like", {
             storyId: id,
             userId: "6427c8c4aa6de7f827ba0fac",
           })
