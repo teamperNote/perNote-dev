@@ -16,10 +16,10 @@ const FormButton = styled.button`
   background: transparent;
   border: 2px solid #d9d9d9;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin-left: 47px;
   @media screen and (max-width: 480px) {
-    width: 50px;
+    width: 60px;
     margin-left: 10px;
   }
 `;
