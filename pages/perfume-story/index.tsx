@@ -31,8 +31,8 @@ export default function PerfumeStory() {
           orderOpt: sort,
         },
       })
-      .then((res) => {
-        setStoryList({ ...storyList, isLoading: true, data: res.data });
+      .then(({ data }) => {
+        setStoryList({ ...storyList, isLoading: true, data: data });
       })
       .catch((err) => {
         console.log(err);
