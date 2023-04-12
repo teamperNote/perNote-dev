@@ -5,10 +5,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useRouter } from "next/router";
 import RadioItem from "components/form/RadioButton";
-
-interface SignupProps {
-  isActive: string;
-}
+import { SignupType } from "lib/types";
 const radioList = [
   {
     label: "성별",
@@ -357,7 +354,7 @@ const Message = styled.div`
   /* label 너비 300px + label margin-right 더한 값으로 위치 잡기 */
   padding-left: 360px;
 `;
-const SignupButton = styled.button<SignupProps>`
+const SignupButton = styled.button<SignupType>`
   width: 800px;
   height: 120px;
   border: none;

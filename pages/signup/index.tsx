@@ -8,6 +8,7 @@ import Input from "../../components/form/Input";
 import ValidationButton from "components/form/ValidationButton";
 import ModalWrapper from "components/WarningModal/Portal";
 import WarningModal from "components/WarningModal/WarningModal";
+import { SignupType } from "lib/types";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -15,10 +16,6 @@ const client_id = process.env.NAVER_CLIENT_ID || "";
 const redirect_uri = process.env.NAVER_CALLBACK_URI || "";
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
-
-interface SignupProps {
-  isActive: string;
-}
 
 const agreeList = [
   { isCheckAll: true, text: "약관 전체 동의" },
@@ -363,9 +360,7 @@ function Signup() {
                     value={year}
                     onChange={inputYear}
                   >
-                    <option value="" selected>
-                      년도
-                    </option>
+                    <option value="">년도</option>
                     {Array(84)
                       .fill(null)
                       .map((item, index) => {
@@ -382,9 +377,7 @@ function Signup() {
                     value={month}
                     onChange={inputMonth}
                   >
-                    <option value="" selected>
-                      월
-                    </option>
+                    <option value="">월</option>
                     {Array(12)
                       .fill(null)
                       .map((item, index) => {
@@ -396,9 +389,7 @@ function Signup() {
                       })}
                   </select>
                   <select name="day" id="day" value={day} onChange={inputDay}>
-                    <option value="" selected>
-                      일
-                    </option>
+                    <option value="">일</option>
                     {Array(31)
                       .fill(null)
                       .map((item, index) => {
@@ -564,7 +555,7 @@ const CheckList = styled.ul`
   border-top: 3px solid #d9d9d9;
 `;
 
-const SignupButton = styled.button<SignupProps>`
+const SignupButton = styled.button<SignupType>`
   cursor: ${(props) =>
     props.isActive === "isActive" ? "pointer" : "not-allowed"};
   width: 333px;
@@ -606,7 +597,7 @@ const BirthDayFormItem = styled.li`
     align-items: center;
     width: 330px;
     @media screen and (max-width: 480px) {
-     width: 220px;
+      width: 220px;
     }
   }
   input {
