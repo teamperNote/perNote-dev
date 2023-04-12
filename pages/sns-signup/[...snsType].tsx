@@ -6,20 +6,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import RadioItem from "components/form/RadioButton";
 import { SignupType } from "lib/types";
-const radioList = [
-  {
-    label: "성별",
-    id: ["m", "f"],
-    name: "gender",
-    text: ["남성", "여성"],
-  },
-  {
-    label: "스토리 수신 여부",
-    id: ["agree", "disagee"],
-    name: "story",
-    text: ["동의", "비동의"],
-  },
-];
+import { radioButtonArray } from "lib/arrays";
+
 function SnsSignUp(props) {
   const router = useRouter();
 
@@ -280,7 +268,10 @@ function SnsSignUp(props) {
                 setStateValue={inputBirthday}
               />
             </FormItem>
-            <RadioItem radioData={radioList[0]} setStateValue={setGender} />
+            <RadioItem
+              radioData={radioButtonArray[0]}
+              setStateValue={setGender}
+            />
           </FormList>
         </Field>
         <SignupButton

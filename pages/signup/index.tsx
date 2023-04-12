@@ -9,6 +9,7 @@ import ValidationButton from "components/form/ValidationButton";
 import ModalWrapper from "components/WarningModal/Portal";
 import WarningModal from "components/WarningModal/WarningModal";
 import { SignupType } from "lib/types";
+import { agreeList, radioButtonArray } from "lib/arrays";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -17,39 +18,6 @@ const redirect_uri = process.env.NAVER_CALLBACK_URI || "";
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
 
-const agreeList = [
-  { isCheckAll: true, text: "약관 전체 동의" },
-  {
-    isCheckAll: false,
-    text: "[필수] 이용약관 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[필수] 개인정보 수집 및 이용 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[선택] 광고성 메세지 수신 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[선택] 마케팅 정보 수집 동의",
-  },
-];
-const radioList = [
-  {
-    label: "성별",
-    id: ["m", "f"],
-    name: "gender",
-    text: ["남성", "여성"],
-  },
-  {
-    label: "스토리 수신 여부",
-    id: ["agree", "disagee"],
-    name: "story",
-    text: ["동의", "비동의"],
-  },
-];
 const kakao_api_url = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&scope=talk_message`;
 const naver_api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=STATE_STRING&redirect_uri=${redirect_uri}`;
 const google_request_url = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
@@ -402,7 +370,10 @@ function Signup() {
                   </select>
                 </div>
               </BirthDayFormItem>
-              <RadioItem radioData={radioList[0]} setStateValue={setGender} />
+              <RadioItem
+                radioData={radioButtonArray[0]}
+                setStateValue={setGender}
+              />
             </FormList>
             {/* <CheckList>
               {agreeList.map((item: any, index: any) => (
