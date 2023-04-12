@@ -5,24 +5,9 @@ import styled from "styled-components";
 import axios from "axios";
 import { useRouter } from "next/router";
 import RadioItem from "components/form/RadioButton";
+import { SignupType } from "lib/types";
+import { radioButtonArray } from "lib/arrays";
 
-interface SignupProps {
-  isActive: string;
-}
-const radioList = [
-  {
-    label: "성별",
-    id: ["m", "f"],
-    name: "gender",
-    text: ["남성", "여성"],
-  },
-  {
-    label: "스토리 수신 여부",
-    id: ["agree", "disagee"],
-    name: "story",
-    text: ["동의", "비동의"],
-  },
-];
 function SnsSignUp(props) {
   const router = useRouter();
 
@@ -283,7 +268,10 @@ function SnsSignUp(props) {
                 setStateValue={inputBirthday}
               />
             </FormItem>
-            <RadioItem radioData={radioList[0]} setStateValue={setGender} />
+            <RadioItem
+              radioData={radioButtonArray[0]}
+              setStateValue={setGender}
+            />
           </FormList>
         </Field>
         <SignupButton
@@ -357,7 +345,7 @@ const Message = styled.div`
   /* label 너비 300px + label margin-right 더한 값으로 위치 잡기 */
   padding-left: 360px;
 `;
-const SignupButton = styled.button<SignupProps>`
+const SignupButton = styled.button<SignupType>`
   width: 800px;
   height: 120px;
   border: none;

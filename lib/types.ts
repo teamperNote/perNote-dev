@@ -62,3 +62,36 @@ export interface ILiked {
   middle: string;
   bottom: string;
 }
+
+export interface UserType {
+  birth: string;
+  createdAt: string;
+  email: string;
+  gender: string;
+  id: string;
+  name: string;
+  password: string;
+  phoneNumber: string;
+  snsId: string;
+  snsType: string;
+  updatedAt: string;
+}
+
+export interface SignupType {
+  isActive: string;
+}
+
+export interface InputType {
+  htmlFor: string;
+  labelContent: string;
+  type: string;
+  value: string;
+  setStateValue: (e: any) => void;
+}
+
+export interface RadioType {
+  label: string;
+  id: object;
+  name: string;
+  text: object;
+}

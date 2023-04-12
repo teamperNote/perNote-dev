@@ -3,20 +3,8 @@ import styled from "styled-components";
 import Link from "next/link";
 import { withAuth } from "components/HOC/withAuth";
 import axiosInstance from "../../lib/api/config";
+import { UserType } from "lib/types";
 
-interface UserType {
-  birth: string;
-  createdAt: string;
-  email: string;
-  gender: string;
-  id: string;
-  name: string;
-  password: string;
-  phoneNumber: string;
-  snsId: string;
-  snsType: string;
-  updatedAt: string;
-}
 interface IData {
   data: UserType;
 }
@@ -68,13 +56,7 @@ function MyPage() {
           </Link>
         </LinkItem>
         <LinkItem>
-          <Link
-            href={{
-              pathname: "/mypage/edit-info",
-              query: { userData: JSON.stringify(userInfo) },
-            }}
-            as="/mypage/edit-info"
-          >
+          <Link href="/mypage/edit-info">
             <PageLink>
               <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
               <LinkTitle>개인정보 수정</LinkTitle>
