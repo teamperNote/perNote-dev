@@ -1,54 +1,128 @@
 import Input from "components/form/Input";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ValidationButton from "components/form/ValidationButton";
 import { IoToggle } from "react-icons/io5";
-import { withRouter } from "next/router";
+import axiosInstance from "../../lib/api/config";
+import { UserType } from "lib/types";
+import axios from "axios";
 
-function EditInfo({ router: { query } }) {
-  const userData = query.userData ? JSON.parse(query.userData) : null;
-  const [email, setEmail] = useState(userData?.email);
-  // const [password, setPassword] = useState("");
-  // const [passwordCheck, setPasswordCheck] = useState("");
-  const [name, setName] = useState(userData?.name);
-  const [phoneNumber, setPhoneNumber] = useState(userData?.phoneNumber);
-  const [birthday, setBirthday] = useState({
-    year: userData?.birth.slice(0, 4),
-    month: userData?.birth.slice(5, 7),
-    day: userData?.birth.slice(8, 10),
-  });
+interface IData {
+  data: UserType;
+}
+
+function EditInfo() {
+  const regex = /([0-9])+/g;
+
+  const [userInfo, setUserInfo] = useState<UserType | null>(null);
+
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
+  const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
+
+  const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
+  const [receivedAuthNum, setReceivedAuthNum] = useState<string>("");
+  const [authNum, setInputAuthNumber] = useState<string>("");
+  const [successAuth, setSuccessAuth] = useState<boolean>(false);
+  const [failAuth, setFailAuth] = useState<boolean>(false);
+
   const inputName = (e: any) => {
-    setName(e.target.value);
+    setUserInfo({ ...userInfo, name: e.target.value });
   };
   const inputEmail = (e: any) => {
-    setEmail(e.target.value);
+    setUserInfo({ ...userInfo, email: e.target.value });
   };
 
   // const inputPassword = (e: any) => {
-  //   setPassword(e.target.value);
+  //   setUserInfo(e.target.value);
   // };
 
   // const inputPasswordCheck = (e: any) => {
-  //   setPasswordCheck(e.target.value);
+  //   setUserInfo(e.target.value);
   // };
 
   const inputPhoneNumber = (e: any) => {
-    setPhoneNumber(e.target.value);
+    setUserInfo({ ...userInfo, phoneNumber: e.target.value });
   };
 
   const inputYear = (e: any) => {
-    setBirthday({ ...birthday, year: e.target.value });
+    const year = userInfo.birth.match(regex)[0];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(year, e.target.value),
+    });
   };
   const inputMonth = (e: any) => {
-    setBirthday({ ...birthday, month: e.target.value });
+    const month = userInfo.birth.match(regex)[1];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(month, e.target.value.padStart(2, "0")),
+    });
   };
   const inputDay = (e: any) => {
-    setBirthday({ ...birthday, day: e.target.value });
+    const day = userInfo.birth.match(regex)[2];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(day, e.target.value.padStart(2, "0")),
+    });
   };
 
-  const handleStoreEditInfo = () => {
-    console.log("수정 정보 저장");
+  const handleStoreEditInfo = (e) => {
+    e.preventDefault();
   };
+
+  const checkEmailDuplication = async (e: any) => {
+    e.preventDefault();
+    setIsValidEmail(false);
+    setIsInValidEmail(false);
+
+    try {
+      const response = await axios.get(
+        `/api/users/checkEmail?email=${userInfo.email}`,
+      );
+
+      if (response.status === 200) {
+        setIsValidEmail(true);
+      }
+    } catch (error) {
+      setIsInValidEmail(true);
+    }
+  };
+
+  const inputAuthNumber = (e: any) => {
+    setInputAuthNumber(e.target.value);
+  };
+
+  const sendAuthMessage = async (e: any) => {
+    e.preventDefault();
+    setIsSendMessage(true);
+    const data = {
+      phoneNumber: userInfo.phoneNumber,
+    };
+    const response = await axios.post("/api/auth/sendSMS", data);
+    const authNumber = response.data.인증번호;
+    setReceivedAuthNum(authNumber);
+  };
+
+  const verifyPhoneNum = (e: any) => {
+    e.preventDefault();
+    if (receivedAuthNum.toString() === authNum) {
+      setFailAuth(false);
+      setSuccessAuth(true);
+    } else {
+      setSuccessAuth(false);
+      setFailAuth(true);
+    }
+  };
+  useEffect(() => {
+    async function getUserInfo() {
+      const { data: user }: IData = await axiosInstance.get(
+        "/api/users/getInfo",
+      );
+      setUserInfo(user);
+    }
+    getUserInfo();
+  }, []);
+
   return (
     <MyPageContainer>
       <NotificationSection>
@@ -71,17 +145,15 @@ function EditInfo({ router: { query } }) {
                 htmlFor="email"
                 labelContent="이메일"
                 type="email"
-                value={email}
+                value={userInfo?.email || ""}
                 setStateValue={inputEmail}
               />
-              <ValidationButton
-                click={() => {
-                  console.log("이메일 중복확인");
-                }}
-              >
+              <ValidationButton click={checkEmailDuplication}>
                 중복확인
               </ValidationButton>
             </FormItem>
+            {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
+            {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
             {/* <FormItem>
               <Input
                 htmlFor="password"
@@ -113,7 +185,7 @@ function EditInfo({ router: { query } }) {
                 htmlFor="name"
                 labelContent="이름"
                 type="text"
-                value={name}
+                value={userInfo?.name || ""}
                 setStateValue={inputName}
               />
             </FormItem>
@@ -123,29 +195,40 @@ function EditInfo({ router: { query } }) {
                 htmlFor="phone"
                 labelContent="전화번호"
                 type="tel"
-                value={phoneNumber}
+                value={userInfo?.phoneNumber || ""}
                 setStateValue={inputPhoneNumber}
               />
-              <ValidationButton
-                click={() => {
-                  console.log("전화번호 인증");
-                }}
-              >
-                인증하기
+              <ValidationButton click={sendAuthMessage}>
+                {isSendMessage ? "재발송" : "인증하기"}
               </ValidationButton>
             </FormItem>
-
+            {isSendMessage ? (
+              <FormItem>
+                <Input
+                  htmlFor="checkPhone"
+                  labelContent="인증번호"
+                  type="text"
+                  value={authNum}
+                  setStateValue={inputAuthNumber}
+                />
+                <ValidationButton click={verifyPhoneNum}>확인</ValidationButton>
+              </FormItem>
+            ) : (
+              <></>
+            )}
+            {successAuth ? <Message>전화번호 인증 성공</Message> : <></>}
+            {failAuth ? <Message>전화번호 인증 실패</Message> : <></>}
             <BirthDayFormItem>
               <label htmlFor="birth">생년월일</label>
               <div>
                 <select
                   name="year"
                   id="year"
-                  value={birthday.year}
+                  value={userInfo?.birth.slice(0, 4) || ""}
                   onChange={inputYear}
                 >
-                  <option value={birthday.year} selected>
-                    {birthday.year}
+                  <option value={userInfo?.birth.slice(0, 4)}>
+                    {userInfo?.birth.slice(0, 4)}
                   </option>
                   {Array(84)
                     .fill(null)
@@ -160,11 +243,11 @@ function EditInfo({ router: { query } }) {
                 <select
                   name="month"
                   id="month"
-                  value={birthday.month}
+                  value={userInfo?.birth.slice(5, 7) || ""}
                   onChange={inputMonth}
                 >
-                  <option value={birthday.month} selected>
-                    {birthday.month}
+                  <option value={userInfo?.birth.slice(5, 7)}>
+                    {userInfo?.birth.slice(5, 7)}
                   </option>
                   {Array(12)
                     .fill(null)
@@ -179,11 +262,11 @@ function EditInfo({ router: { query } }) {
                 <select
                   name="day"
                   id="day"
-                  value={birthday.day}
+                  value={userInfo?.birth.slice(8, 10) || ""}
                   onChange={inputDay}
                 >
-                  <option value={birthday.day} selected>
-                    {birthday.day}
+                  <option value={userInfo?.birth.slice(8, 10)}>
+                    {userInfo?.birth.slice(8, 10)}
                   </option>
                   {Array(31)
                     .fill(null)
@@ -204,7 +287,7 @@ function EditInfo({ router: { query } }) {
     </MyPageContainer>
   );
 }
-export default withRouter(EditInfo);
+export default EditInfo;
 
 const MyPageContainer = styled.div`
   font-family: "Noto Sans KR";
@@ -336,5 +419,16 @@ const BirthDayFormItem = styled.li`
     background: url("/down_arrow.svg") no-repeat;
     background-position: 60px 16px;
     background-size: 14px 10px;
+  }
+`;
+
+const Message = styled.div`
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 1rem;
+  padding-left: 184px;
+  @media screen and (max-width: 480px) {
+    padding-left: 60px;
+    font-size: 0.8rem;
   }
 `;
