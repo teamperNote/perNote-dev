@@ -10,6 +10,7 @@ import ModalWrapper from "components/WarningModal/Portal";
 import WarningModal from "components/WarningModal/WarningModal";
 import { SignupType } from "lib/types";
 import { agreeList, radioButtonArray } from "lib/arrays";
+import { checkEmail } from "utils/checkEmail";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -97,15 +98,9 @@ function Signup() {
     setIsValidEmail(false);
     setIsInValidEmail(false);
 
-    try {
-      const response = await axios.get(`/api/users/checkEmail?email=${email}`);
-
-      if (response.status === 200) {
-        setIsValidEmail(true);
-      }
-    } catch (error) {
-      setIsInValidEmail(true);
-    }
+    const isValidEmail = await checkEmail(email);
+    if (isValidEmail) setIsValidEmail(true);
+    else setIsInValidEmail(true);
   };
 
   const checkSamePassword = async (e: any) => {
