@@ -549,12 +549,14 @@ const BirthDayFormItem = styled.li`
 
   label {
     display: inline-block;
-    /* 248px 이상이면 레이아웃 깨짐  */
-    width: 120px;
+    width: 130px;
     text-align: left;
     font-weight: 400;
     font-size: 1.25rem;
     margin-right: 63px;
+    @media screen and (max-width: 1440px) {
+      width: 120px;
+    }
     @media screen and (max-width: 480px) {
       width: 50px;
       margin-right: 13px;

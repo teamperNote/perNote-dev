@@ -6,6 +6,7 @@ import { IoToggle } from "react-icons/io5";
 import axiosInstance from "../../lib/api/config";
 import { UserType } from "lib/types";
 import axios from "axios";
+import EditPassword from "components/mypage/EditPassword";
 
 interface IData {
   data: UserType;
@@ -19,29 +20,13 @@ function EditInfo() {
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
   const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
 
-  const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
-  const [receivedAuthNum, setReceivedAuthNum] = useState<string>("");
-  const [authNum, setInputAuthNumber] = useState<string>("");
-  const [successAuth, setSuccessAuth] = useState<boolean>(false);
-  const [failAuth, setFailAuth] = useState<boolean>(false);
+  const [isShowPasswordForm, setIsShowPasswordForm] = useState(false);
 
   const inputName = (e: any) => {
     setUserInfo({ ...userInfo, name: e.target.value });
   };
   const inputEmail = (e: any) => {
     setUserInfo({ ...userInfo, email: e.target.value });
-  };
-
-  // const inputPassword = (e: any) => {
-  //   setUserInfo(e.target.value);
-  // };
-
-  // const inputPasswordCheck = (e: any) => {
-  //   setUserInfo(e.target.value);
-  // };
-
-  const inputPhoneNumber = (e: any) => {
-    setUserInfo({ ...userInfo, phoneNumber: e.target.value });
   };
 
   const inputYear = (e: any) => {
@@ -66,7 +51,11 @@ function EditInfo() {
     });
   };
 
-  const handleStoreEditInfo = (e) => {
+  const showEditPasswordForm = (e: any) => {
+    e.preventDefault();
+    setIsShowPasswordForm(true);
+  };
+  const handleStoreEditInfo = (e: any) => {
     e.preventDefault();
   };
 
@@ -88,31 +77,6 @@ function EditInfo() {
     }
   };
 
-  const inputAuthNumber = (e: any) => {
-    setInputAuthNumber(e.target.value);
-  };
-
-  const sendAuthMessage = async (e: any) => {
-    e.preventDefault();
-    setIsSendMessage(true);
-    const data = {
-      phoneNumber: userInfo.phoneNumber,
-    };
-    const response = await axios.post("/api/auth/sendSMS", data);
-    const authNumber = response.data.인증번호;
-    setReceivedAuthNum(authNumber);
-  };
-
-  const verifyPhoneNum = (e: any) => {
-    e.preventDefault();
-    if (receivedAuthNum.toString() === authNum) {
-      setFailAuth(false);
-      setSuccessAuth(true);
-    } else {
-      setSuccessAuth(false);
-      setFailAuth(true);
-    }
-  };
   useEffect(() => {
     async function getUserInfo() {
       const { data: user }: IData = await axiosInstance.get(
@@ -125,7 +89,7 @@ function EditInfo() {
 
   return (
     <MyPageContainer>
-      <NotificationSection>
+      {/* <NotificationSection>
         <NotificationTitle>스토리 알림 설정</NotificationTitle>
         <SettingNoti>
           <NotiTitle>카톡 알림 설정</NotiTitle>
@@ -135,7 +99,7 @@ function EditInfo() {
           <NotiTitle>이메일 알림 설정</NotiTitle>
           <IoToggle className="reverse-icon" />
         </SettingNoti>
-      </NotificationSection>
+      </NotificationSection> */}
       <PersonalInfo>
         <NotificationTitle>개인 정보 수정</NotificationTitle>
         <PersonalInfoForm>
@@ -154,32 +118,6 @@ function EditInfo() {
             </FormItem>
             {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
             {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
-            {/* <FormItem>
-              <Input
-                htmlFor="password"
-                labelContent="비밀번호"
-                type="text"
-                value={password}
-                setStateValue={inputPassword}
-              />
-            </FormItem>
-
-            <FormItem>
-              <Input
-                htmlFor="passwordCheck"
-                labelContent="비밀번호 확인"
-                type="text"
-                value={passwordCheck}
-                setStateValue={inputPasswordCheck}
-              />
-              <ValidationButton
-                click={() => {
-                  console.log("비밀번호 일치 확인");
-                }}
-              >
-                확인
-              </ValidationButton>
-            </FormItem> */}
             <FormItem>
               <Input
                 htmlFor="name"
@@ -190,34 +128,6 @@ function EditInfo() {
               />
             </FormItem>
 
-            <FormItem>
-              <Input
-                htmlFor="phone"
-                labelContent="전화번호"
-                type="tel"
-                value={userInfo?.phoneNumber || ""}
-                setStateValue={inputPhoneNumber}
-              />
-              <ValidationButton click={sendAuthMessage}>
-                {isSendMessage ? "재발송" : "인증하기"}
-              </ValidationButton>
-            </FormItem>
-            {isSendMessage ? (
-              <FormItem>
-                <Input
-                  htmlFor="checkPhone"
-                  labelContent="인증번호"
-                  type="text"
-                  value={authNum}
-                  setStateValue={inputAuthNumber}
-                />
-                <ValidationButton click={verifyPhoneNum}>확인</ValidationButton>
-              </FormItem>
-            ) : (
-              <></>
-            )}
-            {successAuth ? <Message>전화번호 인증 성공</Message> : <></>}
-            {failAuth ? <Message>전화번호 인증 실패</Message> : <></>}
             <BirthDayFormItem>
               <label htmlFor="birth">생년월일</label>
               <div>
@@ -280,6 +190,17 @@ function EditInfo() {
                 </select>
               </div>
             </BirthDayFormItem>
+            <FormItem>
+              <PasswordEditButton
+                isClicked={isShowPasswordForm}
+                onClick={showEditPasswordForm}
+              >
+                {isShowPasswordForm
+                  ? "전화번호 인증을 진행해주세요."
+                  : "전화번호 인증 후 비밀번호 변경하기"}
+              </PasswordEditButton>
+            </FormItem>
+            {isShowPasswordForm && <EditPassword />}
           </FormList>
           <StoreButton onClick={handleStoreEditInfo}>저장하기</StoreButton>
         </PersonalInfoForm>
@@ -347,7 +268,6 @@ const PersonalInfoForm = styled.form`
   flex-flow: column nowrap;
   align-items: center;
   position: relative;
-  width: 1008px;
 `;
 const FormList = styled.ul`
   display: flex;
@@ -382,12 +302,19 @@ const BirthDayFormItem = styled.li`
 
   label {
     display: inline-block;
-    /* 248px 이상이면 레이아웃 깨짐  */
-    width: 120px;
+    width: 130px;
     text-align: left;
     font-weight: 400;
     font-size: 1.25rem;
     margin-right: 63px;
+    @media screen and (max-width: 1440px) {
+      width: 120px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 50px;
+      margin-right: 13px;
+      font-size: 1rem;
+    }
   }
 
   div {
@@ -395,6 +322,9 @@ const BirthDayFormItem = styled.li`
     justify-content: space-between;
     align-items: center;
     width: 330px;
+    @media screen and (max-width: 480px) {
+      width: 220px;
+    }
   }
   input {
     width: 90px;
@@ -419,6 +349,9 @@ const BirthDayFormItem = styled.li`
     background: url("/down_arrow.svg") no-repeat;
     background-position: 60px 16px;
     background-size: 14px 10px;
+    @media screen and (max-width: 480px) {
+      background-position: 48px 16px;
+    }
   }
 `;
 
@@ -430,5 +363,23 @@ const Message = styled.div`
   @media screen and (max-width: 480px) {
     padding-left: 60px;
     font-size: 0.8rem;
+  }
+`;
+
+const PasswordEditButton = styled.button<{ isClicked: any }>`
+  margin: 0 auto;
+  transform: translateX(6px);
+  border: none;
+  border-radius: 10px;
+  background-color: ${({ isClicked }) => (isClicked ? "gray" : "#6e7c65")};
+  width: 333px;
+  height: 46px;
+  padding: 8px 0 8px 4px;
+  font-size: 1.25rem;
+  color: white;
+  cursor: ${({ isClicked }) => (isClicked ? " not-allowed" : "pointer")};
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
   }
 `;
