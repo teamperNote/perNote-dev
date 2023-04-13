@@ -11,6 +11,7 @@ function ValidationButton({ click, children }: ButtonProps) {
 
 export default ValidationButton;
 const FormButton = styled.button`
+  cursor: pointer;
   width: 120px;
   height: 44px;
   background: transparent;
