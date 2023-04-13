@@ -49,8 +49,7 @@ export default function StoryDetail() {
   const getStory = async () => {
     await axiosInstance
       .get("/api/story", {
-        // TODO 서지수 로그인 구현 후 userId 빼기
-        params: { userId: "6427c8c4aa6de7f827ba0fac", storyId: storyId },
+        params: { storyId: storyId },
       })
       .then(({ data }) => {
         setStory({ ...story, isLoading: true, data: data });
@@ -69,7 +68,7 @@ export default function StoryDetail() {
   const loginInfo = useRecoilValue<string>(loginState);
 
   // TODO 서지수 유저 정보 저장 있으면 삭제
-  const [isNoti, setIsNoti] = useState<boolean>(false);
+  // const [isNoti, setIsNoti] = useState<boolean>(false);
 
   return (
     <StoryDetailContainer>
@@ -131,7 +130,7 @@ export default function StoryDetail() {
                   ))}
                 </TagBox>
               </ContentBox>
-              {!loginInfo ? (
+              {!loginInfo && (
                 <NotiBox>
                   <NotiText className="bold f40">
                     새로운 메거진이 궁금하신가요? <br />
@@ -143,21 +142,20 @@ export default function StoryDetail() {
                     </SignupLink>
                   </Link>
                 </NotiBox>
-              ) : (
-                !isNoti && (
-                  <NotiBox>
-                    <NotiText className="bold f40">
-                      매주 업로드 되는 스토리가 궁금하신가요? <br />
-                      알림 설정 후 가장 먼저 최신 스토리를 확인해보세요!
-                    </NotiText>
-                    <Link href={"/mypage/edit-info"}>
-                      <SignupLink className="regular f35">
-                        알림설정 바로가기 &gt;
-                      </SignupLink>
-                    </Link>
-                  </NotiBox>
-                )
               )}
+              {/*  !isNoti && (
+                   <NotiBox>
+                     <NotiText className="bold f40">
+                       매주 업로드 되는 스토리가 궁금하신가요? <br />
+                       알림 설정 후 가장 먼저 최신 스토리를 확인해보세요!
+                     </NotiText>
+                     <Link href={"/mypage/edit-info"}>
+                       <SignupLink className="regular f35">
+                         알림설정 바로가기 &gt;
+                       </SignupLink>
+                     </Link>
+                   </NotiBox>
+                 ) */}
               <ShareBox>
                 <ShareIconBox
                   ref={ModalRef}

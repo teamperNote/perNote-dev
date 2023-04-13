@@ -8,6 +8,8 @@ import Input from "../../components/form/Input";
 import ValidationButton from "components/form/ValidationButton";
 import ModalWrapper from "components/WarningModal/Portal";
 import WarningModal from "components/WarningModal/WarningModal";
+import { SignupType } from "lib/types";
+import { agreeList, radioButtonArray } from "lib/arrays";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -16,43 +18,6 @@ const redirect_uri = process.env.NAVER_CALLBACK_URI || "";
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
 
-interface SignupProps {
-  isActive: string;
-}
-
-const agreeList = [
-  { isCheckAll: true, text: "약관 전체 동의" },
-  {
-    isCheckAll: false,
-    text: "[필수] 이용약관 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[필수] 개인정보 수집 및 이용 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[선택] 광고성 메세지 수신 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[선택] 마케팅 정보 수집 동의",
-  },
-];
-const radioList = [
-  {
-    label: "성별",
-    id: ["m", "f"],
-    name: "gender",
-    text: ["남성", "여성"],
-  },
-  {
-    label: "스토리 수신 여부",
-    id: ["agree", "disagee"],
-    name: "story",
-    text: ["동의", "비동의"],
-  },
-];
 const kakao_api_url = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&scope=talk_message`;
 const naver_api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=STATE_STRING&redirect_uri=${redirect_uri}`;
 const google_request_url = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
@@ -363,9 +328,7 @@ function Signup() {
                     value={year}
                     onChange={inputYear}
                   >
-                    <option value="" selected>
-                      년도
-                    </option>
+                    <option value="">년도</option>
                     {Array(84)
                       .fill(null)
                       .map((item, index) => {
@@ -382,9 +345,7 @@ function Signup() {
                     value={month}
                     onChange={inputMonth}
                   >
-                    <option value="" selected>
-                      월
-                    </option>
+                    <option value="">월</option>
                     {Array(12)
                       .fill(null)
                       .map((item, index) => {
@@ -396,9 +357,7 @@ function Signup() {
                       })}
                   </select>
                   <select name="day" id="day" value={day} onChange={inputDay}>
-                    <option value="" selected>
-                      일
-                    </option>
+                    <option value="">일</option>
                     {Array(31)
                       .fill(null)
                       .map((item, index) => {
@@ -411,7 +370,10 @@ function Signup() {
                   </select>
                 </div>
               </BirthDayFormItem>
-              <RadioItem radioData={radioList[0]} setStateValue={setGender} />
+              <RadioItem
+                radioData={radioButtonArray[0]}
+                setStateValue={setGender}
+              />
             </FormList>
             {/* <CheckList>
               {agreeList.map((item: any, index: any) => (
@@ -499,6 +461,10 @@ const SnsIcon = styled.img`
     width: 70px;
     height: 70px;
   }
+  @media screen and (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 const LocalSection = styled.section`
   margin-top: 90px;
@@ -528,6 +494,12 @@ const LocalTitle = styled.h3`
 const FormList = styled.ul`
   display: flex;
   flex-flow: column nowrap;
+  @media screen and (max-width: 1440px) {
+    width: 683px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 290px;
+  }
 `;
 
 const FormItem = styled.li`
@@ -543,6 +515,10 @@ const Message = styled.div`
   font-weight: 400;
   font-size: 1rem;
   padding-left: 184px;
+  @media screen and (max-width: 480px) {
+    padding-left: 60px;
+    font-size: 0.8rem;
+  }
 `;
 const CheckList = styled.ul`
   margin-top: 100px;
@@ -550,7 +526,7 @@ const CheckList = styled.ul`
   border-top: 3px solid #d9d9d9;
 `;
 
-const SignupButton = styled.button<SignupProps>`
+const SignupButton = styled.button<SignupType>`
   cursor: ${(props) =>
     props.isActive === "isActive" ? "pointer" : "not-allowed"};
   width: 333px;
@@ -573,12 +549,19 @@ const BirthDayFormItem = styled.li`
 
   label {
     display: inline-block;
-    /* 248px 이상이면 레이아웃 깨짐  */
-    width: 120px;
+    width: 130px;
     text-align: left;
     font-weight: 400;
     font-size: 1.25rem;
     margin-right: 63px;
+    @media screen and (max-width: 1440px) {
+      width: 120px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 50px;
+      margin-right: 13px;
+      font-size: 1rem;
+    }
   }
 
   div {
@@ -586,6 +569,9 @@ const BirthDayFormItem = styled.li`
     justify-content: space-between;
     align-items: center;
     width: 330px;
+    @media screen and (max-width: 480px) {
+      width: 220px;
+    }
   }
   input {
     width: 90px;
@@ -610,5 +596,8 @@ const BirthDayFormItem = styled.li`
     background: url("/down_arrow.svg") no-repeat;
     background-position: 60px 16px;
     background-size: 14px 10px;
+    @media screen and (max-width: 480px) {
+      background-position: 48px 16px;
+    }
   }
 `;

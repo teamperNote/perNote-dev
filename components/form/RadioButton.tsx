@@ -1,14 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { RadioType } from "lib/types";
 
-interface RadioDataProps {
-  label: string;
-  id: object;
-  name: string;
-  text: object;
-}
 interface RadioProps {
-  radioData: RadioDataProps;
+  radioData: RadioType;
   setStateValue: (e: any) => void;
 }
 
@@ -54,12 +49,18 @@ const RadioContainer = styled.li`
 `;
 
 const FormLabel = styled.label`
-  display: inline-block;
+  /* display: inline-block; */
+  display: flex;
+  align-items: center;
   width: 120px;
   text-align: left;
   font-weight: 400;
   font-size: 1.25rem;
   margin-right: 63px;
+  @media screen and (max-width: 480px) {
+    width: 60px;
+    margin-right: 10px;
+  }
 `;
 const RadioButton = styled.div`
   font-weight: 400;
@@ -72,6 +73,9 @@ const RadioButton = styled.div`
     height: 20px;
     margin-right: 10px;
     accent-color: #525d4d;
+    @media screen and (max-width: 480px) {
+      width: 20px;
+    }
   }
 
   label {

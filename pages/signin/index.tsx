@@ -155,6 +155,9 @@ const LoginBox = styled.div`
   @media screen and (max-width: 1440px) {
     width: 500px;
   }
+    @media screen and (max-width: 480px) {
+    width: 320px;
+  }
 `;
 
 const LoginForm = styled.form`
@@ -163,6 +166,9 @@ const LoginForm = styled.form`
   @media screen and (max-width: 1440px) {
     width: 456px;
   }
+    @media screen and (max-width: 480px) {
+    width: 300px;
+  }
 `;
 const InputList = styled.ul`
   width: 600px;
@@ -170,6 +176,9 @@ const InputList = styled.ul`
   padding: 0;
   @media screen and (max-width: 1440px) {
     width: 456px;
+  }
+      @media screen and (max-width: 480px) {
+    width: 300px;
   }
 `;
 
@@ -225,6 +234,9 @@ const LoginButton = styled.button`
   @media screen and (max-width: 1440px) {
     height: 70px;
   }
+  @media screen and (max-width: 480px) {
+    height: 40px;
+  }
 `;
 
 const SocialLogin = styled.div`
@@ -240,8 +252,9 @@ const SocialLoginList = styled.ul`
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-top: 30px;
+  width: 100%;
 
   div {
     width: 90px;
@@ -250,6 +263,10 @@ const SocialLoginList = styled.ul`
     border-radius: 70px;
 
     @media screen and (max-width: 1440px) {
+      width: 70px;
+      height: 70px;
+    }
+    @media screen and (max-width: 480px) {
       width: 50px;
       height: 50px;
     }
@@ -264,6 +281,14 @@ const SocialLoginItemContainer = styled.li`
   &:not(:last-child) {
     margin-right: 27px;
   }
+  @media screen and (max-width: 1440px) {
+      width: 70px;
+      height: 70px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 50px;
+      height: 50px;
+    }
 `;
 
 const ModalSection = styled.section`

@@ -469,3 +469,38 @@ export const sortArray: ICategory[] = [
   //   text: "높은 가격순",
   // },
 ];
+
+export const agreeList = [
+  { isCheckAll: true, text: "약관 전체 동의" },
+  {
+    isCheckAll: false,
+    text: "[필수] 이용약관 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[필수] 개인정보 수집 및 이용 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[선택] 광고성 메세지 수신 동의",
+  },
+  {
+    isCheckAll: false,
+    text: "[선택] 마케팅 정보 수집 동의",
+  },
+];
+
+export const radioButtonArray = [
+  {
+    label: "성별",
+    id: ["m", "f"],
+    name: "gender",
+    text: ["남성", "여성"],
+  },
+  {
+    label: "스토리 수신 여부",
+    id: ["agree", "disagee"],
+    name: "story",
+    text: ["동의", "비동의"],
+  },
+];

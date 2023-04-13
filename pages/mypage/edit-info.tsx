@@ -1,57 +1,95 @@
 import Input from "components/form/Input";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ValidationButton from "components/form/ValidationButton";
 import { IoToggle } from "react-icons/io5";
-import { withRouter } from "next/router";
+import axiosInstance from "../../lib/api/config";
+import { UserType } from "lib/types";
+import axios from "axios";
+import EditPassword from "components/mypage/EditPassword";
 
-function EditInfo({ router: { query } }) {
-  const userData = query.userData ? JSON.parse(query.userData) : null;
-  const [email, setEmail] = useState(userData?.email);
-  // const [password, setPassword] = useState("");
-  // const [passwordCheck, setPasswordCheck] = useState("");
-  const [name, setName] = useState(userData?.name);
-  const [phoneNumber, setPhoneNumber] = useState(userData?.phoneNumber);
-  const [birthday, setBirthday] = useState({
-    year: userData?.birth.slice(0, 4),
-    month: userData?.birth.slice(5, 7),
-    day: userData?.birth.slice(8, 10),
-  });
+interface IData {
+  data: UserType;
+}
+
+function EditInfo() {
+  const regex = /([0-9])+/g;
+
+  const [userInfo, setUserInfo] = useState<UserType | null>(null);
+
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
+  const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
+
+  const [isShowPasswordForm, setIsShowPasswordForm] = useState(false);
+
   const inputName = (e: any) => {
-    setName(e.target.value);
+    setUserInfo({ ...userInfo, name: e.target.value });
   };
   const inputEmail = (e: any) => {
-    setEmail(e.target.value);
-  };
-
-  // const inputPassword = (e: any) => {
-  //   setPassword(e.target.value);
-  // };
-
-  // const inputPasswordCheck = (e: any) => {
-  //   setPasswordCheck(e.target.value);
-  // };
-
-  const inputPhoneNumber = (e: any) => {
-    setPhoneNumber(e.target.value);
+    setUserInfo({ ...userInfo, email: e.target.value });
   };
 
   const inputYear = (e: any) => {
-    setBirthday({ ...birthday, year: e.target.value });
+    const year = userInfo.birth.match(regex)[0];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(year, e.target.value),
+    });
   };
   const inputMonth = (e: any) => {
-    setBirthday({ ...birthday, month: e.target.value });
+    const month = userInfo.birth.match(regex)[1];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(month, e.target.value.padStart(2, "0")),
+    });
   };
   const inputDay = (e: any) => {
-    setBirthday({ ...birthday, day: e.target.value });
+    const day = userInfo.birth.match(regex)[2];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(day, e.target.value.padStart(2, "0")),
+    });
   };
 
-  const handleStoreEditInfo = () => {
-    console.log("수정 정보 저장");
+  const showEditPasswordForm = (e: any) => {
+    e.preventDefault();
+    setIsShowPasswordForm(true);
   };
+  const handleStoreEditInfo = (e: any) => {
+    e.preventDefault();
+  };
+
+  const checkEmailDuplication = async (e: any) => {
+    e.preventDefault();
+    setIsValidEmail(false);
+    setIsInValidEmail(false);
+
+    try {
+      const response = await axios.get(
+        `/api/users/checkEmail?email=${userInfo.email}`,
+      );
+
+      if (response.status === 200) {
+        setIsValidEmail(true);
+      }
+    } catch (error) {
+      setIsInValidEmail(true);
+    }
+  };
+
+  useEffect(() => {
+    async function getUserInfo() {
+      const { data: user }: IData = await axiosInstance.get(
+        "/api/users/getInfo",
+      );
+      setUserInfo(user);
+    }
+    getUserInfo();
+  }, []);
+
   return (
     <MyPageContainer>
-      <NotificationSection>
+      {/* <NotificationSection>
         <NotificationTitle>스토리 알림 설정</NotificationTitle>
         <SettingNoti>
           <NotiTitle>카톡 알림 설정</NotiTitle>
@@ -61,7 +99,7 @@ function EditInfo({ router: { query } }) {
           <NotiTitle>이메일 알림 설정</NotiTitle>
           <IoToggle className="reverse-icon" />
         </SettingNoti>
-      </NotificationSection>
+      </NotificationSection> */}
       <PersonalInfo>
         <NotificationTitle>개인 정보 수정</NotificationTitle>
         <PersonalInfoForm>
@@ -71,68 +109,23 @@ function EditInfo({ router: { query } }) {
                 htmlFor="email"
                 labelContent="이메일"
                 type="email"
-                value={email}
+                value={userInfo?.email || ""}
                 setStateValue={inputEmail}
               />
-              <ValidationButton
-                click={() => {
-                  console.log("이메일 중복확인");
-                }}
-              >
+              <ValidationButton click={checkEmailDuplication}>
                 중복확인
               </ValidationButton>
             </FormItem>
-            {/* <FormItem>
-              <Input
-                htmlFor="password"
-                labelContent="비밀번호"
-                type="text"
-                value={password}
-                setStateValue={inputPassword}
-              />
-            </FormItem>
-
-            <FormItem>
-              <Input
-                htmlFor="passwordCheck"
-                labelContent="비밀번호 확인"
-                type="text"
-                value={passwordCheck}
-                setStateValue={inputPasswordCheck}
-              />
-              <ValidationButton
-                click={() => {
-                  console.log("비밀번호 일치 확인");
-                }}
-              >
-                확인
-              </ValidationButton>
-            </FormItem> */}
+            {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
+            {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
             <FormItem>
               <Input
                 htmlFor="name"
                 labelContent="이름"
                 type="text"
-                value={name}
+                value={userInfo?.name || ""}
                 setStateValue={inputName}
               />
-            </FormItem>
-
-            <FormItem>
-              <Input
-                htmlFor="phone"
-                labelContent="전화번호"
-                type="tel"
-                value={phoneNumber}
-                setStateValue={inputPhoneNumber}
-              />
-              <ValidationButton
-                click={() => {
-                  console.log("전화번호 인증");
-                }}
-              >
-                인증하기
-              </ValidationButton>
             </FormItem>
 
             <BirthDayFormItem>
@@ -141,11 +134,11 @@ function EditInfo({ router: { query } }) {
                 <select
                   name="year"
                   id="year"
-                  value={birthday.year}
+                  value={userInfo?.birth.slice(0, 4) || ""}
                   onChange={inputYear}
                 >
-                  <option value={birthday.year} selected>
-                    {birthday.year}
+                  <option value={userInfo?.birth.slice(0, 4)}>
+                    {userInfo?.birth.slice(0, 4)}
                   </option>
                   {Array(84)
                     .fill(null)
@@ -160,11 +153,11 @@ function EditInfo({ router: { query } }) {
                 <select
                   name="month"
                   id="month"
-                  value={birthday.month}
+                  value={userInfo?.birth.slice(5, 7) || ""}
                   onChange={inputMonth}
                 >
-                  <option value={birthday.month} selected>
-                    {birthday.month}
+                  <option value={userInfo?.birth.slice(5, 7)}>
+                    {userInfo?.birth.slice(5, 7)}
                   </option>
                   {Array(12)
                     .fill(null)
@@ -179,11 +172,11 @@ function EditInfo({ router: { query } }) {
                 <select
                   name="day"
                   id="day"
-                  value={birthday.day}
+                  value={userInfo?.birth.slice(8, 10) || ""}
                   onChange={inputDay}
                 >
-                  <option value={birthday.day} selected>
-                    {birthday.day}
+                  <option value={userInfo?.birth.slice(8, 10)}>
+                    {userInfo?.birth.slice(8, 10)}
                   </option>
                   {Array(31)
                     .fill(null)
@@ -197,6 +190,17 @@ function EditInfo({ router: { query } }) {
                 </select>
               </div>
             </BirthDayFormItem>
+            <FormItem>
+              <PasswordEditButton
+                isClicked={isShowPasswordForm}
+                onClick={showEditPasswordForm}
+              >
+                {isShowPasswordForm
+                  ? "전화번호 인증을 진행해주세요."
+                  : "전화번호 인증 후 비밀번호 변경하기"}
+              </PasswordEditButton>
+            </FormItem>
+            {isShowPasswordForm && <EditPassword />}
           </FormList>
           <StoreButton onClick={handleStoreEditInfo}>저장하기</StoreButton>
         </PersonalInfoForm>
@@ -204,7 +208,7 @@ function EditInfo({ router: { query } }) {
     </MyPageContainer>
   );
 }
-export default withRouter(EditInfo);
+export default EditInfo;
 
 const MyPageContainer = styled.div`
   font-family: "Noto Sans KR";
@@ -264,7 +268,6 @@ const PersonalInfoForm = styled.form`
   flex-flow: column nowrap;
   align-items: center;
   position: relative;
-  width: 1008px;
 `;
 const FormList = styled.ul`
   display: flex;
@@ -299,12 +302,19 @@ const BirthDayFormItem = styled.li`
 
   label {
     display: inline-block;
-    /* 248px 이상이면 레이아웃 깨짐  */
-    width: 120px;
+    width: 130px;
     text-align: left;
     font-weight: 400;
     font-size: 1.25rem;
     margin-right: 63px;
+    @media screen and (max-width: 1440px) {
+      width: 120px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 50px;
+      margin-right: 13px;
+      font-size: 1rem;
+    }
   }
 
   div {
@@ -312,6 +322,9 @@ const BirthDayFormItem = styled.li`
     justify-content: space-between;
     align-items: center;
     width: 330px;
+    @media screen and (max-width: 480px) {
+      width: 220px;
+    }
   }
   input {
     width: 90px;
@@ -336,5 +349,37 @@ const BirthDayFormItem = styled.li`
     background: url("/down_arrow.svg") no-repeat;
     background-position: 60px 16px;
     background-size: 14px 10px;
+    @media screen and (max-width: 480px) {
+      background-position: 48px 16px;
+    }
+  }
+`;
+
+const Message = styled.div`
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 1rem;
+  padding-left: 184px;
+  @media screen and (max-width: 480px) {
+    padding-left: 60px;
+    font-size: 0.8rem;
+  }
+`;
+
+const PasswordEditButton = styled.button<{ isClicked: any }>`
+  margin: 0 auto;
+  transform: translateX(6px);
+  border: none;
+  border-radius: 10px;
+  background-color: ${({ isClicked }) => (isClicked ? "gray" : "#6e7c65")};
+  width: 333px;
+  height: 46px;
+  padding: 8px 0 8px 4px;
+  font-size: 1.25rem;
+  color: white;
+  cursor: ${({ isClicked }) => (isClicked ? " not-allowed" : "pointer")};
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
   }
 `;

@@ -51,16 +51,14 @@ export default function LikeButton({
         await axiosInstance
           .post("/api/perfumeLike", {
             perfumeId: id,
-            userId: "6427c8c4aa6de7f827ba0fac",
           })
           .catch((err) => {
             console.log(err);
           });
       } else {
         await axiosInstance
-          .post("/ap  i/story/like", {
+          .post("/api/story/like", {
             storyId: id,
-            userId: "6427c8c4aa6de7f827ba0fac",
           })
           .catch((err) => {
             console.log(err);

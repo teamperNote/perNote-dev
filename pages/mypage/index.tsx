@@ -3,20 +3,9 @@ import styled from "styled-components";
 import Link from "next/link";
 import { withAuth } from "components/HOC/withAuth";
 import axiosInstance from "../../lib/api/config";
+import { UserType } from "lib/types";
+import LinkItem from "components/mypage/LinkItem";
 
-interface UserType {
-  birth: string;
-  createdAt: string;
-  email: string;
-  gender: string;
-  id: string;
-  name: string;
-  password: string;
-  phoneNumber: string;
-  snsId: string;
-  snsType: string;
-  updatedAt: string;
-}
 interface IData {
   data: UserType;
 }
@@ -35,53 +24,15 @@ function MyPage() {
 
   return (
     <MypageContainer>
-      <ProfileImageContainer>
+      {/* <ProfileImageContainer>
         <img src="/perNoteBackImg.png" alt="사용자 이름" />
-      </ProfileImageContainer>
+      </ProfileImageContainer> */}
       {userInfo && <UserName>{userInfo.name}님 </UserName>}
       <LinkList>
-        <LinkItem>
-          <Link href="/mypage/test-result">
-            <PageLink>
-              <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
-              <LinkTitle>테스트 결과</LinkTitle>
-              <ListContent>Lorem Ipsum</ListContent>
-            </PageLink>
-          </Link>
-        </LinkItem>
-        <LinkItem>
-          <Link href="/mypage/like-perfume">
-            <PageLink>
-              <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
-              <LinkTitle>찜한 향수</LinkTitle>
-              <ListContent>Lorem Ipsum</ListContent>
-            </PageLink>
-          </Link>
-        </LinkItem>
-        <LinkItem>
-          <Link href="/mypage/like-story">
-            <PageLink>
-              <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
-              <LinkTitle>스토리</LinkTitle>
-              <ListContent>Lorem Ipsum</ListContent>
-            </PageLink>
-          </Link>
-        </LinkItem>
-        <LinkItem>
-          <Link
-            href={{
-              pathname: "/mypage/edit-info",
-              query: { userData: JSON.stringify(userInfo) },
-            }}
-            as="/mypage/edit-info"
-          >
-            <PageLink>
-              <img src="/perNoteBackImg.png" alt="" width="90" height="90" />
-              <LinkTitle>개인정보 수정</LinkTitle>
-              <ListContent>Lorem Ipsum</ListContent>
-            </PageLink>
-          </Link>
-        </LinkItem>
+        <LinkItem title="테스트 결과" linkProp="/mypage/test-result" />
+        <LinkItem title="찜한 향수" linkProp="/mypage/like-perfume" />
+        <LinkItem title="스토리" linkProp="/mypage/like-story" />
+        <LinkItem title="개인정보 수정" linkProp="/mypage/edit-info" />
       </LinkList>
     </MypageContainer>
   );
@@ -120,42 +71,14 @@ const LinkList = styled.ul`
   display: flex;
   list-style-type: none;
   padding: 0;
-`;
-
-const LinkItem = styled.li`
-  width: 340px;
+  width: 90%;
   height: 500px;
-  background: var(--white-color);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  &:not(:last-child) {
-    margin-right: 20px;
+  @media screen and (max-width: 950px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem;
   }
-  @media screen and (max-width: 1440px) {
-    width: 280px;
-    height: 360px;
+  @media screen and (max-width: 480px) {
+    padding: 10px;
   }
-`;
-
-const PageLink = styled.a`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  img {
-    margin-bottom: 90px;
-  }
-`;
-const LinkTitle = styled.h3`
-  font-weight: 700;
-  font-size: 1.875rem;
-  margin: 0;
-  margin-bottom: 14px;
-`;
-
-const ListContent = styled.p`
-  font-weight: 400;
-  font-size: 1.875rem;
-  margin: 0;
 `;

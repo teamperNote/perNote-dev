@@ -65,7 +65,6 @@ export default function CategoryCard({
           </HeartBox>
         )}
         <BrandName className="bold f30">
-          {/* TODO 서지수 브랜드 name_eng -> brand_eng으로 수정되면 수정하기 */}
           {slug[0] === "brand" && slug[2] === undefined ? name_eng : brand_eng}
         </BrandName>
         {from == "Category" && (
