@@ -377,6 +377,7 @@ const PasswordEditButton = styled.button<{ isClicked: any }>`
   padding: 8px 0 8px 4px;
   font-size: 1.25rem;
   color: white;
+  cursor: ${({ isClicked }) => (isClicked ? " not-allowed" : "pointer")};
 
   @media screen and (max-width: 480px) {
     width: 100%;
