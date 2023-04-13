@@ -5,8 +5,8 @@ import ValidationButton from "components/form/ValidationButton";
 import { IoToggle } from "react-icons/io5";
 import axiosInstance from "../../lib/api/config";
 import { UserType } from "lib/types";
-import axios from "axios";
 import EditPassword from "components/mypage/EditPassword";
+import { checkEmail } from "utils/checkEmail";
 
 interface IData {
   data: UserType;
@@ -64,17 +64,9 @@ function EditInfo() {
     setIsValidEmail(false);
     setIsInValidEmail(false);
 
-    try {
-      const response = await axios.get(
-        `/api/users/checkEmail?email=${userInfo.email}`,
-      );
-
-      if (response.status === 200) {
-        setIsValidEmail(true);
-      }
-    } catch (error) {
-      setIsInValidEmail(true);
-    }
+    const isValidEmail = await checkEmail(userInfo.email);
+    if (isValidEmail) setIsValidEmail(true);
+    else setIsInValidEmail(true);
   };
 
   useEffect(() => {
@@ -200,7 +192,9 @@ function EditInfo() {
                   : "전화번호 인증 후 비밀번호 변경하기"}
               </PasswordEditButton>
             </FormItem>
-            {isShowPasswordForm && <EditPassword />}
+            {isShowPasswordForm && (
+              <EditPassword userInfo={userInfo} setUserInfo={setUserInfo} />
+            )}
           </FormList>
           <StoreButton onClick={handleStoreEditInfo}>저장하기</StoreButton>
         </PersonalInfoForm>
@@ -377,7 +371,7 @@ const PasswordEditButton = styled.button<{ isClicked: any }>`
   padding: 8px 0 8px 4px;
   font-size: 1.25rem;
   color: white;
-  cursor: ${({ isClicked }) => (isClicked ? " not-allowed" : "pointer")};
+  cursor: ${({ isClicked }) => (isClicked ? "not-allowed" : "pointer")};
 
   @media screen and (max-width: 480px) {
     width: 100%;
