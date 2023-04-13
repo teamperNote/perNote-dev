@@ -89,7 +89,7 @@ function EditInfo() {
 
   return (
     <MyPageContainer>
-      <NotificationSection>
+      {/* <NotificationSection>
         <NotificationTitle>스토리 알림 설정</NotificationTitle>
         <SettingNoti>
           <NotiTitle>카톡 알림 설정</NotiTitle>
@@ -99,7 +99,7 @@ function EditInfo() {
           <NotiTitle>이메일 알림 설정</NotiTitle>
           <IoToggle className="reverse-icon" />
         </SettingNoti>
-      </NotificationSection>
+      </NotificationSection> */}
       <PersonalInfo>
         <NotificationTitle>개인 정보 수정</NotificationTitle>
         <PersonalInfoForm>
@@ -268,7 +268,6 @@ const PersonalInfoForm = styled.form`
   flex-flow: column nowrap;
   align-items: center;
   position: relative;
-  width: 1008px;
 `;
 const FormList = styled.ul`
   display: flex;
@@ -303,12 +302,19 @@ const BirthDayFormItem = styled.li`
 
   label {
     display: inline-block;
-    /* 248px 이상이면 레이아웃 깨짐  */
-    width: 120px;
+    width: 130px;
     text-align: left;
     font-weight: 400;
     font-size: 1.25rem;
     margin-right: 63px;
+    @media screen and (max-width: 1440px) {
+      width: 120px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 50px;
+      margin-right: 13px;
+      font-size: 1rem;
+    }
   }
 
   div {
@@ -316,6 +322,9 @@ const BirthDayFormItem = styled.li`
     justify-content: space-between;
     align-items: center;
     width: 330px;
+    @media screen and (max-width: 480px) {
+      width: 220px;
+    }
   }
   input {
     width: 90px;
@@ -340,6 +349,9 @@ const BirthDayFormItem = styled.li`
     background: url("/down_arrow.svg") no-repeat;
     background-position: 60px 16px;
     background-size: 14px 10px;
+    @media screen and (max-width: 480px) {
+      background-position: 48px 16px;
+    }
   }
 `;
 
@@ -351,23 +363,6 @@ const Message = styled.div`
   @media screen and (max-width: 480px) {
     padding-left: 60px;
     font-size: 0.8rem;
-  }
-`;
-
-const PasswordEditTtitle = styled.div`
-  display: inline-block;
-  width: 130px;
-  text-align: left;
-  font-weight: 400;
-  font-size: 1.25rem;
-  margin-right: 63px;
-  @media screen and (max-width: 1440px) {
-    width: 120px;
-  }
-  @media screen and (max-width: 480px) {
-    width: 50px;
-    margin-right: 10px;
-    font-size: 1rem;
   }
 `;
 
@@ -384,6 +379,6 @@ const PasswordEditButton = styled.button<{ isClicked: any }>`
   color: white;
 
   @media screen and (max-width: 480px) {
-    width: 160px;
+    width: 100%;
   }
 `;
