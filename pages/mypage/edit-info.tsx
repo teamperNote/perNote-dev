@@ -192,7 +192,9 @@ function EditInfo() {
                   : "전화번호 인증 후 비밀번호 변경하기"}
               </PasswordEditButton>
             </FormItem>
-            {isShowPasswordForm && <EditPassword />}
+            {isShowPasswordForm && (
+              <EditPassword userInfo={userInfo} setUserInfo={setUserInfo} />
+            )}
           </FormList>
           <StoreButton onClick={handleStoreEditInfo}>저장하기</StoreButton>
         </PersonalInfoForm>

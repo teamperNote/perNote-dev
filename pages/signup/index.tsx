@@ -11,6 +11,7 @@ import WarningModal from "components/WarningModal/WarningModal";
 import { SignupType } from "lib/types";
 import { agreeList, radioButtonArray } from "lib/arrays";
 import { checkEmail } from "utils/checkEmail";
+import PhoneNumForm from "components/form/PhoneNumForm";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -36,11 +37,7 @@ function Signup() {
   const [isPasswordDiff, setIsPasswordDiff] = useState<boolean>(false);
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
-  const [receivedAuthNum, setReceivedAuthNum] = useState<string>("");
-  const [authNum, setInputAuthNumber] = useState<string>("");
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
-  const [failAuth, setFailAuth] = useState<boolean>(false);
 
   const [year, setYear] = useState<string>("");
   const [month, setMonth] = useState<string>("");
@@ -70,10 +67,6 @@ function Signup() {
 
   const inputCheckPassword = (e: any) => {
     setCheckPassword(e.target.value);
-  };
-
-  const inputPhoneNumber = (e: any) => {
-    setPhoneNumber(e.target.value);
   };
 
   const inputYear = (e: any) => {
@@ -115,20 +108,6 @@ function Signup() {
     }
   };
 
-  const sendAuthMessage = async (e: any) => {
-    e.preventDefault();
-    setIsSendMessage(true);
-    const data = {
-      phoneNumber,
-    };
-    const response = await axios.post("/api/auth/sendSMS", data);
-    const authNumber = response.data.인증번호;
-    setReceivedAuthNum(authNumber);
-  };
-
-  const inputAuthNumber = (e: any) => {
-    setInputAuthNumber(e.target.value);
-  };
   const convertBirth = (year: string, month: string, day: string) => {
     const convertYear = Number(year);
     const convertMonth = Number(month);
@@ -137,16 +116,6 @@ function Signup() {
     return birthday;
   };
 
-  const verifyPhoneNum = (e: any) => {
-    e.preventDefault();
-    if (receivedAuthNum.toString() === authNum) {
-      setFailAuth(false);
-      setSuccessAuth(true);
-    } else {
-      setSuccessAuth(false);
-      setFailAuth(true);
-    }
-  };
   const checkRequired = () => {
     if (
       isPasswordSame &&
@@ -285,35 +254,13 @@ function Signup() {
               )}
               {isPasswordDiff ? <Message>불일치</Message> : <></>}
               <FormItem>
-                <Input
-                  htmlFor="phone"
-                  labelContent="전화번호"
-                  type="tel"
-                  value={phoneNumber}
-                  setStateValue={inputPhoneNumber}
+                <PhoneNumForm
+                  userInfo={phoneNumber}
+                  setUserInfo={setPhoneNumber}
+                  successAuth={successAuth}
+                  setSuccessAuth={setSuccessAuth}
                 />
-                <ValidationButton click={sendAuthMessage}>
-                  {isSendMessage ? "재발송" : "인증하기"}
-                </ValidationButton>
               </FormItem>
-              {isSendMessage ? (
-                <FormItem>
-                  <Input
-                    htmlFor="checkPhone"
-                    labelContent="인증번호"
-                    type="text"
-                    value={authNum}
-                    setStateValue={inputAuthNumber}
-                  />
-                  <ValidationButton click={verifyPhoneNum}>
-                    확인
-                  </ValidationButton>
-                </FormItem>
-              ) : (
-                <></>
-              )}
-              {successAuth ? <Message>전화번호 인증 성공</Message> : <></>}
-              {failAuth ? <Message>전화번호 인증 실패</Message> : <></>}
               <BirthDayFormItem>
                 <label htmlFor="birth">생년월일</label>
                 <div>
