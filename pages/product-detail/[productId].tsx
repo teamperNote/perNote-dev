@@ -261,15 +261,20 @@ export default function ProductDetailPage() {
 }
 
 const ProductDetailContainer = styled.main`
-  padding-top: 12.4375rem;
+  padding-top: 110px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0 auto;
-  padding-top: 169px;
+  @media screen and (max-width: 1440px) {
+    padding-top: 90px;
+  }
   @media screen and (max-width: 1000px) {
     width: 80vw;
+  }
+  @media screen and (max-width: 950px) {
+    padding-top: 140px;
   }
 `;
 
@@ -277,6 +282,7 @@ const AboutProduct = styled.div`
   display: flex;
   align-items: start;
   border-bottom: 2px solid #b2b2b2;
+  margin-top: 6.125rem;
   padding-bottom: 3.75rem;
   margin-bottom: 6.875rem;
   @media screen and (max-width: 1000px) {

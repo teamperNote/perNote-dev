@@ -248,7 +248,10 @@ export const PersonalScentContainer = styled.div`
   padding-top: 110px;
   position: relative;
   @media screen and (max-width: 1440px) {
-    padding-top: 80px;
+    padding-top: 90px;
+  }
+  @media screen and (max-width: 950px) {
+    padding-top: 140px;
   }
 `;
 
