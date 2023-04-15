@@ -134,10 +134,10 @@ const NavBarContainer = styled.div`
     color: var(--white-color);
   }
   @media screen and (max-width: 1440px) {
-    height: 80px;
+    height: 90px;
   }
   @media screen and (max-width: 950px) {
-    height: 120px;
+    height: 140px;
   }
 `;
 
@@ -150,7 +150,7 @@ const NavBarBox = styled.div`
     padding: 10px 40px 11px 40px;
   }
   @media screen and (max-width: 950px) {
-    flex-direction: column; 
+    flex-direction: column;
     padding: 0;
   }
 `;
@@ -183,7 +183,7 @@ const Navigator = styled.div`
   display: flex;
   align-items: center;
   @media screen and (max-width: 950px) {
-    width: 100%; 
+    width: 100%;
     justify-content: space-between;
   }
 `;
@@ -211,10 +211,10 @@ const HeaderRight = styled.div`
   display: flex;
   align-items: center;
   @media screen and (max-width: 950px) {
-    position: absolute; 
+    position: absolute;
     top: 0;
-    right: 0; 
-    margin-right: 8px; 
+    right: 0;
+    margin-right: 8px;
   }
 `;
 

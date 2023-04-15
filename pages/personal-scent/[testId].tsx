@@ -211,7 +211,10 @@ export const RecommendationContainer = styled.main`
   align-items: center;
   padding-top: 110px;
   @media screen and (max-width: 1440px) {
-    padding-top: 80px;
+    padding-top: 90px;
+  }
+  @media screen and (max-width: 950px) {
+    padding-top: 140px;
   }
   @media screen and (max-width: 480px) {
     width: 80vw;
