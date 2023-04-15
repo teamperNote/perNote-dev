@@ -71,10 +71,14 @@ function EditInfo() {
 
   useEffect(() => {
     async function getUserInfo() {
-      const { data: user }: IData = await axiosInstance.get(
-        "/api/users/getInfo",
-      );
-      setUserInfo(user);
+      try {
+        const { data: user }: IData = await axiosInstance.get(
+          "/api/users/getInfo",
+        );
+        setUserInfo(user);
+      } catch (error) {
+        console.log("액세스 재발급 전 edit-info axios error");
+      }
     }
     getUserInfo();
   }, []);
