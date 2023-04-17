@@ -12,6 +12,7 @@ import { SignupType } from "lib/types";
 import { agreeList, radioButtonArray } from "lib/arrays";
 import { checkEmail } from "utils/checkEmail";
 import PhoneNumForm from "components/form/PhoneNumForm";
+import PasswordForm from "components/form/PasswordForm";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -32,9 +33,7 @@ function Signup() {
   const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
-  const [checkPassword, setCheckPassword] = useState<string>("");
   const [isPasswordSame, setIsPasswordSame] = useState<boolean>(false);
-  const [isPasswordDiff, setIsPasswordDiff] = useState<boolean>(false);
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
@@ -59,14 +58,6 @@ function Signup() {
   };
   const inputEmail = (e: any) => {
     setEmail(e.target.value);
-  };
-
-  const inputPassword = (e: any) => {
-    setPassword(e.target.value);
-  };
-
-  const inputCheckPassword = (e: any) => {
-    setCheckPassword(e.target.value);
   };
 
   const inputYear = (e: any) => {
@@ -94,18 +85,6 @@ function Signup() {
     const isValidEmail = await checkEmail(email);
     if (isValidEmail) setIsValidEmail(true);
     else setIsInValidEmail(true);
-  };
-
-  const checkSamePassword = async (e: any) => {
-    e.preventDefault();
-    if (password === checkPassword) {
-      setIsPasswordSame(true);
-      setIsPasswordDiff(false);
-    }
-    if (password !== checkPassword) {
-      setIsPasswordSame(false);
-      setIsPasswordDiff(true);
-    }
   };
 
   const convertBirth = (year: string, month: string, day: string) => {
@@ -225,34 +204,12 @@ function Signup() {
               </FormItem>
               {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
               {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
-              <FormItem>
-                <Input
-                  htmlFor="password"
-                  labelContent="비밀번호"
-                  type="passowrd"
-                  value={password}
-                  setStateValue={inputPassword}
-                />
-              </FormItem>
-              <FormItem>
-                <Input
-                  htmlFor="pwdCheck"
-                  labelContent="비밀번호 확인"
-                  type="passowrd"
-                  value={checkPassword}
-                  setStateValue={inputCheckPassword}
-                />
-                <ValidationButton click={checkSamePassword}>
-                  확인
-                </ValidationButton>
-              </FormItem>
-              <Message>*최소 8자리 이상, 대소문자, 숫자 포함</Message>
-              {password && checkPassword && isPasswordSame ? (
-                <Message>일치</Message>
-              ) : (
-                <></>
-              )}
-              {isPasswordDiff ? <Message>불일치</Message> : <></>}
+              <PasswordForm
+                password={password}
+                setPassword={setPassword}
+                isSame={isPasswordSame}
+                setIsSame={setIsPasswordSame}
+              />
               <FormItem>
                 <PhoneNumForm
                   userInfo={phoneNumber}
