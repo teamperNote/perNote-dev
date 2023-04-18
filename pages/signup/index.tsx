@@ -4,7 +4,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import AgreeItem from "components/form/AgreeItem";
 import RadioItem from "components/form/RadioButton";
-import Input from "../../components/form/Input";
 import ModalWrapper from "components/WarningModal/Portal";
 import WarningModal from "components/WarningModal/WarningModal";
 import { SignupType } from "lib/types";
@@ -12,6 +11,7 @@ import { agreeList, radioButtonArray } from "lib/arrays";
 import PhoneNumForm from "components/form/PhoneNumForm";
 import PasswordForm from "components/form/PasswordForm";
 import EmailForm from "components/form/EmailForm";
+import NameForm from "components/form/NameForm";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -51,9 +51,6 @@ function Signup() {
   ]);
 
   const [isExistUser, setIsExistUser] = useState("");
-  const inputName = (e: any) => {
-    setName(e.target.value);
-  };
 
   const inputYear = (e: any) => {
     setYear(e.target.value);
@@ -165,15 +162,7 @@ function Signup() {
             <legend className="read-only">일반 회원가입</legend>
             <LocalTitle>일반 회원가입</LocalTitle>
             <FormList>
-              <FormItem>
-                <Input
-                  htmlFor="name"
-                  labelContent="이름"
-                  type="text"
-                  value={name}
-                  setStateValue={inputName}
-                />
-              </FormItem>
+              <NameForm userInfo={name} setUserInfo={setName} />
               <EmailForm
                 userInfo={email}
                 setUserInfo={setEmail}
@@ -373,14 +362,6 @@ const FormList = styled.ul`
   @media screen and (max-width: 480px) {
     width: 290px;
   }
-`;
-
-const FormItem = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 20px;
 `;
 
 const CheckList = styled.ul`

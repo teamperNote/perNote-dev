@@ -1,4 +1,3 @@
-import Input from "components/form/Input";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoToggle } from "react-icons/io5";
@@ -6,6 +5,7 @@ import axiosInstance from "../../lib/api/config";
 import { UserType } from "lib/types";
 import EditPassword from "components/mypage/EditPassword";
 import EmailForm from "components/form/EmailForm";
+import NameForm from "components/form/NameForm";
 
 interface IData {
   data: UserType;
@@ -19,10 +19,6 @@ function EditInfo() {
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
 
   const [isShowPasswordForm, setIsShowPasswordForm] = useState(false);
-
-  const inputName = (e: any) => {
-    setUserInfo({ ...userInfo, name: e.target.value });
-  };
 
   const inputYear = (e: any) => {
     const year = userInfo.birth.match(regex)[0];
@@ -91,16 +87,7 @@ function EditInfo() {
               isValidEmail={isValidEmail}
               setIsValidEmail={setIsValidEmail}
             />
-            <FormItem>
-              <Input
-                htmlFor="name"
-                labelContent="이름"
-                type="text"
-                value={userInfo?.name || ""}
-                setStateValue={inputName}
-              />
-            </FormItem>
-
+            <NameForm userInfo={userInfo || ""} setUserInfo={setUserInfo} />
             <BirthDayFormItem>
               <label htmlFor="birth">생년월일</label>
               <div>
