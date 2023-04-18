@@ -1,12 +1,11 @@
-import Input from "components/form/Input";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ValidationButton from "components/form/ValidationButton";
 import { IoToggle } from "react-icons/io5";
 import axiosInstance from "../../lib/api/config";
 import { UserType } from "lib/types";
 import EditPassword from "components/mypage/EditPassword";
-import { checkEmail } from "utils/checkEmail";
+import EmailForm from "components/form/EmailForm";
+import NameForm from "components/form/NameForm";
 
 interface IData {
   data: UserType;
@@ -18,16 +17,8 @@ function EditInfo() {
   const [userInfo, setUserInfo] = useState<UserType | null>(null);
 
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
-  const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
 
   const [isShowPasswordForm, setIsShowPasswordForm] = useState(false);
-
-  const inputName = (e: any) => {
-    setUserInfo({ ...userInfo, name: e.target.value });
-  };
-  const inputEmail = (e: any) => {
-    setUserInfo({ ...userInfo, email: e.target.value });
-  };
 
   const inputYear = (e: any) => {
     const year = userInfo.birth.match(regex)[0];
@@ -57,16 +48,6 @@ function EditInfo() {
   };
   const handleStoreEditInfo = (e: any) => {
     e.preventDefault();
-  };
-
-  const checkEmailDuplication = async (e: any) => {
-    e.preventDefault();
-    setIsValidEmail(false);
-    setIsInValidEmail(false);
-
-    const isValidEmail = await checkEmail(userInfo.email);
-    if (isValidEmail) setIsValidEmail(true);
-    else setIsInValidEmail(true);
   };
 
   useEffect(() => {
@@ -100,30 +81,13 @@ function EditInfo() {
         <NotificationTitle>개인 정보 수정</NotificationTitle>
         <PersonalInfoForm>
           <FormList>
-            <FormItem>
-              <Input
-                htmlFor="email"
-                labelContent="이메일"
-                type="email"
-                value={userInfo?.email || ""}
-                setStateValue={inputEmail}
-              />
-              <ValidationButton click={checkEmailDuplication}>
-                중복확인
-              </ValidationButton>
-            </FormItem>
-            {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
-            {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
-            <FormItem>
-              <Input
-                htmlFor="name"
-                labelContent="이름"
-                type="text"
-                value={userInfo?.name || ""}
-                setStateValue={inputName}
-              />
-            </FormItem>
-
+            <EmailForm
+              userInfo={userInfo || ""}
+              setUserInfo={setUserInfo}
+              isValidEmail={isValidEmail}
+              setIsValidEmail={setIsValidEmail}
+            />
+            <NameForm userInfo={userInfo || ""} setUserInfo={setUserInfo} />
             <BirthDayFormItem>
               <label htmlFor="birth">생년월일</label>
               <div>
@@ -186,7 +150,7 @@ function EditInfo() {
                 </select>
               </div>
             </BirthDayFormItem>
-            <FormItem>
+            <>
               <PasswordEditButton
                 isClicked={isShowPasswordForm}
                 onClick={showEditPasswordForm}
@@ -195,7 +159,7 @@ function EditInfo() {
                   ? "전화번호 인증을 진행해주세요."
                   : "전화번호 인증 후 비밀번호 변경하기"}
               </PasswordEditButton>
-            </FormItem>
+            </>
             {isShowPasswordForm && (
               <EditPassword userInfo={userInfo} setUserInfo={setUserInfo} />
             )}
@@ -296,7 +260,7 @@ const BirthDayFormItem = styled.li`
   display: flex;
   align-items: center;
   width: 100%;
-  margin-top: 35px;
+  margin: 35px 0;
 
   label {
     display: inline-block;
@@ -350,17 +314,6 @@ const BirthDayFormItem = styled.li`
     @media screen and (max-width: 480px) {
       background-position: 48px 16px;
     }
-  }
-`;
-
-const Message = styled.div`
-  margin-top: 20px;
-  font-weight: 400;
-  font-size: 1rem;
-  padding-left: 184px;
-  @media screen and (max-width: 480px) {
-    padding-left: 60px;
-    font-size: 0.8rem;
   }
 `;
 
