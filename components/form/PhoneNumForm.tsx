@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { sendAuthNum } from "utils/sendAuthNum";
 import { checkAuthNum } from "utils/checkAuthNum";
@@ -11,6 +11,27 @@ function PhoneNumForm({ userInfo, setUserInfo, successAuth, setSuccessAuth }) {
   const [receivedAuthNum, setReceivedAuthNum] = useState<string>("");
   const [authNum, setInputAuthNumber] = useState<string>("");
   const [failAuth, setFailAuth] = useState<boolean>(false);
+
+  const [min, setMin] = useState(3);
+  const [sec, setSec] = useState(0);
+  const time = useRef(180);
+  const timerId = useRef(null);
+
+  useEffect(() => {
+    timerId.current = setInterval(() => {
+      setMin(parseInt((time.current / 60).toString()));
+      setSec(time.current % 60);
+      time.current -= 1;
+    }, 1000);
+
+    return () => clearInterval(timerId.current);
+  }, [isSendMessage]);
+
+  useEffect(() => {
+    if (time.current <= -1) {
+      clearInterval(timerId.current);
+    }
+  }, [sec]);
 
   const inputPhoneNumber = (e: any) => {
     if (typeof userInfo === "object") {
@@ -25,11 +46,19 @@ function PhoneNumForm({ userInfo, setUserInfo, successAuth, setSuccessAuth }) {
   };
 
   const sendAuthMessage = async (e: any) => {
+    setIsSendMessage(false);
+    setMin(3);
+    setSec(0);
+    time.current = 180;
+    const prevTimer = timerId.current;
+    clearInterval(prevTimer);
+    timerId.current = null;
+
     e.preventDefault();
-    setIsSendMessage(true);
     const phoneNumber =
       typeof userInfo === "object" ? userInfo.phoneNumber : userInfo;
     const authNumber = await sendAuthNum(phoneNumber);
+    setIsSendMessage(true);
     setReceivedAuthNum(authNumber);
   };
 
@@ -39,6 +68,9 @@ function PhoneNumForm({ userInfo, setUserInfo, successAuth, setSuccessAuth }) {
     if (isSuccess) {
       setFailAuth(false);
       setSuccessAuth(true);
+      const prevTimer = timerId.current;
+      clearInterval(prevTimer);
+      timerId.current = null;
     } else {
       setSuccessAuth(false);
       setFailAuth(true);
@@ -59,16 +91,23 @@ function PhoneNumForm({ userInfo, setUserInfo, successAuth, setSuccessAuth }) {
         </ValidationButton>
       </FormItem>
       {isSendMessage ? (
-        <FormItem>
-          <Input
-            htmlFor="checkPhone"
-            labelContent="인증번호"
-            type="text"
-            value={authNum}
-            setStateValue={inputAuthNumber}
-          />
-          <ValidationButton click={verifyPhoneNum}>확인</ValidationButton>
-        </FormItem>
+        <>
+          <FormItem>
+            <Input
+              htmlFor="checkPhone"
+              labelContent="인증번호"
+              type="text"
+              value={authNum}
+              setStateValue={inputAuthNumber}
+            />
+            <ValidationButton click={verifyPhoneNum}>확인</ValidationButton>
+          </FormItem>
+          {timerId.current && (
+            <Timer>
+              {min} 분 {sec} 초
+            </Timer>
+          )}
+        </>
       ) : (
         <></>
       )}
@@ -95,5 +134,15 @@ const Message = styled.div`
   @media screen and (max-width: 480px) {
     padding-left: 60px;
     font-size: 0.8rem;
+  }
+`;
+
+const Timer = styled.div`
+  padding-left: 193px;
+  @media screen and (max-width: 1440px) {
+    padding-left: 183px;
+  }
+  @media screen and (max-width: 480px) {
+    padding-left: 60px;
   }
 `;
