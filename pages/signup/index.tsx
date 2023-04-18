@@ -5,14 +5,13 @@ import { useRouter } from "next/router";
 import AgreeItem from "components/form/AgreeItem";
 import RadioItem from "components/form/RadioButton";
 import Input from "../../components/form/Input";
-import ValidationButton from "components/form/ValidationButton";
 import ModalWrapper from "components/WarningModal/Portal";
 import WarningModal from "components/WarningModal/WarningModal";
 import { SignupType } from "lib/types";
 import { agreeList, radioButtonArray } from "lib/arrays";
-import { checkEmail } from "utils/checkEmail";
 import PhoneNumForm from "components/form/PhoneNumForm";
 import PasswordForm from "components/form/PasswordForm";
+import EmailForm from "components/form/EmailForm";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -30,7 +29,6 @@ function Signup() {
 
   const [email, setEmail] = useState<string>("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
-  const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
   const [isPasswordSame, setIsPasswordSame] = useState<boolean>(false);
@@ -56,9 +54,6 @@ function Signup() {
   const inputName = (e: any) => {
     setName(e.target.value);
   };
-  const inputEmail = (e: any) => {
-    setEmail(e.target.value);
-  };
 
   const inputYear = (e: any) => {
     setYear(e.target.value);
@@ -74,17 +69,6 @@ function Signup() {
     if (e.target.type) {
       setIsExistUser("");
     }
-  };
-
-  //이메일 중복 확인
-  const checkEmailDuplication = async (e: any) => {
-    e.preventDefault();
-    setIsValidEmail(false);
-    setIsInValidEmail(false);
-
-    const isValidEmail = await checkEmail(email);
-    if (isValidEmail) setIsValidEmail(true);
-    else setIsInValidEmail(true);
   };
 
   const convertBirth = (year: string, month: string, day: string) => {
@@ -190,34 +174,24 @@ function Signup() {
                   setStateValue={inputName}
                 />
               </FormItem>
-              <FormItem>
-                <Input
-                  htmlFor="email"
-                  labelContent="이메일"
-                  type="email"
-                  value={email}
-                  setStateValue={inputEmail}
-                />
-                <ValidationButton click={checkEmailDuplication}>
-                  중복확인
-                </ValidationButton>
-              </FormItem>
-              {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
-              {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
+              <EmailForm
+                userInfo={email}
+                setUserInfo={setEmail}
+                isValidEmail={isValidEmail}
+                setIsValidEmail={setIsValidEmail}
+              />
               <PasswordForm
                 password={password}
                 setPassword={setPassword}
                 isSame={isPasswordSame}
                 setIsSame={setIsPasswordSame}
               />
-              <FormItem>
-                <PhoneNumForm
-                  userInfo={phoneNumber}
-                  setUserInfo={setPhoneNumber}
-                  successAuth={successAuth}
-                  setSuccessAuth={setSuccessAuth}
-                />
-              </FormItem>
+              <PhoneNumForm
+                userInfo={phoneNumber}
+                setUserInfo={setPhoneNumber}
+                successAuth={successAuth}
+                setSuccessAuth={setSuccessAuth}
+              />
               <BirthDayFormItem>
                 <label htmlFor="birth">생년월일</label>
                 <div>
@@ -409,16 +383,6 @@ const FormItem = styled.li`
   margin-top: 20px;
 `;
 
-const Message = styled.div`
-  margin-top: 20px;
-  font-weight: 400;
-  font-size: 1rem;
-  padding-left: 184px;
-  @media screen and (max-width: 480px) {
-    padding-left: 60px;
-    font-size: 0.8rem;
-  }
-`;
 const CheckList = styled.ul`
   margin-top: 100px;
   padding-top: 70px;
