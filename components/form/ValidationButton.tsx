@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 
 interface ButtonProps {
-  isActive: boolean;
+  isActive?: boolean;
   click: (e: any) => void;
   children: ReactNode;
 }
