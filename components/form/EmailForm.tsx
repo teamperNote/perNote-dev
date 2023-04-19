@@ -3,12 +3,29 @@ import styled from "styled-components";
 import Input from "./Input";
 import ValidationButton from "./ValidationButton";
 import { checkEmail } from "utils/checkEmail";
+import { checkValidation } from "utils/checkValidation";
 
-function EmailForm({ userInfo, setUserInfo, isValidEmail, setIsValidEmail }) {
+function EmailForm({
+  userInfo,
+  setUserInfo,
+  isValidEmail,
+  setIsValidEmail,
+  isUnExisted,
+  setIsUnExisted,
+}) {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
   const email = typeof userInfo === "object" ? userInfo.email : userInfo;
-  const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
+  const [isExisted, setIsExited] = useState<boolean>(false);
 
   const inputEmail = (e: any) => {
+    const isValid = checkValidation(regex, e.target.value);
+    if (isValid) setIsValidEmail(true);
+    else {
+      setIsValidEmail(false);
+      setIsUnExisted(false);
+      setIsExited(false);
+    }
+
     if (typeof userInfo === "object") {
       setUserInfo({ ...userInfo, email: e.target.value });
     } else {
@@ -17,12 +34,12 @@ function EmailForm({ userInfo, setUserInfo, isValidEmail, setIsValidEmail }) {
   };
   const checkEmailDuplication = async (e: any) => {
     e.preventDefault();
-    setIsValidEmail(false);
-    setIsInValidEmail(false);
+    setIsUnExisted(false);
+    setIsExited(false);
 
-    const isValidEmail = await checkEmail(email);
-    if (isValidEmail) setIsValidEmail(true);
-    else setIsInValidEmail(true);
+    const isExistedEmail = await checkEmail(email);
+    if (isExistedEmail) setIsUnExisted(true);
+    else setIsExited(true);
   };
   return (
     <>
@@ -34,12 +51,17 @@ function EmailForm({ userInfo, setUserInfo, isValidEmail, setIsValidEmail }) {
           value={email}
           setStateValue={inputEmail}
         />
-        <ValidationButton click={checkEmailDuplication}>
+        <ValidationButton click={checkEmailDuplication} isActive={isValidEmail}>
           중복확인
         </ValidationButton>
       </FormItem>
-      {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
-      {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
+      {!isValidEmail && <Message>이메일 형식에 맞게 입력해 주세요.</Message>}
+      {isValidEmail && isUnExisted && (
+        <Message>사용 가능한 이메일입니다.</Message>
+      )}
+      {isValidEmail && isExisted && (
+        <Message>이미 사용중인 이메일입니다.</Message>
+      )}
     </>
   );
 }

@@ -26,14 +26,18 @@ const google_request_url = `https://accounts.google.com/o/oauth2/auth?client_id=
 function Signup() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
+  const [isValidName, setIsValidName] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
+  const [isUnExisted, setIsUnExisted] = useState(false);
 
   const [password, setPassword] = useState<string>("");
+  const [isValidPwd, setIsValidPwd] = useState(false);
   const [isPasswordSame, setIsPasswordSame] = useState<boolean>(false);
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [isValidNum, setIsValidNum] = useState(false);
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
 
   const [year, setYear] = useState<string>("");
@@ -79,11 +83,11 @@ function Signup() {
   const checkRequired = () => {
     if (
       isPasswordSame &&
-      name &&
-      email &&
+      isValidName &&
       isValidEmail &&
-      password &&
-      phoneNumber &&
+      isUnExisted &&
+      isValidPwd &&
+      isValidNum &&
       successAuth &&
       gender
     ) {
@@ -162,16 +166,25 @@ function Signup() {
             <legend className="read-only">일반 회원가입</legend>
             <LocalTitle>일반 회원가입</LocalTitle>
             <FormList>
-              <NameForm userInfo={name} setUserInfo={setName} />
+              <NameForm
+                userInfo={name}
+                setUserInfo={setName}
+                isValidName={isValidName}
+                setIsValidName={setIsValidName}
+              />
               <EmailForm
                 userInfo={email}
                 setUserInfo={setEmail}
                 isValidEmail={isValidEmail}
                 setIsValidEmail={setIsValidEmail}
+                isUnExisted={isUnExisted}
+                setIsUnExisted={setIsUnExisted}
               />
               <PasswordForm
                 password={password}
                 setPassword={setPassword}
+                isValidPwd={isValidPwd}
+                setIsValidPwd={setIsValidPwd}
                 isSame={isPasswordSame}
                 setIsSame={setIsPasswordSame}
               />
@@ -180,6 +193,8 @@ function Signup() {
                 setUserInfo={setPhoneNumber}
                 successAuth={successAuth}
                 setSuccessAuth={setSuccessAuth}
+                isValidNum={isValidNum}
+                setIsValidNum={setIsValidNum}
               />
               <BirthDayFormItem>
                 <label htmlFor="birth">생년월일</label>

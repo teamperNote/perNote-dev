@@ -4,7 +4,16 @@ import { sendAuthNum } from "utils/sendAuthNum";
 import { checkAuthNum } from "utils/checkAuthNum";
 import Input from "./Input";
 import ValidationButton from "./ValidationButton";
-function PhoneNumForm({ userInfo, setUserInfo, successAuth, setSuccessAuth }) {
+import { checkValidation } from "utils/checkValidation";
+function PhoneNumForm({
+  userInfo,
+  setUserInfo,
+  isValidNum,
+  setIsValidNum,
+  successAuth,
+  setSuccessAuth,
+}) {
+  const regex = /^\d{11}$/;
   const phoneNumber =
     typeof userInfo === "object" ? userInfo.phoneNumber : userInfo;
   const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
@@ -34,6 +43,10 @@ function PhoneNumForm({ userInfo, setUserInfo, successAuth, setSuccessAuth }) {
   }, [sec]);
 
   const inputPhoneNumber = (e: any) => {
+    const isValid = checkValidation(regex, e.target.value);
+    if (isValid) setIsValidNum(true);
+    else setIsValidNum(false);
+
     if (typeof userInfo === "object") {
       setUserInfo({ ...userInfo, phoneNumber: e.target.value });
     } else {
@@ -86,10 +99,13 @@ function PhoneNumForm({ userInfo, setUserInfo, successAuth, setSuccessAuth }) {
           value={phoneNumber}
           setStateValue={inputPhoneNumber}
         />
-        <ValidationButton click={sendAuthMessage}>
+        <ValidationButton click={sendAuthMessage} isActive={isValidNum}>
           {isSendMessage ? "재발송" : "인증하기"}
         </ValidationButton>
       </FormItem>
+      {!isValidNum && (
+        <Message> {`-를 제외한 숫자 11자리로 입력해 주세요.`}</Message>
+      )}
       {isSendMessage ? (
         <>
           <FormItem>
@@ -100,7 +116,12 @@ function PhoneNumForm({ userInfo, setUserInfo, successAuth, setSuccessAuth }) {
               value={authNum}
               setStateValue={inputAuthNumber}
             />
-            <ValidationButton click={verifyPhoneNum}>확인</ValidationButton>
+            <ValidationButton
+              click={verifyPhoneNum}
+              isActive={authNum.length !== 0}
+            >
+              확인
+            </ValidationButton>
           </FormItem>
           {timerId.current && (
             <Timer>

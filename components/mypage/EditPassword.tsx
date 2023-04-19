@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import PhoneNumForm from "components/form/PhoneNumForm";
 import PasswordForm from "components/form/PasswordForm";
 
 function EditPassword({ userInfo, setUserInfo }) {
+  const [isValidNum, setIsValidNum] = useState<boolean>(true);
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
 
   const [password, setPassword] = useState<string>("");
   const [isPasswordSame, setIsPasswordSame] = useState<boolean>(false);
+  const [isValidPwd, setIsValidPwd] = useState(false);
 
   return (
     <>
@@ -16,11 +17,15 @@ function EditPassword({ userInfo, setUserInfo }) {
         setUserInfo={setUserInfo}
         successAuth={successAuth}
         setSuccessAuth={setSuccessAuth}
+        isValidNum={isValidNum}
+        setIsValidNum={setIsValidNum}
       />
       {successAuth && (
         <PasswordForm
           password={password}
           setPassword={setPassword}
+          isValidPwd={isValidPwd}
+          setIsValidPwd={setIsValidPwd}
           isSame={isPasswordSame}
           setIsSame={setIsPasswordSame}
         />
@@ -30,10 +35,3 @@ function EditPassword({ userInfo, setUserInfo }) {
 }
 
 export default EditPassword;
-
-const FormItem = styled.li`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-top: 35px;
-`;
