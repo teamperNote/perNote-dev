@@ -16,7 +16,10 @@ function EditInfo() {
 
   const [userInfo, setUserInfo] = useState<UserType | null>(null);
 
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
+  const [isValidName, setIsValidName] = useState<boolean>(true);
+
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
+  const [isUnExisted, setIsUnExisted] = useState<boolean>(false);
 
   const [isShowPasswordForm, setIsShowPasswordForm] = useState(false);
 
@@ -86,8 +89,15 @@ function EditInfo() {
               setUserInfo={setUserInfo}
               isValidEmail={isValidEmail}
               setIsValidEmail={setIsValidEmail}
+              isUnExisted={isUnExisted}
+              setIsUnExisted={setIsUnExisted}
             />
-            <NameForm userInfo={userInfo || ""} setUserInfo={setUserInfo} />
+            <NameForm
+              userInfo={userInfo || ""}
+              setUserInfo={setUserInfo}
+              isValidName={isValidName}
+              setIsValidName={setIsValidName}
+            />
             <BirthDayFormItem>
               <label htmlFor="birth">생년월일</label>
               <div>

@@ -1,54 +1,65 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Input from "./Input";
-import ValidationButton from "./ValidationButton";
+import { checkValidation } from "utils/checkValidation";
 
-function PasswordForm({ password, setPassword, isSame, setIsSame }) {
+function PasswordForm({
+  password,
+  setPassword,
+  isValidPwd,
+  setIsValidPwd,
+  isSame,
+  setIsSame,
+}) {
+  const regex =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const [checkPassword, setCheckPassword] = useState<string>("");
   const [isPasswordDiff, setIsPasswordDiff] = useState<boolean>(false);
 
   const inputPassword = (e: any) => {
+    const isValid = checkValidation(regex, e.target.value);
+    if (isValid) setIsValidPwd(true);
+    else setIsValidPwd(false);
+
     setPassword(e.target.value);
   };
 
   const inputCheckPassword = (e: any) => {
     setCheckPassword(e.target.value);
-  };
-
-  const checkSamePassword = async (e: any) => {
-    e.preventDefault();
-    if (password === checkPassword) {
+    if (password === e.target.value) {
       setIsSame(true);
       setIsPasswordDiff(false);
     }
-    if (password !== checkPassword) {
+    if (password !== e.target.value) {
       setIsSame(false);
       setIsPasswordDiff(true);
     }
   };
+
   return (
     <>
       <FormItem>
         <Input
           htmlFor="password"
           labelContent="비밀번호"
-          type="passowrd"
+          type="password"
           value={password}
           setStateValue={inputPassword}
         />
       </FormItem>
+      {!isValidPwd && (
+        <Message>영어, 숫자, 특수문자를 포함한 8자리 이상</Message>
+      )}
       <FormItem>
         <Input
           htmlFor="pwdCheck"
           labelContent="비밀번호 확인"
-          type="passowrd"
+          type="password"
           value={checkPassword}
           setStateValue={inputCheckPassword}
         />
-        <ValidationButton click={checkSamePassword}>확인</ValidationButton>
       </FormItem>
-      <Message>*최소 8자리 이상, 대소문자, 숫자 포함</Message>
-      {password && checkPassword && isSame ? <Message>일치</Message> : <></>}
+      {isValidPwd && checkPassword && isSame ? <Message>일치</Message> : <></>}
       {isPasswordDiff ? <Message>불일치</Message> : <></>}
     </>
   );
