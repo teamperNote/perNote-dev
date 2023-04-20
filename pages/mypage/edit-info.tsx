@@ -6,6 +6,7 @@ import { UserType } from "lib/types";
 import EditPassword from "components/mypage/EditPassword";
 import EmailForm from "components/form/EmailForm";
 import NameForm from "components/form/NameForm";
+import axios from "axios";
 
 interface IData {
   data: UserType;
@@ -16,6 +17,7 @@ function EditInfo() {
 
   const [userInfo, setUserInfo] = useState<UserType | null>(null);
 
+  const [newPassword, setNewPassword] = useState<string>("");
   const [isValidName, setIsValidName] = useState<boolean>(true);
 
   const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
@@ -49,8 +51,26 @@ function EditInfo() {
     e.preventDefault();
     setIsShowPasswordForm(true);
   };
-  const handleStoreEditInfo = (e: any) => {
+  const handleStoreEditInfo = async (e: any) => {
     e.preventDefault();
+    console.log(newPassword);
+    try {
+      // 비밀번호 수정
+      const passwordResponse = await axios.post("/api/users/resetPassword", {
+        email: userInfo.email,
+        newPassword,
+      });
+
+      //다른 정보 수정
+      //추가 예정
+
+      //조건에 다른 정보 수정 요청 성공한 경우 추가
+      if (passwordResponse.status === 200) {
+        console.log("비밀번호 변경 성공");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -171,7 +191,12 @@ function EditInfo() {
               </PasswordEditButton>
             </>
             {isShowPasswordForm && (
-              <EditPassword userInfo={userInfo} setUserInfo={setUserInfo} />
+              <EditPassword
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                password={newPassword}
+                setPassword={setNewPassword}
+              />
             )}
           </FormList>
           <StoreButton onClick={handleStoreEditInfo}>저장하기</StoreButton>
