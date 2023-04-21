@@ -48,7 +48,7 @@ function PasswordForm({
         />
       </FormItem>
       {!isValidPwd && (
-        <Message>영어, 숫자, 특수문자를 포함한 8자리 이상</Message>
+        <ErrorMessage>영어, 숫자, 특수문자를 포함한 8자리 이상</ErrorMessage>
       )}
       <FormItem>
         <Input
@@ -60,7 +60,7 @@ function PasswordForm({
         />
       </FormItem>
       {isValidPwd && checkPassword && isSame ? <Message>일치</Message> : <></>}
-      {isPasswordDiff ? <Message>불일치</Message> : <></>}
+      {isPasswordDiff ? <ErrorMessage>불일치</ErrorMessage> : <></>}
     </>
   );
 }
@@ -80,6 +80,18 @@ const Message = styled.div`
   font-weight: 400;
   font-size: 1rem;
   padding-left: 184px;
+  @media screen and (max-width: 480px) {
+    padding-left: 60px;
+    font-size: 0.8rem;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 1rem;
+  padding-left: 184px;
+  color: red;
   @media screen and (max-width: 480px) {
     padding-left: 60px;
     font-size: 0.8rem;

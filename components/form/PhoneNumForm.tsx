@@ -104,7 +104,7 @@ function PhoneNumForm({
         </ValidationButton>
       </FormItem>
       {!isValidNum && (
-        <Message> {`-를 제외한 숫자 11자리로 입력해 주세요.`}</Message>
+        <ErrorMessage>{`-를 제외한 숫자 11자리로 입력해 주세요.`}</ErrorMessage>
       )}
       {isSendMessage ? (
         <>
@@ -133,7 +133,7 @@ function PhoneNumForm({
         <></>
       )}
       {successAuth ? <Message>전화번호 인증 성공</Message> : <></>}
-      {failAuth ? <Message>전화번호 인증 실패</Message> : <></>}
+      {failAuth ? <ErrorMessage>전화번호 인증 실패</ErrorMessage> : <></>}
     </div>
   );
 }
@@ -152,6 +152,18 @@ const Message = styled.div`
   font-weight: 400;
   font-size: 1rem;
   padding-left: 184px;
+  @media screen and (max-width: 480px) {
+    padding-left: 60px;
+    font-size: 0.8rem;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 1rem;
+  padding-left: 184px;
+  color: red;
   @media screen and (max-width: 480px) {
     padding-left: 60px;
     font-size: 0.8rem;

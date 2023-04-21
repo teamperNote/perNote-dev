@@ -95,7 +95,7 @@ function Signup() {
     }
     return false;
   };
-  const clickLogin = async (e: any) => {
+  const clickSignup = async (e: any) => {
     e.preventDefault();
     const birthday = convertBirth(year, month, day);
     const data = {
@@ -106,7 +106,7 @@ function Signup() {
       birth: birthday,
       gender,
     };
-    // 모든 값 필수 조건 만족시 버튼 활성화
+
     if (checkRequired()) {
       try {
         const response = await axios.post("/api/users/signup", data);
@@ -267,7 +267,7 @@ function Signup() {
           </Field>
           <SignupButton
             isActive={checkRequired() ? "isActive" : ""}
-            onClick={clickLogin}
+            onClick={clickSignup}
           >
             가입하기
           </SignupButton>
