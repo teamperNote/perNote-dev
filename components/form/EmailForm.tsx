@@ -55,12 +55,14 @@ function EmailForm({
           중복확인
         </ValidationButton>
       </FormItem>
-      {!isValidEmail && <Message>이메일 형식에 맞게 입력해 주세요.</Message>}
+      {!isValidEmail && (
+        <ErrorMessage>이메일 형식에 맞게 입력해 주세요.</ErrorMessage>
+      )}
       {isValidEmail && isUnExisted && (
         <Message>사용 가능한 이메일입니다.</Message>
       )}
       {isValidEmail && isExisted && (
-        <Message>이미 사용중인 이메일입니다.</Message>
+        <ErrorMessage>이미 사용중인 이메일입니다.</ErrorMessage>
       )}
     </>
   );
@@ -81,6 +83,18 @@ const Message = styled.div`
   font-weight: 400;
   font-size: 1rem;
   padding-left: 184px;
+  @media screen and (max-width: 480px) {
+    padding-left: 60px;
+    font-size: 0.8rem;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 1rem;
+  padding-left: 184px;
+  color: red;
   @media screen and (max-width: 480px) {
     padding-left: 60px;
     font-size: 0.8rem;

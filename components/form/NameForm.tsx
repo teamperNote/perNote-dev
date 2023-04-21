@@ -29,7 +29,9 @@ function NameForm({ userInfo, setUserInfo, isValidName, setIsValidName }) {
           setStateValue={inputName}
         />
       </FormItem>
-      {!isValidName && <Message>한글 2-10자로 입력해 주세요.</Message>}
+      {!isValidName && (
+        <ErrorMessage>한글 2-10자로 입력해 주세요.</ErrorMessage>
+      )}
     </>
   );
 }
@@ -43,11 +45,12 @@ const FormItem = styled.li`
   margin-top: 20px;
 `;
 
-const Message = styled.div`
+const ErrorMessage = styled.div`
   margin-top: 20px;
   font-weight: 400;
   font-size: 1rem;
   padding-left: 184px;
+  color: red;
   @media screen and (max-width: 480px) {
     padding-left: 60px;
     font-size: 0.8rem;
