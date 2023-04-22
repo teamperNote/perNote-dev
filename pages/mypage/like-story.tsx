@@ -46,18 +46,28 @@ export default function LikedStory() {
 }
 
 const StoryContainer = styled.main`
-  padding-top: 290px;
+  padding-top: 110px;
   width: 1420px;
   margin: 0 auto;
   margin-bottom: 9.375rem;
   @media screen and (max-width: 1440px) {
-    padding-top: 210px;
+    padding-top: 90px;
     width: 80vw;
+  }
+  @media screen and (max-width: 950px) {
+    padding-top: 140px;
   }
 `;
 
 const StoryTitle = styled.h1`
+  margin-top: 11.25rem;
   margin-bottom: 3.1875rem;
+  @media screen and (max-width: 1440px) {
+    margin-top: 6.25rem;
+  }
+  @media screen and (max-width: 480px) {
+    margin-top: 3.125rem;
+  }
 `;
 
 const SortBox = styled.div`

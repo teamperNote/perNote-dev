@@ -34,22 +34,27 @@ export default function TestResult() {
 }
 
 const TestResultContainer = styled.main`
-  padding-top: 290px;
+  padding-top: 110px;
   max-width: 1420px;
   margin: 0 auto;
   @media screen and (max-width: 1440px) {
     padding: 0rem 1.875rem;
-    padding-top: 210px;
+    padding-top: 90px;
     width: 100%;
   }
-  @media screen and (max-width: 480px) {
-    padding-top: 130px;
+  @media screen and (max-width: 950px) {
+    padding-top: 140px;
   }
 `;
 
 const TestResultTitle = styled.h1`
+  margin-top: 11.25rem;
   margin-bottom: 6.875rem;
+  @media screen and (max-width: 1440px) {
+    margin-top: 6.25rem;
+  }
   @media screen and (max-width: 480px) {
+    margin-top: 4.375rem;
     margin-bottom: 50px;
   }
 `;

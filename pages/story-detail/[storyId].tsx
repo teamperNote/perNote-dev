@@ -225,7 +225,10 @@ const StoryDetailContainer = styled.main`
   width: 100%;
   margin: 0 auto;
   @media screen and (max-width: 1440px) {
-    padding-top: 80px;
+    padding-top: 90px;
+  }
+  @media screen and (max-width: 950px) {
+    padding-top: 140px;
   }
 `;
 
@@ -240,12 +243,8 @@ const StoryDetailHeader = styled.div`
   overflow: hidden;
   margin-bottom: 120px;
   @media screen and (max-width: 1440px) {
-    height: 350px;
-    margin-bottom: 100px;
-  }
-  @media screen and (max-width: 1440px) {
     height: 300px;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
   }
 `;
 
