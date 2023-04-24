@@ -17,20 +17,24 @@ export default async function handler(
 
   const userId = payload.iss;
 
-  const allStoriesForUser = [];
-
-  const allStoryLikesForUser = await prisma.storyLike.findMany({
+  const storyLiked = await prisma.storyLike.findMany({
     where: { userId },
-    include: {
-      story: true,
+    select: { storyId: true },
+  });
+
+  const findManyOrCondition = [];
+  storyLiked.forEach((data: any) => {
+    findManyOrCondition.push({ id: data.storyId });
+  });
+
+  const stories = await prisma.story.findMany({
+    where: {
+      OR: findManyOrCondition,
     },
     orderBy: {
-      orderOpt: sortOpt,
+      [orderOpt]: sortOpt,
     },
   });
-  allStoryLikesForUser.forEach((value: any) => {
-    allStoriesForUser.push(Object.assign(value.story, { liked: true }));
-  });
 
-  return res.status(200).json(allStoriesForUser);
+  return res.status(200).json(stories);
 }
