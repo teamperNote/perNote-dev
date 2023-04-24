@@ -9,6 +9,8 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const role = req.headers.authorization;
+  const orderOpt = req.query.orderOpt as string;
+  const sortOpt = orderOpt === "createdAt" ? "asc" : "desc";
 
   const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
@@ -23,7 +25,7 @@ export default async function handler(
       story: true,
     },
     orderBy: {
-      createdAt: "asc",
+      orderOpt: sortOpt,
     },
   });
   allStoryLikesForUser.forEach((value: any) => {
