@@ -9,10 +9,17 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const role = req.headers.authorization;
+  const orderOpt = req.query.orderOpt as string;
+  const sortOpt = orderOpt === "createdAt" ? "asc" : "desc";
 
   const isLiked = [];
-  const allStoryIdForUser = [];
-  const allStories = await prisma.story.findMany();
+  const allStoryIdsForUser = [];
+
+  const allStories = await prisma.story.findMany({
+    orderBy: {
+      [orderOpt]: sortOpt,
+    },
+  });
 
   // 1. 비로그인 시 바로 전체 perfumeStory 반환
   if (!role) {
@@ -35,11 +42,11 @@ export default async function handler(
       },
     });
     allStroyLikeForUser.forEach((data) => {
-      allStoryIdForUser.push(data.story.id);
+      allStoryIdsForUser.push(data.story.id);
     });
 
     allStories.forEach((data) => {
-      if (allStoryIdForUser.includes(data.id)) {
+      if (allStoryIdsForUser.includes(data.id)) {
         isLiked.push(Object.assign(data, { liked: true }));
       } else {
         isLiked.push(Object.assign(data, { liked: false }));
