@@ -2,8 +2,8 @@ import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
 
-const client_id = process.env.NAVER_CLIENT_ID || "";
-const redirect_uri = process.env.NAVER_CALLBACK_URI || "";
+const client_id = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID || "";
+const redirect_uri = process.env.NEXT_PUBLIC_NAVER_CALLBACK_URI || "";
 function NaverLogin() {
   const api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=STATE_STRING&redirect_uri=${redirect_uri}`;
   return (
@@ -32,7 +32,7 @@ const NaverIcon = styled.img`
     height: 70px;
   }
   @media screen and (max-width: 480px) {
-      width: 50px;
-      height: 50px;
+    width: 50px;
+    height: 50px;
   }
 `;
