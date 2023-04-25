@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Input from "./Input";
 import ValidationButton from "./ValidationButton";
@@ -12,12 +12,15 @@ function EmailForm({
   setIsValidEmail,
   isUnExisted,
   setIsUnExisted,
+  isChecked,
+  setIsChecked,
 }) {
   const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}$/;
   const email = typeof userInfo === "object" ? userInfo.email : userInfo;
   const [isExisted, setIsExited] = useState<boolean>(false);
 
   const inputEmail = (e: any) => {
+    setIsChecked(false);
     const isValid = checkValidation(regex, e.target.value);
     if (isValid) setIsValidEmail(true);
     else {
@@ -37,10 +40,23 @@ function EmailForm({
     setIsUnExisted(false);
     setIsExited(false);
 
+    try {
+      const before = JSON.parse(localStorage.getItem("recoil-persist"));
+      if (before.loginState === email) {
+        setIsUnExisted(true);
+        setIsChecked(true);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
     const isExistedEmail = await checkEmail(email);
-    if (isExistedEmail) setIsUnExisted(true);
-    else setIsExited(true);
+    if (isExistedEmail) {
+      setIsUnExisted(true);
+      setIsChecked(true);
+    } else setIsExited(true);
   };
+
   return (
     <>
       <FormItem>
@@ -58,7 +74,10 @@ function EmailForm({
       {!isValidEmail && (
         <ErrorMessage>이메일 형식에 맞게 입력해 주세요.</ErrorMessage>
       )}
-      {isValidEmail && isUnExisted && (
+      {isValidEmail && !isChecked && !isUnExisted && !isExisted && (
+        <ErrorMessage>중복 확인을 해주세요.</ErrorMessage>
+      )}
+      {isValidEmail && isChecked && isUnExisted && (
         <Message>사용 가능한 이메일입니다.</Message>
       )}
       {isValidEmail && isExisted && (

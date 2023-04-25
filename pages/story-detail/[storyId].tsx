@@ -11,6 +11,7 @@ import { IStory } from "lib/types";
 import LikeButton from "components/LikeButton";
 import { useRecoilValue } from "recoil";
 import { loginState } from "@store/loginState";
+import ReactMarkdown from "react-markdown";
 
 interface IStoryList {
   isLoading: boolean;
@@ -122,7 +123,7 @@ export default function StoryDetail() {
             <ContentContainer>
               <ContentBox>
                 <ContentText className="regular f35">
-                  {story.data.targetStory.body}
+                  <ReactMarkdown>{story.data.targetStory.body}</ReactMarkdown>
                 </ContentText>
                 <TagBox className={"regular f30"}>
                   {story.data.targetStory.tags.map((tag, idx) => (

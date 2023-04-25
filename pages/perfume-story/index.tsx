@@ -43,7 +43,7 @@ export default function PerfumeStory() {
     getStoryList();
     getBestStoryList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [sort]);
 
   return (
     <PerfumeStoryContainer>
