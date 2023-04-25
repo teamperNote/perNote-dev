@@ -33,7 +33,7 @@ const KakaoIcon = styled.img`
     height: 70px;
   }
   @media screen and (max-width: 480px) {
-      width: 50px;
-      height: 50px;
+    width: 50px;
+    height: 50px;
   }
 `;
