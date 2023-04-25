@@ -29,6 +29,7 @@ function Signup() {
   const [isValidName, setIsValidName] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
+  const [isCheckedEmail, setIsCheckedEmail] = useState<boolean>(false);
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
   const [isUnExisted, setIsUnExisted] = useState(false);
 
@@ -84,6 +85,7 @@ function Signup() {
     if (
       isPasswordSame &&
       isValidName &&
+      isCheckedEmail &&
       isValidEmail &&
       isUnExisted &&
       isValidPwd &&
@@ -179,6 +181,8 @@ function Signup() {
                 setIsValidEmail={setIsValidEmail}
                 isUnExisted={isUnExisted}
                 setIsUnExisted={setIsUnExisted}
+                isChecked={isCheckedEmail}
+                setIsChecked={setIsCheckedEmail}
               />
               <PasswordForm
                 password={password}

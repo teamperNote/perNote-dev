@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import PhoneNumForm from "components/form/PhoneNumForm";
 import PasswordForm from "components/form/PasswordForm";
 
-function EditPassword({ userInfo, setUserInfo, password, setPassword }) {
+function EditPassword({
+  userInfo,
+  setUserInfo,
+  password,
+  setPassword,
+  isPasswordSame,
+  setIsPasswordSame,
+}) {
   const [isValidNum, setIsValidNum] = useState<boolean>(true);
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
 
-  const [isPasswordSame, setIsPasswordSame] = useState<boolean>(false);
   const [isValidPwd, setIsValidPwd] = useState(false);
 
   return (
