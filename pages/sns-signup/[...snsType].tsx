@@ -83,17 +83,7 @@ function SnsSignUp() {
           console.log(e);
         }
       }
-      if (snsName === "naver") {
-        try {
-          const response = await axios.post("/api/auth/naver/signup", data);
-          console.log(response);
-          if (response.status === 200) {
-            router.push("/signin");
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      }
+
       if (snsName === "google") {
         try {
           const response = await axios.post("/api/auth/google/signup", data);
