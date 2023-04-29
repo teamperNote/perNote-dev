@@ -8,13 +8,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
   const orderOpt = req.query.orderOpt as string;
   const sortOpt = orderOpt === "createdAt" ? "asc" : "desc";
 
-  const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
-
   const userId = payload.iss;
 
   const perfumeLiked = await prisma.perfumeLike.findMany({

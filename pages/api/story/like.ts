@@ -11,9 +11,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    const role = req.headers.authorization;
-
-    const accessToken = role.split("Bearer ")[1];
+    const accessToken = req.headers.authorization.split("Bearer ")[1];
     const { payload } = await jwtVerify(accessToken, secretKey);
 
     const userId = payload.iss;

@@ -16,12 +16,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
 
-  const accessToken = role.split("Bearer ")[1];
-  const { payload } = await jwtVerify(accessToken, secretKey);
+  let userId: string;
+  if (accessToken === "null") {
+    userId = null;
+  } else {
+    const { payload } = await jwtVerify(accessToken, secretKey);
+    userId = payload.iss;
+  }
 
-  const userId = payload.iss;
   const perfumeId = req.query.perfumeId as string;
   if (!perfumeId) {
     return res.status(400).json({
