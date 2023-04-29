@@ -114,9 +114,6 @@ function Login() {
               <KaKaoLogin />
             </SocialLoginItemContainer>
             <SocialLoginItemContainer>
-              <NaverLogin />
-            </SocialLoginItemContainer>
-            <SocialLoginItemContainer>
               <GoogleLogin />
             </SocialLoginItemContainer>
           </SocialLoginList>
@@ -155,7 +152,7 @@ const LoginBox = styled.div`
   @media screen and (max-width: 1440px) {
     width: 500px;
   }
-    @media screen and (max-width: 480px) {
+  @media screen and (max-width: 480px) {
     width: 320px;
   }
 `;
@@ -166,7 +163,7 @@ const LoginForm = styled.form`
   @media screen and (max-width: 1440px) {
     width: 456px;
   }
-    @media screen and (max-width: 480px) {
+  @media screen and (max-width: 480px) {
     width: 300px;
   }
 `;
@@ -177,7 +174,7 @@ const InputList = styled.ul`
   @media screen and (max-width: 1440px) {
     width: 456px;
   }
-      @media screen and (max-width: 480px) {
+  @media screen and (max-width: 480px) {
     width: 300px;
   }
 `;
@@ -282,13 +279,13 @@ const SocialLoginItemContainer = styled.li`
     margin-right: 27px;
   }
   @media screen and (max-width: 1440px) {
-      width: 70px;
-      height: 70px;
-    }
-    @media screen and (max-width: 480px) {
-      width: 50px;
-      height: 50px;
-    }
+    width: 70px;
+    height: 70px;
+  }
+  @media screen and (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 const ModalSection = styled.section`
