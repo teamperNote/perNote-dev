@@ -10,11 +10,9 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const { email, name, newPassword, birth } = req.body;
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
 
-  const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
-
   const userId = payload.iss;
 
   let updateUser: any;

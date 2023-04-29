@@ -8,7 +8,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
   const orderOpt = req.query.orderOpt as string;
   const sortOpt = orderOpt === "createdAt" ? "asc" : "desc";
 
@@ -22,15 +22,14 @@ export default async function handler(
   });
 
   // 1. 비로그인 시 바로 전체 perfumeStory 반환
-  if (!role) {
-    allStories.forEach((data) => {
+  if (accessToken === "null") {
+    allStories.forEach((data: any) => {
       isLiked.push(Object.assign(data, { liked: false }));
     });
   }
 
   // 2. 로그인 시 해당 유저의 좋아여 여부를 포함한 전체 perfumeStory 반환
   else {
-    const accessToken = role.split("Bearer ")[1];
     const { payload } = await jwtVerify(accessToken, secretKey);
 
     const userId = payload.iss;

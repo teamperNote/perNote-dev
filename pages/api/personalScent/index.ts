@@ -17,11 +17,9 @@ export default async function handler(
     4. algoIndex, concenIndex를 참조하여 scoring.
     5. 내림차순으로 정렬한 후 top 5 추출. 
   */
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
 
-  const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
-
   const userId = payload.iss;
 
   const query = req.query; // 유저가 선택한 쿼리들. ex) 봄, 깊은 등
