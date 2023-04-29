@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 import KaKaoLogin from "./kakao-login";
 import GoogleLogin from "./google-login";
-import NaverLogin from "./naver-login";
 import { useState } from "react";
 import axios from "axios";
 import { Cookies } from "react-cookie";
