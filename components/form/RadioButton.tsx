@@ -1,14 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { RadioType } from "lib/types";
 
-interface RadioDataProps {
-  label: string;
-  id: object;
-  name: string;
-  text: object;
-}
 interface RadioProps {
-  radioData: RadioDataProps;
+  radioData: RadioType;
   setStateValue: (e: any) => void;
 }
 
@@ -79,8 +74,8 @@ const RadioButton = styled.div`
     margin-right: 10px;
     accent-color: #525d4d;
     @media screen and (max-width: 480px) {
-    width: 20px;
-  }
+      width: 20px;
+    }
   }
 
   label {

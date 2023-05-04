@@ -213,10 +213,13 @@ export const CategoryContainer = styled.main`
   padding-top: 110px;
   padding-bottom: 12.5rem;
   @media screen and (max-width: 1440px) {
+    padding-top: 90px;
     width: 80vw;
   }
+  @media screen and (max-width: 950px) {
+    padding-top: 140px;
+  }
   @media screen and (max-width: 480px) {
-    padding-top: 80px;
     padding-bottom: 4.375rem;
   }
 `;

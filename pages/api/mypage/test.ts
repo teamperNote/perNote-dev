@@ -8,11 +8,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
 
-  const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
-
   const userId = payload.iss;
 
   const test = await prisma.test.findMany({

@@ -1,57 +1,106 @@
-import Input from "components/form/Input";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ValidationButton from "components/form/ValidationButton";
+import { useRouter } from "next/router";
 import { IoToggle } from "react-icons/io5";
-import { withRouter } from "next/router";
+import axiosInstance from "../../lib/api/config";
+import { UserType } from "lib/types";
+import EditPassword from "components/mypage/EditPassword";
+import EmailForm from "components/form/EmailForm";
+import NameForm from "components/form/NameForm";
 
-function EditInfo({ router: { query } }) {
-  const userData = query.userData ? JSON.parse(query.userData) : null;
-  const [email, setEmail] = useState(userData?.email);
-  // const [password, setPassword] = useState("");
-  // const [passwordCheck, setPasswordCheck] = useState("");
-  const [name, setName] = useState(userData?.name);
-  const [phoneNumber, setPhoneNumber] = useState(userData?.phoneNumber);
-  const [birthday, setBirthday] = useState({
-    year: userData?.birth.slice(0, 4),
-    month: userData?.birth.slice(5, 7),
-    day: userData?.birth.slice(8, 10),
-  });
-  const inputName = (e: any) => {
-    setName(e.target.value);
-  };
-  const inputEmail = (e: any) => {
-    setEmail(e.target.value);
-  };
+interface IData {
+  data: UserType;
+}
 
-  // const inputPassword = (e: any) => {
-  //   setPassword(e.target.value);
-  // };
+function EditInfo() {
+  const router = useRouter();
+  const regex = /([0-9])+/g;
 
-  // const inputPasswordCheck = (e: any) => {
-  //   setPasswordCheck(e.target.value);
-  // };
+  const [userInfo, setUserInfo] = useState<UserType | null>(null);
 
-  const inputPhoneNumber = (e: any) => {
-    setPhoneNumber(e.target.value);
-  };
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [isPasswordSame, setIsPasswordSame] = useState<boolean>(false);
+
+  const [isValidName, setIsValidName] = useState<boolean>(true);
+
+  const [isCheckedEmail, setIsCheckedEmail] = useState<boolean>(true);
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(true);
+  const [isUnExisted, setIsUnExisted] = useState<boolean>(false);
+
+  const [isShowPasswordForm, setIsShowPasswordForm] = useState(false);
 
   const inputYear = (e: any) => {
-    setBirthday({ ...birthday, year: e.target.value });
+    const year = userInfo.birth.match(regex)[0];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(year, e.target.value),
+    });
   };
   const inputMonth = (e: any) => {
-    setBirthday({ ...birthday, month: e.target.value });
+    const month = userInfo.birth.match(regex)[1];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(month, e.target.value.padStart(2, "0")),
+    });
   };
   const inputDay = (e: any) => {
-    setBirthday({ ...birthday, day: e.target.value });
+    const day = userInfo.birth.match(regex)[2];
+    setUserInfo({
+      ...userInfo,
+      birth: userInfo.birth.replace(day, e.target.value.padStart(2, "0")),
+    });
   };
 
-  const handleStoreEditInfo = () => {
-    console.log("수정 정보 저장");
+  const showEditPasswordForm = (e: any) => {
+    e.preventDefault();
+    setIsShowPasswordForm(true);
   };
+
+  const checkRequired = () => {
+    if (isShowPasswordForm) {
+      if (isValidName && isValidEmail && isCheckedEmail && isPasswordSame) {
+        return true;
+      }
+      return false;
+    } else {
+      if (isValidName && isValidEmail && isCheckedEmail) {
+        return true;
+      }
+      return false;
+    }
+  };
+  const handleStoreEditInfo = async (e: any) => {
+    e.preventDefault();
+    try {
+      await axiosInstance.post("/api/mypage/edit", {
+        email: userInfo.email,
+        name: userInfo.name,
+        newPassword,
+        birth: userInfo.birth,
+      });
+      router.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    async function getUserInfo() {
+      try {
+        const { data: user }: IData = await axiosInstance.get(
+          "/api/users/getInfo",
+        );
+        setUserInfo(user);
+      } catch (error) {
+        console.log("액세스 재발급 전 edit-info axios error");
+      }
+    }
+    getUserInfo();
+  }, []);
+
   return (
     <MyPageContainer>
-      <NotificationSection>
+      {/* <NotificationSection>
         <NotificationTitle>스토리 알림 설정</NotificationTitle>
         <SettingNoti>
           <NotiTitle>카톡 알림 설정</NotiTitle>
@@ -61,91 +110,38 @@ function EditInfo({ router: { query } }) {
           <NotiTitle>이메일 알림 설정</NotiTitle>
           <IoToggle className="reverse-icon" />
         </SettingNoti>
-      </NotificationSection>
+      </NotificationSection> */}
       <PersonalInfo>
         <NotificationTitle>개인 정보 수정</NotificationTitle>
         <PersonalInfoForm>
           <FormList>
-            <FormItem>
-              <Input
-                htmlFor="email"
-                labelContent="이메일"
-                type="email"
-                value={email}
-                setStateValue={inputEmail}
-              />
-              <ValidationButton
-                click={() => {
-                  console.log("이메일 중복확인");
-                }}
-              >
-                중복확인
-              </ValidationButton>
-            </FormItem>
-            {/* <FormItem>
-              <Input
-                htmlFor="password"
-                labelContent="비밀번호"
-                type="text"
-                value={password}
-                setStateValue={inputPassword}
-              />
-            </FormItem>
-
-            <FormItem>
-              <Input
-                htmlFor="passwordCheck"
-                labelContent="비밀번호 확인"
-                type="text"
-                value={passwordCheck}
-                setStateValue={inputPasswordCheck}
-              />
-              <ValidationButton
-                click={() => {
-                  console.log("비밀번호 일치 확인");
-                }}
-              >
-                확인
-              </ValidationButton>
-            </FormItem> */}
-            <FormItem>
-              <Input
-                htmlFor="name"
-                labelContent="이름"
-                type="text"
-                value={name}
-                setStateValue={inputName}
-              />
-            </FormItem>
-
-            <FormItem>
-              <Input
-                htmlFor="phone"
-                labelContent="전화번호"
-                type="tel"
-                value={phoneNumber}
-                setStateValue={inputPhoneNumber}
-              />
-              <ValidationButton
-                click={() => {
-                  console.log("전화번호 인증");
-                }}
-              >
-                인증하기
-              </ValidationButton>
-            </FormItem>
-
+            <EmailForm
+              userInfo={userInfo || ""}
+              setUserInfo={setUserInfo}
+              isValidEmail={isValidEmail}
+              setIsValidEmail={setIsValidEmail}
+              isUnExisted={isUnExisted}
+              setIsUnExisted={setIsUnExisted}
+              isChecked={isCheckedEmail}
+              setIsChecked={setIsCheckedEmail}
+            />
+            <NameForm
+              userInfo={userInfo || ""}
+              setUserInfo={setUserInfo}
+              isValidName={isValidName}
+              setIsValidName={setIsValidName}
+            />
             <BirthDayFormItem>
               <label htmlFor="birth">생년월일</label>
               <div>
                 <select
                   name="year"
                   id="year"
-                  value={birthday.year}
+                  value={userInfo?.birth.slice(0, 4) || ""}
                   onChange={inputYear}
                 >
-                  <option value={birthday.year} selected>
-                    {birthday.year}
+                  <option value={userInfo?.birth.slice(0, 4)}>
+                    {userInfo?.birth.slice(0, 4)}
                   </option>
                   {Array(84)
                     .fill(null)
@@ -160,11 +156,11 @@ function EditInfo({ router: { query } }) {
                 <select
                   name="month"
                   id="month"
-                  value={birthday.month}
+                  value={userInfo?.birth.slice(5, 7) || ""}
                   onChange={inputMonth}
                 >
-                  <option value={birthday.month} selected>
-                    {birthday.month}
+                  <option value={userInfo?.birth.slice(5, 7)}>
+                    {userInfo?.birth.slice(5, 7)}
                   </option>
                   {Array(12)
                     .fill(null)
@@ -179,11 +175,11 @@ function EditInfo({ router: { query } }) {
                 <select
                   name="day"
                   id="day"
-                  value={birthday.day}
+                  value={userInfo?.birth.slice(8, 10) || ""}
                   onChange={inputDay}
                 >
-                  <option value={birthday.day} selected>
-                    {birthday.day}
+                  <option value={userInfo?.birth.slice(8, 10)}>
+                    {userInfo?.birth.slice(8, 10)}
                   </option>
                   {Array(31)
                     .fill(null)
@@ -197,14 +193,36 @@ function EditInfo({ router: { query } }) {
                 </select>
               </div>
             </BirthDayFormItem>
+            <>
+              <PasswordEditButton
+                isClicked={isShowPasswordForm}
+                onClick={showEditPasswordForm}
+              >
+                {isShowPasswordForm
+                  ? "전화번호 인증을 진행해주세요."
+                  : "전화번호 인증 후 비밀번호 변경하기"}
+              </PasswordEditButton>
+            </>
+            {isShowPasswordForm && (
+              <EditPassword
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                password={newPassword}
+                setPassword={setNewPassword}
+                isPasswordSame={isPasswordSame}
+                setIsPasswordSame={setIsPasswordSame}
+              />
+            )}
           </FormList>
-          <StoreButton onClick={handleStoreEditInfo}>저장하기</StoreButton>
+          <StoreButton onClick={handleStoreEditInfo} isActive={checkRequired()}>
+            저장하기
+          </StoreButton>
         </PersonalInfoForm>
       </PersonalInfo>
     </MyPageContainer>
   );
 }
-export default withRouter(EditInfo);
+export default EditInfo;
 
 const MyPageContainer = styled.div`
   font-family: "Noto Sans KR";
@@ -264,7 +282,6 @@ const PersonalInfoForm = styled.form`
   flex-flow: column nowrap;
   align-items: center;
   position: relative;
-  width: 1008px;
 `;
 const FormList = styled.ul`
   display: flex;
@@ -278,7 +295,7 @@ const FormItem = styled.li`
   margin-top: 35px;
 `;
 
-const StoreButton = styled.button`
+const StoreButton = styled.button<{ isActive: boolean }>`
   width: 333px;
   height: 60px;
   border: none;
@@ -286,25 +303,32 @@ const StoreButton = styled.button`
   font-weight: 400;
   font-size: 1.5rem;
   margin-top: 90px;
-  /* 버튼 활성화 비활성화 구분하기 */
-  background: #525d4d;
-  color: white;
+  background: ${(props) => (props.isActive ? "#525d4d" : "#d9d9d9")};
+  color: ${(props) => (props.isActive ? "white" : "#616161")};
+  cursor: ${(props) => (props.isActive ? "pointer" : "not-allowed")};
 `;
 
 const BirthDayFormItem = styled.li`
   display: flex;
   align-items: center;
   width: 100%;
-  margin-top: 35px;
+  margin: 35px 0;
 
   label {
     display: inline-block;
-    /* 248px 이상이면 레이아웃 깨짐  */
-    width: 120px;
+    width: 130px;
     text-align: left;
     font-weight: 400;
     font-size: 1.25rem;
     margin-right: 63px;
+    @media screen and (max-width: 1440px) {
+      width: 120px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 50px;
+      margin-right: 13px;
+      font-size: 1rem;
+    }
   }
 
   div {
@@ -312,6 +336,9 @@ const BirthDayFormItem = styled.li`
     justify-content: space-between;
     align-items: center;
     width: 330px;
+    @media screen and (max-width: 480px) {
+      width: 220px;
+    }
   }
   input {
     width: 90px;
@@ -336,5 +363,26 @@ const BirthDayFormItem = styled.li`
     background: url("/down_arrow.svg") no-repeat;
     background-position: 60px 16px;
     background-size: 14px 10px;
+    @media screen and (max-width: 480px) {
+      background-position: 48px 16px;
+    }
+  }
+`;
+
+const PasswordEditButton = styled.button<{ isClicked: any }>`
+  margin: 0 auto;
+  transform: translateX(6px);
+  border: none;
+  border-radius: 10px;
+  background-color: ${({ isClicked }) => (isClicked ? "gray" : "#6e7c65")};
+  width: 333px;
+  height: 46px;
+  padding: 8px 0 8px 4px;
+  font-size: 1.25rem;
+  color: white;
+  cursor: ${({ isClicked }) => (isClicked ? "not-allowed" : "pointer")};
+
+  @media screen and (max-width: 480px) {
+    width: 100%;
   }
 `;

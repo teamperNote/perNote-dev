@@ -8,22 +8,28 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
+  const orderOpt = req.query.orderOpt as string;
+  const sortOpt = orderOpt === "createdAt" ? "asc" : "desc";
 
   const isLiked = [];
-  const allStoryIdForUser = [];
-  const allStories = await prisma.story.findMany();
+  const allStoryIdsForUser = [];
+
+  const allStories = await prisma.story.findMany({
+    orderBy: {
+      [orderOpt]: sortOpt,
+    },
+  });
 
   // 1. 비로그인 시 바로 전체 perfumeStory 반환
-  if (!role) {
-    allStories.forEach((data) => {
+  if (accessToken === "null") {
+    allStories.forEach((data: any) => {
       isLiked.push(Object.assign(data, { liked: false }));
     });
   }
 
   // 2. 로그인 시 해당 유저의 좋아여 여부를 포함한 전체 perfumeStory 반환
   else {
-    const accessToken = role.split("Bearer ")[1];
     const { payload } = await jwtVerify(accessToken, secretKey);
 
     const userId = payload.iss;
@@ -35,11 +41,11 @@ export default async function handler(
       },
     });
     allStroyLikeForUser.forEach((data) => {
-      allStoryIdForUser.push(data.story.id);
+      allStoryIdsForUser.push(data.story.id);
     });
 
     allStories.forEach((data) => {
-      if (allStoryIdForUser.includes(data.id)) {
+      if (allStoryIdsForUser.includes(data.id)) {
         isLiked.push(Object.assign(data, { liked: true }));
       } else {
         isLiked.push(Object.assign(data, { liked: false }));

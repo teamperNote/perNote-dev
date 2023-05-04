@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 import prisma from "../../../../prisma/client";
 
-const rest_api_key = process.env.KAKAO_REST_API_KEY || "";
-const redirect_uri = process.env.KAKAO_REDIRECT_URI || "";
+const rest_api_key = process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY || "";
+const redirect_uri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI || "";
 
 const secretKey = process.env.JWT_SECRET_KEY || "";
 
@@ -23,7 +23,6 @@ export default async function handler(
       },
     });
     const { access_token } = result.data;
-    console.log(access_token);
     result = await axios.get("https://kapi.kakao.com/v2/user/me", {
       headers: {
         Authorization: `Bearer ${access_token}`,

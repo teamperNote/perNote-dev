@@ -8,11 +8,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
+  const orderOpt = req.query.orderOpt as string;
+  const sortOpt = orderOpt === "createdAt" ? "asc" : "desc";
 
-  const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
-
   const userId = payload.iss;
 
   const perfumeLiked = await prisma.perfumeLike.findMany({
@@ -39,7 +39,7 @@ export default async function handler(
       imgUrl: true,
     },
     orderBy: {
-      viewCount: "desc",
+      [orderOpt]: sortOpt,
     },
   });
 
@@ -56,5 +56,5 @@ export default async function handler(
     perfumes[i]["note"] = perfumeNote[0].note;
   }
 
-  return res.status(200).send(perfumes);
+  return res.status(200).json(perfumes);
 }

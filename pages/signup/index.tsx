@@ -4,10 +4,14 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import AgreeItem from "components/form/AgreeItem";
 import RadioItem from "components/form/RadioButton";
-import Input from "../../components/form/Input";
-import ValidationButton from "components/form/ValidationButton";
 import ModalWrapper from "components/WarningModal/Portal";
 import WarningModal from "components/WarningModal/WarningModal";
+import { SignupType } from "lib/types";
+import { agreeList, radioButtonArray } from "lib/arrays";
+import PhoneNumForm from "components/form/PhoneNumForm";
+import PasswordForm from "components/form/PasswordForm";
+import EmailForm from "components/form/EmailForm";
+import NameForm from "components/form/NameForm";
 
 const REST_API_KEY = process.env.KAKAO_REST_API_KEY || "";
 const KAKAO_REDIRECT_URI = process.env.KAKAO_REDIRECT_URI || "";
@@ -16,65 +20,26 @@ const redirect_uri = process.env.NAVER_CALLBACK_URI || "";
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || "";
 
-interface SignupProps {
-  isActive: string;
-}
-
-const agreeList = [
-  { isCheckAll: true, text: "약관 전체 동의" },
-  {
-    isCheckAll: false,
-    text: "[필수] 이용약관 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[필수] 개인정보 수집 및 이용 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[선택] 광고성 메세지 수신 동의",
-  },
-  {
-    isCheckAll: false,
-    text: "[선택] 마케팅 정보 수집 동의",
-  },
-];
-const radioList = [
-  {
-    label: "성별",
-    id: ["m", "f"],
-    name: "gender",
-    text: ["남성", "여성"],
-  },
-  {
-    label: "스토리 수신 여부",
-    id: ["agree", "disagee"],
-    name: "story",
-    text: ["동의", "비동의"],
-  },
-];
 const kakao_api_url = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code&scope=talk_message`;
 const naver_api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=STATE_STRING&redirect_uri=${redirect_uri}`;
 const google_request_url = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`;
 function Signup() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
+  const [isValidName, setIsValidName] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
+  const [isCheckedEmail, setIsCheckedEmail] = useState<boolean>(false);
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
-  const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
+  const [isUnExisted, setIsUnExisted] = useState(false);
 
   const [password, setPassword] = useState<string>("");
-  const [checkPassword, setCheckPassword] = useState<string>("");
+  const [isValidPwd, setIsValidPwd] = useState(false);
   const [isPasswordSame, setIsPasswordSame] = useState<boolean>(false);
-  const [isPasswordDiff, setIsPasswordDiff] = useState<boolean>(false);
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
-  const [receivedAuthNum, setReceivedAuthNum] = useState<string>("");
-  const [authNum, setInputAuthNumber] = useState<string>("");
+  const [isValidNum, setIsValidNum] = useState(false);
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
-  const [failAuth, setFailAuth] = useState<boolean>(false);
 
   const [year, setYear] = useState<string>("");
   const [month, setMonth] = useState<string>("");
@@ -91,24 +56,6 @@ function Signup() {
   ]);
 
   const [isExistUser, setIsExistUser] = useState("");
-  const inputName = (e: any) => {
-    setName(e.target.value);
-  };
-  const inputEmail = (e: any) => {
-    setEmail(e.target.value);
-  };
-
-  const inputPassword = (e: any) => {
-    setPassword(e.target.value);
-  };
-
-  const inputCheckPassword = (e: any) => {
-    setCheckPassword(e.target.value);
-  };
-
-  const inputPhoneNumber = (e: any) => {
-    setPhoneNumber(e.target.value);
-  };
 
   const inputYear = (e: any) => {
     setYear(e.target.value);
@@ -126,49 +73,6 @@ function Signup() {
     }
   };
 
-  //이메일 중복 확인
-  const checkEmailDuplication = async (e: any) => {
-    e.preventDefault();
-    setIsValidEmail(false);
-    setIsInValidEmail(false);
-
-    try {
-      const response = await axios.get(`/api/users/checkEmail?email=${email}`);
-
-      if (response.status === 200) {
-        setIsValidEmail(true);
-      }
-    } catch (error) {
-      setIsInValidEmail(true);
-    }
-  };
-
-  const checkSamePassword = async (e: any) => {
-    e.preventDefault();
-    if (password === checkPassword) {
-      setIsPasswordSame(true);
-      setIsPasswordDiff(false);
-    }
-    if (password !== checkPassword) {
-      setIsPasswordSame(false);
-      setIsPasswordDiff(true);
-    }
-  };
-
-  const sendAuthMessage = async (e: any) => {
-    e.preventDefault();
-    setIsSendMessage(true);
-    const data = {
-      phoneNumber,
-    };
-    const response = await axios.post("/api/auth/sendSMS", data);
-    const authNumber = response.data.인증번호;
-    setReceivedAuthNum(authNumber);
-  };
-
-  const inputAuthNumber = (e: any) => {
-    setInputAuthNumber(e.target.value);
-  };
   const convertBirth = (year: string, month: string, day: string) => {
     const convertYear = Number(year);
     const convertMonth = Number(month);
@@ -177,24 +81,15 @@ function Signup() {
     return birthday;
   };
 
-  const verifyPhoneNum = (e: any) => {
-    e.preventDefault();
-    if (receivedAuthNum.toString() === authNum) {
-      setFailAuth(false);
-      setSuccessAuth(true);
-    } else {
-      setSuccessAuth(false);
-      setFailAuth(true);
-    }
-  };
   const checkRequired = () => {
     if (
       isPasswordSame &&
-      name &&
-      email &&
+      isValidName &&
+      isCheckedEmail &&
       isValidEmail &&
-      password &&
-      phoneNumber &&
+      isUnExisted &&
+      isValidPwd &&
+      isValidNum &&
       successAuth &&
       gender
     ) {
@@ -202,7 +97,7 @@ function Signup() {
     }
     return false;
   };
-  const clickLogin = async (e: any) => {
+  const clickSignup = async (e: any) => {
     e.preventDefault();
     const birthday = convertBirth(year, month, day);
     const data = {
@@ -213,7 +108,7 @@ function Signup() {
       birth: birthday,
       gender,
     };
-    // 모든 값 필수 조건 만족시 버튼 활성화
+
     if (checkRequired()) {
       try {
         const response = await axios.post("/api/users/signup", data);
@@ -273,87 +168,38 @@ function Signup() {
             <legend className="read-only">일반 회원가입</legend>
             <LocalTitle>일반 회원가입</LocalTitle>
             <FormList>
-              <FormItem>
-                <Input
-                  htmlFor="name"
-                  labelContent="이름"
-                  type="text"
-                  value={name}
-                  setStateValue={inputName}
-                />
-              </FormItem>
-              <FormItem>
-                <Input
-                  htmlFor="email"
-                  labelContent="이메일"
-                  type="email"
-                  value={email}
-                  setStateValue={inputEmail}
-                />
-                <ValidationButton click={checkEmailDuplication}>
-                  중복확인
-                </ValidationButton>
-              </FormItem>
-              {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
-              {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
-              <FormItem>
-                <Input
-                  htmlFor="password"
-                  labelContent="비밀번호"
-                  type="passowrd"
-                  value={password}
-                  setStateValue={inputPassword}
-                />
-              </FormItem>
-              <FormItem>
-                <Input
-                  htmlFor="pwdCheck"
-                  labelContent="비밀번호 확인"
-                  type="passowrd"
-                  value={checkPassword}
-                  setStateValue={inputCheckPassword}
-                />
-                <ValidationButton click={checkSamePassword}>
-                  확인
-                </ValidationButton>
-              </FormItem>
-              <Message>*최소 8자리 이상, 대소문자, 숫자 포함</Message>
-              {password && checkPassword && isPasswordSame ? (
-                <Message>일치</Message>
-              ) : (
-                <></>
-              )}
-              {isPasswordDiff ? <Message>불일치</Message> : <></>}
-              <FormItem>
-                <Input
-                  htmlFor="phone"
-                  labelContent="전화번호"
-                  type="tel"
-                  value={phoneNumber}
-                  setStateValue={inputPhoneNumber}
-                />
-                <ValidationButton click={sendAuthMessage}>
-                  {isSendMessage ? "재발송" : "인증하기"}
-                </ValidationButton>
-              </FormItem>
-              {isSendMessage ? (
-                <FormItem>
-                  <Input
-                    htmlFor="checkPhone"
-                    labelContent="인증번호"
-                    type="text"
-                    value={authNum}
-                    setStateValue={inputAuthNumber}
-                  />
-                  <ValidationButton click={verifyPhoneNum}>
-                    확인
-                  </ValidationButton>
-                </FormItem>
-              ) : (
-                <></>
-              )}
-              {successAuth ? <Message>전화번호 인증 성공</Message> : <></>}
-              {failAuth ? <Message>전화번호 인증 실패</Message> : <></>}
+              <NameForm
+                userInfo={name}
+                setUserInfo={setName}
+                isValidName={isValidName}
+                setIsValidName={setIsValidName}
+              />
+              <EmailForm
+                userInfo={email}
+                setUserInfo={setEmail}
+                isValidEmail={isValidEmail}
+                setIsValidEmail={setIsValidEmail}
+                isUnExisted={isUnExisted}
+                setIsUnExisted={setIsUnExisted}
+                isChecked={isCheckedEmail}
+                setIsChecked={setIsCheckedEmail}
+              />
+              <PasswordForm
+                password={password}
+                setPassword={setPassword}
+                isValidPwd={isValidPwd}
+                setIsValidPwd={setIsValidPwd}
+                isSame={isPasswordSame}
+                setIsSame={setIsPasswordSame}
+              />
+              <PhoneNumForm
+                userInfo={phoneNumber}
+                setUserInfo={setPhoneNumber}
+                successAuth={successAuth}
+                setSuccessAuth={setSuccessAuth}
+                isValidNum={isValidNum}
+                setIsValidNum={setIsValidNum}
+              />
               <BirthDayFormItem>
                 <label htmlFor="birth">생년월일</label>
                 <div>
@@ -363,9 +209,7 @@ function Signup() {
                     value={year}
                     onChange={inputYear}
                   >
-                    <option value="" selected>
-                      년도
-                    </option>
+                    <option value="">년도</option>
                     {Array(84)
                       .fill(null)
                       .map((item, index) => {
@@ -382,9 +226,7 @@ function Signup() {
                     value={month}
                     onChange={inputMonth}
                   >
-                    <option value="" selected>
-                      월
-                    </option>
+                    <option value="">월</option>
                     {Array(12)
                       .fill(null)
                       .map((item, index) => {
@@ -396,9 +238,7 @@ function Signup() {
                       })}
                   </select>
                   <select name="day" id="day" value={day} onChange={inputDay}>
-                    <option value="" selected>
-                      일
-                    </option>
+                    <option value="">일</option>
                     {Array(31)
                       .fill(null)
                       .map((item, index) => {
@@ -411,7 +251,10 @@ function Signup() {
                   </select>
                 </div>
               </BirthDayFormItem>
-              <RadioItem radioData={radioList[0]} setStateValue={setGender} />
+              <RadioItem
+                radioData={radioButtonArray[0]}
+                setStateValue={setGender}
+              />
             </FormList>
             {/* <CheckList>
               {agreeList.map((item: any, index: any) => (
@@ -428,7 +271,7 @@ function Signup() {
           </Field>
           <SignupButton
             isActive={checkRequired() ? "isActive" : ""}
-            onClick={clickLogin}
+            onClick={clickSignup}
           >
             가입하기
           </SignupButton>
@@ -540,31 +383,13 @@ const FormList = styled.ul`
   }
 `;
 
-const FormItem = styled.li`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 20px;
-`;
-
-const Message = styled.div`
-  margin-top: 20px;
-  font-weight: 400;
-  font-size: 1rem;
-  padding-left: 184px;
-  @media screen and (max-width: 480px) {
-    padding-left: 60px;
-    font-size: 0.8rem;
-  }
-`;
 const CheckList = styled.ul`
   margin-top: 100px;
   padding-top: 70px;
   border-top: 3px solid #d9d9d9;
 `;
 
-const SignupButton = styled.button<SignupProps>`
+const SignupButton = styled.button<SignupType>`
   cursor: ${(props) =>
     props.isActive === "isActive" ? "pointer" : "not-allowed"};
   width: 333px;
@@ -587,12 +412,14 @@ const BirthDayFormItem = styled.li`
 
   label {
     display: inline-block;
-    /* 248px 이상이면 레이아웃 깨짐  */
-    width: 120px;
+    width: 130px;
     text-align: left;
     font-weight: 400;
     font-size: 1.25rem;
     margin-right: 63px;
+    @media screen and (max-width: 1440px) {
+      width: 120px;
+    }
     @media screen and (max-width: 480px) {
       width: 50px;
       margin-right: 13px;
@@ -606,7 +433,7 @@ const BirthDayFormItem = styled.li`
     align-items: center;
     width: 330px;
     @media screen and (max-width: 480px) {
-     width: 220px;
+      width: 220px;
     }
   }
   input {

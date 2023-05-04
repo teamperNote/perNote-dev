@@ -8,13 +8,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
 
-  const accessToken = role.split("Bearer ")[1];
   const { payload } = await jwtVerify(accessToken, secretKey);
-
+  const userId = payload.iss;
   const user = await prisma.user.findUnique({
-    where: { id: payload.iss },
+    where: { id: userId },
   });
 
   return res.status(200).json(user);

@@ -1,29 +1,14 @@
 import React, { useState, useEffect } from "react";
-import ValidationButton from "components/form/ValidationButton";
-import Input from "../../components/form/Input";
 import styled from "styled-components";
 import axios from "axios";
 import { useRouter } from "next/router";
 import RadioItem from "components/form/RadioButton";
+import { SignupType } from "lib/types";
+import { radioButtonArray } from "lib/arrays";
+import NameForm from "components/form/NameForm";
+import PhoneNumForm from "components/form/PhoneNumForm";
 
-interface SignupProps {
-  isActive: string;
-}
-const radioList = [
-  {
-    label: "성별",
-    id: ["m", "f"],
-    name: "gender",
-    text: ["남성", "여성"],
-  },
-  {
-    label: "스토리 수신 여부",
-    id: ["agree", "disagee"],
-    name: "story",
-    text: ["동의", "비동의"],
-  },
-];
-function SnsSignUp(props) {
+function SnsSignUp() {
   const router = useRouter();
 
   const [snsName, setSnsName] = useState<string>("");
@@ -39,148 +24,72 @@ function SnsSignUp(props) {
   }, [snsName, snsType, snsUserId]);
 
   const [name, setName] = useState<string>("");
-
-  const [email, setEmail] = useState<string>("");
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
-  const [isInValidEmail, setIsInValidEmail] = useState<boolean>(false);
-
-  const [password, setPassword] = useState<string>("");
-  const [checkPassword, setCheckPassword] = useState<string>("");
-  const [isPasswordSame, setIsPasswordSame] = useState<boolean>(false);
-  const [isPasswordDiff, setIsPasswordDiff] = useState<boolean>(false);
+  const [isValidName, setIsValidName] = useState<boolean>(false);
 
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
-  const [receivedAuthNum, setReceivedAuthNum] = useState<string>("");
-  const [authNum, setInputAuthNumber] = useState<string>("");
+  const [isValidNum, setIsValidNum] = useState(false);
   const [successAuth, setSuccessAuth] = useState<boolean>(false);
-  const [failAuth, setFailAuth] = useState<boolean>(false);
 
-  const [birth, setBirth] = useState<string>("");
+  const [year, setYear] = useState<string>("");
+  const [month, setMonth] = useState<string>("");
+  const [day, setDay] = useState<string>("");
 
   const [gender, setGender] = useState<string>("");
 
-  const inputName = (e: any) => {
-    setName(e.target.value);
+  const inputYear = (e: any) => {
+    setYear(e.target.value);
   };
-  const inputEmail = (e: any) => {
-    setEmail(e.target.value);
+  const inputMonth = (e: any) => {
+    setMonth(e.target.value);
   };
-
-  const inputPassword = (e: any) => {
-    setPassword(e.target.value);
-  };
-
-  const inputCheckPassword = (e: any) => {
-    setCheckPassword(e.target.value);
+  const inputDay = (e: any) => {
+    setDay(e.target.value);
   };
 
-  const inputPhoneNumber = (e: any) => {
-    setPhoneNumber(e.target.value);
-  };
-
-  const inputBirthday = (e: any) => {
-    setBirth(e.target.value);
-  };
-
-  //이메일 중복 확인
-  const checkEmailDuplication = async (e: any) => {
-    e.preventDefault();
-    setIsValidEmail(false);
-    setIsInValidEmail(false);
-
-    try {
-      const response = await axios.get(`/api/users/checkEmail?email=${email}`);
-
-      if (response.status === 200) {
-        setIsValidEmail(true);
-      }
-    } catch (error) {
-      setIsInValidEmail(true);
-    }
-  };
-
-  const checkSamePassword = async (e: any) => {
-    e.preventDefault();
-    if (password === checkPassword) {
-      setIsPasswordSame(true);
-      setIsPasswordDiff(false);
-    }
-    if (password !== checkPassword) {
-      setIsPasswordSame(false);
-      setIsPasswordDiff(true);
-    }
-  };
-
-  const sendAuthMessage = async (e: any) => {
-    e.preventDefault();
-    setIsSendMessage(true);
-    const data = {
-      phoneNumber,
-    };
-    const response = await axios.post("/api/auth/sendSMS", data);
-    console.log(response);
-    const authNumber = response.data.인증번호;
-    setReceivedAuthNum(authNumber);
-  };
-
-  const inputAuthNumber = (e: any) => {
-    setInputAuthNumber(e.target.value);
-  };
-  const convertBirth = (prevBirth: string) => {
-    const year = Number(prevBirth.slice(0, 4));
-    const month = Number(prevBirth.slice(4, 6));
-    const day = Number(prevBirth.slice(6, 8));
-    const birthday = new Date(year, month - 1, day + 1);
+  const convertBirth = (year: string, month: string, day: string) => {
+    const convertYear = Number(year);
+    const convertMonth = Number(month);
+    const convertDay = Number(day);
+    const birthday = new Date(convertYear, convertMonth - 1, convertDay + 1);
     return birthday;
   };
 
-  const verifyPhoneNum = (e: any) => {
-    e.preventDefault();
-    if (receivedAuthNum.toString() === authNum) {
-      setFailAuth(false);
-      setSuccessAuth(true);
-    } else {
-      setSuccessAuth(false);
-      setFailAuth(true);
-    }
-  };
   const checkRequired = () => {
-    // successAuth &&
-    if (
-      isPasswordSame &&
-      name &&
-      email &&
-      isValidEmail &&
-      password &&
-      phoneNumber &&
-      birth &&
-      gender
-    ) {
+    if (isValidName && isValidNum && year && month && day && gender) {
       return true;
     }
     return false;
   };
-  const clickLogin = async (e: any) => {
+  const clickSignup = async (e: any) => {
     e.preventDefault();
-    const birthday = convertBirth(birth);
+    const birthday = convertBirth(year, month, day);
     const data = {
-      email,
       name,
-      password,
       phoneNumber,
       birth: birthday,
       gender,
       userId: snsUserId,
     };
-    // 모든 값 필수 조건 만족시 버튼 활성화
+
     if (checkRequired()) {
       if (snsName === "kakao") {
         try {
           const response = await axios.post("/api/auth/kakao/signup", data);
           console.log(response);
           if (response.status === 200) {
-            console.log("카카오 회원가입 성공");
+            router.push("/signin");
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+
+      if (snsName === "google") {
+        try {
+          const response = await axios.post("/api/auth/google/signup", data);
+          console.log(response);
+          if (response.status === 200) {
+            router.push("/signin");
           }
         } catch (e) {
           console.log(e);
@@ -195,100 +104,75 @@ function SnsSignUp(props) {
           <legend className="read-only">{`${snsName} 회원가입`}</legend>
           <LocalTitle>{`${snsName} 회원가입`}</LocalTitle>
           <FormList>
-            <FormItem>
-              <Input
-                htmlFor="name"
-                labelContent="이름"
-                type="text"
-                value={name}
-                setStateValue={inputName}
-              />
-            </FormItem>
-            <FormItem>
-              <Input
-                htmlFor="email"
-                labelContent="이메일"
-                type="email"
-                value={email}
-                setStateValue={inputEmail}
-              />
-              <ValidationButton click={checkEmailDuplication}>
-                중복확인
-              </ValidationButton>
-            </FormItem>
-            {isValidEmail && <Message>사용 가능한 이메일입니다.</Message>}
-            {isInValidEmail && <Message>이미 사용중인 이메일입니다.</Message>}
-            <FormItem>
-              <Input
-                htmlFor="password"
-                labelContent="비밀번호"
-                type="passowrd"
-                value={password}
-                setStateValue={inputPassword}
-              />
-            </FormItem>
-            <FormItem>
-              <Input
-                htmlFor="pwdCheck"
-                labelContent="비밀번호 확인"
-                type="passowrd"
-                value={checkPassword}
-                setStateValue={inputCheckPassword}
-              />
-              <ValidationButton click={checkSamePassword}>
-                확인
-              </ValidationButton>
-            </FormItem>
-            <Message>*최소 8자리 이상, 대소문자, 숫자 포함</Message>
-            {password && checkPassword && isPasswordSame ? (
-              <Message>일치</Message>
-            ) : (
-              <></>
-            )}
-            {isPasswordDiff ? <Message>불일치</Message> : <></>}
-            <FormItem>
-              <Input
-                htmlFor="phone"
-                labelContent="전화번호"
-                type="tel"
-                value={phoneNumber}
-                setStateValue={inputPhoneNumber}
-              />
-              <ValidationButton click={sendAuthMessage}>
-                {isSendMessage ? "재발송" : "인증하기"}
-              </ValidationButton>
-            </FormItem>
-            {isSendMessage ? (
-              <FormItem>
-                <Input
-                  htmlFor="checkPhone"
-                  labelContent="인증번호"
-                  type="text"
-                  value={authNum}
-                  setStateValue={inputAuthNumber}
-                />
-                <ValidationButton click={verifyPhoneNum}>확인</ValidationButton>
-              </FormItem>
-            ) : (
-              <></>
-            )}
-            {successAuth ? <Message>전화번호 인증 성공</Message> : <></>}
-            {failAuth ? <Message>전화번호 인증 실패</Message> : <></>}
-            <FormItem>
-              <Input
-                htmlFor="birth"
-                labelContent="생년월일"
-                type="text"
-                value={birth}
-                setStateValue={inputBirthday}
-              />
-            </FormItem>
-            <RadioItem radioData={radioList[0]} setStateValue={setGender} />
+            <NameForm
+              userInfo={name}
+              setUserInfo={setName}
+              isValidName={isValidName}
+              setIsValidName={setIsValidName}
+            />
+            <PhoneNumForm
+              userInfo={phoneNumber}
+              setUserInfo={setPhoneNumber}
+              successAuth={successAuth}
+              setSuccessAuth={setSuccessAuth}
+              isValidNum={isValidNum}
+              setIsValidNum={setIsValidNum}
+            />
+            <BirthDayFormItem>
+              <label htmlFor="birth">생년월일</label>
+              <div>
+                <select name="year" id="year" value={year} onChange={inputYear}>
+                  <option value="">년도</option>
+                  {Array(84)
+                    .fill(null)
+                    .map((item, index) => {
+                      return (
+                        <option key={index} value={index + 1940}>
+                          {index + 1940}
+                        </option>
+                      );
+                    })}
+                </select>
+                <select
+                  name="month"
+                  id="month"
+                  value={month}
+                  onChange={inputMonth}
+                >
+                  <option value="">월</option>
+                  {Array(12)
+                    .fill(null)
+                    .map((item, index) => {
+                      return (
+                        <option key={index} value={index + 1}>
+                          {index + 1}
+                        </option>
+                      );
+                    })}
+                </select>
+                <select name="day" id="day" value={day} onChange={inputDay}>
+                  <option value="">일</option>
+                  {Array(31)
+                    .fill(null)
+                    .map((item, index) => {
+                      return (
+                        <option key={index} value={index + 1}>
+                          {index + 1}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+            </BirthDayFormItem>
+            <RadioItem
+              radioData={radioButtonArray[0]}
+              setStateValue={setGender}
+            />
           </FormList>
         </Field>
         <SignupButton
           isActive={checkRequired() ? "isActive" : ""}
-          onClick={clickLogin}
+          onClick={clickSignup}
         >
           가입하기
         </SignupButton>
@@ -302,13 +186,13 @@ const SnsSignupWrapper = styled.div`
   ul {
     list-style-type: none;
     padding: 0;
-    padding-top: 70px;
+    padding-top: 50px;
   }
 
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding-top: 290px;
+  padding-top: 200px;
   padding-bottom: 200px;
 `;
 const SignupForm = styled.form`
@@ -321,7 +205,6 @@ const SignupForm = styled.form`
 
 const Field = styled.fieldset`
   border: none;
-  border-top: 3px solid #d9d9d9;
 `;
 
 const LocalTitle = styled.h3`
@@ -333,7 +216,7 @@ const LocalTitle = styled.h3`
   transform: translate(-129.205px, -22.5px);
   background: var(--white-color);
   font-weight: 700;
-  font-size: 40px;
+  font-size: 2rem;
 `;
 
 const FormList = styled.ul`
@@ -341,31 +224,77 @@ const FormList = styled.ul`
   flex-flow: column nowrap;
 `;
 
-const FormItem = styled.li`
-  display: flex;
-  align-items: center;
-  /* 마진 수정하기 */
-  /* gap: 50px; */
-  width: 100%;
-  margin-top: 35px;
-`;
-
-const Message = styled.div`
-  margin-top: 20px;
-  font-weight: 400;
-  font-size: 20px;
-  /* label 너비 300px + label margin-right 더한 값으로 위치 잡기 */
-  padding-left: 360px;
-`;
-const SignupButton = styled.button<SignupProps>`
-  width: 800px;
-  height: 120px;
+const SignupButton = styled.button<SignupType>`
+  cursor: ${(props) =>
+    props.isActive === "isActive" ? "pointer" : "not-allowed"};
+  width: 333px;
+  height: 60px;
   border: none;
   background: ${(props) =>
     props.isActive === "isActive" ? "#525d4d" : "#d9d9d9"};
-  border-radius: 20px;
+  border-radius: 10px;
   color: ${(props) => (props.isActive === "isActive" ? "white" : "#616161")};
   font-weight: 400;
-  font-size: 40px;
-  margin-top: 93px;
+  font-size: 1.5rem;
+  margin-top: 60px;
+`;
+const BirthDayFormItem = styled.li`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 35px;
+
+  label {
+    display: inline-block;
+    width: 130px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 1.25rem;
+    margin-right: 63px;
+    @media screen and (max-width: 1440px) {
+      width: 120px;
+    }
+    @media screen and (max-width: 480px) {
+      width: 50px;
+      margin-right: 13px;
+      font-size: 1rem;
+    }
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 330px;
+    @media screen and (max-width: 480px) {
+      width: 220px;
+    }
+  }
+  input {
+    width: 90px;
+    height: 46px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 2px solid #d9d9d9;
+  }
+
+  input::placeholder {
+    color: black;
+    font-size: 1rem;
+  }
+
+  select {
+    width: 90px;
+    height: 46px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 2px solid #d9d9d9;
+    appearance: none;
+    background: url("/down_arrow.svg") no-repeat;
+    background-position: 60px 16px;
+    background-size: 14px 10px;
+    @media screen and (max-width: 480px) {
+      background-position: 48px 16px;
+    }
+  }
 `;

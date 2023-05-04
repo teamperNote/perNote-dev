@@ -12,15 +12,18 @@ export default async function handler(
 ) {
   // OPTIONS - RETURN
   let resStatus = 200,
-    resData;
+    resData,
+    userId;
 
   // OPTIONS FROM QUERY
-  const role = req.headers.authorization;
+  const accessToken = req.headers.authorization.split("Bearer ")[1];
 
-  const accessToken = role.split("Bearer ")[1];
-  const { payload } = await jwtVerify(accessToken, secretKey);
-
-  const userId = payload.iss;
+  if (accessToken === "null") {
+    userId = null;
+  } else {
+    const { payload } = await jwtVerify(accessToken, secretKey);
+    userId = payload.iss;
+  }
   const query = req.query;
   const selected = query["selected"] as string;
   const orderOpt = query.orderOpt as string;

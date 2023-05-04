@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import axios from "axios";
 import prisma from "../../../../prisma/client";
 
-const client_id = process.env.NAVER_CLIENT_ID;
-const client_secret = process.env.NAVER_CLIENT_SECRET;
+const client_id = process.env.NEXT_PUBLIC_NAVER_CLIENT_ID;
+const client_secret = process.env.NEXT_PUBLIC_NAVER_CLIENT_SECRET;
 
 const secretKey = process.env.JWT_SECRET_KEY || "";
 
@@ -30,7 +30,7 @@ export default async function handler(
       where: { snsId: userInfo.id },
     });
     if (!user) {
-      res.status(200).json({
+      return res.status(200).json({
         message: "가입되지 않은 사용자입니다",
         userId: userInfo.id,
       });
