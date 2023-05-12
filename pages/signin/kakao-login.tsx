@@ -12,10 +12,10 @@ function KaKaoLogin() {
       <Link href={api_url}>
         <a>
           <KakaoIcon
-            src="/login_kakao.svg"
+            src="/kakao_login.png"
             alt="카카오로 로그인"
-            width={90}
-            height={90}
+            width={300}
+            height={45}
           />
         </a>
       </Link>
@@ -25,15 +25,4 @@ function KaKaoLogin() {
 
 export default KaKaoLogin;
 
-const KakaoIcon = styled.img`
-  width: 90px;
-  height: 90px;
-  @media screen and (max-width: 1440px) {
-    width: 70px;
-    height: 70px;
-  }
-  @media screen and (max-width: 480px) {
-    width: 50px;
-    height: 50px;
-  }
-`;
+const KakaoIcon = styled.img``;
