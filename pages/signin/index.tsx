@@ -99,9 +99,9 @@ function Login() {
             {passwordError ? <div>{passwordError}</div> : ""}
           </InputList>
           <GoSignup>
-            <span>회원가입</span>
+            <span></span>
             <SignupLink>
-              <Link href="/signup">Forget?</Link>
+              <Link href="/signup">회원가입</Link>
             </SignupLink>
           </GoSignup>
           <LoginButton onClick={submitLogin}>로그인</LoginButton>
