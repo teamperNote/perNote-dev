@@ -13,7 +13,7 @@ export default function RowStoryCard({
   data: { id, imgUrl, createdAt, title, liked, likeCount, viewCount, body },
 }: IProps) {
   return (
-    <Link href={`${id}`}>
+    <Link href={`../story-detail/${id}`}>
       <RowStoryCardContainer>
         <ImgBox>
           <Image

@@ -129,38 +129,7 @@ function Signup() {
       <h2 className="read-only">회원가입</h2>
       <section>
         <SnsTitle>SNS 회원가입</SnsTitle>
-        <SnsList>
-          <li>
-            <SnsLink href={kakao_api_url}>
-              <SnsIcon
-                src="/login_kakao.svg"
-                alt="카카오로 로그인"
-                width={90}
-                height={90}
-              />
-            </SnsLink>
-          </li>
-          <li>
-            <SnsLink href={naver_api_url}>
-              <SnsIcon
-                src="/login_naver.svg"
-                alt="네이버로 로그인"
-                width={90}
-                height={90}
-              />
-            </SnsLink>
-          </li>
-          <li>
-            <SnsLink className="google-link" href={google_request_url}>
-              <SnsIcon
-                src="/login_goggle.png"
-                alt="구글 로그인"
-                width={90}
-                height={90}
-              />
-            </SnsLink>
-          </li>
-        </SnsList>
+        <KakaoLink href={kakao_api_url}>카카오로 시작하기</KakaoLink>
       </section>
       <LocalSection>
         <SignupForm>
@@ -313,40 +282,22 @@ const SnsTitle = styled.h3`
   font-size: 1.75rem;
 `;
 
-const SnsList = styled.ul`
-  display: flex;
-  gap: 50px;
-  margin: 0;
-  padding: 0;
-`;
-
-const SnsLink = styled.a`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+const KakaoLink = styled.a`
+  display: inline-block;
+  width: 333px;
+  height: 46px;
+  line-height: 46px;
+  text-align: center;
+  background-color: #fee500;
   font-weight: 400;
   font-size: 1.25rem;
-  border-radius: 14px;
-  &.google-link {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 50%;
+  border-radius: 12px;
+  margin-top: 30px;
+  @media screen and (max-width: 480px) {
+    width: 160px;
   }
 `;
 
-const SnsIcon = styled.img`
-  width: 90px;
-  height: 90px;
-  @media screen and (max-width: 1440px) {
-    width: 70px;
-    height: 70px;
-  }
-  @media screen and (max-width: 480px) {
-    width: 50px;
-    height: 50px;
-  }
-`;
 const LocalSection = styled.section`
   margin-top: 90px;
 `;

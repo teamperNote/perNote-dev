@@ -99,23 +99,15 @@ function Login() {
             {passwordError ? <div>{passwordError}</div> : ""}
           </InputList>
           <GoSignup>
-            <span>회원가입</span>
+            <span></span>
             <SignupLink>
-              <Link href="/signup">Forget?</Link>
+              <Link href="/signup">회원가입</Link>
             </SignupLink>
           </GoSignup>
           <LoginButton onClick={submitLogin}>로그인</LoginButton>
         </LoginForm>
         <SocialLogin>
-          <div>소셜로그인</div>
-          <SocialLoginList>
-            <SocialLoginItemContainer>
-              <KaKaoLogin />
-            </SocialLoginItemContainer>
-            <SocialLoginItemContainer>
-              <GoogleLogin />
-            </SocialLoginItemContainer>
-          </SocialLoginList>
+          <KaKaoLogin />
         </SocialLogin>
       </LoginBox>
       {showErrorModal && (
@@ -157,6 +149,9 @@ const LoginBox = styled.div`
 `;
 
 const LoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 600px;
   margin: 0 auto;
   @media screen and (max-width: 1440px) {
@@ -205,6 +200,7 @@ const Input = styled.input`
 `;
 
 const GoSignup = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 40px;
@@ -218,8 +214,10 @@ const SignupLink = styled.span`
 `;
 const LoginButton = styled.button`
   cursor: pointer;
-  width: 100%;
-  height: 90px;
+  /* width: 100%;
+  height: 90px; */
+  width: 300px;
+  height: 45px;
   margin-bottom: 50px;
   border: none;
   border-radius: 100px;
@@ -237,62 +235,5 @@ const LoginButton = styled.button`
 
 const SocialLogin = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #707070;
-  font-weight: 400;
-  font-size: 1.25rem;
-`;
-
-const SocialLoginList = styled.ul`
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 30px;
-  width: 100%;
-
-  div {
-    width: 90px;
-    height: 90px;
-    background-color: #d9d9d9;
-    border-radius: 70px;
-
-    @media screen and (max-width: 1440px) {
-      width: 70px;
-      height: 70px;
-    }
-    @media screen and (max-width: 480px) {
-      width: 50px;
-      height: 50px;
-    }
-  }
-`;
-
-const SocialLoginItemContainer = styled.li`
-  list-style-type: none;
-  width: 90px;
-  height: 90px;
-
-  &:not(:last-child) {
-    margin-right: 27px;
-  }
-  @media screen and (max-width: 1440px) {
-    width: 70px;
-    height: 70px;
-  }
-  @media screen and (max-width: 480px) {
-    width: 50px;
-    height: 50px;
-  }
-`;
-
-const ModalSection = styled.section`
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
+  justify-content: center;
 `;
