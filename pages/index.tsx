@@ -28,7 +28,6 @@ const Home: NextPage = () => {
               alt="per per"
               width={260}
               height={60}
-              unoptimized
               className="main1-image"
             />
           </MainTitle>

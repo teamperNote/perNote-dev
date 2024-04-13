@@ -2,6 +2,16 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
+  images: {
+    domains: [
+      "encrypted-tbn0.gstatic.com",
+      "fimgs.net",
+      "shopping-phinf.pstatic.net",
+      "upload.wikimedia.org",
+      "shop-phinf.pstatic.net",
+      "bananal.co.kr",
+    ],
+  },
   async redirects() {
     return [
       {

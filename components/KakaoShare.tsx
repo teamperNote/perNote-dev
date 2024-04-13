@@ -67,7 +67,6 @@ function KakaoShare({ id, imgUrl, name, brand }) {
         src={"/login_kakao.svg"}
         alt={`카카오톡 공유`}
         layout="fill"
-        unoptimized
         onClick={onClick}
       />
     </>

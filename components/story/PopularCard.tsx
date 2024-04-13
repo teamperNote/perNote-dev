@@ -36,7 +36,6 @@ export default function PopularCard({
           alt={`인기 스토리 이미지`}
           layout="fill"
           objectFit={"cover"}
-          unoptimized
         />
       </ImageBox>
       <Filter className={isShow ? "show" : "hide"}>

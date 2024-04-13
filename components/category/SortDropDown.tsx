@@ -30,12 +30,7 @@ export default function SortDropDown({ sort, setSort }) {
           {sortArray.find((x) => x.value === sort).text}
         </SortName>
         <ImageBox>
-          <Image
-            src={"/sortBtn.svg"}
-            alt={"정렬 아이콘"}
-            layout="fill"
-            unoptimized
-          />
+          <Image src={"/sortBtn.svg"} alt={"정렬 아이콘"} layout="fill" />
         </ImageBox>
       </SortBox>
       {isShowDropDown && (

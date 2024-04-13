@@ -84,7 +84,6 @@ export default function StoryDetail() {
                 objectFit={"cover"}
                 style={{ zIndex: "-1" }}
                 priority
-                unoptimized
               />
               <HeaderBox>
                 <HeaderDate className="regular f50">
@@ -110,7 +109,6 @@ export default function StoryDetail() {
                         alt={"조회수 아이콘"}
                         width={61}
                         height={42}
-                        unoptimized
                       />
                       <IconSpan className="regular f30">
                         {story.data.targetStory.viewCount}
@@ -167,7 +165,6 @@ export default function StoryDetail() {
                     alt={"공유 아이콘"}
                     width={61}
                     height={61}
-                    unoptimized
                   />
                   {isShowModal && (
                     <BubbleBox>
