@@ -38,7 +38,6 @@ export default function PerfumeInfo({
             alt={`${name_eng} 이미지`}
             layout="fill"
             objectFit={"contain"}
-            unoptimized
           />
         </PerfumeImageContainer>
         <TextContainer>
